@@ -7,9 +7,9 @@ package com.typesafe.sslconfig.ssl
 import java.security.cert.{ CertificateException, X509Certificate }
 import javax.net.ssl.{ HostnameVerifier, SSLPeerUnverifiedException, SSLSession }
 import javax.security.auth.kerberos.KerberosPrincipal
+import com.typesafe.sslconfig.Base64
 import sun.security.util.HostnameChecker
 import org.slf4j.LoggerFactory
-import com.ning.http.util.Base64
 import java.security.Principal
 
 /**
@@ -42,7 +42,8 @@ class DefaultHostnameVerifier extends HostnameVerifier {
   def isKerberos(principal: Principal): Boolean = principal != null && principal.isInstanceOf[KerberosPrincipal]
 
   def verify(hostname: String, session: SSLSession): Boolean = {
-    logger.debug(s"verify: hostname = $hostname, sessionId (base64) = ${Base64.encode(session.getId)}")
+    val base64 = Base64.rfc2045()
+    logger.debug(s"verify: hostname = $hostname, sessionId (base64) = ${base64.encodeToString(session.getId, false)}")
 
     val checker = hostnameChecker
     val result = try {
