@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ */
+
 import sbt._
 import sbt.Keys._
 import de.heikoseeberger.sbtheader.{ HeaderPattern, HeaderPlugin, AutomateHeaderPlugin }
@@ -9,13 +13,13 @@ import scalariform.formatter.preferences._
  */
 object Common extends AutoPlugin {
 
-  override def trigger  = allRequirements
+  override def trigger = allRequirements
 
   override def requires = plugins.JvmPlugin && HeaderPlugin
 
   // AutomateHeaderPlugin is not an allRequirements-AutoPlugin, so explicitly add settings here:
   override def projectSettings = scalariformSettings ++ AutomateHeaderPlugin.projectSettings ++ Seq(
-    organization := "com.typesafe.phoenix",
+    organization := "com.typesafe",
     updateOptions := updateOptions.value.withCachedResolution(true),
     scalacOptions ++= Seq("-encoding", "UTF-8", "-target:jvm-1.6", "-unchecked", "-deprecation", "-feature"),
     javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.6", "-target", "1.6"),
@@ -42,7 +46,7 @@ object Common extends AutoPlugin {
   val confHeader = header(before = None, prefix = "# ", after = None)
 
   def header(before: Option[String], prefix: String, after: Option[String]): String = {
-    val content = Seq("Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>") // TODO the right header?
+    val content = Seq("Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>")
     (before.toSeq ++ content.map(prefix.+) ++ after.toSeq).mkString("", "\n", "\n\n")
   }
 
