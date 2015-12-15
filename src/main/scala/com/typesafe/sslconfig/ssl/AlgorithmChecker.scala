@@ -8,7 +8,7 @@ import java.security.cert._
 import javax.naming.InvalidNameException
 import javax.naming.ldap.{ LdapName, Rdn }
 
-import com.typesafe.sslconfig.util.Logger
+import org.joda.time.{ Interval, DateTime }
 
 import scala.collection.JavaConverters._
 
@@ -25,7 +25,7 @@ import scala.collection.JavaConverters._
  */
 class AlgorithmChecker(val signatureConstraints: Set[AlgorithmConstraint], val keyConstraints: Set[AlgorithmConstraint]) extends PKIXCertPathChecker {
 
-    private val logger = Logger()
+  private val logger = org.slf4j.LoggerFactory.getLogger(classOf[AlgorithmChecker])
 
   private val signatureConstraintsMap: Map[String, AlgorithmConstraint] = {
     for (c <- signatureConstraints.iterator) yield {
@@ -62,6 +62,7 @@ class AlgorithmChecker(val signatureConstraints: Set[AlgorithmConstraint], val k
 
   /**
    * Checks for signature algorithms in the certificate and throws CertPathValidatorException if matched.
+   *
    * @param x509Cert
    */
   def checkSignatureAlgorithms(x509Cert: X509Certificate): Unit = {
@@ -83,6 +84,7 @@ class AlgorithmChecker(val signatureConstraints: Set[AlgorithmConstraint], val k
 
   /**
    * Checks for key algorithms in the certificate and throws CertPathValidatorException if matched.
+   *
    * @param x509Cert
    */
   def checkKeyAlgorithms(x509Cert: X509Certificate): Unit = {

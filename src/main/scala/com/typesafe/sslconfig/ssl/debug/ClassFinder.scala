@@ -13,7 +13,7 @@ import java.util.jar.{ JarEntry, JarInputStream }
  */
 trait ClassFinder {
 
-  def logger = Logger()
+  private val logger = org.slf4j.LoggerFactory.getLogger(this.getClass)
 
   /**
    * A resource (in a jar file, usually) in the format "/java/lang/String.class".  This returns

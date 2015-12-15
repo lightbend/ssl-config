@@ -10,11 +10,11 @@ import java.security.cert._
 import java.util.Date
 
 import com.typesafe.sslconfig.Base64
-import com.typesafe.sslconfig.util.Instant
+import org.joda.time.Instant
 import sun.security.util.ObjectIdentifier
 import sun.security.x509._
 
-import scala.concurrent.duration.{ FiniteDuration, _ }
+import scala.concurrent.duration.{FiniteDuration, _}
 import scala.util.Properties.isJavaAtLeast
 
 /**
@@ -30,7 +30,7 @@ object CertificateGenerator {
    */
   def generateRSAWithSHA256(keySize: Int = 2048, from: Instant = Instant.now, duration: FiniteDuration = 365.days): X509Certificate = {
     val dn = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Moon Base 1, ST=Cyberspace, C=CY"
-    val to = from + duration
+    val to = from plus duration.toMillis
 
     val keyGen = KeyPairGenerator.getInstance("RSA")
     keyGen.initialize(keySize, new SecureRandom())
@@ -40,7 +40,7 @@ object CertificateGenerator {
 
   def generateRSAWithSHA1(keySize: Int = 2048, from: Instant = Instant.now, duration: FiniteDuration = 365.days): X509Certificate = {
     val dn = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Moon Base 1, ST=Cyberspace, C=CY"
-    val to = from + duration
+    val to = from plus duration.toMillis
 
     val keyGen = KeyPairGenerator.getInstance("RSA")
     keyGen.initialize(keySize, new SecureRandom())
@@ -61,7 +61,7 @@ object CertificateGenerator {
 
   def generateRSAWithMD5(keySize: Int = 2048, from: Instant = Instant.now, duration: FiniteDuration = 365.days): X509Certificate = {
     val dn = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Moon Base 1, ST=Cyberspace, C=CY"
-    val to = from + duration
+    val to = from plus duration.toMillis
 
     val keyGen = KeyPairGenerator.getInstance("RSA")
     keyGen.initialize(keySize, new SecureRandom())
