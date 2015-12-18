@@ -13,19 +13,20 @@ import akka.event.Logging
 import com.typesafe.config.Config
 import com.typesafe.sslconfig.ssl._
 
-object AkkaSSLConfig extends ExtensionId[AkkaSSLConfigExt] with ExtensionIdProvider {
+object AkkaSSLConfig extends ExtensionId[AkkaSSLConfig] with ExtensionIdProvider {
 
   //////////////////// EXTENSION SETUP ///////////////////
 
-  def apply()(implicit system: ActorSystem): AkkaSSLConfigExt = super.apply(system)
+  def apply()(implicit system: ActorSystem): AkkaSSLConfig = super.apply(system)
 
   override def lookup() = AkkaSSLConfig
 
-  override def createExtension(system: ExtendedActorSystem): AkkaSSLConfigExt =
-    new AkkaSSLConfigExt(system.settings.config getConfig "akka.ssl-config")(system)
+  override def createExtension(system: ExtendedActorSystem): AkkaSSLConfig =
+    new AkkaSSLConfig(system.settings.config getConfig "akka.ssl-config")(system)
 }
 
-final class AkkaSSLConfigExt(_config: Config)(implicit system: ExtendedActorSystem) extends Extension {
+// not stable API yet, making private
+final class AkkaSSLConfig(_config: Config)(implicit system: ExtendedActorSystem) extends Extension {
   private val log = Logging(system, getClass)
   log.debug("Initializing AkkaSSLConfig extension...")
 
@@ -40,8 +41,7 @@ final class AkkaSSLConfigExt(_config: Config)(implicit system: ExtendedActorSyst
   }
 
   val sslEngineConfigurator = {
-    val useDefault = config.default
-    val sslContext = if (useDefault) {
+    val sslContext = if (config.default) {
       log.info("buildSSLContext: ssl-config.default is true, using default SSLContext")
       validateDefaultTrustManager(config)
       SSLContext.getDefault
@@ -67,25 +67,23 @@ final class AkkaSSLConfigExt(_config: Config)(implicit system: ExtendedActorSyst
   runChecks()
 
   def runChecks(): Unit = {
-    // TODO, check: -Djdk.tls.ephemeralDHKeySize=2048
-    // TODO ...
+    // TODO, check: -Djdk.tls.ephemeralDHKeySize=2048 See: https://github.com/ktoso/ssl-config/issues/5
   }
 
   ////////////////// CONFIGURING //////////////////////
 
-  def buildKeyManagerFactory(ssl: SSLConfig): KeyManagerFactoryWrapper = {
-    val keyManagerAlgorithm = ssl.keyManagerConfig.algorithm
+  def buildKeyManagerFactory(conf: SSLConfig): KeyManagerFactoryWrapper = {
+    val keyManagerAlgorithm = conf.keyManagerConfig.algorithm
     new DefaultKeyManagerFactoryWrapper(keyManagerAlgorithm)
   }
 
-  def buildTrustManagerFactory(ssl: SSLConfig): TrustManagerFactoryWrapper = {
-    // val trustManagerAlgorithm = ssl.trustManagerConfig.flatMap(_.algorithm).getOrElse(TrustManagerFactory.getDefaultAlgorithm) // was Option there
-    val trustManagerAlgorithm = ssl.trustManagerConfig.algorithm
+  def buildTrustManagerFactory(conf: SSLConfig): TrustManagerFactoryWrapper = {
+    val trustManagerAlgorithm = conf.trustManagerConfig.algorithm
     new DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm)
   }
 
-  def buildHostnameVerifier(sslConfig: SSLConfig): HostnameVerifier = {
-    val hostnameVerifierClass = sslConfig.hostnameVerifierClass
+  def buildHostnameVerifier(conf: SSLConfig): HostnameVerifier = {
+    val hostnameVerifierClass = conf.hostnameVerifierClass
     log.debug("buildHostnameVerifier: enabling hostname verification using {}", hostnameVerifierClass)
 
     try {
