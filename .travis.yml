@@ -1,0 +1,31 @@
+# use Docker-based container (instead of OpenVZ)
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    # Cache the sbt launcher, currently the Travis VM preinstalls 0.13.5
+    - $HOME/.sbt/launchers/0.13.8
+    # Cache scala, currently the Travis VM preinstalls 2.11.2 & 2.10.4
+    #- $HOME/.sbt/boot/scala-$TRAVIS_SCALA_VERSION
+
+    # Updates regarding Travis VM preinstalls:
+    # https://github.com/travis-ci/travis-cookbooks/blob/master/changes.md
+
+language: scala
+
+scala:
+  - 2.10.6
+  - 2.11.7
+
+jdk:
+  #  - openjdk6 # TODO enable, fails because tests use TLS 1.2
+  - oraclejdk7
+  - oraclejdk8
+
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION test doc
+
+  # Remove to avoid unnecessary cache updates
+  - find $HOME/.sbt -name "*.lock" -delete
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
