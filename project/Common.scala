@@ -20,6 +20,7 @@ object Common extends AutoPlugin {
   // AutomateHeaderPlugin is not an allRequirements-AutoPlugin, so explicitly add settings here:
   override def projectSettings = scalariformSettings ++ AutomateHeaderPlugin.projectSettings ++ Seq(
     organization := "com.typesafe",
+    scalaVersion := "2.10.6",
     crossScalaVersions := Seq("2.10.6", "2.11.7"),
     updateOptions := updateOptions.value.withCachedResolution(true),
     scalacOptions ++= Seq("-encoding", "UTF-8", "-target:jvm-1.6", "-unchecked", "-deprecation", "-feature"),
