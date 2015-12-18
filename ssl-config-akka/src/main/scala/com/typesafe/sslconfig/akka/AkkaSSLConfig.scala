@@ -27,6 +27,7 @@ object AkkaSSLConfig extends ExtensionId[AkkaSSLConfigExt] with ExtensionIdProvi
 
 final class AkkaSSLConfigExt(_config: Config)(implicit system: ExtendedActorSystem) extends Extension {
   private val log = Logging(system, getClass)
+  log.debug("Initializing AkkaSSLConfig extension...")
 
   val config = SSLConfigFactory.parse(_config)
 
@@ -84,15 +85,14 @@ final class AkkaSSLConfigExt(_config: Config)(implicit system: ExtendedActorSyst
   }
 
   def buildHostnameVerifier(sslConfig: SSLConfig): HostnameVerifier = {
-    // val hostnameVerifierClass = sslConfig.hostnameVerifierClass.getOrElse(classOf[DefaultHostnameVerifier]) // was Option
     val hostnameVerifierClass = sslConfig.hostnameVerifierClass
-    // logger.debug("buildHostnameVerifier: enabling hostname verification using {}", hostnameVerifierClass)
+    log.debug("buildHostnameVerifier: enabling hostname verification using {}", hostnameVerifierClass)
 
     try {
       hostnameVerifierClass.newInstance()
     } catch {
       case e: Exception ⇒
-        throw new IllegalStateException("Cannot configure hostname verifier", e)
+        throw new IllegalStateException("Cannot configure hostname verifier!", e)
     }
   }
 
@@ -122,7 +122,7 @@ final class AkkaSSLConfigExt(_config: Config)(implicit system: ExtendedActorSyst
         algorithmChecker.checkKeyAlgorithms(cert)
       } catch {
         case e: CertPathValidatorException ⇒
-        // logger.warn("You are using ws.ssl.default=true and have a weak certificate in your default trust store!  (You can modify ws.ssl.disabledKeyAlgorithms to remove this message.)", e) TODO enable this
+          log.warning("You are using ws.ssl.default=true and have a weak certificate in your default trust store!  (You can modify akka.ssl-config.disabledKeyAlgorithms to remove this message.)", e)
       }
     }
   }
