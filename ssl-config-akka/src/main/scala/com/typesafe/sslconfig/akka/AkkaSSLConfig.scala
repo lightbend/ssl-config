@@ -22,15 +22,18 @@ object AkkaSSLConfig extends ExtensionId[AkkaSSLConfig] with ExtensionIdProvider
   override def lookup() = AkkaSSLConfig
 
   override def createExtension(system: ExtendedActorSystem): AkkaSSLConfig =
-    new AkkaSSLConfig(system.settings.config getConfig "akka.ssl-config")(system)
+    new AkkaSSLConfig(system)
 }
 
-// not stable API yet, making private
-final class AkkaSSLConfig(_config: Config)(implicit system: ExtendedActorSystem) extends Extension {
+final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
   private val log = Logging(system, getClass)
   log.debug("Initializing AkkaSSLConfig extension...")
 
-  val config = SSLConfigFactory.parse(_config)
+  val config = {
+    val akkaOverrides = system.settings.config.getConfig("akka.ssl-config")
+    val defaults = system.settings.config.getConfig("ssl-config")
+    SSLConfigFactory.parse(akkaOverrides withFallback defaults)
+  }
 
   val hostnameVerifier = {
     val v = system.dynamicAccess.createInstanceFor[HostnameVerifier](config.hostnameVerifierClass, Nil)
@@ -67,18 +70,19 @@ final class AkkaSSLConfig(_config: Config)(implicit system: ExtendedActorSystem)
   runChecks()
 
   def runChecks(): Unit = {
-    // TODO, check: -Djdk.tls.ephemeralDHKeySize=2048 See: https://github.com/ktoso/ssl-config/issues/5
+    // TODO, check: -Djdk.tls.ephemeralDHKeySize=2048
+    // TODO ...
   }
 
   ////////////////// CONFIGURING //////////////////////
 
-  def buildKeyManagerFactory(conf: SSLConfig): KeyManagerFactoryWrapper = {
-    val keyManagerAlgorithm = conf.keyManagerConfig.algorithm
+  def buildKeyManagerFactory(ssl: SSLConfig): KeyManagerFactoryWrapper = {
+    val keyManagerAlgorithm = ssl.keyManagerConfig.algorithm
     new DefaultKeyManagerFactoryWrapper(keyManagerAlgorithm)
   }
 
-  def buildTrustManagerFactory(conf: SSLConfig): TrustManagerFactoryWrapper = {
-    val trustManagerAlgorithm = conf.trustManagerConfig.algorithm
+  def buildTrustManagerFactory(ssl: SSLConfig): TrustManagerFactoryWrapper = {
+    val trustManagerAlgorithm = ssl.trustManagerConfig.algorithm
     new DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm)
   }
 
