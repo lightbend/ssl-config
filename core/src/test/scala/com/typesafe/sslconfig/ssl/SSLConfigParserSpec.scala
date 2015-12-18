@@ -4,7 +4,7 @@
 
 package com.typesafe.sslconfig.ssl
 
-import com.typesafe.sslconfig.util.PlayConfig
+import com.typesafe.sslconfig.util.EnrichedConfig
 import org.specs2.mutable._
 
 import com.typesafe.config.ConfigFactory
@@ -19,7 +19,7 @@ object SSLConfigParserSpec extends Specification {
 
     def parseThis(input: String) = {
       val config = ConfigFactory.parseString(input).withFallback(ConfigFactory.defaultReference().getConfig("ssl-config"))
-      val parser = new SSLConfigParser(PlayConfig(config), getClass.getClassLoader)
+      val parser = new SSLConfigParser(EnrichedConfig(config), getClass.getClassLoader)
       parser.parse()
     }
 

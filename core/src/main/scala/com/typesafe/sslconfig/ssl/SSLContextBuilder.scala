@@ -100,7 +100,7 @@ class ConfigSSLContextBuilder(info: SSLConfig,
 
   protected val logger = NoDepsLogger.get(getClass)
 
-  def build: SSLContext = {
+  def build(): SSLContext = {
 
     val revocationLists = certificateRevocationList(info)
     val signatureConstraints = info.disabledSignatureAlgorithms.map(AlgorithmConstraintsParser.apply).toSet

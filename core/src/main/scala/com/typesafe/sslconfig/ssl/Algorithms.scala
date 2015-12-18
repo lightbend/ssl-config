@@ -7,6 +7,7 @@ package com.typesafe.sslconfig.ssl
 import javax.crypto.SecretKey
 import java.security.interfaces._
 import javax.crypto.interfaces.DHKey
+
 import scala.util.parsing.combinator.RegexParsers
 import java.security.{ KeyFactory, Key }
 import scala.Some
@@ -252,6 +253,8 @@ object AlgorithmConstraintsParser extends RegexParsers {
     case NoSuccess(message, _) =>
       throw new IllegalArgumentException(s"Cannot parse string $input: $message")
   }
+
+  def line: Parser[List[AlgorithmConstraint]] = repsep(expression, ",")
 
   def expression: Parser[AlgorithmConstraint] = algorithm ~ (keySizeConstraint ?) ^^ {
     case algorithm ~ Some(constraint) =>

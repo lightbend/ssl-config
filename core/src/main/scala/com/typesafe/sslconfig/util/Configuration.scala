@@ -11,7 +11,8 @@ import com.typesafe.config._
 import scala.collection.JavaConverters._
 import scala.concurrent.duration.FiniteDuration
 
-class PlayConfig(val underlying: Config) {
+/** Based on PlayConfig, adds some helper methods over underlying Config. */
+class EnrichedConfig(val underlying: Config) {
 
   /**
    * Get the config at the given path.
@@ -41,10 +42,10 @@ class PlayConfig(val underlying: Config) {
    *
    * Each object in the sequence will fallback to the object loaded from prototype.$path.
    */
-  def getPrototypedSeq(path: String, prototypePath: String = "prototype.$path"): Seq[PlayConfig] = {
+  def getPrototypedSeq(path: String, prototypePath: String = "prototype.$path"): Seq[EnrichedConfig] = {
     val prototype = underlying.getConfig(prototypePath.replace("$path", path))
     get[Seq[Config]](path).map { config =>
-      new PlayConfig(config.withFallback(prototype))
+      new EnrichedConfig(config.withFallback(prototype))
     }
   }
 
@@ -53,14 +54,14 @@ class PlayConfig(val underlying: Config) {
    *
    * Each value in the map will fallback to the object loaded from prototype.$path.
    */
-  def getPrototypedMap(path: String, prototypePath: String = "prototype.$path"): Map[String, PlayConfig] = {
+  def getPrototypedMap(path: String, prototypePath: String = "prototype.$path"): Map[String, EnrichedConfig] = {
     val prototype = if (prototypePath.isEmpty) {
       underlying
     } else {
       underlying.getConfig(prototypePath.replace("$path", path))
     }
     get[Map[String, Config]](path).map {
-      case (key, config) => key -> new PlayConfig(config.withFallback(prototype))
+      case (key, config) => key -> new EnrichedConfig(config.withFallback(prototype))
     }.toMap
   }
 
@@ -106,13 +107,13 @@ class PlayConfig(val underlying: Config) {
    *
    * Otherwise, the configuration from path will be looked up and used as is.
    */
-  def getDeprecatedWithFallback(path: String, deprecated: String, parent: String = ""): PlayConfig = {
+  def getDeprecatedWithFallback(path: String, deprecated: String, parent: String = ""): EnrichedConfig = {
     val config = get[Config](path)
     val merged = if (underlying.hasPath(deprecated)) {
       reportDeprecation(path, deprecated)
       get[Config](deprecated).withFallback(config)
     } else config
-    new PlayConfig(merged)
+    new EnrichedConfig(merged)
   }
 
   /**
@@ -145,9 +146,8 @@ class PlayConfig(val underlying: Config) {
   }
 }
 
-object PlayConfig {
-  def apply(underlying: Config) = new PlayConfig(underlying)
-  //def apply(configuration: Configuration) = new PlayConfig(configuration.underlying)
+object EnrichedConfig {
+  def apply(underlying: Config) = new EnrichedConfig(underlying)
 }
 
 /**
@@ -195,8 +195,8 @@ object ConfigLoader {
   implicit val configLoader: ConfigLoader[Config] = ConfigLoader(_.getConfig)
   implicit val seqConfigLoader: ConfigLoader[Seq[Config]] = ConfigLoader(_.getConfigList).map(_.asScala)
 
-  implicit val playConfigLoader = configLoader.map(new PlayConfig(_))
-  implicit val seqPlayConfigLoader = seqConfigLoader.map(_.map(new PlayConfig(_)))
+  implicit val playConfigLoader = configLoader.map(new EnrichedConfig(_))
+  implicit val seqEnrichedConfigLoader = seqConfigLoader.map(_.map(new EnrichedConfig(_)))
 
   implicit def mapLoader[A](implicit valueLoader: ConfigLoader[A]): ConfigLoader[Map[String, A]] = new ConfigLoader[Map[String, A]] {
     def load(config: Config, path: String): Map[String, A] = {
