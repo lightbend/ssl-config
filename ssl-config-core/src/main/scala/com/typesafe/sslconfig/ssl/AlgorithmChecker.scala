@@ -5,13 +5,12 @@
 package com.typesafe.sslconfig.ssl
 
 import java.security.cert._
+import java.text.SimpleDateFormat
+import java.util.{ Date, GregorianCalendar, Calendar }
 import javax.naming.InvalidNameException
 import javax.naming.ldap.{ LdapName, Rdn }
 
 import com.typesafe.sslconfig.util.NoDepsLogger
-import org.joda.time.{ Interval, DateTime }
-
-// TODO remove from core
 
 import scala.collection.JavaConverters._
 
@@ -123,8 +122,11 @@ class AlgorithmChecker(val signatureConstraints: Set[AlgorithmConstraint], val k
         val commonName = getCommonName(x509Cert)
         val subAltNames = x509Cert.getSubjectAlternativeNames
         val certName = x509Cert.getSubjectX500Principal.getName
-        val expirationDate = new DateTime(x509Cert.getNotAfter.getTime)
-        logger.debug(s"check: checking certificate commonName = $commonName, subjAltName = $subAltNames, certName = $certName, expirationDate = $expirationDate")
+        if (logger.isDebugEnabled) {
+          val expirationDate = x509Cert.getNotAfter.getTime
+          val isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'") // reminder for scala people, that one's not thread-safe...
+          logger.debug(s"check: checking certificate commonName = $commonName, subjAltName = $subAltNames, certName = $certName, expirationDate = ${isoFormat.format(expirationDate)}")
+        }
 
         sunsetSHA1SignatureAlgorithm(x509Cert)
         checkSignatureAlgorithms(x509Cert)
@@ -147,34 +149,43 @@ class AlgorithmChecker(val signatureConstraints: Set[AlgorithmConstraint], val k
     if (sigAlgorithms.contains("SHA1") || sigAlgorithms.contains("SHA-1")) {
       // https://github.com/playframework/playframework/issues/4241
       //
-      //
       // Sites with end-entity certificates that expire between 1 June 2016 to 31 December 2016 (inclusive),
       // and which include a SHA-1-based signature as part of the certificate chain, will be treated as “secure, but with minor errors”.
-      val june2016 = new DateTime(2016, 6, 1, 0, 0, 0, 0)
-      val december2016 = new DateTime(2016, 12, 31, 0, 0, 0, 0)
-      val secureInterval = new Interval(june2016, december2016)
 
-      val expirationDate = new DateTime(x509Cert.getNotAfter.getTime)
-      if (secureInterval.contains(expirationDate)) {
+      // TODO use Java 8 time once we can
+      // val june2016 = new DateTime(2016, 6, 1, 0, 0, 0, 0)
+      // val december2016 = new DateTime(2016, 12, 31, 0, 0, 0, 0)
+      // val secureInterval = new Interval(june2016, december2016)
+      // val expirationDate = new DateTime(x509Cert.getNotAfter.getTime)
+      // log warning if expiration between those two
+
+      val june2016 = new GregorianCalendar(2016, 6, 1, 0, 0, 0)
+      val december2016 = new GregorianCalendar(2016, 12, 31, 0, 0, 0)
+
+      val expirationDate = new GregorianCalendar()
+      expirationDate.setTime(new Date(x509Cert.getNotAfter.getTime))
+
+      // expiration date between those two above
+      if (expirationDate.after(june2016) && expirationDate.before(december2016)) {
         infoOnSunset(x509Cert, expirationDate)
       }
 
       // Sites with end-entity certificates that expire on or after 1 January 2017, and which include
       // a SHA-1-based signature as part of the certificate chain, will be treated as
       // “neutral, lacking security”.
-      val january2017 = new DateTime(2017, 1, 1, 0, 0, 0, 0)
-      if (january2017.isEqual(expirationDate) || january2017.isBefore(expirationDate)) {
+      val january2017 = new GregorianCalendar(2017, 1, 1, 0, 0, 0)
+      if (january2017.equals(expirationDate) || january2017.before(expirationDate)) {
         warnOnSunset(x509Cert, expirationDate)
       }
     }
   }
 
-  def infoOnSunset(x509Cert: X509Certificate, expirationDate: DateTime): Unit = {
+  def infoOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
     val certName = x509Cert.getSubjectX500Principal.getName
     logger.info(s"Certificate $certName uses SHA-1 and expires $expirationDate: this certificate expires soon, but SHA-1 is being sunsetted.")
   }
 
-  def warnOnSunset(x509Cert: X509Certificate, expirationDate: DateTime): Unit = {
+  def warnOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
     val certName = x509Cert.getSubjectX500Principal.getName
     logger.warn(s"Certificate $certName uses SHA-1 and expires $expirationDate: SHA-1 cannot be considered secure and this certificate should be replaced.")
   }

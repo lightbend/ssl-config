@@ -6,6 +6,7 @@ package com.typesafe.sslconfig.ssl
 
 import java.security.cert.{ CertPathValidatorException, Certificate, X509Certificate }
 import java.util.Collections._
+import java.util.GregorianCalendar
 
 import com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser._
 import org.joda.time.{ DateTime, Instant }
@@ -51,10 +52,10 @@ object AlgorithmCheckerSpec extends Specification {
       var infoCalled = false
       var warningCalled = false
       val checker = new AlgorithmChecker(Set.empty, Set.empty) {
-        override def infoOnSunset(x509Cert: X509Certificate, expirationDate: DateTime): Unit = {
+        override def infoOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
           infoCalled = true
         }
-        override def warnOnSunset(x509Cert: X509Certificate, expirationDate: DateTime): Unit = {
+        override def warnOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
           warningCalled = true
         }
       }
@@ -70,7 +71,7 @@ object AlgorithmCheckerSpec extends Specification {
 
       var infoCalled = false
       val checker = new AlgorithmChecker(Set.empty, Set.empty) {
-        override def infoOnSunset(x509Cert: X509Certificate, expirationDate: DateTime): Unit = {
+        override def infoOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
           infoCalled = true
         }
       }
@@ -85,7 +86,7 @@ object AlgorithmCheckerSpec extends Specification {
 
       var warningCalled = false
       val checker = new AlgorithmChecker(Set.empty, Set.empty) {
-        override def warnOnSunset(x509Cert: X509Certificate, expirationDate: DateTime): Unit = {
+        override def warnOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
           warningCalled = true
         }
       }
