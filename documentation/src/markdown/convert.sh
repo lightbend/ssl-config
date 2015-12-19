@@ -1,0 +1,14 @@
+pandoc -s -t rst --toc CertificateGeneration.md -o CertificateGeneration.rst
+pandoc -s -t rst --toc CertificateRevocation.md -o CertificateRevocation.rst
+pandoc -s -t rst --toc CertificateValidation.md -o CertificateValidation.rst
+pandoc -s -t rst --toc CipherSuites.md -o CipherSuites.rst
+pandoc -s -t rst --toc DebuggingSSL.md -o DebuggingSSL.rst
+pandoc -s -t rst --toc DefaultContext.md -o DefaultContext.rst
+pandoc -s -t rst --toc ExampleSSLConfig.md -o ExampleSSLConfig.rst
+pandoc -s -t rst --toc HostnameVerification.md -o HostnameVerification.rst
+pandoc -s -t rst --toc KeyStores.md -o  KeyStores.rst
+pandoc -s -t rst --toc LooseSSL.md -o LooseSSL.rst
+pandoc -s -t rst --toc Protocols.md -o  Protocols.rst
+pandoc -s -t rst --toc TestingSSL.md -o  TestingSSL.rst
+pandoc -s -t rst --toc WSQuickStart.md -o  WSQuickStart.rst
+pandoc -s -t rst --toc WsSSL.md -o WsSSL.rst
