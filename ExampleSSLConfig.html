@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example Configurations &mdash; ssl-config documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ssl-config documentation" href="index.html" />
+    <link rel="next" title="Using the Default SSLContext" href="DefaultContext.html" />
+    <link rel="prev" title="Configuring Certificate Validation" href="CertificateValidation.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#example-configurations" id="id1">Example Configurations</a><ul>
+<li><a class="reference internal" href="#connecting-to-an-internal-web-service" id="id2">Connecting to an internal web service</a></li>
+<li><a class="reference internal" href="#connecting-to-an-internal-web-service-with-client-authentication" id="id3">Connecting to an internal web service with client authentication</a></li>
+<li><a class="reference internal" href="#connecting-to-several-external-web-services" id="id4">Connecting to several external web services</a></li>
+<li><a class="reference internal" href="#both-private-and-public-servers" id="id5">Both Private and Public Servers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="example-configurations">
+<span id="examplesslconfig"></span><h1><a class="toc-backref" href="#id1">Example Configurations</a><a class="headerlink" href="#example-configurations" title="Permalink to this headline">¶</a></h1>
+<p>TLS can be very confusing. Here are some settings that can help.</p>
+<div class="section" id="connecting-to-an-internal-web-service">
+<h2><a class="toc-backref" href="#id2">Connecting to an internal web service</a><a class="headerlink" href="#connecting-to-an-internal-web-service" title="Permalink to this headline">¶</a></h2>
+<p>If you are using WS to communicate with a single internal web service
+which is configured with an up to date TLS implementation, then you have
+no need to use an external CA. Internal certificates will work fine, and
+are arguably <a class="reference external" href="http://www.thoughtcrime.org/blog/authenticity-is-broken-in-ssl-but-your-app-ha/">more
+secure</a>
+than the CA system.</p>
+<p>Generate a self signed certificate from the <a class="reference internal" href="CertificateGeneration.html#certificategeneration"><em>generating certificates</em></a> section, and tell the client to
+trust the CA&#8217;s public certificate.</p>
+<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl {
+  trustManager = {
+    stores = [
+      { type = &quot;JKS&quot;, path = &quot;exampletrust.jks&quot; }
+    ]
+  }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="connecting-to-an-internal-web-service-with-client-authentication">
+<h2><a class="toc-backref" href="#id3">Connecting to an internal web service with client authentication</a><a class="headerlink" href="#connecting-to-an-internal-web-service-with-client-authentication" title="Permalink to this headline">¶</a></h2>
+<p>If you are using client authentication, then you need to include a
+keyStore to the key manager that contains a PrivateKeyEntry, which
+consists of a private key and the X.509 certificate containing the
+corresponding public key. See the &#8220;Configure Client Authentication&#8221;
+section in <a class="reference internal" href="CertificateGeneration.html#certificategeneration"><em>generating certificates</em></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl {
+  keyManager = {
+    stores = [
+      { type = &quot;JKS&quot;, path = &quot;client.jks&quot;, password = &quot;changeit1&quot; }
+    ]
+  }
+  trustManager = {
+    stores = [
+      { type = &quot;JKS&quot;, path = &quot;exampletrust.jks&quot; }
+    ]
+  }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="connecting-to-several-external-web-services">
+<h2><a class="toc-backref" href="#id4">Connecting to several external web services</a><a class="headerlink" href="#connecting-to-several-external-web-services" title="Permalink to this headline">¶</a></h2>
+<p>If you are communicating with several external web services, then you
+may find it more convenient to configure one client with several stores:</p>
+<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl {
+  trustManager = {
+    stores = [
+      { type = &quot;PEM&quot;, path = &quot;service1.pem&quot; }
+      { path = &quot;service2.jks&quot; }
+      { path = &quot;service3.jks&quot; }
+    ]
+  }
+}
+</pre></div>
+</div>
+<p>If client authentication is required, then you can also set up the key
+manager with several stores:</p>
+<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl {
+    keyManager = {
+    stores = [
+      { type: &quot;PKCS12&quot;, path: &quot;keys/service1-client.p12&quot;, password: &quot;changeit1&quot; },
+      { type: &quot;PKCS12&quot;, path: &quot;keys/service2-client.p12&quot;, password: &quot;changeit2&quot; },
+      { type: &quot;PKCS12&quot;, path: &quot;keys/service3-client.p12&quot;, password: &quot;changeit3&quot; }
+    ]
+  }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="both-private-and-public-servers">
+<h2><a class="toc-backref" href="#id5">Both Private and Public Servers</a><a class="headerlink" href="#both-private-and-public-servers" title="Permalink to this headline">¶</a></h2>
+<p>If you are using WS to access both private and public servers on the
+same profile, then you will want to include the default JSSE trust store
+as well:</p>
+<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl {
+  trustManager = {
+    stores = [
+      { path: exampletrust.jks }     # Added trust store
+      { path: ${java.home}/lib/security/cacerts } # Fallback to default JSSE trust store
+    ]
+  }
+}
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Example Configurations</a><ul>
+<li><a class="reference internal" href="#connecting-to-an-internal-web-service">Connecting to an internal web service</a></li>
+<li><a class="reference internal" href="#connecting-to-an-internal-web-service-with-client-authentication">Connecting to an internal web service with client authentication</a></li>
+<li><a class="reference internal" href="#connecting-to-several-external-web-services">Connecting to several external web services</a></li>
+<li><a class="reference internal" href="#both-private-and-public-servers">Both Private and Public Servers</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="CertificateValidation.html" title="previous chapter">Configuring Certificate Validation</a></li>
+      <li>Next: <a href="DefaultContext.html" title="next chapter">Using the Default SSLContext</a></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ExampleSSLConfig.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Typesafe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="_sources/ExampleSSLConfig.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

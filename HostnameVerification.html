@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Hostname Verification &mdash; ssl-config documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ssl-config documentation" href="index.html" />
+    <link rel="next" title="Configuring Certificate Validation" href="CertificateValidation.html" />
+    <link rel="prev" title="Configuring Certificate Revocation" href="CertificateRevocation.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#hostname-verification" id="id1">Hostname Verification</a><ul>
+<li><a class="reference internal" href="#debugging" id="id2">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="hostname-verification">
+<span id="hostnameverification"></span><h1><a class="toc-backref" href="#id1">Hostname Verification</a><a class="headerlink" href="#hostname-verification" title="Permalink to this headline">¶</a></h1>
+<p>Hostname verification is a little known part of HTTPS that involves a
+<a class="reference external" href="https://tools.ietf.org/search/rfc2818#section-3.1">server identity check</a> to ensure
+that the client is talking to the correct server and has not been
+redirected by a man in the middle attack.</p>
+<p>The check involves looking at the certificate sent by the server, and
+verifying that the <tt class="docutils literal"><span class="pre">dnsName</span></tt> in the <tt class="docutils literal"><span class="pre">subjectAltName</span></tt> field of the
+certificate matches the host portion of the URL used to make the
+request.</p>
+<p>WS SSL does hostname verification automatically.</p>
+<div class="section" id="debugging">
+<h2><a class="toc-backref" href="#id2">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>Hostname Verification can be tested using <tt class="docutils literal"><span class="pre">dnschef</span></tt>. A complete guide
+is out of scope of documentation, but an example can be found in
+<a class="reference external" href="https://tersesystems.com/2014/03/31/testing-hostname-verification/">Testing Hostname
+Verification</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Hostname Verification</a><ul>
+<li><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="CertificateRevocation.html" title="previous chapter">Configuring Certificate Revocation</a></li>
+      <li>Next: <a href="CertificateValidation.html" title="next chapter">Configuring Certificate Validation</a></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/HostnameVerification.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Typesafe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="_sources/HostnameVerification.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

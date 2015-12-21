@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configuring Certificate Revocation &mdash; ssl-config documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ssl-config documentation" href="index.html" />
+    <link rel="next" title="Hostname Verification" href="HostnameVerification.html" />
+    <link rel="prev" title="Configuring Cipher Suites" href="CipherSuites.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#configuring-certificate-revocation" id="id1">Configuring Certificate Revocation</a><ul>
+<li><a class="reference internal" href="#debugging" id="id2">Debugging</a></li>
+<li><a class="reference internal" href="#further-reading" id="id3">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="configuring-certificate-revocation">
+<span id="certificaterevocation"></span><h1><a class="toc-backref" href="#id1">Configuring Certificate Revocation</a><a class="headerlink" href="#configuring-certificate-revocation" title="Permalink to this headline">¶</a></h1>
+<p>Certificate Revocation in JSSE can be done through two means:
+certificate revocation lists (CRLs) and OCSP.</p>
+<p>Certificate Revocation can be very useful in situations where a server&#8217;s
+private keys are compromised, as in the case of
+<a class="reference external" href="http://heartbleed.com">Heartbleed</a>.</p>
+<p>Certificate Revocation is disabled by default in JSSE. It is defined in
+two places:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/certpath/CertPathProgGuide.html#AppC">PKI Programmer&#8217;s Guide, Appendix
+C</a></li>
+<li><a class="reference external" href="https://blogs.oracle.com/xuelei/entry/enable_ocsp_checking">Enable OCSP
+Checking</a></li>
+</ul>
+<p>To enable OCSP, you must set the following system properties on the
+command line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">java</span> <span class="o">-</span><span class="n">Dcom</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">security</span><span class="o">.</span><span class="n">enableCRLDP</span><span class="o">=</span><span class="n">true</span> <span class="o">-</span><span class="n">Dcom</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">checkRevocation</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>After doing the above, you can enable certificate revocation in the
+client:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">checkRevocation</span> <span class="o">=</span> <span class="n">true</span>
+</pre></div>
+</div>
+<p>Setting <tt class="docutils literal"><span class="pre">checkRevocation</span></tt> will set the internal <tt class="docutils literal"><span class="pre">ocsp.enable</span></tt>
+security property automatically:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">java</span><span class="o">.</span><span class="n">security</span><span class="o">.</span><span class="n">Security</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">&quot;ocsp.enable&quot;</span><span class="p">,</span> <span class="s">&quot;true&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And this will set OCSP checking when making HTTPS requests.</p>
+<blockquote>
+<div>NOTE: Enabling OCSP requires a round trip to the OCSP responder.
+This adds a notable overhead on HTTPS calls, and can make calls up
+to <a class="reference external" href="https://blog.cloudflare.com/ocsp-stapling-how-cloudflare-just-made-ssl-30">33%
+slower</a>.
+The mitigation technique, OCSP stapling, is not supported in JSSE.</div></blockquote>
+<p>Or, if you wish to use a static CRL list, you can define a list of URLs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">revocationLists</span> <span class="o">=</span> <span class="p">[</span> <span class="s">&quot;http://example.com/crl&quot;</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="debugging">
+<h2><a class="toc-backref" href="#id2">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>To test certificate revocation is enabled, set the following options:</p>
+<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl.debug = {
+ certpath = true
+ ocsp = true
+}
+</pre></div>
+</div>
+<p>And you should see something like the following output:</p>
+<div class="highlight-python"><div class="highlight"><pre>certpath: -Using checker7 ... [sun.security.provider.certpath.RevocationChecker]
+certpath: connecting to OCSP service at: http://gtssl2-ocsp.geotrust.com
+certpath: OCSP response status: SUCCESSFUL
+certpath: OCSP response type: basic
+certpath: Responder&#39;s name: CN=GeoTrust SSL CA - G2 OCSP Responder, O=GeoTrust Inc., C=US
+certpath: OCSP response produced at: Wed Mar 19 13:57:32 PDT 2014
+certpath: OCSP number of SingleResponses: 1
+certpath: OCSP response cert #1: CN=GeoTrust SSL CA - G2 OCSP Responder, O=GeoTrust Inc., C=US
+certpath: Status of certificate (with serial number 159761413677206476752317239691621661939) is: GOOD
+certpath: Responder&#39;s certificate includes the extension id-pkix-ocsp-nocheck.
+certpath: OCSP response is signed by an Authorized Responder
+certpath: Verified signature of OCSP Response
+certpath: Response&#39;s validity interval is from Wed Mar 19 13:57:32 PDT 2014 until Wed Mar 26 13:57:32 PDT 2014
+certpath: -checker7 validation succeeded
+</pre></div>
+</div>
+</div>
+<div class="section" id="further-reading">
+<h2><a class="toc-backref" href="#id3">Further Reading</a><a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://tersesystems.com/2014/03/22/fixing-certificate-revocation/">Fixing Certificate
+Revocation</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Configuring Certificate Revocation</a><ul>
+<li><a class="reference internal" href="#debugging">Debugging</a></li>
+<li><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="CipherSuites.html" title="previous chapter">Configuring Cipher Suites</a></li>
+      <li>Next: <a href="HostnameVerification.html" title="next chapter">Hostname Verification</a></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/CertificateRevocation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Typesafe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="_sources/CertificateRevocation.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

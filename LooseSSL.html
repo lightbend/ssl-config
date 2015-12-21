@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Loose Options &mdash; ssl-config documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ssl-config documentation" href="index.html" />
+    <link rel="next" title="Testing SSL" href="TestingSSL.html" />
+    <link rel="prev" title="Debugging SSL Connections" href="DebuggingSSL.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#loose-options" id="id2">Loose Options</a><ul>
+<li><a class="reference internal" href="#we-understand" id="id3">We understand</a></li>
+<li><a class="reference internal" href="#please-read-this-before-turning-anything-off" id="id4">Please read this before turning anything off!</a><ul>
+<li><a class="reference internal" href="#man-in-the-middle-attacks-are-well-known" id="id5">Man in the Middle attacks are well known</a></li>
+<li><a class="reference internal" href="#man-in-the-middle-attacks-are-common" id="id6">Man in the Middle attacks are common</a></li>
+<li><a class="reference internal" href="#attackers-have-a-suite-of-tools-that-automatically-exploit-flaws" id="id7">Attackers have a suite of tools that automatically exploit flaws</a></li>
+<li><a class="reference internal" href="#security-is-increasingly-important-and-public" id="id8">Security is increasingly important and public</a></li>
+<li><a class="reference internal" href="#ethernet-password-protected-wifi-does-not-provide-a-meaningful-level-of-security" id="id9">Ethernet / Password protected WiFi does not provide a meaningful level of security.</a></li>
+<li><a class="reference internal" href="#companies-have-been-sued-for-inadequate-security" id="id10">Companies have been sued for inadequate security</a></li>
+<li><a class="reference internal" href="#correctly-configured-https-clients-are-important" id="id11">Correctly configured HTTPS clients are important</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mitigation" id="id12">Mitigation</a></li>
+<li><a class="reference internal" href="#id1" id="id13">Loose Options</a><ul>
+<li><a class="reference internal" href="#disabling-certificate-verification" id="id14">Disabling Certificate Verification</a></li>
+<li><a class="reference internal" href="#disabling-weak-ciphers-checking" id="id15">Disabling Weak Ciphers Checking</a></li>
+<li><a class="reference internal" href="#disabling-hostname-verification" id="id16">Disabling Hostname Verification</a></li>
+<li><a class="reference internal" href="#disabled-protocols" id="id17">Disabled Protocols</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="loose-options">
+<span id="loosessl"></span><h1><a class="toc-backref" href="#id2">Loose Options</a><a class="headerlink" href="#loose-options" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="we-understand">
+<h2><a class="toc-backref" href="#id3">We understand</a><a class="headerlink" href="#we-understand" title="Permalink to this headline">¶</a></h2>
+<p>Setting up SSL is not all that fun. It is not lost on anyone that
+setting up even a single web service with HTTPS involves setting up
+several certificates, reading boring cryptography documentation and dire
+warnings.</p>
+<p>Despite that, all the security features in SSL are there for good
+reasons, and turning them off, even for development purposes, has led to
+even less fun than setting up SSL properly.</p>
+</div>
+<div class="section" id="please-read-this-before-turning-anything-off">
+<h2><a class="toc-backref" href="#id4">Please read this before turning anything off!</a><a class="headerlink" href="#please-read-this-before-turning-anything-off" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="man-in-the-middle-attacks-are-well-known">
+<h3><a class="toc-backref" href="#id5">Man in the Middle attacks are well known</a><a class="headerlink" href="#man-in-the-middle-attacks-are-well-known" title="Permalink to this headline">¶</a></h3>
+<p>The information security community is very well aware of how insecure
+most internal networks are, and uses that to their advantage. A video
+discussing attacks detailed a <a class="reference external" href="http://2012.video.sector.ca/page/6">wide range of possible
+attacks</a>.</p>
+</div>
+<div class="section" id="man-in-the-middle-attacks-are-common">
+<h3><a class="toc-backref" href="#id6">Man in the Middle attacks are common</a><a class="headerlink" href="#man-in-the-middle-attacks-are-common" title="Permalink to this headline">¶</a></h3>
+<p>The average company can expect to have seven or eight <a class="reference external" href="https://sites.google.com/site/cse825maninthemiddle/">Man in the
+Middle</a> attacks
+a year. In some cases, up to 300,000 users can be compromised <a class="reference external" href="https://security.stackexchange.com/questions/12041/are-man-in-the-middle-attacks-extremely-rare">over
+several
+months</a>.</p>
+</div>
+<div class="section" id="attackers-have-a-suite-of-tools-that-automatically-exploit-flaws">
+<h3><a class="toc-backref" href="#id7">Attackers have a suite of tools that automatically exploit flaws</a><a class="headerlink" href="#attackers-have-a-suite-of-tools-that-automatically-exploit-flaws" title="Permalink to this headline">¶</a></h3>
+<p>The days of the expert hacker are over. Most security professionals use
+automated linux environments such as Kali Linux to do penetration
+testing, packed with hundreds of tools to check for exploits. A video of
+<a class="reference external" href="https://www.youtube.com/watch?v=pfHsRscy540">Cain &amp; Abel</a> shows
+passwords being compromised in less than 20 seconds.</p>
+<p>Hackers won&#8217;t bother to see whether something will &#8220;look encrypted&#8221; or
+not. Instead, they&#8217;ll set up a machine with a toolkit that will run
+through every possible exploit, and go out for coffee.</p>
+</div>
+<div class="section" id="security-is-increasingly-important-and-public">
+<h3><a class="toc-backref" href="#id8">Security is increasingly important and public</a><a class="headerlink" href="#security-is-increasingly-important-and-public" title="Permalink to this headline">¶</a></h3>
+<p>More and more information flows through computers every day. The public
+and the media are taking increasing notice of the possibility that their
+private communications can be intercepted. Google, Facebook, Yahoo, and
+other leading companies have made secure communication a priority and
+have devoted millions to ensuring that <a class="reference external" href="https://www.eff.org/deeplinks/2013/11/encrypt-web-report-whos-doing-what">data cannot be
+read</a>.</p>
+</div>
+<div class="section" id="ethernet-password-protected-wifi-does-not-provide-a-meaningful-level-of-security">
+<h3><a class="toc-backref" href="#id9">Ethernet / Password protected WiFi does not provide a meaningful level of security.</a><a class="headerlink" href="#ethernet-password-protected-wifi-does-not-provide-a-meaningful-level-of-security" title="Permalink to this headline">¶</a></h3>
+<p>A networking auditing tool such as a <a class="reference external" href="https://wifipineapple.com/">Wifi
+Pineapple</a> costs around $100, picks up
+all traffic sent over a wifi network, and is so good at intercepting
+traffic that people have turned it on and started <a class="reference external" href="http://www.troyhunt.com/2013/04/the-beginners-guide-to-breaking-website.html">intercepting traffic
+accidentally</a>.</p>
+</div>
+<div class="section" id="companies-have-been-sued-for-inadequate-security">
+<h3><a class="toc-backref" href="#id10">Companies have been sued for inadequate security</a><a class="headerlink" href="#companies-have-been-sued-for-inadequate-security" title="Permalink to this headline">¶</a></h3>
+<p>PCI compliance is not the only thing that companies have to worry about.
+The FTC sued <a class="reference external" href="https://www.ftc.gov/news-events/press-releases/2014/03/fandango-credit-karma-settle-ftc-charges-they-deceived-consumers">Fandango and Credit
+Karma</a>
+on charges that they failed to securely transmit information, including
+credit card information.</p>
+</div>
+<div class="section" id="correctly-configured-https-clients-are-important">
+<h3><a class="toc-backref" href="#id11">Correctly configured HTTPS clients are important</a><a class="headerlink" href="#correctly-configured-https-clients-are-important" title="Permalink to this headline">¶</a></h3>
+<p>Sensitive, company confidential information goes over web services. A
+paper discussing insecurities in WS clients was titled <a class="reference external" href="https://www.cs.utexas.edu/~shmat/shmat_ccs12.pdf">The Most
+Dangerous Code in the World: Validating SSL Certificates in Non-Browser
+Software</a>, and
+lists poor default configuration and explicit disabling of security
+options as the primary reason for exposure. The WS client has been
+configured as much as possible to be secure by default, and there are
+example configurations provided for your benefit.</p>
+</div>
+</div>
+<div class="section" id="mitigation">
+<h2><a class="toc-backref" href="#id12">Mitigation</a><a class="headerlink" href="#mitigation" title="Permalink to this headline">¶</a></h2>
+<p>If you must turn on loose options, there are a couple of things you can
+do to minimize your exposure.</p>
+<p><strong>Custom Play WSClient</strong>: You can create a <a class="reference external" href="https://www.playframework.com/documentation/2.4.x/ScalaWS">custom Play WSClient</a>
+specifically for the server, using the
+<tt class="docutils literal"><span class="pre">`WSConfigParser</span></tt> &lt;api/scala/play/api/libs/ws/WSConfigParser.html&gt;`__
+together with <tt class="docutils literal"><span class="pre">ConfigFactory.parseString</span></tt>, and ensure it is never used
+outside that context.</p>
+<p><strong>Environment Scoping</strong>: You can define <a class="reference external" href="https://github.com/typesafehub/config/blob/master/HOCON.md#substitution-fallback-to-environment-variables">environment variables in
+HOCON</a>
+to ensure that any loose options are not hardcoded in configuration
+files, and therefore cannot escape an development environment.</p>
+<p><strong>Runtime / Deployment Checks</strong>: You can add code to your deployment
+scripts or program that checks that <tt class="docutils literal"><span class="pre">ssl-config.ssl.loose</span></tt> options are
+not enabled in a production environment. The runtime mode can be found
+in the <tt class="docutils literal"><span class="pre">`Application.mode</span></tt> &lt;api/scala/play/api/Application.html&gt;`__
+method.</p>
+</div>
+<div class="section" id="id1">
+<h2><a class="toc-backref" href="#id13">Loose Options</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Finally, here are the options themselves.</p>
+<div class="section" id="disabling-certificate-verification">
+<h3><a class="toc-backref" href="#id14">Disabling Certificate Verification</a><a class="headerlink" href="#disabling-certificate-verification" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In most cases, people turn off certificate verification
+because they haven&#8217;t generated certificates. <strong>There are other
+options besides disabling certificate verification.</strong></p>
+<ul class="last simple">
+<li><a class="reference internal" href="WSQuickStart.html#wsquickstart"><em>Quick Start to WS SSL</em></a> shows how to connect
+directly to a server using a self signed certificate.</li>
+<li><a class="reference internal" href="CertificateGeneration.html#certificategeneration"><em>Generating X.509 Certificates</em></a> lists a
+number of GUI applications that will generate certificates for
+you.</li>
+<li><a class="reference internal" href="ExampleSSLConfig.html#examplesslconfig"><em>Example Configurations</em></a> shows complete
+configuration of TLS using self signed certificates.</li>
+<li>If you want to view your application through HTTPS, you can use
+<a class="reference external" href="https://ngrok.com/">ngrok</a> to proxy your application.</li>
+<li>If you need a certificate authority but don&#8217;t want to pay money,
+<a class="reference external" href="https://www.startssl.com/?app=1">StartSSL</a> or
+<a class="reference external" href="http://www.cacert.org/">CACert</a> will give you a free
+certificate.</li>
+<li>If you want a self signed certificate and private key without
+typing on the command line, you can use
+<a class="reference external" href="http://www.selfsignedcertificate.com/">selfsignedcertificate.com</a>.</li>
+</ul>
+</div>
+<p>If you&#8217;ve read the above and you still want to completely disable
+certificate verification, set the following;</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">loose</span><span class="o">.</span><span class="n">acceptAnyCertificate</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>With certificate verification completely disabled, you are vulnerable to
+attack from anyone on the network using a tool such as
+<a class="reference external" href="https://mitmproxy.org/">mitmproxy</a>.</p>
+<blockquote>
+<div>Note: By disabling certificate validation, you are also disabling
+hostname verification!</div></blockquote>
+</div>
+<div class="section" id="disabling-weak-ciphers-checking">
+<h3><a class="toc-backref" href="#id15">Disabling Weak Ciphers Checking</a><a class="headerlink" href="#disabling-weak-ciphers-checking" title="Permalink to this headline">¶</a></h3>
+<p>There are some ciphers which are known to have flaws, and are
+<a class="reference external" href="http://sim.ivi.co/2011/08/jsse-oracle-provider-default-disabled.html">disabled</a>
+in 1.7. WS will throw an exception if a weak cipher is found in the
+<tt class="docutils literal"><span class="pre">ws.ssl.enabledCiphers</span></tt> list. If you specifically want a weak cipher,
+set this flag:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">loose</span><span class="o">.</span><span class="n">allowWeakCiphers</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>With weak cipher checking disabled, you are vulnerable to attackers that
+use forged certificates, such as
+<a class="reference external" href="http://arstechnica.com/security/2012/06/flame-crypto-breakthrough/">Flame</a>.</p>
+</div>
+<div class="section" id="disabling-hostname-verification">
+<h3><a class="toc-backref" href="#id16">Disabling Hostname Verification</a><a class="headerlink" href="#disabling-hostname-verification" title="Permalink to this headline">¶</a></h3>
+<p>If you want to disable hostname verification, you can set a loose flag:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">loose</span><span class="o">.</span><span class="n">acceptAnyCertificate</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>With hostname verification disabled, a DNS proxy such as <tt class="docutils literal"><span class="pre">dnschef</span></tt> can
+<a class="reference external" href="https://tersesystems.com/2014/03/31/testing-hostname-verification/">easily intercept
+communication</a>.</p>
+<blockquote>
+<div>Note: By disabling hostname verification, you are also disabling
+certificate verification!</div></blockquote>
+</div>
+<div class="section" id="disabled-protocols">
+<h3><a class="toc-backref" href="#id17">Disabled Protocols</a><a class="headerlink" href="#disabled-protocols" title="Permalink to this headline">¶</a></h3>
+<p>WS recognizes &#8220;SSLv3&#8221;, &#8220;SSLv2&#8221; and &#8220;SSLv2Hello&#8221; as weak protocols with a
+number of <a class="reference external" href="https://www.schneier.com/paper-ssl.pdf">security issues</a>,
+and will throw an exception if they are in the
+<tt class="docutils literal"><span class="pre">ws.ssl.enabledProtocols</span></tt> list. Virtually all servers support
+<tt class="docutils literal"><span class="pre">TLSv1</span></tt>, so there is no advantage in using these older protocols.</p>
+<p>If you specifically want a weak protocol, set the loose flag to disable
+the check:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">loose</span><span class="o">.</span><span class="n">allowWeakProtocols</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>SSLv2 and SSLv2Hello (there is no v1) are obsolete and usage in the
+field is <a class="reference external" href="https://www.trustworthyinternet.org/ssl-pulse/">down to 25% on the public
+Internet</a>. SSLv3 is
+known to have <a class="reference external" href="http://www.yaksman.org/~lweith/ssl.pdf">security
+issues</a> compared to TLS. The
+only reason to turn this on is if you are connecting to a legacy server,
+but doing so does not make you vulnerable per se.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Loose Options</a><ul>
+<li><a class="reference internal" href="#we-understand">We understand</a></li>
+<li><a class="reference internal" href="#please-read-this-before-turning-anything-off">Please read this before turning anything off!</a><ul>
+<li><a class="reference internal" href="#man-in-the-middle-attacks-are-well-known">Man in the Middle attacks are well known</a></li>
+<li><a class="reference internal" href="#man-in-the-middle-attacks-are-common">Man in the Middle attacks are common</a></li>
+<li><a class="reference internal" href="#attackers-have-a-suite-of-tools-that-automatically-exploit-flaws">Attackers have a suite of tools that automatically exploit flaws</a></li>
+<li><a class="reference internal" href="#security-is-increasingly-important-and-public">Security is increasingly important and public</a></li>
+<li><a class="reference internal" href="#ethernet-password-protected-wifi-does-not-provide-a-meaningful-level-of-security">Ethernet / Password protected WiFi does not provide a meaningful level of security.</a></li>
+<li><a class="reference internal" href="#companies-have-been-sued-for-inadequate-security">Companies have been sued for inadequate security</a></li>
+<li><a class="reference internal" href="#correctly-configured-https-clients-are-important">Correctly configured HTTPS clients are important</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mitigation">Mitigation</a></li>
+<li><a class="reference internal" href="#id1">Loose Options</a><ul>
+<li><a class="reference internal" href="#disabling-certificate-verification">Disabling Certificate Verification</a></li>
+<li><a class="reference internal" href="#disabling-weak-ciphers-checking">Disabling Weak Ciphers Checking</a></li>
+<li><a class="reference internal" href="#disabling-hostname-verification">Disabling Hostname Verification</a></li>
+<li><a class="reference internal" href="#disabled-protocols">Disabled Protocols</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="DebuggingSSL.html" title="previous chapter">Debugging SSL Connections</a></li>
+      <li>Next: <a href="TestingSSL.html" title="next chapter">Testing SSL</a></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/LooseSSL.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Typesafe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="_sources/LooseSSL.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

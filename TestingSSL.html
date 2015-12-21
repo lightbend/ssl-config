@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Testing SSL &mdash; ssl-config documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ssl-config documentation" href="index.html" />
+    <link rel="prev" title="Loose Options" href="LooseSSL.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#testing-ssl" id="id1">Testing SSL</a><ul>
+<li><a class="reference internal" href="#unit-testing" id="id2">Unit Testing</a></li>
+<li><a class="reference internal" href="#integration-testing" id="id3">Integration Testing</a></li>
+<li><a class="reference internal" href="#adversarial-testing" id="id4">Adversarial Testing</a><ul>
+<li><a class="reference internal" href="#testing-certificate-verification" id="id5">Testing Certificate Verification</a></li>
+<li><a class="reference internal" href="#testing-weak-cipher-suites" id="id6">Testing Weak Cipher Suites</a></li>
+<li><a class="reference internal" href="#testing-certificate-validation" id="id7">Testing Certificate Validation</a></li>
+<li><a class="reference internal" href="#testing-hostname-verification" id="id8">Testing Hostname Verification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="testing-ssl">
+<span id="testingssl"></span><h1><a class="toc-backref" href="#id1">Testing SSL</a><a class="headerlink" href="#testing-ssl" title="Permalink to this headline">¶</a></h1>
+<p>Testing an SSL client not only involves unit and integration testing,
+but also involves adversarial testing, which tests that an attacker
+cannot break or subvert a secure connection.</p>
+<div class="section" id="unit-testing">
+<h2><a class="toc-backref" href="#id2">Unit Testing</a><a class="headerlink" href="#unit-testing" title="Permalink to this headline">¶</a></h2>
+<p>Play comes with <tt class="docutils literal"><span class="pre">play.api.test.WsTestClient</span></tt>, which provides two
+methods, <tt class="docutils literal"><span class="pre">wsCall</span></tt> and <tt class="docutils literal"><span class="pre">wsUrl</span></tt>. It can be helpful to use
+<tt class="docutils literal"><span class="pre">PlaySpecification</span></tt> and <tt class="docutils literal"><span class="pre">in</span> <span class="pre">new</span> <span class="pre">WithApplication</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre>&quot;calls index&quot; in new WithApplication() {
+  await(wsCall(routes.Application.index()).get())
+}
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">wsUrl</span><span class="p">(</span><span class="s">&quot;https://example.com&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="integration-testing">
+<h2><a class="toc-backref" href="#id3">Integration Testing</a><a class="headerlink" href="#integration-testing" title="Permalink to this headline">¶</a></h2>
+<p>If you want confirmation that your client is correctly configured, you
+can call out to <a class="reference external" href="https://www.howsmyssl.com/s/api.html">HowsMySSL</a>,
+which has an API to check JSSE settings.</p>
+<div class="highlight-python"><div class="highlight"><pre>import java.io.File
+
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
+import play.api.libs.ws.ahc._
+
+import play.api.{Mode, Environment}
+import play.api.libs.json.JsSuccess
+import play.api.libs.ws._
+import play.api.test._
+
+import com.typesafe.config.{ConfigFactory, ConfigValueFactory}
+import scala.concurrent.duration._
+
+import org.specs2.specification.AfterAll
+
+class HowsMySSLSpec extends PlaySpecification with AfterAll {
+  val system = ActorSystem(&quot;howsMySSLSpec&quot;)
+  implicit val materializer = ActorMaterializer()(system)
+
+  def afterAll(): Unit = {
+    system.shutdown()
+  }
+
+  def createClient(rawConfig: play.api.Configuration): WSClient = {
+    val classLoader = Thread.currentThread().getContextClassLoader
+    val parser = new WSConfigParser(rawConfig, new Environment(new File(&quot;.&quot;), classLoader, Mode.Test))
+    val clientConfig = new AhcWSClientConfig(parser.parse())
+    // Debug flags only take effect in JSSE when DebugConfiguration().configure is called.
+    //import play.api.libs.ws.ssl.debug.DebugConfiguration
+    //clientConfig.ssl.map {
+    //   _.debug.map(new DebugConfiguration().configure)
+    //}
+    val builder = new AhcConfigBuilder(clientConfig)
+    val client = new AhcWSClient(builder.build())
+    client
+  }
+
+  def configToMap(configString: String): Map[String, _] = {
+    import scala.collection.JavaConverters._
+    ConfigFactory.parseString(configString).root().unwrapped().asScala.toMap
+  }
+
+  &quot;WS&quot; should {
+
+    &quot;verify common behavior&quot; in {
+      // GeoTrust SSL CA - G2 intermediate certificate not found in cert chain!
+      // See https://github.com/jmhodges/howsmyssl/issues/38 for details.
+      val geoTrustPem =
+        &quot;&quot;&quot;-----BEGIN CERTIFICATE-----
+          |MIIEWTCCA0GgAwIBAgIDAjpjMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYT
+          |AlVTMRYwFAYDVQQKEw1HZW9UcnVzdCBJbmMuMRswGQYDVQQDExJHZW9UcnVz
+          |dCBHbG9iYWwgQ0EwHhcNMTIwODI3MjA0MDQwWhcNMjIwNTIwMjA0MDQwWjBE
+          |MQswCQYDVQQGEwJVUzEWMBQGA1UEChMNR2VvVHJ1c3QgSW5jLjEdMBsGA1UE
+          |AxMUR2VvVHJ1c3QgU1NMIENBIC0gRzIwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+          |DwAwggEKAoIBAQC5J/lP2Pa3FT+Pzc7WjRxr/X/aVCFOA9jK0HJSFbjJgltY
+          |eYT/JHJv8ml/vJbZmnrDPqnPUCITDoYZ2+hJ74vm1kfy/XNFCK6PrF62+J58
+          |9xD/kkNm7xzU7qFGiBGJSXl6Jc5LavDXHHYaKTzJ5P0ehdzgMWUFRxasCgdL
+          |LnBeawanazpsrwUSxLIRJdY+lynwg2xXHNil78zs/dYS8T/bQLSuDxjTxa9A
+          |kl0HXk7+Yhc3iemLdCai7bgK52wVWzWQct3YTSHUQCNcj+6AMRaraFX0DjtU
+          |6QRN8MxOgV7pb1JpTr6mFm1C9VH/4AtWPJhPc48Obxoj8cnI2d+87FLXAgMB
+          |AAGjggFUMIIBUDAfBgNVHSMEGDAWgBTAephojYn7qwVkDBF9qn1luMrMTjAd
+          |BgNVHQ4EFgQUEUrQcznVW2kIXLo9v2SaqIscVbwwEgYDVR0TAQH/BAgwBgEB
+          |/wIBADAOBgNVHQ8BAf8EBAMCAQYwOgYDVR0fBDMwMTAvoC2gK4YpaHR0cDov
+          |L2NybC5nZW90cnVzdC5jb20vY3Jscy9ndGdsb2JhbC5jcmwwNAYIKwYBBQUH
+          |AQEEKDAmMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5nZW90cnVzdC5jb20w
+          |TAYDVR0gBEUwQzBBBgpghkgBhvhFAQc2MDMwMQYIKwYBBQUHAgEWJWh0dHA6
+          |Ly93d3cuZ2VvdHJ1c3QuY29tL3Jlc291cmNlcy9jcHMwKgYDVR0RBCMwIaQf
+          |MB0xGzAZBgNVBAMTElZlcmlTaWduTVBLSS0yLTI1NDANBgkqhkiG9w0BAQUF
+          |AAOCAQEAPOU9WhuiNyrjRs82lhg8e/GExVeGd0CdNfAS8HgY+yKk3phLeIHm
+          |TYbjkQ9C47ncoNb/qfixeZeZ0cNsQqWSlOBdDDMYJckrlVPg5akMfUf+f1Ex
+          |RF73Kh41opQy98nuwLbGmqzemSFqI6A4ZO6jxIhzMjtQzr+t03UepvTp+UJr
+          |YLLdRf1dVwjOLVDmEjIWE4rylKKbR6iGf9mY5ffldnRk2JG8hBYo2CVEMH6C
+          |2Kyx5MDkFWzbtiQnAioBEoW6MYhYR3TjuNJkpsMyWS4pS0XxW4lJLoKaxhgV
+          |RNAuZAEVaDj59vlmAwxVG52/AECu8EgnTOCAXi25KhV6vGb4NQ==
+          |-----END CERTIFICATE-----
+        &quot;&quot;&quot;.stripMargin
+
+      val configString = &quot;&quot;&quot;
+         |//play.ws.ssl.debug=[&quot;certpath&quot;, &quot;ssl&quot;, &quot;trustmanager&quot;]
+         |play.ws.ssl.protocol=&quot;TLSv1&quot;
+         |play.ws.ssl.enabledProtocols=[&quot;TLSv1&quot;]
+         |
+         |play.ws.ssl.trustManager = {
+         |  stores = [
+         |    { type: &quot;PEM&quot;, data = ${geotrust.pem} }
+         |  ]
+         |}
+       &quot;&quot;&quot;.stripMargin
+      val rawConfig = ConfigFactory.parseString(configString)
+      val configWithPem = rawConfig.withValue(&quot;geotrust.pem&quot;, ConfigValueFactory.fromAnyRef(geoTrustPem))
+      val configWithSystemProperties = ConfigFactory.load(configWithPem)
+      val playConfiguration = play.api.Configuration(configWithSystemProperties)
+
+      val client = createClient(playConfiguration)
+      val response = await(client.url(&quot;https://www.howsmyssl.com/a/check&quot;).get())(5.seconds)
+      response.status must be_==(200)
+
+      val jsonOutput = response.json
+      val result = (jsonOutput \ &quot;tls_version&quot;).validate[String]
+      result must beLike {
+        case JsSuccess(value, path) =&gt;
+          value must_== &quot;TLS 1.0&quot;
+      }
+    }
+  }
+}
+</pre></div>
+</div>
+<p>Note that if you are writing tests that involve custom configuration
+such as revocation checking or disabled algorithms, you may need to pass
+system properties into SBT:</p>
+<div class="highlight-python"><div class="highlight"><pre>javaOptions in Test ++= Seq(&quot;-Dcom.sun.security.enableCRLDP=true&quot;, &quot;-Dcom.sun.net.ssl.checkRevocation=true&quot;, &quot;-Djavax.net.debug=all&quot;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="adversarial-testing">
+<h2><a class="toc-backref" href="#id4">Adversarial Testing</a><a class="headerlink" href="#adversarial-testing" title="Permalink to this headline">¶</a></h2>
+<p>There are several points of where a connection can be attacked. Writing
+these tests is fairly easy, and running these adversarial tests against
+unsuspecting programmers can be extremely satisfying.</p>
+<div class="section" id="testing-certificate-verification">
+<h3><a class="toc-backref" href="#id5">Testing Certificate Verification</a><a class="headerlink" href="#testing-certificate-verification" title="Permalink to this headline">¶</a></h3>
+<p>Write a test to connect to &#8220;<a class="reference external" href="https://example.com">https://example.com</a>&#8221;. The server should
+present a certificate which says the subjectAltName is dnsName, but the
+certificate should be signed by a CA certificate which is not in the
+trust store. The client should reject it.</p>
+<p>This is a very common failure. There are a number of proxies like
+<a class="reference external" href="https://mitmproxy.org">mitmproxy</a> or
+<a class="reference external" href="http://www.telerik.com/fiddler">Fiddler</a> which will only work if
+certificate verification is disabled or the proxy&#8217;s certificate is
+explicitly added to the trust store.</p>
+</div>
+<div class="section" id="testing-weak-cipher-suites">
+<h3><a class="toc-backref" href="#id6">Testing Weak Cipher Suites</a><a class="headerlink" href="#testing-weak-cipher-suites" title="Permalink to this headline">¶</a></h3>
+<p>The server should send a cipher suite that includes NULL or ANON cipher
+suites in the handshake. If the client accepts it, it is sending
+unencrypted data.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For a more in depth test of a server&#8217;s cipher suites, see
+<a class="reference external" href="https://github.com/iSECPartners/sslyze">sslyze</a>.</p>
+</div>
+</div>
+<div class="section" id="testing-certificate-validation">
+<h3><a class="toc-backref" href="#id7">Testing Certificate Validation</a><a class="headerlink" href="#testing-certificate-validation" title="Permalink to this headline">¶</a></h3>
+<p>To test for weak signatures, the server should send the client a
+certificate which has been signed with, for example, the MD2 digest
+algorithm. The client should reject it as being too weak.</p>
+<p>To test for weak certificate, The server should send the client a
+certificate which contains a public key with a key size under 1024 bits.
+The client should reject it as being too weak.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For a more in depth test of certification validation, see
+<a class="reference external" href="https://github.com/iSECPartners/tlspretense">tlspretense</a> and
+<a class="reference external" href="https://github.com/sumanj/frankencert">frankencert</a>.</p>
+</div>
+</div>
+<div class="section" id="testing-hostname-verification">
+<h3><a class="toc-backref" href="#id8">Testing Hostname Verification</a><a class="headerlink" href="#testing-hostname-verification" title="Permalink to this headline">¶</a></h3>
+<p>Write a test to &#8220;<a class="reference external" href="https://example.com">https://example.com</a>&#8221;. If the server presents a
+certificate where the subjectAltName&#8217;s dnsName is not example.com, the
+connection should terminate.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For a more in depth test, see
+<a class="reference external" href="https://tersesystems.com/2014/03/31/testing-hostname-verification/">dnschef</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Testing SSL</a><ul>
+<li><a class="reference internal" href="#unit-testing">Unit Testing</a></li>
+<li><a class="reference internal" href="#integration-testing">Integration Testing</a></li>
+<li><a class="reference internal" href="#adversarial-testing">Adversarial Testing</a><ul>
+<li><a class="reference internal" href="#testing-certificate-verification">Testing Certificate Verification</a></li>
+<li><a class="reference internal" href="#testing-weak-cipher-suites">Testing Weak Cipher Suites</a></li>
+<li><a class="reference internal" href="#testing-certificate-validation">Testing Certificate Validation</a></li>
+<li><a class="reference internal" href="#testing-hostname-verification">Testing Hostname Verification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="LooseSSL.html" title="previous chapter">Loose Options</a></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/TestingSSL.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Typesafe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="_sources/TestingSSL.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

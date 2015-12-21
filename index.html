@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to ssl-config’s documentation! &mdash; ssl-config documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ssl-config documentation" href="#" />
+    <link rel="next" title="Configuring WS SSL" href="WsSSL.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-ssl-config-s-documentation">
+<h1>Welcome to ssl-config&#8217;s documentation!<a class="headerlink" href="#welcome-to-ssl-config-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="WsSSL.html">Configuring WS SSL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WsSSL.html#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WsSSL.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WSQuickStart.html">Quick Start to WS SSL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WSQuickStart.html#connecting-to-a-remote-server-over-https">Connecting to a Remote Server over HTTPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WSQuickStart.html#obtain-the-root-ca-certificate">Obtain the Root CA Certificate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WSQuickStart.html#point-the-trust-manager-at-the-pem-file">Point the trust manager at the PEM file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CertificateGeneration.html">Generating X.509 Certificates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#x-509-certificates">X.509 Certificates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#using-keytool">Using Keytool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#generating-a-random-password">Generating a random password</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#server-configuration">Server Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#client-configuration">Client Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#certificate-management-tools">Certificate Management Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#certificate-settings">Certificate Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateGeneration.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="KeyStores.html">Configuring Trust Stores and Key Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="KeyStores.html#configuring-a-trust-manager">Configuring a Trust Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KeyStores.html#configuring-a-key-manager">Configuring a Key Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KeyStores.html#configuring-a-store">Configuring a Store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KeyStores.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KeyStores.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Protocols.html">Configuring Protocols</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Protocols.html#defining-the-default-protocol">Defining the default protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Protocols.html#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CipherSuites.html">Configuring Cipher Suites</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CipherSuites.html#configuring-enabled-ciphers">Configuring Enabled Ciphers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CipherSuites.html#recommendation-increase-the-dhe-key-size">Recommendation: increase the DHE key size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CipherSuites.html#recommendation-use-ciphers-with-perfect-forward-secrecy">Recommendation: Use Ciphers with Perfect Forward Secrecy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CipherSuites.html#disabling-weak-ciphers-and-weak-key-sizes-globally">Disabling Weak Ciphers and Weak Key Sizes Globally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CipherSuites.html#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CertificateRevocation.html">Configuring Certificate Revocation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CertificateRevocation.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateRevocation.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HostnameVerification.html">Hostname Verification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HostnameVerification.html#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CertificateValidation.html">Configuring Certificate Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CertificateValidation.html#disabling-certificates-with-weak-signature-algorithms">Disabling Certificates with Weak Signature Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateValidation.html#disabling-certificates-with-weak-key-sizes">Disabling Certificates With Weak Key Sizes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateValidation.html#disabling-weak-certificates-globally">Disabling Weak Certificates Globally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateValidation.html#debugging-certificate-validation">Debugging Certificate Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CertificateValidation.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ExampleSSLConfig.html">Example Configurations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ExampleSSLConfig.html#connecting-to-an-internal-web-service">Connecting to an internal web service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ExampleSSLConfig.html#connecting-to-an-internal-web-service-with-client-authentication">Connecting to an internal web service with client authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ExampleSSLConfig.html#connecting-to-several-external-web-services">Connecting to several external web services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ExampleSSLConfig.html#both-private-and-public-servers">Both Private and Public Servers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DefaultContext.html">Using the Default SSLContext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DefaultContext.html#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DebuggingSSL.html">Debugging SSL Connections</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DebuggingSSL.html#verbose-debugging">Verbose Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DebuggingSSL.html#dynamic-debugging">Dynamic Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DebuggingSSL.html#further-reading">Further reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LooseSSL.html">Loose Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LooseSSL.html#we-understand">We understand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LooseSSL.html#please-read-this-before-turning-anything-off">Please read this before turning anything off!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LooseSSL.html#mitigation">Mitigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LooseSSL.html#id1">Loose Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TestingSSL.html">Testing SSL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TestingSSL.html#unit-testing">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TestingSSL.html#integration-testing">Integration Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TestingSSL.html#adversarial-testing">Adversarial Testing</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to ssl-config&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="WsSSL.html" title="next chapter">Configuring WS SSL</a></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Typesafe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
