@@ -9,6 +9,7 @@ import java.util.Collections._
 import java.util.GregorianCalendar
 
 import com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser._
+import com.typesafe.sslconfig.util.NoopLogger
 import org.joda.time.{ DateTime, Instant }
 import org.specs2.mutable._
 
@@ -16,10 +17,12 @@ import scala.concurrent.duration._
 
 object AlgorithmCheckerSpec extends Specification {
 
+  val mkLogger = NoopLogger.factory()
+
   "AlgorithmChecker" should {
 
     def checker(sigs: Seq[String], keys: Seq[String]) = {
-      new AlgorithmChecker(sigs.map(s => parseAll(expression, s).get).toSet,
+      new AlgorithmChecker(mkLogger, sigs.map(s => parseAll(expression, s).get).toSet,
         keys.map(s => parseAll(expression, s).get).toSet)
     }
 
@@ -51,7 +54,7 @@ object AlgorithmCheckerSpec extends Specification {
 
       var infoCalled = false
       var warningCalled = false
-      val checker = new AlgorithmChecker(Set.empty, Set.empty) {
+      val checker = new AlgorithmChecker(mkLogger, Set.empty, Set.empty) {
         override def infoOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
           infoCalled = true
         }
@@ -70,7 +73,7 @@ object AlgorithmCheckerSpec extends Specification {
       val certificate = CertificateGenerator.generateRSAWithSHA1(2048, from = Instant.parse("2016-06-01T12:00:00Z"), duration = thirtyDays)
 
       var infoCalled = false
-      val checker = new AlgorithmChecker(Set.empty, Set.empty) {
+      val checker = new AlgorithmChecker(mkLogger, Set.empty, Set.empty) {
         override def infoOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
           infoCalled = true
         }
@@ -85,7 +88,7 @@ object AlgorithmCheckerSpec extends Specification {
       val certificate = CertificateGenerator.generateRSAWithSHA1(2048, from = Instant.parse("2016-06-01T12:00:00Z"), duration = tenYears)
 
       var warningCalled = false
-      val checker = new AlgorithmChecker(Set.empty, Set.empty) {
+      val checker = new AlgorithmChecker(mkLogger, Set.empty, Set.empty) {
         override def warnOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {
           warningCalled = true
         }

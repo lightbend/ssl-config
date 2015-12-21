@@ -4,6 +4,7 @@
 
 package com.typesafe.sslconfig.ssl
 
+import com.typesafe.sslconfig.util.NoopLogger
 import org.specs2.mutable._
 
 import org.specs2.mock._
@@ -17,12 +18,13 @@ import javax.security.auth.kerberos.KerberosPrincipal
 object DefaultHostnameVerifierSpec extends Specification with Mockito {
 
   "DefaultHostnameVerifier" should {
+    val mkLogger = NoopLogger.factory()
 
     "work" in {
       val session = mock[SSLSession]
       val mockChecker = mock[HostnameChecker]
 
-      val verifier = new DefaultHostnameVerifier() {
+      val verifier = new DefaultHostnameVerifier(mkLogger) {
         override def hostnameChecker = mockChecker
       }
 
@@ -43,7 +45,7 @@ object DefaultHostnameVerifierSpec extends Specification with Mockito {
       val mockChecker = mock[HostnameChecker]
       val cert = mock[X509Certificate]
 
-      val verifier = new DefaultHostnameVerifier() {
+      val verifier = new DefaultHostnameVerifier(mkLogger) {
         override def hostnameChecker = mockChecker
       }
 
@@ -61,7 +63,7 @@ object DefaultHostnameVerifierSpec extends Specification with Mockito {
       val mockChecker = mock[HostnameChecker]
       val cert = mock[X509Certificate]
 
-      val verifier = new DefaultHostnameVerifier() {
+      val verifier = new DefaultHostnameVerifier(mkLogger) {
         override def hostnameChecker = mockChecker
       }
 
@@ -79,7 +81,7 @@ object DefaultHostnameVerifierSpec extends Specification with Mockito {
       val mockChecker = mock[HostnameChecker]
       val principal = mock[Principal]
 
-      val verifier = new DefaultHostnameVerifier() {
+      val verifier = new DefaultHostnameVerifier(mkLogger) {
         override def hostnameChecker = mockChecker
         override def isKerberos(principal: Principal) = true
         override def matchKerberos(hostname: String, principal: Principal) = true
@@ -99,7 +101,7 @@ object DefaultHostnameVerifierSpec extends Specification with Mockito {
       val mockChecker = mock[HostnameChecker]
       val principal = mock[Principal]
 
-      val verifier = new DefaultHostnameVerifier() {
+      val verifier = new DefaultHostnameVerifier(mkLogger) {
         override def hostnameChecker = mockChecker
         override def isKerberos(principal: Principal) = true
         override def matchKerberos(hostname: String, principal: Principal) = false
@@ -119,7 +121,7 @@ object DefaultHostnameVerifierSpec extends Specification with Mockito {
       val mockChecker = mock[HostnameChecker]
       val principal = mock[Principal]
 
-      val verifier = new DefaultHostnameVerifier() {
+      val verifier = new DefaultHostnameVerifier(mkLogger) {
         override def hostnameChecker = mockChecker
         override def isKerberos(principal: Principal) = false
       }

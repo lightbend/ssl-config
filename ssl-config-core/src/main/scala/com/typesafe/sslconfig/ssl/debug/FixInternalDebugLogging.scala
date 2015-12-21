@@ -7,20 +7,20 @@ package com.typesafe.sslconfig.ssl.debug
 import com.typesafe.sslconfig.ssl._
 
 import java.security.AccessController
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 import scala.util.control.NonFatal
 
 /**
- * This fixes logging for the SSL Debug class.  It will worth for both Java 1.6 and Java 1.7 VMs.
+ * This fixes logging for the SSL Debug class. It will worth for both Java 1.6 and Java 1.7 VMs.
  */
-object FixInternalDebugLogging {
+class FixInternalDebugLogging(mkLogger: LoggerFactory) {
 
-  private val logger = NoDepsLogger.get("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging")
+  private val logger = mkLogger("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging")
 
   class MonkeyPatchInternalSslDebugAction(val newOptions: String) extends FixLoggingAction {
 
-    val logger = NoDepsLogger.get("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging.MonkeyPatchInternalSslDebugAction")
+    val logger = mkLogger("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging.MonkeyPatchInternalSslDebugAction")
 
     val initialResource = foldRuntime(
       older = "/javax/net/ssl/SSLContext.class", // in 1.6 the JSSE classes are in rt.jar
@@ -61,10 +61,10 @@ object FixInternalDebugLogging {
       val debugValue = if (isUsingDebug) newDebug else null
 
       var isPatched = false
-      for (
-        debugClass <- findClasses;
+      for {
+        debugClass <- findClasses
         debugField <- debugClass.getDeclaredFields
-      ) {
+      } {
         if (isValidField(debugField, debugType)) {
           logger.debug(s"run: patching $debugClass with $debugValue")
           monkeyPatchField(debugField, debugValue)
@@ -86,7 +86,7 @@ object FixInternalDebugLogging {
   }
 
   def apply(newOptions: String) {
-    logger.trace(s"apply: newOptions = ${newOptions}")
+    logger.debug(s"apply: newOptions = ${newOptions}")
 
     try {
       val action = new MonkeyPatchInternalSslDebugAction(newOptions)

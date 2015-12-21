@@ -5,7 +5,7 @@
 package com.typesafe.sslconfig.ssl.debug
 
 import java.security.AccessController
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 import scala.util.control.NonFatal
 import sun.security.util.Debug
@@ -19,12 +19,12 @@ import sun.security.util.Debug
  * Note that currently the only functionality is to turn debug output ON, with the assumption that all output will
  * go to an appropriately configured logger that can ignore calls to it.  There is no "off" method.
  */
-object FixCertpathDebugLogging {
+class FixCertpathDebugLogging(mkLogger: LoggerFactory) {
 
-  val logger = NoDepsLogger.get("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging")
+  val logger = mkLogger("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging")
 
   class MonkeyPatchSunSecurityUtilDebugAction(val newDebug: Debug, val newOptions: String) extends FixLoggingAction {
-    val logger = NoDepsLogger.get("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging.MonkeyPatchSunSecurityUtilDebugAction")
+    val logger = mkLogger("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging.MonkeyPatchSunSecurityUtilDebugAction")
 
     val initialResource = "/sun/security/provider/certpath/Builder.class"
 
@@ -58,10 +58,10 @@ object FixCertpathDebugLogging {
 
       val debugValue = if (isUsingDebug) newDebug else null
       var isPatched = false
-      for (
-        debugClass <- findClasses;
+      for {
+        debugClass <- findClasses
         debugField <- debugClass.getDeclaredFields
-      ) {
+      } {
         if (isValidField(debugField, debugType)) {
           logger.debug(s"run: Patching $debugClass with $debugValue")
           monkeyPatchField(debugField, debugValue)
@@ -102,7 +102,7 @@ object FixCertpathDebugLogging {
   }
 
   def apply(newOptions: String, debugOption: Option[Debug] = None) {
-    logger.trace(s"apply: newOptions = $newOptions, debugOption = $debugOption")
+    logger.debug(s"apply: newOptions = $newOptions, debugOption = $debugOption")
     try {
       val newDebug = debugOption match {
         case Some(d) => d

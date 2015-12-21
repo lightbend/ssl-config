@@ -5,7 +5,7 @@
 package com.typesafe.sslconfig.ssl.debug
 
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ NoopLogger, NoDepsLogger }
 import org.specs2.mutable.{ Specification, After }
 
 object DebugConfigurationSpec extends Specification with After {
@@ -19,8 +19,9 @@ object DebugConfigurationSpec extends Specification with After {
 
   // Loggers not needed, but useful to doublecheck that the code is doing what it should.
   // ./build test-only com.typesafe.sslconfig.ssl.debug.DebugConfigurationSpec
-  val internalDebugLogger = NoDepsLogger.get("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging")
-  val certpathDebugLogger = NoDepsLogger.get("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging")
+  val mkLogger = NoopLogger.factory()
+  val internalDebugLogger = mkLogger.apply("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging")
+  val certpathDebugLogger = mkLogger.apply("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging")
 
   "configure" should {
 
@@ -31,7 +32,7 @@ object DebugConfigurationSpec extends Specification with After {
       }
 
       val debugConfig = SSLDebugConfig(certpath = true)
-      val config = new DebugConfiguration()
+      val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 
       System.getProperty("java.security.debug") must contain("certpath")
@@ -41,7 +42,7 @@ object DebugConfigurationSpec extends Specification with After {
       System.setProperty("java.security.debug", "certpath")
 
       val debugConfig = SSLDebugConfig(certpath = false)
-      val config = new DebugConfiguration()
+      val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 
       System.getProperty("java.security.debug") must not contain ("certpath")
@@ -54,7 +55,7 @@ object DebugConfigurationSpec extends Specification with After {
       }
 
       val debugConfig = SSLDebugConfig(ssl = true)
-      val config = new DebugConfiguration()
+      val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 
       System.getProperty("javax.net.debug") must contain("ssl")
@@ -64,7 +65,7 @@ object DebugConfigurationSpec extends Specification with After {
       System.setProperty("javax.net.debug", "ssl")
 
       val debugConfig = SSLDebugConfig(ssl = false)
-      val config = new DebugConfiguration()
+      val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 
       System.getProperty("javax.net.debug") must not contain ("ssl")

@@ -6,12 +6,13 @@ package com.typesafe.sslconfig.akka
 
 import java.security.KeyStore
 import java.security.cert.CertPathValidatorException
-import javax.net.ssl.{ X509TrustManager, TrustManagerFactory, SSLContext, HostnameVerifier }
+import javax.net.ssl.{ HostnameVerifier, SSLContext, TrustManagerFactory, X509TrustManager }
 
 import akka.actor._
 import akka.event.Logging
-import com.typesafe.config.Config
+import com.typesafe.sslconfig.akka.util.AkkaLoggerFactory
 import com.typesafe.sslconfig.ssl._
+import com.typesafe.sslconfig.util.LoggerFactory
 
 object AkkaSSLConfig extends ExtensionId[AkkaSSLConfig] with ExtensionIdProvider {
 
@@ -26,6 +27,8 @@ object AkkaSSLConfig extends ExtensionId[AkkaSSLConfig] with ExtensionIdProvider
 }
 
 final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
+  private val mkLogger = new AkkaLoggerFactory(system)
+
   private val log = Logging(system, getClass)
   log.debug("Initializing AkkaSSLConfig extension...")
 
@@ -37,6 +40,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
 
   val hostnameVerifier = {
     val v = system.dynamicAccess.createInstanceFor[HostnameVerifier](config.hostnameVerifierClass, Nil)
+      .orElse(system.dynamicAccess.createInstanceFor[HostnameVerifier](config.hostnameVerifierClass, List(classOf[LoggerFactory] -> mkLogger)))
       .getOrElse(throw new Exception("Unable to obtain hostname verifier for class: " + config.hostnameVerifierClass))
 
     log.debug("hostnameVerifier: " + v)
@@ -52,7 +56,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
       // break out the static methods as much as we can...
       val keyManagerFactory = buildKeyManagerFactory(config)
       val trustManagerFactory = buildTrustManagerFactory(config)
-      new ConfigSSLContextBuilder(config, keyManagerFactory, trustManagerFactory).build()
+      new ConfigSSLContextBuilder(mkLogger, config, keyManagerFactory, trustManagerFactory).build()
     }
 
     // protocols!
@@ -118,7 +122,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
     //    val disabledKeyAlgorithms = sslConfig.disabledKeyAlgorithms.getOrElse(Algorithms.disabledKeyAlgorithms) // was Option
     val disabledKeyAlgorithms = sslConfig.disabledKeyAlgorithms.mkString(",") // TODO Sub optimal, we got a Seq...
     val constraints = AlgorithmConstraintsParser.parseAll(AlgorithmConstraintsParser.line, disabledKeyAlgorithms).get.toSet
-    val algorithmChecker = new AlgorithmChecker(keyConstraints = constraints, signatureConstraints = Set())
+    val algorithmChecker = new AlgorithmChecker(mkLogger, keyConstraints = constraints, signatureConstraints = Set())
     for (cert ← trustManager.getAcceptedIssuers) {
       try {
         algorithmChecker.checkKeyAlgorithms(cert)
@@ -138,7 +142,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
 
       case None ⇒
         // Otherwise, we return the default protocols in the given list.
-        Protocols.recommendedProtocols.filter(existingProtocols.contains).toArray
+        Protocols.recommendedProtocols.filter(existingProtocols.contains)
     }
 
     val allowWeakProtocols = sslConfig.loose.allowWeakProtocols

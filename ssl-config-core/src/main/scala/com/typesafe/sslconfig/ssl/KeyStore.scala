@@ -39,8 +39,6 @@ import KeystoreFormats._
  */
 class StringBasedKeyStoreBuilder(data: String) extends KeyStoreBuilder {
 
-  val logger = NoDepsLogger.get(getClass)
-
   def build(): KeyStore = {
     val certs = readCertificates(data)
     val store = loadCertificates(certs)
@@ -72,8 +70,6 @@ class StringBasedKeyStoreBuilder(data: String) extends KeyStoreBuilder {
 class FileBasedKeyStoreBuilder(keyStoreType: String,
                                filePath: String,
                                password: Option[Array[Char]]) extends KeyStoreBuilder {
-
-  val logger = NoDepsLogger.get(getClass)
 
   def build(): KeyStore = {
     val file = new File(filePath)

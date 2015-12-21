@@ -6,16 +6,16 @@ package com.typesafe.sslconfig.ssl
 
 import javax.net.ssl.{ SSLSession, HostnameVerifier }
 
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 /**
  * Add a disabled but complaining hostname verifier.
  */
-class DisabledComplainingHostnameVerifier extends HostnameVerifier {
+class DisabledComplainingHostnameVerifier(mkLogger: LoggerFactory) extends HostnameVerifier {
 
-  private val logger = NoDepsLogger.get(getClass)
+  private val logger = mkLogger(getClass)
 
-  private val defaultHostnameVerifier = new DefaultHostnameVerifier()
+  private val defaultHostnameVerifier = new DefaultHostnameVerifier(mkLogger)
 
   override def verify(hostname: String, sslSession: SSLSession): Boolean = {
     val hostNameMatches = defaultHostnameVerifier.verify(hostname, sslSession)

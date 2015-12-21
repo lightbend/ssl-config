@@ -8,18 +8,18 @@ import javax.net.ssl.{ SSLEngine, X509ExtendedKeyManager, X509KeyManager }
 import java.security.{ Principal, PrivateKey }
 import java.security.cert.{ CertificateException, X509Certificate }
 import java.net.Socket
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 import scala.collection.mutable.ArrayBuffer
 
 /**
  * A keymanager that wraps other X509 key managers.
  */
-class CompositeX509KeyManager(keyManagers: Seq[X509KeyManager]) extends X509ExtendedKeyManager {
+class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyManager]) extends X509ExtendedKeyManager {
   // Must specify X509ExtendedKeyManager: otherwise you get
   // "X509KeyManager passed to SSLContext.init():  need an X509ExtendedKeyManager for SSLEngine use"
 
-  private val logger = NoDepsLogger.get(getClass)
+  private val logger = mkLogger(getClass)
 
   logger.debug(s"CompositeX509KeyManager start: keyManagers = $keyManagers")
 
