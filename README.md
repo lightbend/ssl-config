@@ -12,6 +12,11 @@ implementations and/or defining additional settings for the Java runtime to use 
 Additional modules offer integration with Play WS (which by default utilises the Ning Async Http Client), 
 Akka Http and any other library which may need support from this library.
 
+Documentation
+=============
+
+Docs are available on: http://typesafehub.github.io/ssl-config
+
 Recommended reading
 ===================
 
