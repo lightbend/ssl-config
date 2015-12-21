@@ -1,9 +1,15 @@
 import sbtrelease.ReleasePlugin
+import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 
 val commonSettings = Seq(
   scalacOptions += "-target:jvm-1.6",
   javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 )
+
+val dontPublishSettings = Seq(
+   publishSigned := (),
+   publish := ()
+ )
 
 lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(commonSettings: _*)
@@ -18,6 +24,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   ).enablePlugins(ReleasePlugin)
 
 lazy val documentation = project.in(file("documentation"))
+  .settings(dontPublishSettings: _*)
 
 lazy val sslConfigAkka = project.in(file("ssl-config-akka"))
   .dependsOn(sslConfigCore)
@@ -41,3 +48,4 @@ lazy val root = project.in(file("."))
     sslConfigAkka,
 //    sslConfigPlay,
     documentation)
+  .settings(dontPublishSettings: _*)

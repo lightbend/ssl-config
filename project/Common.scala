@@ -21,9 +21,6 @@ object Common extends AutoPlugin {
   object sonatype extends PublishToSonatype {
      def projectUrl    = "https://github.com/typesafehub/config"
      def scmUrl        = "git://github.com/typesafehub/config.git"
-//     def developers    = List(
-//       Developer("wsargent", "Will Sargent", "https://tersesystems.com"),
-//       Developer("ktoso", "Konrad Malawski", "https://project13.pl"))
   }
 
   // AutomateHeaderPlugin is not an allRequirements-AutoPlugin, so explicitly add settings here:
@@ -76,7 +73,6 @@ abstract class PublishToSonatype {
 
   def licenseName         = "Apache License, Version 2.0"
   def licenseUrl          = "http://www.apache.org/licenses/LICENSE-2.0"
-//  def developers: List[Developer]
   def licenseDistribution = "repo"
   def scmUrl: String
   def scmConnection       = "scm:git:" + scmUrl
@@ -94,17 +90,6 @@ abstract class PublishToSonatype {
       <url>{ scmUrl }</url>
       <connection>{ scmConnection }</connection>
     </scm>
-//    <developers>
-//      {
-//        developers.map { dev =>
-//          <developer>
-//            <id>{ dev.id }</id>
-//            <name>{ dev.name }</name>
-//            <url>{ dev.url }</url>
-//          </developer>
-//        }
-//      }
-//    </developers>
   }
 
   def settings: Seq[Setting[_]] = Seq(
