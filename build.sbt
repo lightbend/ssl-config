@@ -27,13 +27,17 @@ lazy val sslConfigAkka = project.in(file("ssl-config-akka"))
     libraryDependencies ++= Dependencies.sslConfigAkka
   ).enablePlugins(ReleasePlugin)
 
-lazy val sslConfigPlay = project.in(file("ssl-config-play"))
-  .dependsOn(sslConfigCore)
-  .settings(commonSettings: _*)
-  .settings(
-    name := "ssl-config-play",
-    libraryDependencies ++= Dependencies.sslConfigPlay
-  ).enablePlugins(ReleasePlugin)
+//lazy val sslConfigPlay = project.in(file("ssl-config-play"))
+//  .dependsOn(sslConfigCore)
+//  .settings(commonSettings: _*)
+//  .settings(
+//    name := "ssl-config-play",
+//    libraryDependencies ++= Dependencies.sslConfigPlay
+//  ).enablePlugins(ReleasePlugin)
 
 lazy val root = project.in(file("."))
-  .aggregate(sslConfigCore, sslConfigAkka, sslConfigPlay, documentation)
+  .aggregate(
+    sslConfigCore,
+    sslConfigAkka,
+//    sslConfigPlay,
+    documentation)
