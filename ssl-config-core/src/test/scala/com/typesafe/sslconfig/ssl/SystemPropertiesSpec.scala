@@ -4,6 +4,7 @@
 
 package com.typesafe.sslconfig.ssl
 
+import com.typesafe.sslconfig.util.NoopLogger
 import org.specs2.mutable._
 import java.security.Security
 
@@ -13,7 +14,8 @@ object SystemPropertiesSpec extends Specification with After {
 
   def after = sp.clearProperties()
 
-  val sp = new SystemConfiguration()
+  val mkLogger = NoopLogger.factory()
+  val sp = new SystemConfiguration(mkLogger)
 
   "SystemProperties" should {
 

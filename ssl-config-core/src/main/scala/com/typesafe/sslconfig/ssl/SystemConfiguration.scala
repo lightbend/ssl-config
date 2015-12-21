@@ -6,7 +6,7 @@ package com.typesafe.sslconfig.ssl
 
 import java.security.Security
 
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 /**
  * Configures global system properties on the JSSE implementation, if defined.
@@ -16,9 +16,9 @@ import com.typesafe.sslconfig.util.NoDepsLogger
  * code works inconsistently.  The solution is to set the system properties on the command line explicitly (or in the
  * case of "ocsp.enable", in the security property file).
  */
-class SystemConfiguration {
+class SystemConfiguration(mkLogger: LoggerFactory) {
 
-  val logger = NoDepsLogger.get(getClass)
+  val logger = mkLogger(getClass)
 
   def configure(config: SSLConfig) {
     config.loose.allowUnsafeRenegotiation.foreach(configureUnsafeRenegotiation)

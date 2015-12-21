@@ -8,7 +8,7 @@ import java.security.cert.{ CertificateException, X509Certificate }
 import javax.net.ssl.{ HostnameVerifier, SSLPeerUnverifiedException, SSLSession }
 import javax.security.auth.kerberos.KerberosPrincipal
 import com.typesafe.sslconfig.Base64
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 import sun.security.util.HostnameChecker
 import java.security.Principal
 
@@ -18,7 +18,7 @@ import java.security.Principal
  * @see sun.security.util.HostnameChecker
  * @see http://kevinlocke.name/bits/2012/10/03/ssl-certificate-verification-in-dispatch-and-asynchttpclient/
  */
-class DefaultHostnameVerifier extends HostnameVerifier {
+class DefaultHostnameVerifier(mkLogger: LoggerFactory) extends HostnameVerifier {
 
   // AsyncHttpClient issue #197: "SSL host name verification disabled by default"
   // https://github.com/AsyncHttpClient/async-http-client/issues/197
@@ -33,7 +33,7 @@ class DefaultHostnameVerifier extends HostnameVerifier {
   // We are using SSLEngine directly, so we have to use the AsyncHttpClient Netty Provider to provide hostnname
   // verification.
 
-  private val logger = NoDepsLogger.get(getClass)
+  private val logger = mkLogger(getClass)
 
   def hostnameChecker: HostnameChecker = HostnameChecker.getInstance(HostnameChecker.TYPE_TLS)
 
@@ -57,7 +57,7 @@ class DefaultHostnameVerifier extends HostnameVerifier {
             case e: CertificateException =>
               // Certificate does not match hostname
               val subjectAltNames = cert.getSubjectAlternativeNames
-              logger.debug(s"verify: Certificate does not match hostname! subjectAltNames = $subjectAltNames, hostName = $hostname", e)
+              logger.debug(s"verify: Certificate does not match hostname! subjectAltNames = $subjectAltNames, hostName = $hostname Cause: $e")
               false
           }
 
@@ -81,7 +81,7 @@ class DefaultHostnameVerifier extends HostnameVerifier {
         } catch {
           case e: SSLPeerUnverifiedException =>
             // Can't verify principal, no principal
-            logger.debug("Can't verify principal, no principal", e)
+            logger.debug(s"Can't verify principal, no principal. Cause: $e")
             false
         }
     }

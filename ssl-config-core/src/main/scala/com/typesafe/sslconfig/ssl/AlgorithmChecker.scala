@@ -10,7 +10,7 @@ import java.util.{ Date, GregorianCalendar, Calendar }
 import javax.naming.InvalidNameException
 import javax.naming.ldap.{ LdapName, Rdn }
 
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 import scala.collection.JavaConverters._
 
@@ -25,9 +25,9 @@ import scala.collection.JavaConverters._
  * the trust anchor from the chain of certificates.  This means we need to check the trust anchor explicitly in the
  * through the CompositeTrustManager.
  */
-class AlgorithmChecker(val signatureConstraints: Set[AlgorithmConstraint], val keyConstraints: Set[AlgorithmConstraint]) extends PKIXCertPathChecker {
+class AlgorithmChecker(mkLogger: LoggerFactory, val signatureConstraints: Set[AlgorithmConstraint], val keyConstraints: Set[AlgorithmConstraint]) extends PKIXCertPathChecker {
 
-  private val logger = NoDepsLogger.get(classOf[AlgorithmChecker])
+  private val logger = mkLogger(getClass)
 
   private val signatureConstraintsMap: Map[String, AlgorithmConstraint] = {
     for (c <- signatureConstraints.iterator) yield {

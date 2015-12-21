@@ -10,7 +10,7 @@ import java.security.cert._
 import java.io._
 import java.net.URL
 
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 trait SSLContextBuilder {
   def build(): SSLContext
@@ -94,11 +94,12 @@ class DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm: String) extends T
 /**
  * Creates an SSL context builder from info objects.
  */
-class ConfigSSLContextBuilder(info: SSLConfig,
+class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
+                              info: SSLConfig,
                               keyManagerFactory: KeyManagerFactoryWrapper,
                               trustManagerFactory: TrustManagerFactoryWrapper) extends SSLContextBuilder {
 
-  protected val logger = NoDepsLogger.get(getClass)
+  protected val logger = mkLogger(getClass)
 
   def build(): SSLContext = {
 
@@ -107,7 +108,7 @@ class ConfigSSLContextBuilder(info: SSLConfig,
 
     val keySizeConstraints = info.disabledKeyAlgorithms.map(AlgorithmConstraintsParser.apply).toSet
 
-    val algorithmChecker = new AlgorithmChecker(signatureConstraints, keySizeConstraints)
+    val algorithmChecker = new AlgorithmChecker(mkLogger, signatureConstraints, keySizeConstraints)
 
     val keyManagers: Seq[KeyManager] = if (info.keyManagerConfig.keyStoreConfigs.nonEmpty) {
       Seq(buildCompositeKeyManager(info.keyManagerConfig, algorithmChecker))
@@ -133,7 +134,7 @@ class ConfigSSLContextBuilder(info: SSLConfig,
       ksc =>
         buildKeyManager(ksc, algorithmChecker)
     }
-    new CompositeX509KeyManager(keyManagers)
+    new CompositeX509KeyManager(mkLogger, keyManagers)
   }
 
   def buildCompositeTrustManager(trustManagerInfo: TrustManagerConfig,
@@ -144,7 +145,7 @@ class ConfigSSLContextBuilder(info: SSLConfig,
       tsc =>
         buildTrustManager(tsc, revocationEnabled, revocationLists, algorithmChecker)
     }
-    new CompositeX509TrustManager(trustManagers, algorithmChecker)
+    new CompositeX509TrustManager(mkLogger, trustManagers, algorithmChecker)
   }
 
   // Get either a string or file based keystore builder from config.

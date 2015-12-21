@@ -7,7 +7,7 @@ package com.typesafe.sslconfig.ssl
 import javax.net.ssl.X509TrustManager
 import java.security.cert._
 
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.NonFatal
@@ -17,9 +17,9 @@ import java.security.GeneralSecurityException
  * A trust manager that is a composite of several smaller trust managers.   It is responsible for verifying the
  * credentials received from a peer.
  */
-class CompositeX509TrustManager(trustManagers: Seq[X509TrustManager], algorithmChecker: AlgorithmChecker) extends X509TrustManager {
+class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509TrustManager], algorithmChecker: AlgorithmChecker) extends X509TrustManager {
 
-  private val logger = NoDepsLogger.get(getClass)
+  private val logger = mkLogger(getClass)
 
   def getAcceptedIssuers: Array[X509Certificate] = {
     logger.debug("getAcceptedIssuers: ")
@@ -99,13 +99,13 @@ class CompositeX509TrustManager(trustManagers: Seq[X509TrustManager], algorithmC
           block(trustManager)
         } catch {
           case e: CertPathBuilderException =>
-            logger.debug("No path found to certificate: this usually means the CA is not in the trust store", e)
+            logger.debug(s"No path found to certificate: this usually means the CA is not in the trust store. Cause: $e")
             exceptionList.append(e)
           case e: GeneralSecurityException =>
-            logger.debug("General security exception", e)
+            logger.debug(s"General security exception. Cause: $e")
             exceptionList.append(e)
           case NonFatal(e) =>
-            logger.debug("Unexpected exception!", e)
+            logger.debug(s"Unexpected exception! Cause: $e")
             exceptionList.append(e)
         }
     }

@@ -5,7 +5,7 @@
 package com.typesafe.sslconfig.ssl
 
 import java.security.{ KeyStore, SecureRandom, KeyPairGenerator, KeyPair }
-import com.typesafe.sslconfig.util.NoDepsLogger
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 import sun.security.x509._
 import java.util.Date
 import java.math.BigInteger
@@ -20,8 +20,8 @@ import java.security.interfaces.RSAPublicKey
  *
  * Was: play.core.server.ssl.FakeKeyStore
  */
-object FakeKeyStore {
-  private val logger = NoDepsLogger.get(FakeKeyStore.getClass)
+class FakeKeyStore(mkLogger: LoggerFactory) {
+  private val logger = mkLogger(getClass)
   val GeneratedKeyStore = "conf/generated.keystore"
   val DnName = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Moon Base 1, ST=Cyberspace, C=CY"
   val SignatureAlgorithmOID = AlgorithmId.sha256WithRSAEncryption_oid
@@ -146,7 +146,7 @@ object FakeKeyStore {
         closeable.close()
       }
     } catch {
-      case e: IOException => logger.warn("Error closing stream", e)
+      case e: IOException => logger.warn(s"Error closing stream. Cause: $e")
     }
   }
 
