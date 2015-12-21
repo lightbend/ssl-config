@@ -1,5 +1,6 @@
 SSL Config
 ==========
+![buildstatus](https://travis-ci.org/typesafehub/ssl-config.svg)
 
 Goal and purpose of this library is to make Play's WS librari as well as Akka HTTP "secure by default".
 Sadly, while Java's security has been steadily improving some settings are still left up to the user,
