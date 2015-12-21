@@ -6,13 +6,15 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _wsquickstart:
+
 Quick Start to WS SSL
 =====================
 
 This section is for people who need to connect to a remote web service
 over HTTPS, and don't want to read through the entire manual. If you
 need to set up a web service or configure client authentication, please
-proceed to the [[next section\|CertificateGeneration]].
+proceed to the :ref:`next section\ <CertificateGeneration>`.
 
 Connecting to a Remote Server over HTTPS
 ----------------------------------------
@@ -93,7 +95,7 @@ which will return a series of certificates in PEM format:
 which can be copied and pasted into a file. The very last certificate in
 the chain will be the root CA certificate.
 
-    **NOTE**: Not all websites will include the root CA certificate. You
+.. note:: Not all websites will include the root CA certificate. You
     should decode the certificate with keytool or with `certificate
     decoder <https://www.sslshopper.com/certificate-decoder.html>`__ to
     ensure you have the right certificate.
@@ -106,7 +108,7 @@ format specifically:
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       trustManager = {
         stores = [
           { type = "PEM", path = "/path/to/cert/globalsign.crt" }

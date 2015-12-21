@@ -6,10 +6,14 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _wsssl:
+
 Configuring WS SSL
 ==================
 
-[[Play WS\|ScalaWS]] allows you to set up HTTPS completely from a
+.. note:: ssl-config was originally part of Play's WS module.
+
+`Play WS <https://www.playframework.com/documentation/2.4.x/ScalaWS>`__ allows you to set up HTTPS completely from a
 configuration file, without the need to write code. It does this by
 layering the Java Secure Socket Extension (JSSE) with a configuration
 layer and with reasonable defaults.
@@ -21,19 +25,19 @@ than previous versions, and should be used if security is a priority.
 Table of Contents
 -----------------
 
--  [[Quick Start to WS SSL\|WSQuickStart]]
--  [[Generating X.509 Certificates\|CertificateGeneration]]
--  [[Configuring Trust Stores and Key Stores\|KeyStores]]
--  [[Configuring Protocols\|Protocols]]
--  [[Configuring Cipher Suites\|CipherSuites]]
--  [[Configuring Certificate Validation\|CertificateValidation]]
--  [[Configuring Certificate Revocation\|CertificateRevocation]]
--  [[Configuring Hostname Verification\|HostnameVerification]]
--  [[Example Configurations\|ExampleSSLConfig]]
--  [[Using the Default SSLContext\|DefaultContext]]
--  [[Debugging SSL Connections\|DebuggingSSL]]
--  [[Loose Options\|LooseSSL]]
--  [[Testing SSL\|TestingSSL]]
+-  :ref:`Quick Start to WS SSL <WSQuickStart>`
+-  :ref:`Generating X.509 Certificates <CertificateGeneration>`
+-  :ref:`Configuring Trust Stores and Key Stores <KeyStores>`
+-  :ref:`Configuring Protocols <Protocols>`
+-  :ref:`Configuring Cipher Suites <CipherSuites>`
+-  :ref:`Configuring Certificate Validation <CertificateValidation>`
+-  :ref:`Configuring Certificate Revocation <CertificateRevocation>`
+-  :ref:`Configuring Hostname Verification <HostnameVerification>`
+-  :ref:`Example Configurations <ExampleSSLConfig>`
+-  :ref:`Using the Default SSLContext <DefaultContext>`
+-  :ref:`Debugging SSL Connections <DebuggingSSL>`
+-  :ref:`Loose Options <LooseSSL>`
+-  :ref:`Testing SSL <TestingSSL>`
 
 Further Reading
 ---------------

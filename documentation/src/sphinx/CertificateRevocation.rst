@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _certificaterevocation:
+
 Configuring Certificate Revocation
 ==================================
 
@@ -36,7 +38,7 @@ client:
 
 ::
 
-    play.ws.ssl.checkRevocation = true
+    ssl-config.ssl.checkRevocation = true
 
 Setting ``checkRevocation`` will set the internal ``ocsp.enable``
 security property automatically:
@@ -57,7 +59,7 @@ Or, if you wish to use a static CRL list, you can define a list of URLs:
 
 ::
 
-    play.ws.ssl.revocationLists = [ "http://example.com/crl" ]
+    ssl-config.ssl.revocationLists = [ "http://example.com/crl" ]
 
 Debugging
 ---------
@@ -66,7 +68,7 @@ To test certificate revocation is enabled, set the following options:
 
 ::
 
-    play.ws.ssl.debug = {
+    ssl-config.ssl.debug = {
      certpath = true
      ocsp = true
     }

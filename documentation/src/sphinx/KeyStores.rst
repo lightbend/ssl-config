@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _keystores:
+
 Configuring Trust Stores and Key Stores
 =======================================
 
@@ -13,8 +15,7 @@ Trust stores and key stores contain X.509 certificates. Those
 certificates contain public (or private) keys, and are organized and
 managed under either a TrustManager or a KeyManager, respectively.
 
-If you need to generate X.509 certificates, please see [[Certificate
-Generation\|CertificateGeneration]] for more information.
+If you need to generate X.509 certificates, please see :ref:`Certificate Generation\ <CertificateGeneration>` for more information.
 
 Configuring a Trust Manager
 ---------------------------
@@ -41,7 +42,7 @@ will try each in order until it finds a match:
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       trustManager = {
           stores = [
             { path: ${store.directory}/truststore.jks, type: "JKS" }  # Added trust store
@@ -50,7 +51,7 @@ will try each in order until it finds a match:
       }
     }
 
-    **NOTE**: Trust stores should only contain CA certificates with
+.. note:: Trust stores should only contain CA certificates with
     public keys, usually JKS or PEM. PKCS12 format is supported, but
     PKCS12 should not contain private keys in a trust store, as noted in
     the `reference
@@ -70,7 +71,7 @@ may contain multiple stores in the same manner as the trust manager.
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
         keyManager = {
           stores = [
             {
@@ -82,7 +83,7 @@ may contain multiple stores in the same manner as the trust manager.
         }
     }
 
-    **NOTE**: A key store that holds private keys should use PKCS12
+.. note:: A key store that holds private keys should use PKCS12
     format, as indicated in the `reference
     guide <https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#SunJSSE>`__.
 
@@ -132,7 +133,7 @@ To debug the key manager / trust manager, set the following flags:
 
 ::
 
-    play.ws.ssl.debug = {
+    ssl-config.ssl.debug = {
       ssl = true
       trustmanager = true
       keymanager = true

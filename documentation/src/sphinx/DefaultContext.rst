@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _DefaultContext:
+
 Using the Default SSLContext
 ============================
 
@@ -14,7 +16,7 @@ want to use ``SSLContext.getDefault``, please set:
 
 ::
 
-    play.ws.ssl.default = true
+    ssl-config.ssl.default = true
 
 Debugging
 ---------
@@ -23,7 +25,7 @@ If you want to debug the default context,
 
 ::
 
-    play.ws.ssl.debug {
+    ssl-config.ssl.debug {
       ssl = true
       sslctx = true
       defaultctx = true

@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _testingssl:
+
 Testing SSL
 ===========
 
@@ -37,7 +39,7 @@ If you want confirmation that your client is correctly configured, you
 can call out to `HowsMySSL <https://www.howsmyssl.com/s/api.html>`__,
 which has an API to check JSSE settings.
 
-@\ `context <code/HowsMySSLSpec.scala>`__
+.. includecode:: ./code/HowsMySSLSpec.scala#context
 
 Note that if you are writing tests that involve custom configuration
 such as revocation checking or disabled algorithms, you may need to pass
@@ -54,7 +56,7 @@ There are several points of where a connection can be attacked. Writing
 these tests is fairly easy, and running these adversarial tests against
 unsuspecting programmers can be extremely satisfying.
 
-    **NOTE**:This should not be taken as a complete list, but as a
+.. note::This should not be taken as a complete list, but as a
     guide. In situations where security is paramount, a review should be
     done by professional info-sec consultants.
 
@@ -79,7 +81,7 @@ The server should send a cipher suite that includes NULL or ANON cipher
 suites in the handshake. If the client accepts it, it is sending
 unencrypted data.
 
-    **NOTE**: For a more in depth test of a server's cipher suites, see
+.. note:: For a more in depth test of a server's cipher suites, see
     `sslyze <https://github.com/iSECPartners/sslyze>`__.
 
 Testing Certificate Validation
@@ -93,7 +95,7 @@ To test for weak certificate, The server should send the client a
 certificate which contains a public key with a key size under 1024 bits.
 The client should reject it as being too weak.
 
-    **NOTE**: For a more in depth test of certification validation, see
+.. note:: For a more in depth test of certification validation, see
     `tlspretense <https://github.com/iSECPartners/tlspretense>`__ and
     `frankencert <https://github.com/sumanj/frankencert>`__.
 
@@ -104,5 +106,5 @@ Write a test to "https://example.com". If the server presents a
 certificate where the subjectAltName's dnsName is not example.com, the
 connection should terminate.
 
-    **NOTE**: For a more in depth test, see
+.. note:: For a more in depth test, see
     `dnschef <https://tersesystems.com/2014/03/31/testing-hostname-verification/>`__.

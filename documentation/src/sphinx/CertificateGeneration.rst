@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _CertificateGeneration:
+
 Generating X.509 Certificates
 =============================
 
@@ -42,7 +44,7 @@ Generating a random password
 Create a random password using pwgen (``brew install pwgen`` if you're
 on a Mac):
 
-@\ `context <code/genpassword.sh>`__
+.. includecode:: ./code/genpassword.sh
 
 Server Configuration
 --------------------
@@ -59,7 +61,7 @@ example.com certificate. The root CA certificate has a couple of
 additional attributes (ca:true, keyCertSign) that mark it explicitly as
 a CA certificate, and will be kept in a trust store.
 
-@\ `context <code/genca.sh>`__
+.. includecode:: ./code/genca.sh
 
 Generating example.com certificates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,7 +69,7 @@ Generating example.com certificates
 The example.com certificate is presented by the ``example.com`` server
 in the handshake.
 
-@\ `context <code/genserver.sh>`__
+.. includecode:: ./code/genserver.sh
 
 You should see:
 
@@ -81,8 +83,7 @@ You should see:
     Owner: CN=example.com, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
     Issuer: CN=exampleCA, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
 
-    **NOTE**: Also see the [[Configuring HTTPS\|ConfiguringHttps]]
-    section for more information.
+.. note:: Also see the :ref:`Configuring HTTPS` section for more information.
 
 Configuring example.com certificates in Nginx
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +94,7 @@ using nginx, you may need to export the certificates in PEM format.
 Unfortunately, keytool does not export private key information, so
 openssl must be installed to pull private keys.
 
-@\ `context <code/genserverexp.sh>`__
+.. includecode:: ./code/genserverexp.sh
 
 Now that you have both ``example.com.crt`` (the public key certificate)
 and ``example.com.key`` (the private key), you can set up an HTTPS
@@ -121,8 +122,7 @@ You can check the certificate is what you expect by checking the server:
 
     keytool -printcert -sslserver example.com
 
-    **NOTE**: Also see the [[Setting up a front end HTTP
-    server\|HTTPServer]] section for more information.
+.. note:: Also see the :ref:`Setting up a front end HTTP server\ <HTTPServer>` section for more information.
 
 Client Configuration
 --------------------
@@ -138,7 +138,7 @@ trusted, but don't need to see the private key. Generate a trust store
 which contains only the certificate and hand that out to clients. Many
 java clients prefer to have the trust store in JKS format.
 
-@\ `context <code/gentruststore.sh>`__
+.. includecode:: ./code/gentruststore.sh
 
 You should see a ``trustedCertEntry`` for exampleca:
 
@@ -155,7 +155,7 @@ The ``exampletrust.jks`` store will be used in the TrustManager.
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       trustManager = {
         stores = [
           { path = "/Users/wsargent/work/ssltest/conf/exampletrust.jks" }
@@ -163,8 +163,7 @@ The ``exampletrust.jks`` store will be used in the TrustManager.
       }
     }
 
-    **NOTE**: Also see the [[Configuring Key Stores and Trust
-    Stores\|KeyStores]] section for more information.
+.. note:: Also see the :ref:`Configuring Key Stores and Trust Stores\ <KeyStores>` section for more information.
 
 Configure Client Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,7 +185,7 @@ The steps to create a client CA and a signed client certificate are
 broadly similiar to the server certificate generation, but for
 convenience are presented in a single script:
 
-@\ `context <code/genclient.sh>`__
+.. includecode:: ./code/genclient.sh
 
 There should be one alias ``client``, looking like the following:
 
@@ -206,7 +205,7 @@ And put ``client.jks`` in the key manager:
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       keyManager = {
         stores = [
           { type = "JKS", path = "conf/client.jks", password = $PW }
@@ -214,8 +213,7 @@ And put ``client.jks`` in the key manager:
       }
     }
 
-    **NOTE**: Also see the [[Configuring Key Stores and Trust
-    Stores\|KeyStores]] section for more information.
+.. note:: Also see the :ref:`Configuring Key Stores and Trust Stores\ <KeyStores>` section for more information.
 
 Certificate Management Tools
 ----------------------------

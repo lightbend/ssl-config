@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _loosessl:
+
 Loose Options
 =============
 
@@ -100,7 +102,7 @@ Mitigation
 If you must turn on loose options, there are a couple of things you can
 do to minimize your exposure.
 
-**Custom WSClient**: You can create a [[custom WSClient\|ScalaWS]]
+**Custom Play WSClient**: You can create a `custom Play WSClient <https://www.playframework.com/documentation/2.4.x/ScalaWS>`__
 specifically for the server, using the
 ```WSConfigParser`` <api/scala/play/api/libs/ws/WSConfigParser.html>`__
 together with ``ConfigFactory.parseString``, and ensure it is never used
@@ -112,7 +114,7 @@ to ensure that any loose options are not hardcoded in configuration
 files, and therefore cannot escape an development environment.
 
 **Runtime / Deployment Checks**: You can add code to your deployment
-scripts or program that checks that ``play.ws.ssl.loose`` options are
+scripts or program that checks that ``ssl-config.ssl.loose`` options are
 not enabled in a production environment. The runtime mode can be found
 in the ```Application.mode`` <api/scala/play/api/Application.html>`__
 method.
@@ -125,16 +127,16 @@ Finally, here are the options themselves.
 Disabling Certificate Verification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    **NOTE**: In most cases, people turn off certificate verification
+.. note:: In most cases, people turn off certificate verification
     because they haven't generated certificates. **There are other
     options besides disabling certificate verification.**
 
-    -  [[Quick Start to WS SSL\|WSQuickStart]] shows how to connect
+    -  :ref:`Quick Start to WS SSL\ <WSQuickStart>` shows how to connect
        directly to a server using a self signed certificate.
-    -  [[Generating X.509 Certificates\|CertificateGeneration]] lists a
+    -  :ref:`Generating X.509 Certificates\ <CertificateGeneration>` lists a
        number of GUI applications that will generate certificates for
        you.
-    -  [[Example Configurations\|ExampleSSLConfig]] shows complete
+    -  :ref:`Example Configurations\ <ExampleSSLConfig>` shows complete
        configuration of TLS using self signed certificates.
     -  If you want to view your application through HTTPS, you can use
        `ngrok <https://ngrok.com/>`__ to proxy your application.
@@ -151,7 +153,7 @@ certificate verification, set the following;
 
 ::
 
-    play.ws.ssl.loose.acceptAnyCertificate=true
+    ssl-config.ssl.loose.acceptAnyCertificate=true
 
 With certificate verification completely disabled, you are vulnerable to
 attack from anyone on the network using a tool such as
@@ -171,7 +173,7 @@ set this flag:
 
 ::
 
-    play.ws.ssl.loose.allowWeakCiphers=true
+    ssl-config.ssl.loose.allowWeakCiphers=true
 
 With weak cipher checking disabled, you are vulnerable to attackers that
 use forged certificates, such as
@@ -184,7 +186,7 @@ If you want to disable hostname verification, you can set a loose flag:
 
 ::
 
-    play.ws.ssl.loose.acceptAnyCertificate=true
+    ssl-config.ssl.loose.acceptAnyCertificate=true
 
 With hostname verification disabled, a DNS proxy such as ``dnschef`` can
 `easily intercept
@@ -207,7 +209,7 @@ the check:
 
 ::
 
-    play.ws.ssl.loose.allowWeakProtocols=true
+    ssl-config.ssl.loose.allowWeakProtocols=true
 
 SSLv2 and SSLv2Hello (there is no v1) are obsolete and usage in the
 field is `down to 25% on the public

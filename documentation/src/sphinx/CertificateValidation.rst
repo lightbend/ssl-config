@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _certificatevalidation:
+
 Configuring Certificate Validation
 ==================================
 
@@ -47,7 +49,7 @@ The default list of disabled signature algorithms is defined below:
 
 ::
 
-    play.ws.ssl.disabledSignatureAlgorithms = "MD2, MD4, MD5"
+    ssl-config.ssl.disabledSignatureAlgorithms = "MD2, MD4, MD5"
 
 MD5 is disabled, based on the proven `collision
 attack <https://www.win.tue.nl/hashclash/rogue-ca/>`__ and the Mozilla
@@ -82,7 +84,7 @@ WS defines the default list of weak key sizes as follows:
 
 ::
 
-    play.ws.ssl.disabledKeyAlgorithms = "DHE keySize < 2048, ECDH keySize < 2048, ECDHE keySize < 2048, RSA keySize < 2048, DSA keySize < 2048, EC keySize < 224"
+    ssl-config.ssl.disabledKeyAlgorithms = "DHE keySize < 2048, ECDH keySize < 2048, ECDHE keySize < 2048, RSA keySize < 2048, DSA keySize < 2048, EC keySize < 224"
 
 These settings are based in part on
 `keylength.com <http://www.keylength.com/>`__, and in part on the
@@ -118,8 +120,7 @@ Disabling Weak Certificates Globally
 To disable signature algorithms and weak key sizes globally across the
 JVM, use the ``jdk.certpath.disabledAlgorithms`` `security
 property <http://sim.ivi.co/2011/07/java-se-7-release-security-enhancements.html>`__.
-Setting security properties is covered in more depth in [[Configuring
-Cipher Suites\|CipherSuites]] section.
+Setting security properties is covered in more depth in :ref:`Configuring Cipher Suites\ <CipherSuites>` section.
 
     **NOTE** if configured, the ``jdk.certpath.disabledAlgorithms``
     property should contain the settings from both
@@ -133,7 +134,7 @@ configuration:
 
 ::
 
-    play.ws.ssl.debug.certpath = true
+    ssl-config.ssl.debug.certpath = true
 
 The undocumented setting ``-Djava.security.debug=x509`` may also be
 helpful.

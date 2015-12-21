@@ -30,8 +30,11 @@ import shlex
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+sys.path.append(os.path.abspath('../_sphinx/exts'))
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.todo',
+    'includecode'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -123,7 +126,7 @@ html_theme_path = [alabaster.get_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = 'ssl-config documentation'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None

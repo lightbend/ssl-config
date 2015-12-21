@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _DebuggingSSL:
+
 Debugging SSL Connections
 =========================
 
@@ -19,12 +21,12 @@ and `Troubleshooting
 Security <https://docs.oracle.com/javase/8/docs/technotes/guides/security/troubleshooting-security.html>`__
 pages.
 
-To configure, set the ``play.ws.ssl.debug`` property in
+To configure, set the ``ssl-config.ssl.debug`` property in
 ``application.conf``:
 
 ::
 
-    play.ws.ssl.debug = {
+    ssl-config.ssl.debug = {
         # Turn on all debugging
         all = false
         # Turn on ssl debugging

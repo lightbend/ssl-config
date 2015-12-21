@@ -6,6 +6,8 @@
 
    <!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> -->
 
+.. _examplesslconfig:
+
 Example Configurations
 ======================
 
@@ -21,13 +23,12 @@ are arguably `more
 secure <http://www.thoughtcrime.org/blog/authenticity-is-broken-in-ssl-but-your-app-ha/>`__
 than the CA system.
 
-Generate a self signed certificate from the [[generating
-certificates\|CertificateGeneration]] section, and tell the client to
+Generate a self signed certificate from the :ref:`generating certificates\ <CertificateGeneration>` section, and tell the client to
 trust the CA's public certificate.
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       trustManager = {
         stores = [
           { type = "JKS", path = "exampletrust.jks" }
@@ -42,11 +43,11 @@ If you are using client authentication, then you need to include a
 keyStore to the key manager that contains a PrivateKeyEntry, which
 consists of a private key and the X.509 certificate containing the
 corresponding public key. See the "Configure Client Authentication"
-section in [[generating certificates\|CertificateGeneration]].
+section in :ref:`generating certificates\ <CertificateGeneration>`.
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       keyManager = {
         stores = [
           { type = "JKS", path = "client.jks", password = "changeit1" }
@@ -67,7 +68,7 @@ may find it more convenient to configure one client with several stores:
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       trustManager = {
         stores = [
           { type = "PEM", path = "service1.pem" }
@@ -82,7 +83,7 @@ manager with several stores:
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
         keyManager = {
         stores = [
           { type: "PKCS12", path: "keys/service1-client.p12", password: "changeit1" },
@@ -101,7 +102,7 @@ as well:
 
 ::
 
-    play.ws.ssl {
+    ssl-config.ssl {
       trustManager = {
         stores = [
           { path: exampletrust.jks }     # Added trust store
