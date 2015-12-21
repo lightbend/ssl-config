@@ -5,6 +5,8 @@ object Version {
   val jodaTime       = "2.9.1"
   val akkaActor      = "2.3.12"
 
+  val parserCombinators = "1.0.4"
+
   val scalaTest      = "2.2.4"
   val specs          = "3.6.6"
 }
@@ -20,6 +22,8 @@ object Library {
   val specsJunit        = "org.specs2"            %% "specs2-junit"             % Version.specs % "test"
   val specsMock         = "org.specs2"            %% "specs2-mock"              % Version.specs % "test"
   val specsMatcherExtra = "org.specs2"            %% "specs2-matcher-extra"     % Version.specs % "test"
+
+  val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators
 
   val scalaTest         = "org.scalatest"         %% "scalatest"                % Version.scalaTest % "test" // not used at this moment
   val jodaTime          = "joda-time"              % "joda-time"                % Version.jodaTime  % "test" // ONLY FOR TESTS!

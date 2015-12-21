@@ -9,7 +9,12 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(commonSettings: _*)
   .settings(
     name := "ssl-config-core",
-    libraryDependencies ++= Dependencies.sslConfigCore
+    libraryDependencies ++= Dependencies.sslConfigCore,
+    libraryDependencies ++= (
+      scalaBinaryVersion.value match {
+        case "2.10" => Seq.empty[ModuleID]
+        case _      => Seq(Library.parserCombinators)
+      })
   ).enablePlugins(ReleasePlugin)
 
 lazy val documentation = project.in(file("documentation"))
@@ -27,7 +32,7 @@ lazy val sslConfigPlay = project.in(file("ssl-config-play"))
   .settings(commonSettings: _*)
   .settings(
     name := "ssl-config-play",
-    libraryDependencies ++= Seq()
+    libraryDependencies ++= Dependencies.sslConfigPlay
   ).enablePlugins(ReleasePlugin)
 
 lazy val root = project.in(file("."))
