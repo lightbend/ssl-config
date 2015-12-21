@@ -7,13 +7,15 @@ package com.typesafe.sslconfig.ssl.debug
 import java.net.{ URLConnection, URL }
 import java.util.jar.{ JarEntry, JarInputStream }
 
-import com.typesafe.sslconfig.util.{ NeedsLogging, NoDepsLogger }
+import com.typesafe.sslconfig.util.NoDepsLogger
 
 /**
  * Loads a set of classes from a package (including ones which are NOT already in the classloader)
  * and return the set that
  */
-trait ClassFinder extends NeedsLogging {
+trait ClassFinder {
+
+  def logger: NoDepsLogger
 
   /**
    * A resource (in a jar file, usually) in the format "/java/lang/String.class".  This returns

@@ -20,7 +20,7 @@ class FixInternalDebugLogging(mkLogger: LoggerFactory) {
 
   class MonkeyPatchInternalSslDebugAction(val newOptions: String) extends FixLoggingAction {
 
-    val logger = mkLogger("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging.MonkeyPatchInternalSslDebugAction")
+    override val logger = mkLogger("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging.MonkeyPatchInternalSslDebugAction")
 
     val initialResource = foldRuntime(
       older = "/javax/net/ssl/SSLContext.class", // in 1.6 the JSSE classes are in rt.jar

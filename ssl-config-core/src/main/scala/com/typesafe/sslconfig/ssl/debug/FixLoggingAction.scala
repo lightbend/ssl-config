@@ -7,6 +7,7 @@ package com.typesafe.sslconfig.ssl.debug
 import java.lang.reflect.Field
 import java.security.PrivilegedExceptionAction
 import com.typesafe.sslconfig.ssl.MonkeyPatcher
+import com.typesafe.sslconfig.util.LoggerFactory
 
 /**
  * A privileged action that will find relevant classes containing static final fields of type T and replace
