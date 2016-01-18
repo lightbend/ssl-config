@@ -22,7 +22,8 @@ class DisabledComplainingHostnameVerifier(mkLogger: LoggerFactory) extends Hostn
     if (!hostNameMatches) {
       // TODO fix config paths
       val msg =
-        s"Hostname verification failed on hostname $hostname, but the connection was accepted because ws.ssl.disableHostnameVerification is enabled. " +
+        s"Hostname verification failed on hostname $hostname, " +
+          "but the connection was accepted because ssl-config.loose.disableHostnameVerification is enabled. " +
           "Please fix the X.509 certificate on the host to remove this warning."
       logger.warn(msg)
     }
