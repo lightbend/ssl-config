@@ -4,7 +4,7 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.security.cert.{ CertificateException, X509Certificate }
+import java.security.cert.{ Certificate, CertificateException, X509Certificate }
 import javax.net.ssl.{ HostnameVerifier, SSLPeerUnverifiedException, SSLSession }
 import javax.security.auth.kerberos.KerberosPrincipal
 import com.typesafe.sslconfig.Base64
@@ -45,27 +45,10 @@ class DefaultHostnameVerifier(mkLogger: LoggerFactory) extends HostnameVerifier 
     val base64 = Base64.rfc2045()
     logger.debug(s"verify: hostname = $hostname, sessionId (base64) = ${base64.encodeToString(session.getId, false)}")
 
-    val checker = hostnameChecker
     val result = try {
-      session.getPeerCertificates match {
-        case Array(cert: X509Certificate, _*) =>
-          try {
-            checker.`match`(hostname, cert)
-            // Certificate matches hostname
-            true
-          } catch {
-            case e: CertificateException =>
-              // Certificate does not match hostname
-              val subjectAltNames = cert.getSubjectAlternativeNames
-              logger.debug(s"verify: Certificate does not match hostname! subjectAltNames = $subjectAltNames, hostName = $hostname Cause: $e")
-              false
-          }
+      val peerCertificates = session.getPeerCertificates
 
-        case notMatch =>
-          // Peer does not have any certificates or they aren't X.509
-          logger.debug(s"verify: Peer does not have any certificates: $notMatch")
-          false
-      }
+      matchCertificates(hostname, peerCertificates)
     } catch {
       case _: SSLPeerUnverifiedException =>
         // Not using certificates for verification, try verifying the principal
@@ -89,4 +72,28 @@ class DefaultHostnameVerifier(mkLogger: LoggerFactory) extends HostnameVerifier 
     result
   }
 
+  /** INTERNAL API */
+  def matchCertificates(hostname: String, peerCertificates: Array[Certificate]): Boolean = {
+    val checker = hostnameChecker
+
+    peerCertificates match {
+      case Array(cert: X509Certificate, _*) =>
+        try {
+          checker.`match`(hostname, cert)
+          // Certificate matches hostname
+          true
+        } catch {
+          case e: CertificateException =>
+            // Certificate does not match hostname
+            val subjectAltNames = cert.getSubjectAlternativeNames
+            logger.debug(s"verify: Certificate does not match hostname! subjectAltNames = $subjectAltNames, hostName = $hostname Cause: $e")
+            false
+        }
+
+      case notMatch =>
+        // Peer does not have any certificates or they aren't X.509
+        logger.debug(s"verify: Peer does not have any certificates: $notMatch")
+        false
+    }
+  }
 }

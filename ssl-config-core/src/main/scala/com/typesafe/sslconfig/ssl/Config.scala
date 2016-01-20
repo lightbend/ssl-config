@@ -6,7 +6,8 @@ package com.typesafe.sslconfig.ssl
 
 import java.net.URL
 import java.security.{ KeyStore, SecureRandom }
-import javax.net.ssl.{ HostnameVerifier, KeyManagerFactory, TrustManagerFactory }
+import javax.net.ssl.{ SSLParameters, HostnameVerifier, KeyManagerFactory, TrustManagerFactory }
+import scala.collection.immutable
 
 import com.typesafe.config.Config
 import com.typesafe.sslconfig.util.EnrichedConfig
@@ -55,7 +56,7 @@ case class TrustStoreConfig(storeType: String = KeyStore.getDefaultType,
  */
 case class KeyManagerConfig(
   algorithm: String = KeyManagerFactory.getDefaultAlgorithm,
-  keyStoreConfigs: Seq[KeyStoreConfig] = Nil)
+  keyStoreConfigs: immutable.Seq[KeyStoreConfig] = Nil)
 
 /**
  * The trust manager config.
@@ -65,7 +66,7 @@ case class KeyManagerConfig(
  */
 case class TrustManagerConfig(
   algorithm: String = TrustManagerFactory.getDefaultAlgorithm,
-  trustStoreConfigs: Seq[TrustStoreConfig] = Nil)
+  trustStoreConfigs: immutable.Seq[TrustStoreConfig] = Nil)
 
 /**
  * SSL debug configuration.
@@ -158,6 +159,15 @@ case class SSLLooseConfig(
   acceptAnyCertificate: Boolean = false)
 
 /**
+ * Carries values which will be later set on an [[SSLParameters]] object.
+ *
+ * @param clientAuth see [[ClientAuth]] for detailed docs on ClientAuth modes
+ */
+case class SSLParametersConfig(
+  clientAuth: ClientAuth = ClientAuth.Default,
+  protocols: immutable.Seq[String] = Nil)
+
+/**
  * The SSL configuration.
  *
  * @param default Whether we should use the default JVM SSL configuration or not.
@@ -179,11 +189,12 @@ case class SSLConfig(
   default: Boolean = false,
   protocol: String = "TLSv1.2",
   checkRevocation: Option[Boolean] = None,
-  revocationLists: Option[Seq[URL]] = None,
-  enabledCipherSuites: Option[Seq[String]] = None,
-  enabledProtocols: Option[Seq[String]] = Some(Seq("TLSv1.2", "TLSv1.1", "TLSv1")),
-  disabledSignatureAlgorithms: Seq[String] = Seq("MD2", "MD4", "MD5"),
-  disabledKeyAlgorithms: Seq[String] = Seq("RSA keySize < 2048", "DSA keySize < 2048", "EC keySize < 224"),
+  revocationLists: Option[immutable.Seq[URL]] = None,
+  enabledCipherSuites: Option[immutable.Seq[String]] = None,
+  enabledProtocols: Option[immutable.Seq[String]] = Some(List("TLSv1.2", "TLSv1.1", "TLSv1")),
+  disabledSignatureAlgorithms: immutable.Seq[String] = List("MD2", "MD4", "MD5"),
+  disabledKeyAlgorithms: immutable.Seq[String] = List("RSA keySize < 2048", "DSA keySize < 2048", "EC keySize < 224"),
+  sslParametersConfig: SSLParametersConfig = SSLParametersConfig(),
   keyManagerConfig: KeyManagerConfig = KeyManagerConfig(),
   trustManagerConfig: TrustManagerConfig = TrustManagerConfig(),
   hostnameVerifierClass: Class[_ <: HostnameVerifier] = classOf[DefaultHostnameVerifier],
@@ -213,27 +224,29 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
     val default = c.get[Boolean]("default")
     val protocol = c.get[String]("protocol")
     val checkRevocation = c.getOptional[Boolean]("checkRevocation")
-    val revocationLists: Option[Seq[URL]] = Some(
-      c.get[Seq[String]]("revocationLists").map(new URL(_))
+    val revocationLists: Option[immutable.Seq[URL]] = Some(
+      c.getSeq[String]("revocationLists").map(new URL(_))
     ).filter(_.nonEmpty)
 
     val debug = parseDebug(c.get[EnrichedConfig]("debug"))
     val looseOptions = parseLooseOptions(c.get[EnrichedConfig]("loose"))
 
-    val ciphers = Some(c.get[Seq[String]]("enabledCipherSuites")).filter(_.nonEmpty)
-    val protocols = Some(c.get[Seq[String]]("enabledProtocols")).filter(_.nonEmpty)
+    val ciphers = Some(c.getSeq[String]("enabledCipherSuites")).filter(_.nonEmpty)
+    val protocols = Some(c.getSeq[String]("enabledProtocols")).filter(_.nonEmpty)
 
     val hostnameVerifierClass = c.getOptional[String]("hostnameVerifierClass") match {
       case None       => classOf[DefaultHostnameVerifier]
       case Some(fqcn) => classLoader.loadClass(fqcn).asSubclass(classOf[HostnameVerifier])
     }
 
-    val disabledSignatureAlgorithms = c.get[Seq[String]]("disabledSignatureAlgorithms")
-    val disabledKeyAlgorithms = c.get[Seq[String]]("disabledKeyAlgorithms")
+    val disabledSignatureAlgorithms = c.getSeq[String]("disabledSignatureAlgorithms")
+    val disabledKeyAlgorithms = c.getSeq[String]("disabledKeyAlgorithms")
 
     val keyManagers = parseKeyManager(c.get[EnrichedConfig]("keyManager"))
 
     val trustManagers = parseTrustManager(c.get[EnrichedConfig]("trustManager"))
+
+    val sslParametersConfig = parseSSLParameters(c.get[EnrichedConfig]("sslParameters"))
 
     SSLConfig(
       default = default,
@@ -246,6 +259,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
       hostnameVerifierClass = hostnameVerifierClass,
       disabledSignatureAlgorithms = disabledSignatureAlgorithms,
       disabledKeyAlgorithms = disabledKeyAlgorithms,
+      sslParametersConfig = sslParametersConfig,
       trustManagerConfig = trustManagers,
       secureRandom = None,
       debug = debug,
@@ -367,7 +381,6 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   /**
    * Parses the "ws.ssl.trustManager" section of configuration.
    */
-
   def parseTrustManager(config: EnrichedConfig): TrustManagerConfig = {
     val algorithm = config.getOptional[String]("algorithm") match {
       case None        => TrustManagerFactory.getDefaultAlgorithm
@@ -380,4 +393,41 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
 
     TrustManagerConfig(algorithm, trustStoreInfos)
   }
+
+  def parseSSLParameters(config: EnrichedConfig): SSLParametersConfig = {
+    // could instanciate SSLParameters directly, but seems less clean, here we only parse config
+
+    val clientAuth = config.getOptional[String]("clientAuth") match {
+      case Some("none")           => ClientAuth.None
+      case Some("want")           => ClientAuth.Want
+      case Some("need")           => ClientAuth.Need
+      case None | Some("default") => ClientAuth.Default
+    }
+
+    val protocols = config.getSeq[String]("protocols")
+
+    SSLParametersConfig(clientAuth, protocols)
+  }
+}
+
+/**
+ * An SSLEngine can either demand, allow or ignore its peer’s authentication
+ * (via certificates), where `Need` will fail the handshake if the peer does
+ * not provide valid credentials, `Want` allows the peer to send credentials
+ * and verifies them if provided, and `None` disables peer certificate
+ * verification.
+ *
+ * See the documentation for `SSLEngine::setWantClientAuth` for more information.
+ */
+sealed abstract class ClientAuth
+object ClientAuth {
+  case object Default extends ClientAuth
+  case object None extends ClientAuth
+  case object Want extends ClientAuth
+  case object Need extends ClientAuth
+
+  def none: ClientAuth = None
+  def want: ClientAuth = Want
+  def need: ClientAuth = Need
+  def defaultAuth: ClientAuth = Default // since `default` is a Java keyword
 }

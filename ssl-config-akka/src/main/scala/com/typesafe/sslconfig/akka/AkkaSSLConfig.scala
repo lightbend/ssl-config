@@ -6,7 +6,7 @@ package com.typesafe.sslconfig.akka
 
 import java.security.KeyStore
 import java.security.cert.CertPathValidatorException
-import javax.net.ssl.{ HostnameVerifier, SSLContext, TrustManagerFactory, X509TrustManager }
+import javax.net.ssl._
 
 import akka.actor._
 import akka.event.Logging
@@ -38,18 +38,11 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
     SSLConfigFactory.parse(akkaOverrides withFallback defaults)
   }
 
-  val hostnameVerifier = {
-    val v = system.dynamicAccess.createInstanceFor[HostnameVerifier](config.hostnameVerifierClass, Nil)
-      .orElse(system.dynamicAccess.createInstanceFor[HostnameVerifier](config.hostnameVerifierClass, List(classOf[LoggerFactory] -> mkLogger)))
-      .getOrElse(throw new Exception("Unable to obtain hostname verifier for class: " + config.hostnameVerifierClass))
-
-    log.debug("hostnameVerifier: " + v)
-    v
-  }
+  val hostnameVerifier = buildHostnameVerifier(config)
 
   val sslEngineConfigurator = {
     val sslContext = if (config.default) {
-      log.info("buildSSLContext: ssl-config.default is true, using default SSLContext")
+      log.info("ssl-config.default is true, using the JDK's default SSLContext")
       validateDefaultTrustManager(config)
       SSLContext.getDefault
     } else {
@@ -91,15 +84,16 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
   }
 
   def buildHostnameVerifier(conf: SSLConfig): HostnameVerifier = {
-    val hostnameVerifierClass = conf.hostnameVerifierClass
-    log.debug("buildHostnameVerifier: enabling hostname verification using {}", hostnameVerifierClass)
+    val clazz: Class[HostnameVerifier] =
+      if (config.loose.disableHostnameVerification) classOf[DisabledComplainingHostnameVerifier].asInstanceOf[Class[HostnameVerifier]]
+      else config.hostnameVerifierClass.asInstanceOf[Class[HostnameVerifier]]
 
-    try {
-      hostnameVerifierClass.newInstance()
-    } catch {
-      case e: Exception ⇒
-        throw new IllegalStateException("Cannot configure hostname verifier!", e)
-    }
+    val v = system.dynamicAccess.createInstanceFor[HostnameVerifier](clazz, Nil)
+      .orElse(system.dynamicAccess.createInstanceFor[HostnameVerifier](clazz, List(classOf[LoggerFactory] -> mkLogger)))
+      .getOrElse(throw new Exception("Unable to obtain hostname verifier for class: " + clazz))
+
+    log.debug("buildHostnameVerifier: created hostname verifier: {}", v)
+    v
   }
 
   def validateDefaultTrustManager(sslConfig: SSLConfig) {

@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit
 import com.typesafe.config._
 
 import scala.collection.JavaConverters._
+import scala.collection.immutable
 import scala.concurrent.duration.FiniteDuration
 
 /** Based on PlayConfig, adds some helper methods over underlying Config. */
@@ -18,6 +19,10 @@ class EnrichedConfig(val underlying: Config) {
    * Get the config at the given path.
    */
   def get[A](path: String)(implicit loader: ConfigLoader[A]): A = {
+    loader.load(underlying, path)
+  }
+
+  def getSeq[A](path: String)(implicit loader: ConfigLoader[immutable.Seq[A]]): immutable.Seq[A] = {
     loader.load(underlying, path)
   }
 
@@ -42,11 +47,11 @@ class EnrichedConfig(val underlying: Config) {
    *
    * Each object in the sequence will fallback to the object loaded from prototype.$path.
    */
-  def getPrototypedSeq(path: String, prototypePath: String = "prototype.$path"): Seq[EnrichedConfig] = {
+  def getPrototypedSeq(path: String, prototypePath: String = "prototype.$path"): immutable.Seq[EnrichedConfig] = {
     val prototype = underlying.getConfig(prototypePath.replace("$path", path))
     get[Seq[Config]](path).map { config =>
       new EnrichedConfig(config.withFallback(prototype))
-    }
+    }.toList
   }
 
   /**
@@ -170,7 +175,7 @@ object ConfigLoader {
 
   import scala.collection.JavaConverters._
 
-  private def toScala[A](as: java.util.List[A]): Seq[A] = as.asScala
+  private def toScala[A](as: java.util.List[A]): immutable.Seq[A] = as.asScala.toVector
 
   implicit val stringLoader = ConfigLoader(_.getString)
   implicit val seqStringLoader = ConfigLoader(_.getStringList).map(toScala)
