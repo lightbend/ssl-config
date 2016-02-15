@@ -23,10 +23,24 @@ if [ $# != "1" ]; then
   fail "A release version must be specified"
 fi
 
+# get the current project version from sbt
+# a little messy as the ansi escape codes are included
+function get_current_version {
+  local result=$(sbt version | grep -v warn | tail -1 | cut -f2)
+  # remove ansi escape code from end
+  local code0=$(echo -e "\033[0m")
+  echo ${result%$code0}
+}
+
 (read -p "The working directory will now be cleaned from all non-tracked files. Are you sure you want this? " x; test "$x" = yes) || fail "bailing out"
 git clean -fxd || fail "cannot git clean -fxd"
 
+declare -r currentVersion=$(get_current_version)
 declare -r version=$1
+
+echo "Updating version.sbt to $version..."
+sed -i "s/$currentVersion/$version/" version.sbt
+git commit version.sbt -m "Update version to $version"
 
 echo "Publishing artifacts..."
 sbt '+publishSigned'
