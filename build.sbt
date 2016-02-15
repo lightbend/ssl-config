@@ -1,4 +1,5 @@
 import com.typesafe.sbt.osgi.SbtOsgi
+import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 import sbtrelease.ReleasePlugin
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 
@@ -24,7 +25,13 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       }),
     osgiSettings,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
-    OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}")
+    OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
+    OsgiKeys.requireBundle := (
+      scalaBinaryVersion.value match {
+        case "2.10" => Nil
+        case _ => Seq(s"""org.scala-lang.modules.scala-parser-combinators;bundle-version="${Version.parserCombinators}"""")
+      }
+    )
   ).enablePlugins(ReleasePlugin, SbtOsgi)
 
 lazy val documentation = project.in(file("documentation"))
