@@ -59,7 +59,7 @@ git commit -m "Releasing docs for $version"
 git push origin gh-pages
 
 echo "Tagging release..."
-git tag -m "Releasing $version" $version
+git tag -m "Releasing $version" "v$version"
 git push --tags
 
 git checkout master
