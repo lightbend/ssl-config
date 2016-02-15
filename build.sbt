@@ -26,12 +26,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     osgiSettings,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
-    OsgiKeys.requireBundle := (
-      scalaBinaryVersion.value match {
-        case "2.10" => Nil
-        case _ => Seq(s"""org.scala-lang.modules.scala-parser-combinators;bundle-version="${Version.parserCombinators}"""")
-      }
-    )
+    OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*")
   ).enablePlugins(ReleasePlugin, SbtOsgi)
 
 lazy val documentation = project.in(file("documentation"))
@@ -45,8 +40,8 @@ lazy val sslConfigAkka = project.in(file("ssl-config-akka"))
     libraryDependencies ++= Dependencies.sslConfigAkka,
     osgiSettings,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig.akka",
-    OsgiKeys.requireBundle := Seq(s"""com.typesafe.sslconfig;bundle-version="${version.value}""""),
-    OsgiKeys.exportPackage := Seq("com.typesafe.sslconfig.akka.*")
+    OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.akka.*;version=${version.value}"),
+    OsgiKeys.requireBundle := Seq(s"""com.typesafe.sslconfig;bundle-version="${version.value}"""")
   ).enablePlugins(ReleasePlugin, SbtOsgi)
 
 //lazy val sslConfigPlay = project.in(file("ssl-config-play"))
@@ -64,3 +59,8 @@ lazy val root = project.in(file("."))
 //    sslConfigPlay,
     documentation)
   .settings(dontPublishSettings: _*)
+
+
+// JDK6: 1.2.0, Akka 2.4: 1.3.0
+def configImport(packageName: String = "com.typesafe.config.*") = versionedImport(packageName, "1.2.0", "1.4.0")
+def versionedImport(packageName: String, lower: String, upper: String) = s"""$packageName;version="[$lower,$upper)""""
