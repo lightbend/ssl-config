@@ -15,6 +15,7 @@ val dontPublishSettings = Seq(
 
 lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(commonSettings: _*)
+  .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-core",
     libraryDependencies ++= Dependencies.sslConfigCore,
@@ -23,7 +24,6 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
         case "2.10" => Seq.empty[ModuleID]
         case _      => Seq(Library.parserCombinators)
       }),
-    osgiSettings,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
     OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*")
@@ -35,10 +35,10 @@ lazy val documentation = project.in(file("documentation"))
 lazy val sslConfigAkka = project.in(file("ssl-config-akka"))
   .dependsOn(sslConfigCore)
   .settings(commonSettings: _*)
+  .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-akka",
     libraryDependencies ++= Dependencies.sslConfigAkka,
-    osgiSettings,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig.akka",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.akka.*;version=${version.value}"),
     OsgiKeys.requireBundle := Seq(s"""com.typesafe.sslconfig;bundle-version="${version.value}"""")
