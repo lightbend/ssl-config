@@ -6,10 +6,12 @@ package com.typesafe.sslconfig.akka
 
 import java.security.KeyStore
 import java.security.cert.CertPathValidatorException
+import java.util.Collections
 import javax.net.ssl._
 
 import akka.actor._
 import akka.event.Logging
+import com.typesafe.config.Config
 import com.typesafe.sslconfig.akka.util.AkkaLoggerFactory
 import com.typesafe.sslconfig.ssl._
 import com.typesafe.sslconfig.util.LoggerFactory
@@ -26,17 +28,23 @@ object AkkaSSLConfig extends ExtensionId[AkkaSSLConfig] with ExtensionIdProvider
     new AkkaSSLConfig(system)
 }
 
-final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
+final class AkkaSSLConfig(system: ExtendedActorSystem, _config: Config) extends Extension {
+  def this(system: ExtendedActorSystem) = this(system, system.settings.config.getConfig("akka.ssl-config"))
+
   private val mkLogger = new AkkaLoggerFactory(system)
 
   private val log = Logging(system, getClass)
   log.debug("Initializing AkkaSSLConfig extension...")
 
   val config = {
-    val akkaOverrides = system.settings.config.getConfig("akka.ssl-config")
+    val akkaOverrides = _config
     val defaults = system.settings.config.getConfig("ssl-config")
     SSLConfigFactory.parse(akkaOverrides withFallback defaults)
   }
+
+  /** Can be used to modify the underlying config, most typically used to change a few values in the default config */
+  def withConfig(c: Config): AkkaSSLConfig =
+    new AkkaSSLConfig(system, c)
 
   val hostnameVerifier = buildHostnameVerifier(config)
 
@@ -61,14 +69,11 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
     val defaultCiphers = defaultParams.getCipherSuites
     val cipherSuites = configureCipherSuites(defaultCiphers, config)
 
+    // apply "loose" settings
+    // !! SNI!
+    looseDisableSNI(defaultParams)
+
     new DefaultSSLEngineConfigurator(config, protocols, cipherSuites)
-  }
-
-  runChecks()
-
-  def runChecks(): Unit = {
-    // TODO, check: -Djdk.tls.ephemeralDHKeySize=2048
-    // TODO ...
   }
 
   ////////////////// CONFIGURING //////////////////////
@@ -122,7 +127,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
         algorithmChecker.checkKeyAlgorithms(cert)
       } catch {
         case e: CertPathValidatorException ⇒
-          log.warning("You are using ws.ssl.default=true and have a weak certificate in your default trust store!  (You can modify akka.ssl-config.disabledKeyAlgorithms to remove this message.)", e)
+          log.warning("You are using ssl-config.default=true and have a weak certificate in your default trust store! (You can modify akka.ssl-config.disabledKeyAlgorithms to remove this message.)", e)
       }
     }
   }
@@ -144,7 +149,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
       val deprecatedProtocols = Protocols.deprecatedProtocols
       for (deprecatedProtocol <- deprecatedProtocols) {
         if (definedProtocols.contains(deprecatedProtocol)) {
-          throw new IllegalStateException(s"Weak protocol $deprecatedProtocol found in ws.ssl.protocols!")
+          throw new IllegalStateException(s"Weak protocol $deprecatedProtocol found in ssl-config.protocols!")
         }
       }
     }
@@ -166,10 +171,22 @@ final class AkkaSSLConfig(system: ExtendedActorSystem) extends Extension {
       val deprecatedCiphers = Ciphers.deprecatedCiphers
       for (deprecatedCipher <- deprecatedCiphers) {
         if (definedCiphers.contains(deprecatedCipher)) {
-          throw new IllegalStateException(s"Weak cipher $deprecatedCipher found in ws.ssl.ciphers!")
+          throw new IllegalStateException(s"Weak cipher $deprecatedCipher found in ssl-config.ciphers!")
         }
       }
     }
     definedCiphers
   }
+
+  // LOOSE SETTINGS //
+
+  private def looseDisableSNI(defaultParams: SSLParameters): Unit = if (config.loose.disableSNI) {
+    // this will be logged once for each AkkaSSLConfig
+    log.warning("You are using ssl-config.loose.disableSNI=true! " +
+      "It is strongly discouraged to disable Server Name Indication, as it is crucial to preventing man-in-the-middle attacks.")
+
+    defaultParams.setServerNames(Collections.emptyList())
+    defaultParams.setSNIMatchers(Collections.emptyList())
+  }
+
 }

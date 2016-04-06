@@ -31,7 +31,7 @@ object DebugConfigurationSpec extends Specification with After {
         case None        => ok
       }
 
-      val debugConfig = SSLDebugConfig(certpath = true)
+      val debugConfig = SSLDebugConfig().withCertPath(true)
       val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 
@@ -41,7 +41,7 @@ object DebugConfigurationSpec extends Specification with After {
     "turn off java.security.debug code" in {
       System.setProperty("java.security.debug", "certpath")
 
-      val debugConfig = SSLDebugConfig(certpath = false)
+      val debugConfig = SSLDebugConfig().withCertPath(false)
       val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 
@@ -54,7 +54,7 @@ object DebugConfigurationSpec extends Specification with After {
         case None        => ok
       }
 
-      val debugConfig = SSLDebugConfig(ssl = true)
+      val debugConfig = SSLDebugConfig().withSsl(true)
       val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 
@@ -64,7 +64,7 @@ object DebugConfigurationSpec extends Specification with After {
     "turn off javax.ssl.debug code" in {
       System.setProperty("javax.net.debug", "ssl")
 
-      val debugConfig = SSLDebugConfig(ssl = false)
+      val debugConfig = SSLDebugConfig().withSsl(false)
       val config = new DebugConfiguration(mkLogger)
       config.configure(debugConfig)
 

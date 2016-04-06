@@ -76,22 +76,22 @@ object SSLConfigParserSpec extends Specification {
     "parse ssl-config.debug section" in {
       val actual = parseThis("""
                                 |debug = {
-                                |certpath = true
-                                |ssl = true
-                                |defaultctx = true
-                                |handshake = true
+                                |  certpath = true
+                                |  ssl = true
+                                |  defaultctx = true
+                                |  handshake = true
                                 |  verbose = true
                                 |  data = true
-                                |keygen = true
-                                |keymanager = true
-                                |pluggability = true
-                                |record = true
+                                |  keygen = true
+                                |  keymanager = true
+                                |  pluggability = true
+                                |  record = true
                                 |  packet = true
                                 |  plaintext = true
-                                |session = true
-                                |sessioncache = true
-                                |sslctx = true
-                                |trustmanager = true
+                                |  session = true
+                                |  sessioncache = true
+                                |  sslctx = true
+                                |  trustmanager = true
                                 |}
                               """.stripMargin)
 
@@ -123,8 +123,8 @@ object SSLConfigParserSpec extends Specification {
     "parse ssl-config.debug section with all" in {
       val actual = parseThis("""
                                 |debug = {
-                                |certpath = true
-                                |all = true
+                                |  certpath = true
+                                |  all = true
                                 |}
                               """.stripMargin)
 
@@ -139,7 +139,7 @@ object SSLConfigParserSpec extends Specification {
     "parse ssl-config.debug section with ssl" in {
       val actual = parseThis("""
                                 |debug = {
-                                |ssl = true
+                                |  ssl = true
                                 |}
                               """.stripMargin)
       actual.debug.enabled must beTrue

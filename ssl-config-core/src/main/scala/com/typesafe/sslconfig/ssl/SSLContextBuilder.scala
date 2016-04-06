@@ -179,9 +179,8 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
   /**
    * Returns true if the keystore should throw an exception as a result of the JSSE bug 6879539, false otherwise.
    */
-  def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean = {
+  def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean =
     ksc.storeType.equalsIgnoreCase("pkcs12") && !ksc.password.exists(!_.isEmpty)
-  }
 
   /**
    * Builds a key manager from a keystore, using the KeyManagerFactory.
