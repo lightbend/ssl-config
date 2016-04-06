@@ -50,7 +50,7 @@ object SSLConfigParserSpec extends Specification {
       actual.secureRandom must beNone
     }
 
-    "parse ws.ssl.loose section" in {
+    "parse ssl-config.loose section" in {
       val actual = parseThis("""
                                 |loose = {
                                 | allowLegacyHelloMessages = true
@@ -73,7 +73,7 @@ object SSLConfigParserSpec extends Specification {
       parseThis("").debug.enabled must beFalse
     }
 
-    "parse ws.ssl.debug section" in {
+    "parse ssl-config.debug section" in {
       val actual = parseThis("""
                                 |debug = {
                                 |certpath = true
@@ -120,7 +120,7 @@ object SSLConfigParserSpec extends Specification {
       actual.debug.trustmanager must beTrue
     }
 
-    "parse ws.ssl.debug section with all" in {
+    "parse ssl-config.debug section with all" in {
       val actual = parseThis("""
                                 |debug = {
                                 |certpath = true
@@ -136,7 +136,7 @@ object SSLConfigParserSpec extends Specification {
       actual.debug.all must beTrue
     }
 
-    "parse ws.ssl.debug section with ssl" in {
+    "parse ssl-config.debug section with ssl" in {
       val actual = parseThis("""
                                 |debug = {
                                 |ssl = true
@@ -146,7 +146,7 @@ object SSLConfigParserSpec extends Specification {
       actual.debug.ssl must beTrue
     }
 
-    "parse ws.ssl.trustBuilder section" in {
+    "parse ssl-config.trustBuilder section" in {
       val info = parseThis("""
                               |trustManager = {
                               |  algorithm = "trustme"
@@ -163,7 +163,7 @@ object SSLConfigParserSpec extends Specification {
       tsi.storeType must_== "storeType"
     }
 
-    "parse ws.ssl.keyManager section" in {
+    "parse ssl-config.keyManager section" in {
       val info = parseThis("""
                               |keyManager = {
                               |  password = "changeit"
@@ -192,7 +192,7 @@ object SSLConfigParserSpec extends Specification {
       stringStoreConfig.data must beSome.which(_ must beEqualTo("data"))
     }
 
-    "fail on ws.ssl.keyManager with no path defined" in {
+    "fail on ssl-config.keyManager with no path defined" in {
       parseThis("""
                    |keyManager = {
                    |  algorithm = "keyStore"

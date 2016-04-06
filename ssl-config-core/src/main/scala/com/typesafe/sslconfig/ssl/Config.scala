@@ -269,7 +269,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   }
 
   /**
-   * Parses "ws.ssl.loose" section.
+   * Parses "ssl-config.loose" section.
    */
   def parseLooseOptions(config: EnrichedConfig): SSLLooseConfig = {
 
@@ -293,7 +293,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   }
 
   /**
-   * Parses the "ws.ssl.debug" section.
+   * Parses the "ssl-config.debug" section.
    */
   def parseDebug(config: EnrichedConfig): SSLDebugConfig = {
     val certpath = config.get[Boolean]("certpath")
@@ -343,7 +343,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   }
 
   /**
-   * Parses the "ws.ssl.keyManager { stores = [ ... ]" section of configuration.
+   * Parses the "ssl-config.keyManager { stores = [ ... ]" section of configuration.
    */
   def parseKeyStoreInfo(config: EnrichedConfig): KeyStoreConfig = {
     val storeType = config.getOptional[String]("type").getOrElse(KeyStore.getDefaultType)
@@ -355,7 +355,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   }
 
   /**
-   * Parses the "ws.ssl.trustManager { stores = [ ... ]" section of configuration.
+   * Parses the "ssl-config.trustManager { stores = [ ... ]" section of configuration.
    */
   def parseTrustStoreInfo(config: EnrichedConfig): TrustStoreConfig = {
     val storeType = config.getOptional[String]("type").getOrElse(KeyStore.getDefaultType)
@@ -366,7 +366,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   }
 
   /**
-   * Parses the "ws.ssl.keyManager" section of the configuration.
+   * Parses the "ssl-config.keyManager" section of the configuration.
    */
   def parseKeyManager(config: EnrichedConfig): KeyManagerConfig = {
 
@@ -383,7 +383,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   }
 
   /**
-   * Parses the "ws.ssl.trustManager" section of configuration.
+   * Parses the "ssl-config.trustManager" section of configuration.
    */
   def parseTrustManager(config: EnrichedConfig): TrustManagerConfig = {
     val algorithm = config.getOptional[String]("algorithm") match {
