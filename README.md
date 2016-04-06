@@ -12,6 +12,19 @@ implementations and/or defining additional settings for the Java runtime to use 
 Additional modules offer integration with Play WS (which by default utilises the Ning Async Http Client), 
 Akka Http and any other library which may need support from this library.
 
+State of this project
+=====================
+
+ssl-config at this point in time is used primarily internally in Akka HTTP, and is being evolved
+towards being "the place" one configures all possible SSL/TLS related settings, mostly focused on 
+the client side of things. 
+
+The project is hosted externally of either Akka or Play, in order to foster convergence and re-use
+of the more tricky bits of configuring TLS.
+
+Binary compatibility is **not guaranteed** between versions (in the `0.x.z` series) of ssl-config at this point in time.
+We aim to stabilise the APIs and provide a stable release eventually. 
+
 Documentation
 =============
 
@@ -32,4 +45,4 @@ An excellent series by [Will Sargent](https://github.com/wsargent) about making
 License
 =======
 
-Typesafe 2015, Apache 2.0
+Lightbend 2015-2016, Apache 2.0

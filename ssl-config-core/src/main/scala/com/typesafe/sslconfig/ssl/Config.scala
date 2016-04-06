@@ -24,7 +24,7 @@ import scala.language.existentials
  * @param data The data to load the key store file from.
  * @param password The password to use to load the key store file, if the file is password protected.
  */
-case class KeyStoreConfig(storeType: String = KeyStore.getDefaultType,
+final case class KeyStoreConfig(storeType: String = KeyStore.getDefaultType,
                           filePath: Option[String] = None,
                           data: Option[String] = None,
                           password: Option[String] = None) {
@@ -41,7 +41,7 @@ case class KeyStoreConfig(storeType: String = KeyStore.getDefaultType,
  * @param filePath The path of the key store file.
  * @param data The data to load the key store file from.
  */
-case class TrustStoreConfig(storeType: String = KeyStore.getDefaultType,
+final case class TrustStoreConfig(storeType: String = KeyStore.getDefaultType,
                             filePath: Option[String],
                             data: Option[String]) {
 
@@ -54,7 +54,7 @@ case class TrustStoreConfig(storeType: String = KeyStore.getDefaultType,
  * @param algorithm The algoritm to use.
  * @param keyStoreConfigs The key stores to use.
  */
-case class KeyManagerConfig(
+final case class KeyManagerConfig(
   algorithm: String = KeyManagerFactory.getDefaultAlgorithm,
   keyStoreConfigs: immutable.Seq[KeyStoreConfig] = Nil)
 
@@ -64,14 +64,14 @@ case class KeyManagerConfig(
  * @param algorithm The algorithm to use.
  * @param trustStoreConfigs The trust stores to use.
  */
-case class TrustManagerConfig(
+final case class TrustManagerConfig(
   algorithm: String = TrustManagerFactory.getDefaultAlgorithm,
   trustStoreConfigs: immutable.Seq[TrustStoreConfig] = Nil)
 
 /**
  * SSL debug configuration.
  */
-case class SSLDebugConfig(
+final case class SSLDebugConfig(
     all: Boolean = false,
     ssl: Boolean = false,
     certpath: Boolean = false,
@@ -131,31 +131,33 @@ case class SSLDebugConfig(
 /**
  * SSL handshake debugging options.
  */
-case class SSLDebugHandshakeOptions(data: Boolean = false, verbose: Boolean = false)
+final case class SSLDebugHandshakeOptions(data: Boolean = false, verbose: Boolean = false)
 
 /**
  * SSL record debugging options.
  */
-case class SSLDebugRecordOptions(plaintext: Boolean = false, packet: Boolean = false)
+final case class SSLDebugRecordOptions(plaintext: Boolean = false, packet: Boolean = false)
 
 /**
  * Configuration for specifying loose (potentially dangerous) ssl config.
  *
  * @param allowWeakCiphers Whether weak ciphers should be allowed or not.
  * @param allowWeakProtocols Whether weak protocols should be allowed or not.
- * @param allowLegacyHelloMessages Whether legacy hello messages should be allowed or not.  If None, uses the platform
+ * @param allowLegacyHelloMessages Whether legacy hello messages should be allowed or not. If None, uses the platform
  *                                 default.
  * @param allowUnsafeRenegotiation Whether unsafe renegotiation should be allowed or not. If None, uses the platform
  *                                 default.
  * @param disableHostnameVerification Whether hostname verification should be disabled.
+ * @param disableSNI Whether SNI should be disabled (up to client library to respect this setting or not)
  * @param acceptAnyCertificate Whether any X.509 certificate should be accepted or not.
  */
-case class SSLLooseConfig(
+final case class SSLLooseConfig private[sslconfig] (
   allowWeakCiphers: Boolean = false,
   allowWeakProtocols: Boolean = false,
   allowLegacyHelloMessages: Option[Boolean] = None,
   allowUnsafeRenegotiation: Option[Boolean] = None,
   disableHostnameVerification: Boolean = false,
+  disableSNI: Boolean = false,
   acceptAnyCertificate: Boolean = false)
 
 /**
@@ -163,7 +165,7 @@ case class SSLLooseConfig(
  *
  * @param clientAuth see [[ClientAuth]] for detailed docs on ClientAuth modes
  */
-case class SSLParametersConfig(
+final case class SSLParametersConfig(
   clientAuth: ClientAuth = ClientAuth.Default,
   protocols: immutable.Seq[String] = Nil)
 
@@ -185,7 +187,7 @@ case class SSLParametersConfig(
  * @param debug The debug config.
  * @param loose Loose configuratino parameters
  */
-case class SSLConfig(
+final case class SSLConfig(
   default: Boolean = false,
   protocol: String = "TLSv1.2",
   checkRevocation: Option[Boolean] = None,
@@ -276,6 +278,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
     val allowMessages = config.getOptional[Boolean]("allowLegacyHelloMessages")
     val allowUnsafeRenegotiation = config.getOptional[Boolean]("allowUnsafeRenegotiation")
     val disableHostnameVerification = config.get[Boolean]("disableHostnameVerification")
+    val disableSNI = config.get[Boolean]("disableSNI")
     val acceptAnyCertificate = config.get[Boolean]("acceptAnyCertificate")
 
     SSLLooseConfig(
@@ -284,6 +287,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
       allowLegacyHelloMessages = allowMessages,
       allowUnsafeRenegotiation = allowUnsafeRenegotiation,
       disableHostnameVerification = disableHostnameVerification,
+      disableSNI = disableSNI,
       acceptAnyCertificate = acceptAnyCertificate
     )
   }
