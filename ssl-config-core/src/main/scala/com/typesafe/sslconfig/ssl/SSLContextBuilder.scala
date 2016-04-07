@@ -95,7 +95,7 @@ class DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm: String) extends T
  * Creates an SSL context builder from info objects.
  */
 class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
-                              info: SSLConfig,
+                              info: SSLConfigSettings,
                               keyManagerFactory: KeyManagerFactoryWrapper,
                               trustManagerFactory: TrustManagerFactoryWrapper) extends SSLContextBuilder {
 
@@ -239,7 +239,7 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
 
   // Should anyone have any interest in implementing this feature at all, they can implement this method and
   // submit a patch.
-  def certificateRevocationList(sslConfig: SSLConfig): Option[Seq[CRL]] = {
+  def certificateRevocationList(sslConfig: SSLConfigSettings): Option[Seq[CRL]] = {
     sslConfig.revocationLists.map {
       urls =>
         urls.map(generateCRLFromURL)

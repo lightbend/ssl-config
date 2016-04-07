@@ -21,7 +21,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
   "ConfigSSLContentBuilder" should {
 
     "should have the right protocol by default" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
 
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
       val trustManagerFactory = mock[TrustManagerFactoryWrapper]
@@ -34,7 +34,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     "with protocol" should {
 
       "should default to Protocols.recommendedProtocols" in {
-        val info = SSLConfig()
+        val info = SSLConfigSettings()
 
         val keyManagerFactory = mock[KeyManagerFactoryWrapper]
         val trustManagerFactory = mock[TrustManagerFactoryWrapper]
@@ -57,7 +57,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     }
 
     "build a key manager" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
       val trustManagerFactory = mock[TrustManagerFactoryWrapper]
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
@@ -91,7 +91,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     }
 
     "build a trust manager" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
       val trustManagerFactory = mock[TrustManagerFactoryWrapper]
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
@@ -111,7 +111,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     }
 
     "build a composite key manager" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
       val trustManagerFactory = mock[TrustManagerFactoryWrapper]
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
@@ -126,7 +126,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     }
 
     "build a composite trust manager" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
       val trustManagerFactory = mock[TrustManagerFactoryWrapper]
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
@@ -146,7 +146,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     }
 
     "build a composite trust manager with data" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
       val keyManagerFactory = new DefaultKeyManagerFactoryWrapper(KeyManagerFactory.getDefaultAlgorithm)
       val trustManagerFactory = new DefaultTrustManagerFactoryWrapper(TrustManagerFactory.getDefaultAlgorithm)
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
@@ -172,7 +172,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     }
 
     "build a file based keystore builder" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
       val trustManagerFactory = mock[TrustManagerFactoryWrapper]
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
@@ -185,7 +185,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
     }
 
     "build a string based keystore builder" in {
-      val info = SSLConfig()
+      val info = SSLConfigSettings()
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
       val trustManagerFactory = mock[TrustManagerFactoryWrapper]
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)

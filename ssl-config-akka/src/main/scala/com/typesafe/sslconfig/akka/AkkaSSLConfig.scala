@@ -78,17 +78,17 @@ final class AkkaSSLConfig(system: ExtendedActorSystem, _config: Config) extends 
 
   ////////////////// CONFIGURING //////////////////////
 
-  def buildKeyManagerFactory(ssl: SSLConfig): KeyManagerFactoryWrapper = {
+  def buildKeyManagerFactory(ssl: SSLConfigSettings): KeyManagerFactoryWrapper = {
     val keyManagerAlgorithm = ssl.keyManagerConfig.algorithm
     new DefaultKeyManagerFactoryWrapper(keyManagerAlgorithm)
   }
 
-  def buildTrustManagerFactory(ssl: SSLConfig): TrustManagerFactoryWrapper = {
+  def buildTrustManagerFactory(ssl: SSLConfigSettings): TrustManagerFactoryWrapper = {
     val trustManagerAlgorithm = ssl.trustManagerConfig.algorithm
     new DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm)
   }
 
-  def buildHostnameVerifier(conf: SSLConfig): HostnameVerifier = {
+  def buildHostnameVerifier(conf: SSLConfigSettings): HostnameVerifier = {
     val clazz: Class[HostnameVerifier] =
       if (config.loose.disableHostnameVerification) classOf[DisabledComplainingHostnameVerifier].asInstanceOf[Class[HostnameVerifier]]
       else config.hostnameVerifierClass.asInstanceOf[Class[HostnameVerifier]]
@@ -101,7 +101,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem, _config: Config) extends 
     v
   }
 
-  def validateDefaultTrustManager(sslConfig: SSLConfig) {
+  def validateDefaultTrustManager(sslConfig: SSLConfigSettings) {
     // If we are using a default SSL context, we can't filter out certificates with weak algorithms
     // We ALSO don't have access to the trust manager from the SSLContext without doing horrible things
     // with reflection.
@@ -132,7 +132,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem, _config: Config) extends 
     }
   }
 
-  def configureProtocols(existingProtocols: Array[String], sslConfig: SSLConfig): Array[String] = {
+  def configureProtocols(existingProtocols: Array[String], sslConfig: SSLConfigSettings): Array[String] = {
     val definedProtocols = sslConfig.enabledProtocols match {
       case Some(configuredProtocols) ⇒
         // If we are given a specific list of protocols, then return it in exactly that order,
@@ -156,7 +156,7 @@ final class AkkaSSLConfig(system: ExtendedActorSystem, _config: Config) extends 
     definedProtocols
   }
 
-  def configureCipherSuites(existingCiphers: Array[String], sslConfig: SSLConfig): Array[String] = {
+  def configureCipherSuites(existingCiphers: Array[String], sslConfig: SSLConfigSettings): Array[String] = {
     val definedCiphers = sslConfig.enabledCipherSuites match {
       case Some(configuredCiphers) ⇒
         // If we are given a specific list of ciphers, return it in that order.

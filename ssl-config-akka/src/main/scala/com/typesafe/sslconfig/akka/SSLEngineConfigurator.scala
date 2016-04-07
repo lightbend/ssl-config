@@ -6,7 +6,7 @@ package com.typesafe.sslconfig.akka
 
 import javax.net.ssl.{ SSLContext, SSLEngine }
 
-import com.typesafe.sslconfig.ssl.SSLConfig
+import com.typesafe.sslconfig.ssl.SSLConfigSettings
 
 /**
  * Gives the chance to configure the SSLContext before it is going to be used.
@@ -16,7 +16,7 @@ trait SSLEngineConfigurator {
   def configure(engine: SSLEngine, sslContext: SSLContext): SSLEngine
 }
 
-final class DefaultSSLEngineConfigurator(config: SSLConfig, enabledProtocols: Array[String], enabledCipherSuites: Array[String])
+final class DefaultSSLEngineConfigurator(config: SSLConfigSettings, enabledProtocols: Array[String], enabledCipherSuites: Array[String])
     extends SSLEngineConfigurator {
   def configure(engine: SSLEngine, sslContext: SSLContext): SSLEngine = {
     engine.setSSLParameters(sslContext.getDefaultSSLParameters)
