@@ -20,7 +20,7 @@ object SystemPropertiesSpec extends Specification with After {
   "SystemProperties" should {
 
     "disableCheckRevocation should not be set normally" in {
-      val config = SSLConfig(checkRevocation = None)
+      val config = SSLConfigSettings().withCheckRevocation(None)
 
       val originalOscp = Security.getProperty("ocsp.enable")
 
@@ -33,7 +33,7 @@ object SystemPropertiesSpec extends Specification with After {
     }
 
     "disableCheckRevocation is set explicitly" in {
-      val config = SSLConfig(checkRevocation = Some(true))
+      val config = SSLConfigSettings().withCheckRevocation(Some(true))
 
       sp.configure(config)
 
@@ -45,7 +45,7 @@ object SystemPropertiesSpec extends Specification with After {
 
     // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html
     "allowLegacyHelloMessages is not set" in {
-      val config = SSLConfig(loose = SSLLooseConfig(allowLegacyHelloMessages = None))
+      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowLegacyHelloMessages(None))
 
       sp.configure(config)
 
@@ -54,7 +54,7 @@ object SystemPropertiesSpec extends Specification with After {
 
     // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html
     "allowLegacyHelloMessages is set" in {
-      val config = SSLConfig(loose = SSLLooseConfig(allowLegacyHelloMessages = Some(true)))
+      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowLegacyHelloMessages(Some(true)))
 
       sp.configure(config)
 
@@ -63,7 +63,7 @@ object SystemPropertiesSpec extends Specification with After {
 
     // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html
     "allowUnsafeRenegotiation not set" in {
-      val config = SSLConfig(loose = SSLLooseConfig(allowUnsafeRenegotiation = None))
+      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowUnsafeRenegotiation(None))
 
       sp.configure(config)
 
@@ -72,7 +72,7 @@ object SystemPropertiesSpec extends Specification with After {
 
     // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html
     "allowUnsafeRenegotiation is set" in {
-      val config = SSLConfig(loose = SSLLooseConfig(allowUnsafeRenegotiation = Some(true)))
+      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowUnsafeRenegotiation(Some(true)))
 
       sp.configure(config)
 

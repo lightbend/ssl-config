@@ -15,12 +15,9 @@ cache:
 language: scala
 
 scala:
-  - 2.10.6
   - 2.11.7
 
 jdk:
-  #  - openjdk6 # TODO enable, fails because tests use TLS 1.2
-  - oraclejdk7
   - oraclejdk8
 
 script:

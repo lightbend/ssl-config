@@ -20,7 +20,7 @@ class SystemConfiguration(mkLogger: LoggerFactory) {
 
   val logger = mkLogger(getClass)
 
-  def configure(config: SSLConfig) {
+  def configure(config: SSLConfigSettings) {
     config.loose.allowUnsafeRenegotiation.foreach(configureUnsafeRenegotiation)
     config.loose.allowLegacyHelloMessages.foreach(configureAllowLegacyHelloMessages)
     config.checkRevocation.foreach(configureCheckRevocation)

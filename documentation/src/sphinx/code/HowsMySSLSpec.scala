@@ -31,7 +31,7 @@ class HowsMySSLSpec extends PlaySpecification with AfterAll {
     val parser = new WSConfigParser(rawConfig, new Environment(new File("."), classLoader, Mode.Test))
     val clientConfig = new AhcWSClientConfig(parser.parse())
     // Debug flags only take effect in JSSE when DebugConfiguration().configure is called.
-    //import play.api.libs.ws.ssl.debug.DebugConfiguration
+    //import play.api.libs.ssl-config.debug.DebugConfiguration
     //clientConfig.ssl.map {
     //   _.debug.map(new DebugConfiguration().configure)
     //}
@@ -81,11 +81,11 @@ class HowsMySSLSpec extends PlaySpecification with AfterAll {
         """.stripMargin
 
       val configString = """
-         |//play.ws.ssl.debug=["certpath", "ssl", "trustmanager"]
-         |play.ws.ssl.protocol="TLSv1"
-         |play.ws.ssl.enabledProtocols=["TLSv1"]
+         |//ssl-config.debug=["certpath", "ssl", "trustmanager"]
+         |ssl-config.protocol="TLSv1"
+         |ssl-config.enabledProtocols=["TLSv1"]
          |
-         |play.ws.ssl.trustManager = {
+         |ssl-config.trustManager = {
          |  stores = [
          |    { type: "PEM", data = ${geotrust.pem} }
          |  ]

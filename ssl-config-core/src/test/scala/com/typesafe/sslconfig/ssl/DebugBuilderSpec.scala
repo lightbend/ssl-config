@@ -11,7 +11,7 @@ object DebugBuilderSpec extends Specification {
   "JavaSecurityDebugBuilder" should {
 
     "match nothing by default" in {
-      val config = SSLDebugConfig(certpath = false)
+      val config = SSLDebugConfig().withCertPath(false)
       val builder = new JavaSecurityDebugBuilder(config)
       val actual = builder.build()
 
@@ -19,7 +19,7 @@ object DebugBuilderSpec extends Specification {
     }
 
     "match certpath" in {
-      val config = SSLDebugConfig(certpath = true)
+      val config = SSLDebugConfig().withCertPath(true)
       val builder = new JavaSecurityDebugBuilder(config)
       val actual = builder.build()
 
@@ -27,7 +27,7 @@ object DebugBuilderSpec extends Specification {
     }
 
     "match certpath + ocsp" in {
-      val config = SSLDebugConfig(certpath = true, ocsp = true)
+      val config = SSLDebugConfig().withCertPath(true).withOcsp(true)
       val builder = new JavaSecurityDebugBuilder(config)
       val actual = builder.build()
 
@@ -45,7 +45,7 @@ object DebugBuilderSpec extends Specification {
     }
 
     "match all" in {
-      val config = SSLDebugConfig(all = true)
+      val config = SSLDebugConfig().withAll(true)
       val builder = new JavaxNetDebugBuilder(config)
       val actual = builder.build()
 
@@ -53,7 +53,7 @@ object DebugBuilderSpec extends Specification {
     }
 
     "match some random combinations" in {
-      val config = SSLDebugConfig(ssl = true, defaultctx = true, handshake = Some(SSLDebugHandshakeOptions(data = true)))
+      val config = SSLDebugConfig().withSsl(true).withDefaultContext(true).withHandshake(Some(SSLDebugHandshakeOptions().withData(true)))
       val builder = new JavaxNetDebugBuilder(config)
       val actual: String = builder.build()
 

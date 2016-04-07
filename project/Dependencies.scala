@@ -3,7 +3,7 @@ import sbt._
 object Version {
   val typesafeConfig = "1.2.0" // last Java 6 version of it
   val jodaTime       = "2.9.1"
-  val akkaActor      = "2.3.12"
+  val akkaActor      = "2.3.14"
 
   val parserCombinators = "1.0.4"
 
@@ -25,7 +25,6 @@ object Library {
 
   val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators
 
-  val scalaTest         = "org.scalatest"         %% "scalatest"                % Version.scalaTest % "test" // not used at this moment
   val jodaTime          = "joda-time"              % "joda-time"                % Version.jodaTime  % "test" // ONLY FOR TESTS!
 }
 

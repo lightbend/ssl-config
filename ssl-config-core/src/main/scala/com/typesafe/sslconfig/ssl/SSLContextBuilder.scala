@@ -95,7 +95,7 @@ class DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm: String) extends T
  * Creates an SSL context builder from info objects.
  */
 class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
-                              info: SSLConfig,
+                              info: SSLConfigSettings,
                               keyManagerFactory: KeyManagerFactoryWrapper,
                               trustManagerFactory: TrustManagerFactoryWrapper) extends SSLContextBuilder {
 
@@ -179,9 +179,8 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
   /**
    * Returns true if the keystore should throw an exception as a result of the JSSE bug 6879539, false otherwise.
    */
-  def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean = {
+  def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean =
     ksc.storeType.equalsIgnoreCase("pkcs12") && !ksc.password.exists(!_.isEmpty)
-  }
 
   /**
    * Builds a key manager from a keystore, using the KeyManagerFactory.
@@ -240,7 +239,7 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
 
   // Should anyone have any interest in implementing this feature at all, they can implement this method and
   // submit a patch.
-  def certificateRevocationList(sslConfig: SSLConfig): Option[Seq[CRL]] = {
+  def certificateRevocationList(sslConfig: SSLConfigSettings): Option[Seq[CRL]] = {
     sslConfig.revocationLists.map {
       urls =>
         urls.map(generateCRLFromURL)

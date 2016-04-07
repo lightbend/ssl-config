@@ -168,7 +168,7 @@ Disabling Weak Ciphers Checking
 There are some ciphers which are known to have flaws, and are
 `disabled <http://sim.ivi.co/2011/08/jsse-oracle-provider-default-disabled.html>`__
 in 1.7. WS will throw an exception if a weak cipher is found in the
-``ws.ssl.enabledCiphers`` list. If you specifically want a weak cipher,
+``ssl-config.enabledCiphers`` list. If you specifically want a weak cipher,
 set this flag:
 
 ::
@@ -201,7 +201,7 @@ Disabled Protocols
 WS recognizes "SSLv3", "SSLv2" and "SSLv2Hello" as weak protocols with a
 number of `security issues <https://www.schneier.com/paper-ssl.pdf>`__,
 and will throw an exception if they are in the
-``ws.ssl.enabledProtocols`` list. Virtually all servers support
+``ssl-config.enabledProtocols`` list. Virtually all servers support
 ``TLSv1``, so there is no advantage in using these older protocols.
 
 If you specifically want a weak protocol, set the loose flag to disable
