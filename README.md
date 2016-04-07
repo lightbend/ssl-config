@@ -17,8 +17,9 @@ Versions
 
 The project is maintained on two branches:
 
-- `master` which requires Java 8 and is used by Akka `2.4.x`.
-- `release-0.1` which is Java 6 compatible (does lots of manual improvements and checks that JDK6 didn't).
+- [`master`](https://github.com/typesafehub/ssl-config/tree/master) which requires Java 8 and is used by Akka `2.4.x`.
+- [`release-0.1`](https://github.com/typesafehub/ssl-config/tree/release-0.1) which is Java 6 compatible 
+  (does lots of manual improvements and checks that JDK6 didn't).
   Currently only the *legacy version* of Akka Streams & Http (which is `2.0.x`) uses this version. 
 
 Latest versions:
