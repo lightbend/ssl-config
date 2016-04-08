@@ -3,7 +3,7 @@ import sbt._
 object Version {
   val typesafeConfig = "1.2.0" // last Java 6 version of it
   val jodaTime       = "2.9.1"
-  val akkaActor      = "2.3.14"
+  val akkaActor      = "2.4.3"
 
   val parserCombinators = "1.0.4"
 
