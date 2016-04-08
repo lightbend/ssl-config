@@ -4,6 +4,7 @@ import sbtrelease.ReleasePlugin
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 
 val commonSettings = Seq(
+  scalaVersion := "2.11.8",
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 )
 

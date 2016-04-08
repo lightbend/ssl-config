@@ -95,8 +95,7 @@ A store corresponds to a
 object, which is used for both trust stores and key stores. Stores may
 have a
 `type <https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#KeyStore>`__
--- ``PKCS12``,
-```JKS`` <https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html#KeystoreImplementation>`__
+-- ``PKCS12`` , ``JKS`` <https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html#KeystoreImplementation>`__
 or ``PEM`` (aka Base64 encoded DER certificate) -- and may have an
 associated password.
 

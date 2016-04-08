@@ -11,7 +11,6 @@ import javax.net.ssl._
 
 import akka.actor._
 import akka.event.Logging
-import com.typesafe.config.Config
 import com.typesafe.sslconfig.akka.util.AkkaLoggerFactory
 import com.typesafe.sslconfig.ssl._
 import com.typesafe.sslconfig.util.LoggerFactory
@@ -20,31 +19,51 @@ object AkkaSSLConfig extends ExtensionId[AkkaSSLConfig] with ExtensionIdProvider
 
   //////////////////// EXTENSION SETUP ///////////////////
 
+  override def get(system: ActorSystem): AkkaSSLConfig = super.get(system)
   def apply()(implicit system: ActorSystem): AkkaSSLConfig = super.apply(system)
 
   override def lookup() = AkkaSSLConfig
 
   override def createExtension(system: ExtendedActorSystem): AkkaSSLConfig =
-    new AkkaSSLConfig(system)
+    new AkkaSSLConfig(system, defaultSSLConfigSettings(system))
+
+  def defaultSSLConfigSettings(system: ActorSystem): SSLConfigSettings = {
+    val akkaOverrides = system.settings.config.getConfig("akka.ssl-config")
+    val defaults = system.settings.config.getConfig("ssl-config")
+    SSLConfigFactory.parse(akkaOverrides withFallback defaults)
+  }
+
 }
 
-final class AkkaSSLConfig(system: ExtendedActorSystem, _config: Config) extends Extension {
-  def this(system: ExtendedActorSystem) = this(system, system.settings.config.getConfig("akka.ssl-config"))
+final class AkkaSSLConfig(system: ExtendedActorSystem, val config: SSLConfigSettings) extends Extension {
 
   private val mkLogger = new AkkaLoggerFactory(system)
 
   private val log = Logging(system, getClass)
   log.debug("Initializing AkkaSSLConfig extension...")
 
-  val config = {
-    val akkaOverrides = _config
-    val defaults = system.settings.config.getConfig("ssl-config")
-    SSLConfigFactory.parse(akkaOverrides withFallback defaults)
-  }
-
   /** Can be used to modify the underlying config, most typically used to change a few values in the default config */
-  def withConfig(c: Config): AkkaSSLConfig =
+  def withSettings(c: SSLConfigSettings): AkkaSSLConfig =
     new AkkaSSLConfig(system, c)
+
+  /**
+   * Returns a new [[AkkaSSLConfig]] instance with the settings changed by the given function.
+   * Please note that the ActorSystem-wide extension always remains configured via typesafe config,
+   * custom ones can be created for special-handling specific connections
+   */
+  def mapSettings(f: SSLConfigSettings => SSLConfigSettings): AkkaSSLConfig =
+    new AkkaSSLConfig(system, f(config))
+
+  /**
+   * Returns a new [[AkkaSSLConfig]] instance with the settings changed by the given function.
+   * Please note that the ActorSystem-wide extension always remains configured via typesafe config,
+   * custom ones can be created for special-handling specific connections
+   *
+   * Java API
+   */
+  // Not same signature as mapSettings to allow latter deprecation of this once we hit Scala 2.12
+  def convertSettings(f: java.util.function.Function[SSLConfigSettings, SSLConfigSettings]): AkkaSSLConfig =
+    new AkkaSSLConfig(system, f.apply(config))
 
   val hostnameVerifier = buildHostnameVerifier(config)
 
