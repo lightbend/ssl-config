@@ -31,8 +31,7 @@ object Library {
 object Dependencies {
   import Library._
 
-  val testing = Seq(specsCore, specsJunit, specsMock, specsMatcherExtra, jodaTime)
-  val sslConfigCore = Seq(typesafeConfig) ++ testing
+  val sslConfigCore = Seq(typesafeConfig) 
   val sslConfigAkka = Seq(akkaActor)
   val sslConfigPlay = Seq.empty[ModuleID]
 }
