@@ -38,7 +38,7 @@ client:
 
 ::
 
-    ssl-config.ssl.checkRevocation = true
+    ssl-config.checkRevocation = true
 
 Setting ``checkRevocation`` will set the internal ``ocsp.enable``
 security property automatically:
@@ -59,7 +59,7 @@ Or, if you wish to use a static CRL list, you can define a list of URLs:
 
 ::
 
-    ssl-config.ssl.revocationLists = [ "http://example.com/crl" ]
+    ssl-config.revocationLists = [ "http://example.com/crl" ]
 
 Debugging
 ---------
@@ -68,7 +68,7 @@ To test certificate revocation is enabled, set the following options:
 
 ::
 
-    ssl-config.ssl.debug = {
+    ssl-config.debug = {
      certpath = true
      ocsp = true
     }

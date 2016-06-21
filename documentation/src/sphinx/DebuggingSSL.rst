@@ -21,12 +21,12 @@ and `Troubleshooting
 Security <https://docs.oracle.com/javase/8/docs/technotes/guides/security/troubleshooting-security.html>`__
 pages.
 
-To configure, set the ``ssl-config.ssl.debug`` property in
+To configure, set the ``ssl-config.debug`` property in
 ``application.conf``:
 
 ::
 
-    ssl-config.ssl.debug = {
+    ssl-config.debug = {
         # Turn on all debugging
         all = false
         # Turn on ssl debugging

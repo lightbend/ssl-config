@@ -24,6 +24,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
         case "2.10" => Seq.empty[ModuleID]
         case _      => Seq(Library.parserCombinators)
       }),
+    libraryDependencies ++= Dependencies.testDependencies,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
     OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*")

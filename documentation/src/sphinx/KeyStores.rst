@@ -42,7 +42,7 @@ will try each in order until it finds a match:
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       trustManager = {
           stores = [
             { path: ${store.directory}/truststore.jks, type: "JKS" }  # Added trust store
@@ -71,7 +71,7 @@ may contain multiple stores in the same manner as the trust manager.
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
         keyManager = {
           stores = [
             {
@@ -132,7 +132,7 @@ To debug the key manager / trust manager, set the following flags:
 
 ::
 
-    ssl-config.ssl.debug = {
+    ssl-config.debug = {
       ssl = true
       trustmanager = true
       keymanager = true
