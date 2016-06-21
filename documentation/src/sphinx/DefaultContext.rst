@@ -16,7 +16,7 @@ want to use ``SSLContext.getDefault``, please set:
 
 ::
 
-    ssl-config.ssl.default = true
+    ssl-config.default = true
 
 Debugging
 ---------
@@ -25,7 +25,7 @@ If you want to debug the default context,
 
 ::
 
-    ssl-config.ssl.debug {
+    ssl-config.debug {
       ssl = true
       sslctx = true
       defaultctx = true

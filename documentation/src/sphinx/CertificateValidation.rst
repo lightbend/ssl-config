@@ -49,7 +49,7 @@ The default list of disabled signature algorithms is defined below:
 
 ::
 
-    ssl-config.ssl.disabledSignatureAlgorithms = "MD2, MD4, MD5"
+    ssl-config.disabledSignatureAlgorithms = "MD2, MD4, MD5"
 
 MD5 is disabled, based on the proven `collision
 attack <https://www.win.tue.nl/hashclash/rogue-ca/>`__ and the Mozilla
@@ -84,7 +84,7 @@ WS defines the default list of weak key sizes as follows:
 
 ::
 
-    ssl-config.ssl.disabledKeyAlgorithms = "DHE keySize < 2048, ECDH keySize < 2048, ECDHE keySize < 2048, RSA keySize < 2048, DSA keySize < 2048, EC keySize < 224"
+    ssl-config.disabledKeyAlgorithms = "DHE keySize < 2048, ECDH keySize < 2048, ECDHE keySize < 2048, RSA keySize < 2048, DSA keySize < 2048, EC keySize < 224"
 
 These settings are based in part on
 `keylength.com <http://www.keylength.com/>`__, and in part on the
@@ -134,7 +134,7 @@ configuration:
 
 ::
 
-    ssl-config.ssl.debug.certpath = true
+    ssl-config.debug.certpath = true
 
 The undocumented setting ``-Djava.security.debug=x509`` may also be
 helpful.

@@ -114,7 +114,7 @@ to ensure that any loose options are not hardcoded in configuration
 files, and therefore cannot escape an development environment.
 
 **Runtime / Deployment Checks**: You can add code to your deployment
-scripts or program that checks that ``ssl-config.ssl.loose`` options are
+scripts or program that checks that ``ssl-config.loose`` options are
 not enabled in a production environment. The runtime mode can be found
 in the ```Application.mode`` <api/scala/play/api/Application.html>`__
 method.
@@ -153,7 +153,7 @@ certificate verification, set the following;
 
 ::
 
-    ssl-config.ssl.loose.acceptAnyCertificate=true
+    ssl-config.loose.acceptAnyCertificate=true
 
 With certificate verification completely disabled, you are vulnerable to
 attack from anyone on the network using a tool such as
@@ -173,7 +173,7 @@ set this flag:
 
 ::
 
-    ssl-config.ssl.loose.allowWeakCiphers=true
+    ssl-config.loose.allowWeakCiphers=true
 
 With weak cipher checking disabled, you are vulnerable to attackers that
 use forged certificates, such as
@@ -186,7 +186,7 @@ If you want to disable hostname verification, you can set a loose flag:
 
 ::
 
-    ssl-config.ssl.loose.acceptAnyCertificate=true
+    ssl-config.loose.acceptAnyCertificate=true
 
 With hostname verification disabled, a DNS proxy such as ``dnschef`` can
 `easily intercept
@@ -209,7 +209,7 @@ the check:
 
 ::
 
-    ssl-config.ssl.loose.allowWeakProtocols=true
+    ssl-config.loose.allowWeakProtocols=true
 
 SSLv2 and SSLv2Hello (there is no v1) are obsolete and usage in the
 field is `down to 25% on the public

@@ -34,4 +34,5 @@ object Dependencies {
   val sslConfigCore = Seq(typesafeConfig) 
   val sslConfigAkka = Seq(akkaActor)
   val sslConfigPlay = Seq.empty[ModuleID]
+  val testDependencies = Seq(specsCore, specsJunit, specsMock, specsMatcherExtra, jodaTime)
 }

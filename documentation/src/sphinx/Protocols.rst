@@ -30,7 +30,7 @@ you can set it specifically in the client:
 ::
 
     # Passed into SSLContext.getInstance()
-    ssl-config.ssl.protocol = "TLSv1.2"
+    ssl-config.protocol = "TLSv1.2"
 
 If you want to define the list of enabled protocols, you can do so
 explicitly:
@@ -38,7 +38,7 @@ explicitly:
 ::
 
     # passed into sslContext.getDefaultParameters().setEnabledProtocols()
-    ssl-config.ssl.enabledProtocols = [
+    ssl-config.enabledProtocols = [
       "TLSv1.2",
       "TLSv1.1",
       "TLSv1"
@@ -50,7 +50,7 @@ system property to enable client protocols globally.
 WS recognizes "SSLv3", "SSLv2" and "SSLv2Hello" as weak protocols with a
 number of `security issues <https://www.schneier.com/paper-ssl.pdf>`__,
 and will throw an exception if they are in the
-``ssl-config.ssl.enabledProtocols`` list. Virtually all servers support
+``ssl-config.enabledProtocols`` list. Virtually all servers support
 ``TLSv1``, so there is no advantage in using these older protocols.
 
 Debugging
@@ -60,7 +60,7 @@ The debug options for configuring protocol are:
 
 ::
 
-    ssl-config.ssl.debug = {
+    ssl-config.debug = {
       ssl = true
       sslctx = true
       handshake = true

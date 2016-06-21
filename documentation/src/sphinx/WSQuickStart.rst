@@ -108,7 +108,7 @@ format specifically:
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       trustManager = {
         stores = [
           { type = "PEM", path = "/path/to/cert/globalsign.crt" }
@@ -126,5 +126,4 @@ works with:
 
     WS.url("https://example.com").get()
 
-You can see more examples on the [[example
-configurations\|ExampleSSLConfig]] page.
+You can see more examples on the :ref:`example configurations\ <ExampleSSLConfig>` page.

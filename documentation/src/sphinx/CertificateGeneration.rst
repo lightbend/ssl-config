@@ -152,7 +152,7 @@ The ``exampletrust.jks`` store will be used in the TrustManager.
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       trustManager = {
         stores = [
           { path = "/Users/wsargent/work/ssltest/conf/exampletrust.jks" }
@@ -202,7 +202,7 @@ And put ``client.jks`` in the key manager:
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       keyManager = {
         stores = [
           { type = "JKS", path = "conf/client.jks", password = $PW }

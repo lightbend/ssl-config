@@ -28,7 +28,7 @@ trust the CA's public certificate.
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       trustManager = {
         stores = [
           { type = "JKS", path = "exampletrust.jks" }
@@ -47,7 +47,7 @@ section in :ref:`generating certificates\ <CertificateGeneration>`.
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       keyManager = {
         stores = [
           { type = "JKS", path = "client.jks", password = "changeit1" }
@@ -68,7 +68,7 @@ may find it more convenient to configure one client with several stores:
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       trustManager = {
         stores = [
           { type = "PEM", path = "service1.pem" }
@@ -83,7 +83,7 @@ manager with several stores:
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
         keyManager = {
         stores = [
           { type: "PKCS12", path: "keys/service1-client.p12", password: "changeit1" },
@@ -102,7 +102,7 @@ as well:
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       trustManager = {
         stores = [
           { path: exampletrust.jks }     # Added trust store

@@ -3,7 +3,7 @@ SSL Config
 
 <a href="https://travis-ci.org/typesafehub/ssl-config"><img src="https://travis-ci.org/typesafehub/ssl-config.svg"/></a>
 
-Goal and purpose of this library is to make Play's WS librari as well as Akka HTTP "secure by default".
+Goal and purpose of this library is to make Play's WS library as well as Akka HTTP "secure by default".
 Sadly, while Java's security has been steadily improving some settings are still left up to the user,
 and certain algorithms which should never be used in a serious prodution system are still accepted by 
 the default settings of the SSL/TLS infrastructure. These things are possible to fix, by providing specialized 
@@ -26,7 +26,7 @@ Latest versions:
 
 ```
 // JDK8: 
-"com.typesafe" %% "ssl-config-akka" % "0.2.0"
+"com.typesafe" %% "ssl-config-akka" % "0.2.1"
 
 // JDK6/7 (some features may be backported here)
 "com.typesafe" %% "ssl-config-akka" % "0.1.3"
