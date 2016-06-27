@@ -146,12 +146,12 @@ object SSLConfigParserSpec extends Specification {
       actual.debug.ssl must beTrue
     }
 
-    "parse ssl-config.trustBuilder section" in {
+    "parse ssl-config.trustManager section" in {
       val info = parseThis("""
                               |trustManager = {
                               |  algorithm = "trustme"
                               |  stores = [
-                              |    { type: "storeType", path: "trusted" }
+                              |    { type: "storeType", path: "trusted", password: "changeit" }
                               |  ]
                               |}
                             """.stripMargin)
@@ -161,6 +161,7 @@ object SSLConfigParserSpec extends Specification {
       val tsi = tmc.trustStoreConfigs(0)
       tsi.filePath must beSome.which(_ must beEqualTo("trusted"))
       tsi.storeType must_== "storeType"
+      tsi.password must beSome.which(_ must beEqualTo("changeit"))
     }
 
     "parse ssl-config.keyManager section" in {

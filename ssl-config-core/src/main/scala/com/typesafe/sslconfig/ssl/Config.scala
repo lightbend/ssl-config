@@ -22,10 +22,10 @@ import scala.language.existentials
  *
  * Either key store path or data must be defined, but not both.
  *
- * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
- * @param filePath The path of the key store file.
  * @param data The data to load the key store file from.
+ * @param filePath The path of the key store file.
  * @param password The password to use to load the key store file, if the file is password protected.
+ * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
  */
 final class KeyStoreConfig private[sslconfig](
   val data: Option[String],
@@ -52,7 +52,7 @@ final class KeyStoreConfig private[sslconfig](
       storeType = storeType)
 
   override def toString =
-    s"""KeyStoreConfig(${data},${filePath},${password},${storeType})"""
+    s"""KeyStoreConfig(${data},${filePath},,${storeType})"""
 }
 object KeyStoreConfig {
   def apply(data: Option[String], filePath: Option[String]) = new KeyStoreConfig(data, filePath)
@@ -96,13 +96,15 @@ object TrustManagerConfig {
  *
  * A trust store must either provide a file path, or a data String.
  *
- * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
- * @param filePath The path of the key store file.
  * @param data The data to load the key store file from.
+ * @param filePath The path of the key store file.
+ * @param password The password to use to load the key store file, if the file is password protected.
+ * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
  */
 final class TrustStoreConfig private[sslconfig](
   val data: Option[String],
   val filePath: Option[String],
+  val password: Option[String] = None,
   val storeType: String = KeyStore.getDefaultType) {
 
   assert(filePath.isDefined ^ data.isDefined, "Either trust store path or data must be defined, but not both.")
@@ -111,18 +113,21 @@ final class TrustStoreConfig private[sslconfig](
   def withData(data: Option[String]): TrustStoreConfig = copy(data = data, filePath = None)
   /** Disables `data` – only one of those can be used at any given time. */
   def withFilePath(filePath: Option[String]): TrustStoreConfig = copy(filePath = filePath, data = None)
+  def withPassword(password: Option[String]): TrustStoreConfig = copy(password = password)
   def withStoreType(value: String): TrustStoreConfig = copy(storeType = value)
 
   private def copy(
     data: Option[String] = data,
     filePath: Option[String] = filePath,
+    password: Option[String] = password,
     storeType: String = storeType): TrustStoreConfig = new TrustStoreConfig(
       data = data,
       filePath = filePath,
+      password = password,
       storeType = storeType)
 
   override def toString =
-    s"""TrustStoreConfig(${data},${filePath},${storeType})"""
+    s"""TrustStoreConfig(${data},${filePath},,${storeType})"""
 }
 object TrustStoreConfig {
   def apply(data: Option[String], filePath: Option[String]) = new TrustStoreConfig(data, filePath)
@@ -630,8 +635,9 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
     val storeType = config.getOptional[String]("type").getOrElse(KeyStore.getDefaultType)
     val path = config.getOptional[String]("path")
     val data = config.getOptional[String]("data")
+    val password = config.getOptional[String]("password")
 
-    new TrustStoreConfig(filePath = path, storeType = storeType, data = data)
+    new TrustStoreConfig(filePath = path, storeType = storeType, data = data, password = password)
   }
 
   /**

@@ -48,8 +48,8 @@ object CompositeX509KeyManagerSpec extends Specification with Mockito {
         val issuers = Array[Principal]()
         val engine = mock[SSLEngine]
 
-        val serverAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)
-        serverAlias must beNull
+        val clientAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)
+        clientAlias must beNull
       }
 
       "return a result" in {
@@ -59,8 +59,18 @@ object CompositeX509KeyManagerSpec extends Specification with Mockito {
         val issuers = Array[Principal]()
         val engine = mock[SSLEngine]
 
-        val serverAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)
-        serverAlias must be_==("clientAlias")
+        val clientAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)
+        clientAlias must be_==("clientAlias")
+      }
+
+      "deal with issuers = null" in {
+        val mockKeyManager = mockExtendedX509KeyManager(serverResponse = "clientAlias")
+        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))
+        val keyType = "derp"
+        val engine = mock[SSLEngine]
+
+        val clientAlias = keyManager.chooseEngineServerAlias(keyType = keyType, issuers = null, engine = engine)
+        clientAlias must be_==("clientAlias")
       }
 
       "return null" in {
@@ -70,8 +80,8 @@ object CompositeX509KeyManagerSpec extends Specification with Mockito {
         val issuers = Array[Principal]()
         val engine = mock[SSLEngine]
 
-        val serverAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)
-        serverAlias must beNull
+        val clientAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)
+        clientAlias must beNull
       }
     }
 
@@ -96,6 +106,16 @@ object CompositeX509KeyManagerSpec extends Specification with Mockito {
         val engine = mock[SSLEngine]
 
         val serverAlias = keyManager.chooseEngineServerAlias(keyType = keyType, issuers = issuers, engine = engine)
+        serverAlias must be_==("serverAlias")
+      }
+
+      "deal with issuers = null" in {
+        val mockKeyManager = mockExtendedX509KeyManager(serverResponse = "serverAlias")
+        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))
+        val keyType = "derp"
+        val engine = mock[SSLEngine]
+
+        val serverAlias = keyManager.chooseEngineServerAlias(keyType = keyType, issuers = null, engine = engine)
         serverAlias must be_==("serverAlias")
       }
 

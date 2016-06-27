@@ -161,7 +161,8 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
 
   def trustStoreBuilder(tsc: TrustStoreConfig): KeyStoreBuilder = {
     tsc.filePath.map { f =>
-      fileBuilder(tsc.storeType, f, None)
+      val password = tsc.password.map(_.toCharArray)
+      fileBuilder(tsc.storeType, f, password)
     }.getOrElse {
       val data = tsc.data.getOrElse(throw new IllegalStateException("No truststore builder found!"))
       stringBuilder(data)

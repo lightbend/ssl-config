@@ -8,7 +8,7 @@ import javax.net.ssl.{ SSLEngine, X509ExtendedKeyManager, X509KeyManager }
 import java.security.{ Principal, PrivateKey }
 import java.security.cert.{ CertificateException, X509Certificate }
 import java.net.Socket
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import com.typesafe.sslconfig.util.LoggerFactory
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -32,7 +32,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   // the same class, i.e. you can't have two X509KeyManagers in the array.
 
   def getClientAliases(keyType: String, issuers: Array[Principal]): Array[String] = {
-    logger.debug(s"getClientAliases: keyType = $keyType, issuers = ${issuers.toSeq}")
+    logger.debug(s"getClientAliases: keyType = $keyType, issuers = ${issuersToString(issuers)}")
 
     val clientAliases = new ArrayBuffer[String]
     withKeyManagers { keyManager =>
@@ -47,7 +47,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   def chooseClientAlias(keyType: Array[String], issuers: Array[Principal], socket: Socket): String = {
-    logger.debug(s"chooseClientAlias: keyType = ${keyType.toSeq}, issuers = ${issuers.toSeq}, socket = $socket")
+    logger.debug(s"chooseClientAlias: keyType = $keyType, issuers = ${issuersToString(issuers)}, socket = $socket")
 
     withKeyManagers { keyManager =>
       val clientAlias = keyManager.chooseClientAlias(keyType, issuers, socket)
@@ -60,8 +60,8 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   override def chooseEngineClientAlias(keyType: Array[String], issuers: Array[Principal], engine: SSLEngine): String = {
-    logger.debug(s"chooseEngineClientAlias: keyType = ${keyType.toSeq}, issuers = ${issuers.toSeq}, engine = $engine")
-    withKeyManagers { keyManager: X509KeyManager =>
+    logger.debug(s"chooseEngineClientAlias: keyType = $keyType, issuers = ${issuersToString(issuers)}, engine = $engine")
+    withKeyManagers { keyManager =>
       keyManager match {
         case extendedKeyManager: X509ExtendedKeyManager =>
           val clientAlias = extendedKeyManager.chooseEngineClientAlias(keyType, issuers, engine)
@@ -77,9 +77,9 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   override def chooseEngineServerAlias(keyType: String, issuers: Array[Principal], engine: SSLEngine): String = {
-    logger.debug(s"chooseEngineServerAlias: keyType = ${keyType.toSeq}, issuers = ${issuers.toSeq}, engine = $engine")
+    logger.debug(s"chooseEngineServerAlias: keyType = $keyType, issuers = ${issuersToString(issuers)}, engine = $engine")
 
-    withKeyManagers { keyManager: X509KeyManager =>
+    withKeyManagers { keyManager =>
       keyManager match {
         case extendedKeyManager: X509ExtendedKeyManager =>
           val clientAlias = extendedKeyManager.chooseEngineServerAlias(keyType, issuers, engine)
@@ -95,7 +95,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   def getServerAliases(keyType: String, issuers: Array[Principal]): Array[String] = {
-    logger.debug(s"getServerAliases: keyType = $keyType, issuers = ${issuers.toSeq}")
+    logger.debug(s"getServerAliases: keyType = $keyType, issuers = ${issuersToString(issuers)}")
 
     val serverAliases = new ArrayBuffer[String]
     withKeyManagers { keyManager =>
@@ -110,7 +110,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   def chooseServerAlias(keyType: String, issuers: Array[Principal], socket: Socket): String = {
-    logger.debug(s"chooseServerAlias: keyType = $keyType, issuers = ${issuers.toSeq}, socket = $socket")
+    logger.debug(s"chooseServerAlias: keyType = $keyType, issuers = ${issuersToString(issuers)}, socket = $socket")
     withKeyManagers { keyManager =>
       val serverAlias = keyManager.chooseServerAlias(keyType, issuers, socket)
       if (serverAlias != null) {
@@ -159,6 +159,9 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   private def nullIfEmpty[T](array: Array[T]) = if (array.size == 0) null else array
+
+  private def issuersToString(issuers: Array[Principal]) =
+    if (issuers != null) issuers.mkString("[", ", ", "]") else null
 
   override def toString = {
     s"CompositeX509KeyManager(keyManagers = [$keyManagers])"
