@@ -37,8 +37,6 @@ object Common extends AutoPlugin {
       updateOptions := updateOptions.value.withCachedResolution(true),
       scalacOptions ++= Seq("-encoding", "UTF-8", "-target:jvm-1.6", "-unchecked", "-deprecation", "-feature"),
       javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.6", "-target", "1.6"),
-      // disable Reactive Platform subscription and version checks
-      onLoad in Global := identity,
       // Scalariform settings
       ScalariformKeys.preferences := ScalariformKeys.preferences.value
         .setPreference(AlignSingleLineCaseStatements, true)
