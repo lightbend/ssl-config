@@ -3,18 +3,16 @@ import sbt._
 object Version {
   val typesafeConfig = "1.2.0" // last Java 6 version of it
   val jodaTime       = "2.9.1"
-  val akkaActor      = "2.4.3"
 
   val parserCombinators = "1.0.4"
 
-  val scalaTest      = "2.2.4"
-  val specs          = "3.6.6"
+  val scalaTest      = "3.0.0"
+  val specs          = "3.8.6"
 }
 
 object Library {
   val typesafeConfig  = "com.typesafe"           % "config"                     % Version.typesafeConfig // Apache2
 
-  val akkaActor       = "com.typesafe.akka"     %% "akka-actor"                 % Version.akkaActor % "provided" // Apache2
 
   // TESTS
 
@@ -33,6 +31,5 @@ object Dependencies {
 
   val testing = Seq(specsCore, specsJunit, specsMock, specsMatcherExtra, jodaTime)
   val sslConfigCore = Seq(typesafeConfig) ++ testing
-  val sslConfigAkka = Seq(akkaActor)
   val sslConfigPlay = Seq.empty[ModuleID]
 }
