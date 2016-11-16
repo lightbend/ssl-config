@@ -45,6 +45,7 @@ Create a random password using pwgen (``brew install pwgen`` if you're
 on a Mac):
 
 .. includecode:: ./code/genpassword.sh
+   :include: context
 
 Server Configuration
 --------------------
@@ -62,6 +63,7 @@ additional attributes (ca:true, keyCertSign) that mark it explicitly as
 a CA certificate, and will be kept in a trust store.
 
 .. includecode:: ./code/genca.sh
+   :include: context
 
 Generating example.com certificates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,6 +72,7 @@ The example.com certificate is presented by the ``example.com`` server
 in the handshake.
 
 .. includecode:: ./code/genserver.sh
+   :include: context
 
 You should see:
 
@@ -94,6 +97,7 @@ Unfortunately, keytool does not export private key information, so
 openssl must be installed to pull private keys.
 
 .. includecode:: ./code/genserverexp.sh
+   :include: context
 
 Now that you have both ``example.com.crt`` (the public key certificate)
 and ``example.com.key`` (the private key), you can set up an HTTPS
@@ -136,6 +140,7 @@ which contains only the certificate and hand that out to clients. Many
 java clients prefer to have the trust store in JKS format.
 
 .. includecode:: ./code/gentruststore.sh
+   :include: context
 
 You should see a ``trustedCertEntry`` for exampleca:
 
@@ -183,6 +188,7 @@ broadly similiar to the server certificate generation, but for
 convenience are presented in a single script:
 
 .. includecode:: ./code/genclient.sh
+   :include: context
 
 There should be one alias ``client``, looking like the following:
 
