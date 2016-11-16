@@ -16,7 +16,7 @@ Defining the default protocol
 -----------------------------
 
 If you want to define a different `default protocol
-<https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/SSLContext.html#getInstance(java.lang.String)>`__,
+<https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/SSLContext.html#getInstance-java.lang.String->`__,
 you can set it specifically in the client:
 
 .. code-block:: conf
