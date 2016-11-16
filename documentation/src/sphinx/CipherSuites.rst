@@ -43,7 +43,7 @@ list of enabled cipher suites is as follows:
 The list of cipher suites can be configured manually using the
 ``ssl-config.enabledCipherSuites`` setting:
 
-::
+.. code-block:: conf
 
     ssl-config.enabledCipherSuites = [
       "TLS_DHE_RSA_WITH_AES_128_GCM_SHA256"
@@ -73,7 +73,7 @@ As per the `Recommendations for Secure Use of TLS and
 DTLS <https://datatracker.ietf.org/doc/draft-ietf-uta-tls-bcp/>`__, the
 following cipher suites are recommended:
 
-::
+.. code-block:: conf
 
     ssl-config.enabledCipherSuites = [
       "TLS_DHE_RSA_WITH_AES_128_GCM_SHA256",
@@ -110,7 +110,7 @@ To enable ``jdk.tls.disabledAlgorithms`` or
 ``jdk.certpath.disabledAlgorithms`` (which looks at signature algorithms
 and weak keys in X.509 certificates) you must create a properties file:
 
-::
+.. code-block:: properties
 
     # disabledAlgorithms.properties
     jdk.tls.disabledAlgorithms=EC keySize < 160, RSA keySize < 2048, DSA keySize < 2048
@@ -128,11 +128,11 @@ Debugging
 
 To debug ciphers and weak keys, turn on the following debug settings:
 
-::
+.. code-block:: conf
 
     ssl-config.debug = {
-     ssl = true
-     handshake = true
-     verbose = true
-     data = true
+      ssl = true
+      handshake = true
+      verbose = true
+      data = true
     }

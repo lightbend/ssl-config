@@ -98,7 +98,7 @@ Point the trust manager at the PEM file
 Add the following into ``conf/application.conf``, specifying ``PEM``
 format specifically:
 
-::
+.. code-block:: conf
 
     ssl-config {
       trustManager = {
@@ -114,7 +114,7 @@ of certificates, and only use your custom CA certificate.
 After that, WS will be configured, and you can test that your connection
 works with:
 
-::
+.. code-block:: scala
 
     WS.url("https://example.com").get()
 

@@ -32,14 +32,14 @@ manager. The
 `CompositeX509TrustManager <api/scala/play/api/libs/ws/ssl/CompositeX509TrustManager.html>`__
 will try each in order until it finds a match:
 
-::
+.. code-block:: conf
 
     ssl-config {
       trustManager = {
-          stores = [
-            { path: ${store.directory}/truststore.jks, type: "JKS" }  # Added trust store
-            { path: ${java.home}/lib/security/cacerts, password = "changeit" } # Default trust store
-          ]
+        stores = [
+          { path: ${store.directory}/truststore.jks, type: "JKS" }  # Added trust store
+          { path: ${java.home}/lib/security/cacerts, password = "changeit" } # Default trust store
+        ]
       }
     }
 
@@ -61,18 +61,18 @@ The
 `CompositeX509KeyManager <api/scala/play/api/libs/ws/ssl/CompositeX509KeyManager.html>`__
 may contain multiple stores in the same manner as the trust manager.
 
-::
+.. code-block:: conf
 
     ssl-config {
-        keyManager = {
-          stores = [
-            {
-              type: "pkcs12",
-              path: "keystore.p12",
-              password: "password1"
-            },
-          ]
-        }
+      keyManager = {
+        stores = [
+          {
+            type: "pkcs12",
+            path: "keystore.p12",
+            password: "password1"
+          },
+        ]
+      }
     }
 
 .. note:: A key store that holds private keys should use PKCS12
@@ -94,14 +94,14 @@ associated password.
 Stores must have either a ``path`` or a ``data`` attribute. The ``path``
 attribute must be a file system path.
 
-::
+.. code-block:: conf
 
     { type: "PKCS12", path: "/private/keystore.p12" }
 
 The ``data`` attribute must contain a string of PEM encoded
 certificates.
 
-::
+.. code-block:: conf
 
     {
       type: "PEM", data = """
@@ -122,7 +122,7 @@ Debugging
 
 To debug the key manager / trust manager, set the following flags:
 
-::
+.. code-block:: conf
 
     ssl-config.debug = {
       ssl = true

@@ -143,7 +143,7 @@ Disabling Certificate Verification
 If you've read the above and you still want to completely disable
 certificate verification, set the following;
 
-::
+.. code-block:: conf
 
     ssl-config.loose.acceptAnyCertificate=true
 
@@ -163,7 +163,7 @@ in 1.7. WS will throw an exception if a weak cipher is found in the
 ``ssl-config.enabledCiphers`` list. If you specifically want a weak cipher,
 set this flag:
 
-::
+.. code-block:: conf
 
     ssl-config.loose.allowWeakCiphers=true
 
@@ -176,7 +176,7 @@ Disabling Hostname Verification
 
 If you want to disable hostname verification, you can set a loose flag:
 
-::
+.. code-block:: conf
 
     ssl-config.loose.acceptAnyCertificate=true
 
@@ -199,7 +199,7 @@ and will throw an exception if they are in the
 If you specifically want a weak protocol, set the loose flag to disable
 the check:
 
-::
+.. code-block:: conf
 
     ssl-config.loose.allowWeakProtocols=true
 

@@ -147,7 +147,7 @@ You should see a ``trustedCertEntry`` for exampleca:
 
 The ``exampletrust.jks`` store will be used in the TrustManager.
 
-::
+.. code-block:: conf
 
     ssl-config {
       trustManager = {
@@ -198,7 +198,7 @@ There should be one alias ``client``, looking like the following:
 
 And put ``client.jks`` in the key manager:
 
-::
+.. code-block:: conf
 
     ssl-config {
       keyManager = {

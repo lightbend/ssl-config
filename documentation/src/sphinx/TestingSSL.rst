@@ -14,13 +14,13 @@ Play comes with ``play.api.test.WsTestClient``, which provides two
 methods, ``wsCall`` and ``wsUrl``. It can be helpful to use
 ``PlaySpecification`` and ``in new WithApplication``
 
-::
+.. code-block:: scala
 
     "calls index" in new WithApplication() {
       await(wsCall(routes.Application.index()).get())   
     }
 
-::
+.. code-block:: scala
 
     wsUrl("https://example.com").get()
 
@@ -37,7 +37,7 @@ Note that if you are writing tests that involve custom configuration
 such as revocation checking or disabled algorithms, you may need to pass
 system properties into SBT:
 
-::
+.. code-block:: sbt
 
     javaOptions in Test ++= Seq("-Dcom.sun.security.enableCRLDP=true", "-Dcom.sun.net.ssl.checkRevocation=true", "-Djavax.net.debug=all")
 

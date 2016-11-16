@@ -16,45 +16,45 @@ pages.
 To configure, set the ``ssl-config.debug`` property in
 ``application.conf``:
 
-::
+.. code-block:: conf
 
     ssl-config.debug = {
-        # Turn on all debugging
-        all = false
-        # Turn on ssl debugging
-        ssl = false
-        # Turn certpath debugging on
-        certpath = false
-        # Turn ocsp debugging on
-        ocsp = false
-        # Enable per-record tracing
-        record = false
-        # hex dump of record plaintext, requires record to be true
-        plaintext = false
-        # print raw SSL/TLS packets, requires record to be true
-        packet = false
-        # Print each handshake message
-        handshake = false
-        # Print hex dump of each handshake message, requires handshake to be true
-        data = false
-        # Enable verbose handshake message printing, requires handshake to be true
-        verbose = false
-        # Print key generation data
-        keygen = false
-        # Print session activity
-        session = false
-        # Print default SSL initialization
-        defaultctx = false
-        # Print SSLContext tracing
-        sslctx = false
-        # Print session cache tracing
-        sessioncache = false
-        # Print key manager tracing
-        keymanager = false
-        # Print trust manager tracing
-        trustmanager = false
-        # Turn pluggability debugging on
-        pluggability = false
+      # Turn on all debugging
+      all = false
+      # Turn on ssl debugging
+      ssl = false
+      # Turn certpath debugging on
+      certpath = false
+      # Turn ocsp debugging on
+      ocsp = false
+      # Enable per-record tracing
+      record = false
+      # hex dump of record plaintext, requires record to be true
+      plaintext = false
+      # print raw SSL/TLS packets, requires record to be true
+      packet = false
+      # Print each handshake message
+      handshake = false
+      # Print hex dump of each handshake message, requires handshake to be true
+      data = false
+      # Enable verbose handshake message printing, requires handshake to be true
+      verbose = false
+      # Print key generation data
+      keygen = false
+      # Print session activity
+      session = false
+      # Print default SSL initialization
+      defaultctx = false
+      # Print SSLContext tracing
+      sslctx = false
+      # Print session cache tracing
+      sessioncache = false
+      # Print key manager tracing
+      keymanager = false
+      # Print trust manager tracing
+      trustmanager = false
+      # Turn pluggability debugging on
+      pluggability = false
     }
 
 .. note::
@@ -82,7 +82,7 @@ If you are working with WSClient instances created dynamically, you can
 use the ``SSLDebugConfig`` class to set up debugging using a builder
 pattern:
 
-::
+.. code-block:: scala
 
     val debugConfig = SSLDebugConfig().withKeyManager().withHandshake(data = true, verbose = true)
 

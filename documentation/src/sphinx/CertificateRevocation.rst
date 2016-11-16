@@ -28,14 +28,14 @@ command line:
 After doing the above, you can enable certificate revocation in the
 client:
 
-::
+.. code-block:: conf
 
     ssl-config.checkRevocation = true
 
 Setting ``checkRevocation`` will set the internal ``ocsp.enable``
 security property automatically:
 
-::
+.. code-block:: scala
 
     java.security.Security.setProperty("ocsp.enable", "true")
 
@@ -51,7 +51,7 @@ And this will set OCSP checking when making HTTPS requests.
 
 Or, if you wish to use a static CRL list, you can define a list of URLs:
 
-::
+.. code-block:: conf
 
     ssl-config.revocationLists = [ "http://example.com/crl" ]
 
@@ -60,11 +60,11 @@ Debugging
 
 To test certificate revocation is enabled, set the following options:
 
-::
+.. code-block:: conf
 
     ssl-config.debug = {
-     certpath = true
-     ocsp = true
+      certpath = true
+      ocsp = true
     }
 
 And you should see something like the following output:

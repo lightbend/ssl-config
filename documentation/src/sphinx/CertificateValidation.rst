@@ -39,7 +39,7 @@ Disabling Certificates with Weak Signature Algorithms
 
 The default list of disabled signature algorithms is defined below:
 
-::
+.. code-block:: conf
 
     ssl-config.disabledSignatureAlgorithms = "MD2, MD4, MD5"
 
@@ -74,7 +74,7 @@ Disabling Certificates With Weak Key Sizes
 
 WS defines the default list of weak key sizes as follows:
 
-::
+.. code-block:: conf
 
     ssl-config.disabledKeyAlgorithms = "DHE keySize < 2048, ECDH keySize < 2048, ECDHE keySize < 2048, RSA keySize < 2048, DSA keySize < 2048, EC keySize < 224"
 
@@ -128,7 +128,7 @@ Debugging Certificate Validation
 To see more details on certificate validation, set the following debug
 configuration:
 
-::
+.. code-block:: conf
 
     ssl-config.debug.certpath = true
 

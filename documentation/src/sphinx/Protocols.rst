@@ -19,7 +19,7 @@ If you want to define a different `default protocol
 <https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/SSLContext.html#getInstance(java.lang.String)>`__,
 you can set it specifically in the client:
 
-::
+.. code-block:: conf
 
     # Passed into SSLContext.getInstance()
     ssl-config.protocol = "TLSv1.2"
@@ -27,7 +27,7 @@ you can set it specifically in the client:
 If you want to define the list of enabled protocols, you can do so
 explicitly:
 
-::
+.. code-block:: conf
 
     # passed into sslContext.getDefaultParameters().setEnabledProtocols()
     ssl-config.enabledProtocols = [
@@ -50,7 +50,7 @@ Debugging
 
 The debug options for configuring protocol are:
 
-::
+.. code-block:: conf
 
     ssl-config.debug = {
       ssl = true

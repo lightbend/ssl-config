@@ -18,7 +18,7 @@ than the CA system.
 Generate a self signed certificate from the :ref:`generating certificates\ <CertificateGeneration>` section, and tell the client to
 trust the CA's public certificate.
 
-::
+.. code-block:: conf
 
     ssl-config {
       trustManager = {
@@ -37,7 +37,7 @@ consists of a private key and the X.509 certificate containing the
 corresponding public key. See the "Configure Client Authentication"
 section in :ref:`generating certificates\ <CertificateGeneration>`.
 
-::
+.. code-block:: conf
 
     ssl-config {
       keyManager = {
@@ -58,7 +58,7 @@ Connecting to several external web services
 If you are communicating with several external web services, then you
 may find it more convenient to configure one client with several stores:
 
-::
+.. code-block:: conf
 
     ssl-config {
       trustManager = {
@@ -73,10 +73,10 @@ may find it more convenient to configure one client with several stores:
 If client authentication is required, then you can also set up the key
 manager with several stores:
 
-::
+.. code-block:: conf
 
     ssl-config {
-        keyManager = {
+      keyManager = {
         stores = [
           { type: "PKCS12", path: "keys/service1-client.p12", password: "changeit1" },
           { type: "PKCS12", path: "keys/service2-client.p12", password: "changeit2" },
@@ -92,7 +92,7 @@ If you are using WS to access both private and public servers on the
 same profile, then you will want to include the default JSSE trust store
 as well:
 
-::
+.. code-block:: conf
 
     ssl-config {
       trustManager = {
