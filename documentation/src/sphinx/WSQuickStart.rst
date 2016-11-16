@@ -54,7 +54,7 @@ can't be faked, preferably in person.
 In the case where there is no communication (and this is **not
 recommended**), you can sometimes get the root CA certificate directly
 from the certificate chain, using
-```keytool from JDK 1.8`` <http://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html>`__:
+`keytool from JDK 1.8 <http://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html>`__:
 
 ::
 
