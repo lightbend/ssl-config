@@ -34,10 +34,8 @@ Copyright (C) 2009-2016 Lightbend Inc. <https://www.lightbend.com>
 Further Reading
 ---------------
 
-JSSE is a complex product. For convenience, the JSSE materials are
-provided here:
-
-JDK 1.8:
+JSSE is a complex product. For convenience, the JSSE materials for JDK
+1.8 are provided here:
 
 -  `JSSE Reference
   Guide <https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html>`__
