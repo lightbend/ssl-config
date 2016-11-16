@@ -1,4 +1,3 @@
-<a id="certificategeneration"></a>
 # Generating X.509 Certificates
 
 ## X.509 Certificates
@@ -142,7 +141,7 @@ ssl-config {
 
 @@@ note
 
-Also see the @ref:[Configuring Key Stores and Trust Stores](KeyStores.md#keystores) section for more information.
+Also see the @ref:[Configuring Key Stores and Trust Stores](KeyStores.md) section for more information.
 
 @@@
 
@@ -195,7 +194,7 @@ ssl-config {
 
 @@@ note
 
-Also see the @ref:[Configuring Key Stores and Trust Stores](KeyStores.md#keystores) section for more information.
+Also see the @ref:[Configuring Key Stores and Trust Stores](KeyStores.md) section for more information.
 
 @@@
 

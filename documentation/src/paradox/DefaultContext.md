@@ -1,4 +1,3 @@
-<a id="defaultcontext"></a>
 # Using the Default SSLContext
 
 If you don't want to use the SSLContext that WS provides for you, and

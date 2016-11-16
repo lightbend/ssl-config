@@ -1,4 +1,3 @@
-<a id="hostnameverification"></a>
 # Hostname Verification
 
 Hostname verification is a little known part of HTTPS that involves a

@@ -1,11 +1,10 @@
-<a id="keystores"></a>
 # Configuring Trust Stores and Key Stores
 
 Trust stores and key stores contain X.509 certificates. Those
 certificates contain public (or private) keys, and are organized and
 managed under either a TrustManager or a KeyManager, respectively.
 
-If you need to generate X.509 certificates, please see @ref:[Certificate Generation](CertificateGeneration.md#certificategeneration) for more information.
+If you need to generate X.509 certificates, please see @ref:[Certificate Generation](CertificateGeneration.md) for more information.
 
 ## Configuring a Trust Manager
 

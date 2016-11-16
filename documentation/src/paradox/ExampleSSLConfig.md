@@ -1,4 +1,3 @@
-<a id="examplesslconfig"></a>
 # Example Configurations
 
 TLS can be very confusing. Here are some settings that can help.
@@ -12,7 +11,7 @@ are arguably [more
 secure](http://www.thoughtcrime.org/blog/authenticity-is-broken-in-ssl-but-your-app-ha/)
 than the CA system.
 
-Generate a self signed certificate from the @ref:[generating certificates](CertificateGeneration.md#certificategeneration) section, and tell the client to
+Generate a self signed certificate from the @ref:[generating certificates](CertificateGeneration.md) section, and tell the client to
 trust the CA's public certificate.
 
 ```conf
@@ -31,7 +30,7 @@ If you are using client authentication, then you need to include a
 keyStore to the key manager that contains a PrivateKeyEntry, which
 consists of a private key and the X.509 certificate containing the
 corresponding public key. See the "Configure Client Authentication"
-section in @ref:[generating certificates](CertificateGeneration.md#certificategeneration).
+section in @ref:[generating certificates](CertificateGeneration.md).
 
 ```conf
 ssl-config {

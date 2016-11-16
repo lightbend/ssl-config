@@ -1,4 +1,3 @@
-<a id="ciphersuites"></a>
 # Configuring Cipher Suites
 
 A [cipher suite](https://en.wikipedia.org/wiki/Cipher_suite) is

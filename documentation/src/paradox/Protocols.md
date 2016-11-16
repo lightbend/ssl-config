@@ -1,4 +1,3 @@
-<a id="protocols"></a>
 # Configuring Protocols
 
 By default, WS SSL will use the most secure version of the TLS protocol

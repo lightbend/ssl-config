@@ -1,4 +1,3 @@
-<a id="debuggingssl"></a>
 # Debugging SSL Connections
 
 In the event that an HTTPS connection does not go through, debugging

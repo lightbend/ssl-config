@@ -1,4 +1,3 @@
-<a id="loosessl"></a>
 # Loose Options
 
 ## We understand
@@ -111,12 +110,12 @@ In most cases, people turn off certificate verification
 because they haven't generated certificates. **There are other
 options besides disabling certificate verification.**
 
- * @ref:[Quick Start to WS SSL](WSQuickStart.md#wsquickstart) shows how to connect
+ * @ref:[Quick Start to WS SSL](WSQuickStart.md) shows how to connect
 directly to a server using a self signed certificate.
- * @ref:[Generating X.509 Certificates](CertificateGeneration.md#certificategeneration) lists a
+ * @ref:[Generating X.509 Certificates](CertificateGeneration.md) lists a
 number of GUI applications that will generate certificates for
 you.
- * @ref:[Example Configurations](ExampleSSLConfig.md#examplesslconfig) shows complete
+ * @ref:[Example Configurations](ExampleSSLConfig.md) shows complete
 configuration of TLS using self signed certificates.
  * If you want to view your application through HTTPS, you can use
 [ngrok](https://ngrok.com/) to proxy your application.

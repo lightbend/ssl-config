@@ -1,4 +1,3 @@
-<a id="testingssl"></a>
 # Testing SSL
 
 Testing an SSL client not only involves unit and integration testing,

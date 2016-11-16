@@ -1,10 +1,9 @@
-<a id="wsquickstart"></a>
 # Quick Start to WS SSL
 
 This section is for people who need to connect to a remote web service
 over HTTPS, and don't want to read through the entire manual. If you
 need to set up a web service or configure client authentication, please
-proceed to the @ref:[next section](CertificateGeneration.md#certificategeneration).
+proceed to the @ref:[next section](CertificateGeneration.md).
 
 ## Connecting to a Remote Server over HTTPS
 
@@ -117,4 +116,4 @@ works with:
 WS.url("https://example.com").get()
 ```
 
-You can see more examples on the @ref:[example configurations](ExampleSSLConfig.md#examplesslconfig) page.
+You can see more examples on the @ref:[example configurations](ExampleSSLConfig.md) page.

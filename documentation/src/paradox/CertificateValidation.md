@@ -1,4 +1,3 @@
-<a id="certificatevalidation"></a>
 # Configuring Certificate Validation
 
 In an SSL connection, the identity of the remote server is verified
@@ -113,7 +112,7 @@ so this is considered a safe default.
 To disable signature algorithms and weak key sizes globally across the
 JVM, use the `jdk.certpath.disabledAlgorithms` [security
 property](http://sim.ivi.co/2011/07/java-se-7-release-security-enhancements.html).
-Setting security properties is covered in more depth in @ref:[Configuring Cipher Suites](CipherSuites.md#ciphersuites) section.
+Setting security properties is covered in more depth in @ref:[Configuring Cipher Suites](CipherSuites.md) section.
 
 @@@ note
 

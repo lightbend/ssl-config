@@ -1,4 +1,3 @@
-<a id="certificaterevocation"></a>
 # Configuring Certificate Revocation
 
 Certificate Revocation in JSSE can be done through two means:
