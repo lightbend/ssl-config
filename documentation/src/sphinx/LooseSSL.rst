@@ -192,7 +192,7 @@ With hostname verification disabled, a DNS proxy such as ``dnschef`` can
 `easily intercept
 communication <https://tersesystems.com/2014/03/31/testing-hostname-verification/>`__.
 
-    Note: By disabling hostname verification, you are also disabling
+.. note:: By disabling hostname verification, you are also disabling
     certificate verification!
 
 Disabled Protocols

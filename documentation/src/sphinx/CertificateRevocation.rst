@@ -49,7 +49,9 @@ security property automatically:
 
 And this will set OCSP checking when making HTTPS requests.
 
-    NOTE: Enabling OCSP requires a round trip to the OCSP responder.
+.. note::
+
+    Enabling OCSP requires a round trip to the OCSP responder.
     This adds a notable overhead on HTTPS calls, and can make calls up
     to `33%
     slower <https://blog.cloudflare.com/ocsp-stapling-how-cloudflare-just-made-ssl-30>`__.

@@ -103,11 +103,13 @@ Mozilla recommendations:
     We recommend all parties involved in secure transactions on the web
     move away from 1024-bit moduli as soon as possible.
 
-**NOTE:** because weak key sizes also apply to root certificates (which
-is not included in the certificate chain available to the PKIX certpath
-checker included in JSSE), setting this option will check the accepted
-issuers in any configured trustmanagers and keymanagers, including the
-default.
+.. note::
+
+  Because weak key sizes also apply to root certificates (which
+  is not included in the certificate chain available to the PKIX certpath
+  checker included in JSSE), setting this option will check the accepted
+  issuers in any configured trustmanagers and keymanagers, including the
+  default.
 
 Over 95% of trusted leaf certificates and 95% of trusted signing
 certificates use `NIST recommended key
@@ -122,7 +124,9 @@ JVM, use the ``jdk.certpath.disabledAlgorithms`` `security
 property <http://sim.ivi.co/2011/07/java-se-7-release-security-enhancements.html>`__.
 Setting security properties is covered in more depth in :ref:`Configuring Cipher Suites\ <CipherSuites>` section.
 
-    **NOTE** if configured, the ``jdk.certpath.disabledAlgorithms``
+.. note::
+
+    If configured, the ``jdk.certpath.disabledAlgorithms``
     property should contain the settings from both
     ``disabledKeyAlgorithms`` and ``disabledSignatureAlgorithms``.
 

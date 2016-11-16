@@ -65,7 +65,9 @@ To configure, set the ``ssl-config.debug`` property in
         pluggability = false
     }
 
-    NOTE: This feature changes the setting of the ``java.net.debug``
+.. note::
+
+    This feature changes the setting of the ``java.net.debug``
     system property which is global on the JVM. In addition, this
     feature `changes static properties at
     runtime <https://tersesystems.com/2014/03/02/monkeypatching-java-classes/>`__,
