@@ -140,9 +140,12 @@ With certificate verification completely disabled, you are vulnerable to
 attack from anyone on the network using a tool such as
 [mitmproxy](https://mitmproxy.org/).
 
->
-Note: By disabling certificate validation, you are also disabling
+@@@ note
+
+By disabling certificate validation, you are also disabling
 hostname verification!
+
+@@@
 
 ### Disabling Weak Ciphers Checking
 
