@@ -15,7 +15,7 @@ If the web service is not using a well known certificate authority, then
 it is using either a private CA or a self-signed certificate. You can
 determine this easily by using curl:
 
-```
+```sh
 curl https://financialcryptography.com # uses cacert.org as a CA
 ```
 
