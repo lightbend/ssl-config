@@ -1,4 +1,3 @@
-
-site.settings
-
-site.sphinxSupport()
+enablePlugins(ParadoxSitePlugin)
+siteSubdirName in Paradox := ""
+paradoxTheme := Some(builtinParadoxTheme("generic"))

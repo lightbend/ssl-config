@@ -47,7 +47,8 @@ sbt '+publishSigned'
 
 echo "Publishing docs..."
 sbt makeSite
-mv documentation/target/sphinx/html ../releasing-the-docs
+rm -rf documentation/target/paradox/paradox # Paradox site bug?
+mv documentation/target/paradox ../releasing-the-docs
 git checkout gh-pages
 rm -rf *
 mv ../releasing-the-docs docs
