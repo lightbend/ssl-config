@@ -423,7 +423,7 @@ final class SSLConfigSettings private[sslconfig](
   def withDisabledSignatureAlgorithms(value: scala.collection.immutable.Seq[String]): SSLConfigSettings = copy(disabledSignatureAlgorithms = value)
   def withEnabledCipherSuites(value: Option[scala.collection.immutable.Seq[String]]): SSLConfigSettings = copy(enabledCipherSuites = value)
   def withEnabledProtocols(value: Option[scala.collection.immutable.Seq[String]]): SSLConfigSettings = copy(enabledProtocols = value)
-  def withHostnameVerifierClass(value: Class[javax.net.ssl.HostnameVerifier]): SSLConfigSettings = copy(hostnameVerifierClass = value)
+  def withHostnameVerifierClass(value: Class[_ <: javax.net.ssl.HostnameVerifier]): SSLConfigSettings = copy(hostnameVerifierClass = value)
   def withKeyManagerConfig(value: com.typesafe.sslconfig.ssl.KeyManagerConfig): SSLConfigSettings = copy(keyManagerConfig = value)
   def withLoose(value: com.typesafe.sslconfig.ssl.SSLLooseConfig): SSLConfigSettings = copy(loose = value)
   def withProtocol(value: String): SSLConfigSettings = copy(protocol = value)
