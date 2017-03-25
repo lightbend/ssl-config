@@ -1,28 +1,23 @@
-# use Docker-based container (instead of OpenVZ)
+language: scala
 sudo: false
-
+dist: trusty
+group: beta
+scala:
+- 2.10.6
+- 2.11.8
+- 2.12.1
+jdk:
+- oraclejdk8
 cache:
   directories:
-    - $HOME/.ivy2/cache
-    # Cache the sbt launcher, currently the Travis VM preinstalls 0.13.5
-    - $HOME/.sbt/launchers/0.13.8
-    # Cache scala, currently the Travis VM preinstalls 2.11.2 & 2.10.4
-    #- $HOME/.sbt/boot/scala-$TRAVIS_SCALA_VERSION
-
-    # Updates regarding Travis VM preinstalls:
-    # https://github.com/travis-ci/travis-cookbooks/blob/master/changes.md
-
-language: scala
-
-scala:
-  - 2.11.7
-
-jdk:
-  - oraclejdk8
-
+  - "$HOME/.ivy2/cache"
+  - "$HOME/.sbt/boot/"
+  - "$HOME/.sbt/launchers/"
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION test doc
-
-  # Remove to avoid unnecessary cache updates
-  - find $HOME/.sbt -name "*.lock" -delete
-  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
+- sbt ++$TRAVIS_SCALA_VERSION test doc
+before_cache:
+- find $HOME/.sbt -name "*.lock" -delete
+- find $HOME/.ivy2 -name "ivydata-*.properties" -delete
+notifications:
+  slack:
+    secure: LC3oGnBYvbuSCd29HWghBrnfb48rsrG77wOgByZqzqfv/9UtNOBSzOcsqAacxrt74r5m0lh40xdL0curFZc9eYmIbfr/j5Hjej9pYpWHhOsA1wBDNhjxhRXTDSoCb/eP50DcjWtog8MkBbROiigU4lsHkP5vzZX1a/ltxJ8H4jM+ANXbCAqvMt6XdmhdV9Bd04VG/ZX4PQ2DtJdXrDX0SPJ9ozfsSOQwOsEHOqUVnu8fsJId7mkjr/PBlNPh3cnbjWQR029Ho7cRt5tYLVB/XUAJO5yzGmO88jtH/WSTGC+tpHC/GqE+uY1KSv5Lkz27YycXoO0ZVld5LZqBRBe3p68BDI74ZgmUlfc3SZWLOaP0/7/4+R+9YBURa+YAjwO4a8lb3HtEyWOcib6yrct0bLGzfbQgJs6GkMN+c5TJiCr+oSLF/vjvhhYg0f1eRrCeqpxUeXbQ+VPWC87LhQ0cRJYbYZQAcnt7kss1mFLhr+PTV27ifA8DzAZOhPpfKYRQLEyQc1mJ/kahmnbnHGG9fU9vdId2fG59G+qGCVdOMofpxj9ChMrTmZnjdaUBXJg9gWAsp3LeOY0/Vr+FRW/sfYFpT5lcj/IAH/qbVfg+7E+Ah/2jOMSybLVe6ejTocbwBH+08skM1pvfndkQnc3RZJgq8aUbEsGhrAn3P28ufmk=
