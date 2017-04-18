@@ -168,7 +168,7 @@ use forged certificates, such as
 If you want to disable hostname verification, you can set a loose flag:
 
 ```conf
-ssl-config.loose.acceptAnyCertificate=true
+ssl-config.loose.disableHostnameVerification=true
 ```
 
 With hostname verification disabled, a DNS proxy such as `dnschef` can
