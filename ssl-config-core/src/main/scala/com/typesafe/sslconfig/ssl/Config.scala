@@ -668,13 +668,13 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   }
 
   def parseSSLParameters(config: EnrichedConfig): SSLParametersConfig = {
-    // could instanciate SSLParameters directly, but seems less clean, here we only parse config
+    // could instantiate SSLParameters directly, but seems less clean, here we only parse config
 
     val clientAuth = config.getOptional[String]("clientAuth") match {
       case Some("none")           => ClientAuth.None
       case Some("want")           => ClientAuth.Want
       case Some("need")           => ClientAuth.Need
-      case None | Some("default") => ClientAuth.Default
+      case None | Some(_) => ClientAuth.Default
     }
 
     val protocols = config.getSeq[String]("protocols")

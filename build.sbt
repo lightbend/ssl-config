@@ -4,8 +4,8 @@ import sbtrelease.ReleasePlugin
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 
 val commonSettings = Seq(
-  scalaVersion := "2.12.1",
-  crossScalaVersions := Seq("2.12.1", "2.11.8", "2.10.6"),
+  scalaVersion := Version.scala212,
+  crossScalaVersions := Seq(Version.scala212, Version.scala211, Version.scala210),
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 )
 
@@ -19,7 +19,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-core",
-    crossScalaVersions := Seq("2.12.1", "2.11.8", "2.10.6"),  
+    crossScalaVersions := Seq(Version.scala212, Version.scala211, Version.scala210),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= (
       scalaBinaryVersion.value match {
