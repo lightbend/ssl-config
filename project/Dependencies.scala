@@ -11,11 +11,13 @@ object Version {
 
   val parserCombinators = "1.0.6"
 
-  val specs          = "3.8.9"
+  val specs2Scala210  = "3.8.9"
+  val specs2          = "4.0.1"
 
   val scala210       = "2.10.6"
   val scala211       = "2.11.11"
   val scala212       = "2.12.3"
+  val scala213       = "2.13.0-M2"
 }
 
 object Library {
@@ -25,10 +27,19 @@ object Library {
   val akkaActor210    = "com.typesafe.akka"     %% "akka-actor"                 % Version.akkaActor210 % "provided" // Apache2
 
   // TESTS
-  val specsCore         = "org.specs2"            %% "specs2-core"              % Version.specs % "test"
-  val specsJunit        = "org.specs2"            %% "specs2-junit"             % Version.specs % "test"
-  val specsMock         = "org.specs2"            %% "specs2-mock"              % Version.specs % "test"
-  val specsMatcherExtra = "org.specs2"            %% "specs2-matcher-extra"     % Version.specs % "test"
+  val specs2 = Seq(
+  "org.specs2" %% "specs2-core"          % Version.specs2 % "test",
+  "org.specs2" %% "specs2-junit"         % Version.specs2 % "test",
+  "org.specs2" %% "specs2-mock"          % Version.specs2 % "test",
+  "org.specs2" %% "specs2-matcher-extra" % Version.specs2 % "test"
+  )
+
+  val specs2Scala210 = Seq(
+    "org.specs2" %% "specs2-core"          % Version.specs2Scala210 % "test",
+    "org.specs2" %% "specs2-junit"         % Version.specs2Scala210 % "test",
+    "org.specs2" %% "specs2-mock"          % Version.specs2Scala210 % "test",
+    "org.specs2" %% "specs2-matcher-extra" % Version.specs2Scala210 % "test"
+  )
 
   val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators
 
@@ -42,5 +53,7 @@ object Dependencies {
   val sslConfigCore = Seq(typesafeConfig) 
   val sslConfigAkka = Seq(akkaActor)
   val sslConfigAkka210 = Seq(akkaActor210)
-  val testDependencies = Seq(specsCore, specsJunit, specsMock, specsMatcherExtra, jodaTime, jodaTimeConvert)
+  val testDependencies210 = Library.specs2Scala210 ++ Seq(jodaTime, jodaTimeConvert)
+
+  val testDependencies = Library.specs2 ++ Seq(jodaTime, jodaTimeConvert)
 }
