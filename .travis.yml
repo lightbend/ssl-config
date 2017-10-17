@@ -4,8 +4,9 @@ dist: trusty
 group: beta
 scala:
 - 2.10.6
-- 2.11.8
-- 2.12.1
+- 2.11.11
+- 2.12.3
+- 2.13.0-M2
 jdk:
 - oraclejdk8
 cache:
@@ -14,7 +15,8 @@ cache:
   - "$HOME/.sbt/boot/"
   - "$HOME/.sbt/launchers/"
 script:
-- sbt ++$TRAVIS_SCALA_VERSION test doc
+- sbt "+++ $TRAVIS_SCALA_VERSION test"
+- sbt "+++ $TRAVIS_SCALA_VERSION doc"
 before_cache:
 - find $HOME/.sbt -name "*.lock" -delete
 - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
