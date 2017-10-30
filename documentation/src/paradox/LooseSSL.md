@@ -88,7 +88,7 @@ together with `ConfigFactory.parseString`, and ensure it is never used
 outside that context.
 
 **Environment Scoping**: You can define [environment variables in
-HOCON](https://github.com/typesafehub/config/blob/master/HOCON.md#substitution-fallback-to-environment-variables)
+HOCON](https://github.com/lightbend/config/blob/master/HOCON.md#substitution-fallback-to-environment-variables)
 to ensure that any loose options are not hardcoded in configuration
 files, and therefore cannot escape an development environment.
 

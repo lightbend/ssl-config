@@ -19,8 +19,8 @@ object Common extends AutoPlugin {
 
   // sonatype
   object sonatype extends PublishToSonatype {
-     def projectUrl    = "https://github.com/typesafehub/ssl-config"
-     def scmUrl        = "git://github.com/typesafehub/ssl-config.git"
+     def projectUrl    = "https://github.com/lightbend/ssl-config"
+     def scmUrl        = "git://github.com/lightbend/ssl-config.git"
      def developers    = List(
        Developer("wsargent", "Will Sargent", "https://tersesystems.com"),
        Developer("ktoso", "Konrad Malawski", "https://project13.pl"))

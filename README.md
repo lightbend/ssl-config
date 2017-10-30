@@ -1,7 +1,7 @@
 SSL Config
 ==========
 
-<a href="https://travis-ci.org/typesafehub/ssl-config"><img src="https://travis-ci.org/typesafehub/ssl-config.svg"/></a>
+<a href="https://travis-ci.org/lightbend/ssl-config"><img src="https://travis-ci.org/lightbend/ssl-config.svg"/></a>
 
 Goal and purpose of this library is to make Play's WS library as well as Akka HTTP "secure by default".
 Sadly, while Java's security has been steadily improving some settings are still left up to the user,
@@ -17,8 +17,8 @@ Versions
 
 The project is maintained on two branches:
 
-- [`master`](https://github.com/typesafehub/ssl-config/tree/master) which requires Java 8 and is used by Akka `2.4.x`.
-- [`release-0.1`](https://github.com/typesafehub/ssl-config/tree/release-0.1) which is Java 6 compatible 
+- [`master`](https://github.com/lightbend/ssl-config/tree/master) which requires Java 8 and is used by Akka `2.4.x`.
+- [`release-0.1`](https://github.com/lightbend/ssl-config/tree/release-0.1) which is Java 6 compatible 
   (does lots of manual improvements and checks that JDK6 didn't).
   Currently only the *legacy version* of Akka Streams & Http (which is `2.0.x`) uses this version. 
 
@@ -48,7 +48,7 @@ We aim to stabilise the APIs and provide a stable release eventually.
 Documentation
 =============
 
-Docs are available on: http://typesafehub.github.io/ssl-config
+Docs are available on: https://lightbend.github.io/ssl-config
 
 Recommended reading
 ===================
