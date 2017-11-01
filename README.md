@@ -56,11 +56,11 @@ Recommended reading
 An excellent series by [Will Sargent](https://github.com/wsargent) about making
 [Play's WS](https://www.playframework.com/documentation/2.4.x/ScalaWS) (from which this library originates) "secure by default":
 
-- [Fixing the Most Dangerous Code in the World](https://tersesystems.com/2014/01/13/fixing-the-most-dangerous-code-in-the-world/)
-- [Fixing X.509 Certificates](https://tersesystems.com/2014/03/20/fixing-x509-certificates/)
-- [Fixing Certificate Revocation](https://tersesystems.com/2014/03/22/fixing-certificate-revocation/)
-- [Fixing Hostname Verification](https://tersesystems.com/2014/03/23/fixing-hostname-verification/) 
-- [Testing Hostname Verification](https://tersesystems.com/2014/03/31/testing-hostname-verification)
+- [Fixing the Most Dangerous Code in the World](https://tersesystems.com/blog/2014/01/13/fixing-the-most-dangerous-code-in-the-world/)
+- [Fixing X.509 Certificates](https://tersesystems.com/blog/2014/03/20/fixing-x509-certificates/)
+- [Fixing Certificate Revocation](https://tersesystems.com/blog/2014/03/22/fixing-certificate-revocation/)
+- [Fixing Hostname Verification](https://tersesystems.com/blog/2014/03/23/fixing-hostname-verification/) 
+- [Testing Hostname Verification](https://tersesystems.com/blog/2014/03/31/testing-hostname-verification)
 
 License
 =======
