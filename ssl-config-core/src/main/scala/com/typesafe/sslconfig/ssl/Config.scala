@@ -39,7 +39,7 @@ final class KeyStoreConfig private[sslconfig](
   def withData(data: Option[String]): KeyStoreConfig = copy(data = data, filePath = None)
   /** Disables `data` – only one of those can be used at any given time. */
   def withFilePath(filePath: Option[String]): KeyStoreConfig = copy(filePath = filePath, data = None)
-  def withOnClassPath(onClassPath: Boolean): KeyStoreConfig = copy(isFileOnClasspath = onClassPath, data = None)
+  def withFileOnClassPath(isFileOnClasspath: Boolean): KeyStoreConfig = copy(isFileOnClasspath = isFileOnClasspath, data = None)
   def withPassword(value: Option[String]): KeyStoreConfig = copy(password = value)
   def withStoreType(value: String): KeyStoreConfig = copy(storeType = value)
 
@@ -116,7 +116,7 @@ final class TrustStoreConfig private[sslconfig](
   def withData(data: Option[String]): TrustStoreConfig = copy(data = data, filePath = None)
   /** Disables `data` – only one of those can be used at any given time. */
   def withFilePath(filePath: Option[String]): TrustStoreConfig = copy(filePath = filePath, data = None)
-  def withIsFileOnClasspath(isFileOnClasspath: Boolean): TrustStoreConfig = copy(isFileOnClasspath = isFileOnClasspath, data = None)
+  def withFileOnClasspath(isFileOnClasspath: Boolean): TrustStoreConfig = copy(isFileOnClasspath = isFileOnClasspath, data = None)
   def withStoreType(value: String): TrustStoreConfig = copy(storeType = value)
 
   private def copy(
