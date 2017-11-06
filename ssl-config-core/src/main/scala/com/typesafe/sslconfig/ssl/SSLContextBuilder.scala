@@ -152,7 +152,12 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
   def keyStoreBuilder(ksc: KeyStoreConfig): KeyStoreBuilder = {
     val password = ksc.password.map(_.toCharArray)
     ksc.filePath.map { f =>
-      fileBuilder(ksc.storeType, f, password)
+      if (ksc.isFileOnClasspath) {
+        fileOnClasspathBuilder(ksc.storeType, f, password)
+      } else {
+        fileBuilder(ksc.storeType, f, password)
+      }
+
     }.getOrElse {
       val data = ksc.data.getOrElse(throw new IllegalStateException("No keystore builder found!"))
       stringBuilder(data)
@@ -161,7 +166,11 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
 
   def trustStoreBuilder(tsc: TrustStoreConfig): KeyStoreBuilder = {
     tsc.filePath.map { f =>
-      fileBuilder(tsc.storeType, f, None)
+      if (tsc.isFileOnClasspath) {
+        fileOnClasspathBuilder(tsc.storeType, f, None)
+      } else {
+        fileBuilder(tsc.storeType, f, None)
+      }
     }.getOrElse {
       val data = tsc.data.getOrElse(throw new IllegalStateException("No truststore builder found!"))
       stringBuilder(data)
@@ -170,6 +179,10 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
 
   def fileBuilder(storeType: String, filePath: String, password: Option[Array[Char]]): KeyStoreBuilder = {
     new FileBasedKeyStoreBuilder(storeType, filePath, password)
+  }
+
+  def fileOnClasspathBuilder(storeType: String, filePath: String, password: Option[Array[Char]]): KeyStoreBuilder = {
+    new FileOnClasspathBasedKeyStoreBuilder(storeType, filePath, password)
   }
 
   def stringBuilder(data: String): KeyStoreBuilder = {

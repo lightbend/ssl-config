@@ -108,3 +108,44 @@ class FileBasedKeyStoreBuilder(keyStoreType: String,
   }
 
 }
+
+class FileOnClasspathBasedKeyStoreBuilder(keyStoreType: String,
+                                          filePath: String,
+                                          password: Option[Array[Char]]) extends KeyStoreBuilder {
+
+  def build(): KeyStore = {
+
+    val is = getClass.getClassLoader.getResourceAsStream(filePath)
+    require(is != null, s"Key store file $filePath was not found on the class path!")
+
+    keyStoreType match {
+      case "PEM" =>
+        val certs = readCertificates(is)
+        loadCertificates(certs)
+      case otherFormat =>
+        buildFromKeystoreFile(otherFormat, is)
+    }
+
+  }
+
+  def buildFromKeystoreFile(storeType: String, is: InputStream): KeyStore = {
+    val inputStream = new BufferedInputStream(is)
+    try {
+      val storeType = keyStoreType
+      val store = KeyStore.getInstance(storeType)
+      store.load(inputStream, password.orNull)
+      store
+    } finally {
+      inputStream.close()
+    }
+  }
+
+  def readCertificates(is: InputStream): Iterable[Certificate] = {
+    import scala.collection.JavaConverters._
+    val cf = CertificateFactory.getInstance("X.509")
+    val bis = new BufferedInputStream(is)
+
+    cf.generateCertificates(bis).asScala
+  }
+
+}
