@@ -49,11 +49,11 @@ list of enabled cipher suites is as follows:
       "TLS_EMPTY_RENEGOTIATION_INFO_SCSV" // per RFC 5746
 
 The list of cipher suites can be configured manually using the
-``ssl-config.ssl.enabledCipherSuites`` setting:
+``ssl-config.enabledCipherSuites`` setting:
 
 ::
 
-    ssl-config.ssl.enabledCipherSuites = [
+    ssl-config.enabledCipherSuites = [
       "TLS_DHE_RSA_WITH_AES_128_GCM_SHA256"
     ]
 
@@ -83,7 +83,7 @@ following cipher suites are recommended:
 
 ::
 
-    ssl-config.ssl.enabledCipherSuites = [
+    ssl-config.enabledCipherSuites = [
       "TLS_DHE_RSA_WITH_AES_128_GCM_SHA256",
       "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
       "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384",
@@ -138,7 +138,7 @@ To debug ciphers and weak keys, turn on the following debug settings:
 
 ::
 
-    ssl-config.ssl.debug = {
+    ssl-config.debug = {
      ssl = true
      handshake = true
      verbose = true

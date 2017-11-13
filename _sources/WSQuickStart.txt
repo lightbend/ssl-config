@@ -108,7 +108,7 @@ format specifically:
 
 ::
 
-    ssl-config.ssl {
+    ssl-config {
       trustManager = {
         stores = [
           { type = "PEM", path = "/path/to/cert/globalsign.crt" }
