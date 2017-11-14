@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Loose Options · SSL Config</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='documentation'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.2
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="active page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="index.html">SSL Config</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.2
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="active page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="index.html">SSL Config</a></li>
+  <li>Loose Options</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#loose-options" name="loose-options" class="anchor"><span class="anchor-link"></span></a>Loose Options</h1>
+<h2><a href="#we-understand" name="we-understand" class="anchor"><span class="anchor-link"></span></a>We understand</h2>
+<p>Setting up SSL is not all that fun. It is not lost on anyone that setting up even a single web service with HTTPS involves setting up several certificates, reading boring cryptography documentation and dire warnings.</p>
+<p>Despite that, all the security features in SSL are there for good reasons, and turning them off, even for development purposes, has led to even less fun than setting up SSL properly.</p>
+<h2><a href="#please-read-this-before-turning-anything-off-" name="please-read-this-before-turning-anything-off-" class="anchor"><span class="anchor-link"></span></a>Please read this before turning anything off!</h2>
+<h3><a href="#man-in-the-middle-attacks-are-well-known" name="man-in-the-middle-attacks-are-well-known" class="anchor"><span class="anchor-link"></span></a>Man in the Middle attacks are well known</h3>
+<p>The information security community is very well aware of how insecure most internal networks are, and uses that to their advantage. A video discussing attacks detailed a <a href="http://2012.video.sector.ca/page/6">wide range of possible attacks</a>.</p>
+<h3><a href="#man-in-the-middle-attacks-are-common" name="man-in-the-middle-attacks-are-common" class="anchor"><span class="anchor-link"></span></a>Man in the Middle attacks are common</h3>
+<p>The average company can expect to have seven or eight <a href="https://sites.google.com/site/cse825maninthemiddle/">Man in the Middle</a> attacks a year. In some cases, up to 300,000 users can be compromised <a href="https://security.stackexchange.com/questions/12041/are-man-in-the-middle-attacks-extremely-rare">over several months</a>.</p>
+<h3><a href="#attackers-have-a-suite-of-tools-that-automatically-exploit-flaws" name="attackers-have-a-suite-of-tools-that-automatically-exploit-flaws" class="anchor"><span class="anchor-link"></span></a>Attackers have a suite of tools that automatically exploit flaws</h3>
+<p>The days of the expert hacker are over. Most security professionals use automated linux environments such as Kali Linux to do penetration testing, packed with hundreds of tools to check for exploits. A video of <a href="https://www.youtube.com/watch?v=pfHsRscy540">Cain &amp; Abel</a> shows passwords being compromised in less than 20 seconds.</p>
+<p>Hackers won&rsquo;t bother to see whether something will &ldquo;look encrypted&rdquo; or not. Instead, they&rsquo;ll set up a machine with a toolkit that will run through every possible exploit, and go out for coffee.</p>
+<h3><a href="#security-is-increasingly-important-and-public" name="security-is-increasingly-important-and-public" class="anchor"><span class="anchor-link"></span></a>Security is increasingly important and public</h3>
+<p>More and more information flows through computers every day. The public and the media are taking increasing notice of the possibility that their private communications can be intercepted. Google, Facebook, Yahoo, and other leading companies have made secure communication a priority and have devoted millions to ensuring that <a href="https://www.eff.org/deeplinks/2013/11/encrypt-web-report-whos-doing-what">data cannot be read</a>.</p>
+<h3><a href="#ethernet-password-protected-wifi-does-not-provide-a-meaningful-level-of-security-" name="ethernet-password-protected-wifi-does-not-provide-a-meaningful-level-of-security-" class="anchor"><span class="anchor-link"></span></a>Ethernet / Password protected WiFi does not provide a meaningful level of security.</h3>
+<p>A networking auditing tool such as a <a href="https://wifipineapple.com/">Wifi Pineapple</a> costs around $100, picks up all traffic sent over a wifi network, and is so good at intercepting traffic that people have turned it on and started <a href="http://www.troyhunt.com/2013/04/the-beginners-guide-to-breaking-website.html">intercepting traffic accidentally</a>.</p>
+<h3><a href="#companies-have-been-sued-for-inadequate-security" name="companies-have-been-sued-for-inadequate-security" class="anchor"><span class="anchor-link"></span></a>Companies have been sued for inadequate security</h3>
+<p>PCI compliance is not the only thing that companies have to worry about. The FTC sued <a href="https://www.ftc.gov/news-events/press-releases/2014/03/fandango-credit-karma-settle-ftc-charges-they-deceived-consumers">Fandango and Credit Karma</a> on charges that they failed to securely transmit information, including credit card information.</p>
+<h3><a href="#correctly-configured-https-clients-are-important" name="correctly-configured-https-clients-are-important" class="anchor"><span class="anchor-link"></span></a>Correctly configured HTTPS clients are important</h3>
+<p>Sensitive, company confidential information goes over web services. A paper discussing insecurities in WS clients was titled <a href="https://www.cs.utexas.edu/~shmat/shmat_ccs12.pdf">The Most Dangerous Code in the World: Validating SSL Certificates in Non-Browser Software</a>, and lists poor default configuration and explicit disabling of security options as the primary reason for exposure. The WS client has been configured as much as possible to be secure by default, and there are example configurations provided for your benefit.</p>
+<h2><a href="#mitigation" name="mitigation" class="anchor"><span class="anchor-link"></span></a>Mitigation</h2>
+<p>If you must turn on loose options, there are a couple of things you can do to minimize your exposure.</p>
+<p><strong>Custom Play WSClient</strong>: You can create a <a href="https://www.playframework.com/documentation/2.4.x/ScalaWS">custom Play WSClient</a> specifically for the server, using the <a href="api/scala/play/api/libs/ws/WSConfigParser.html"><code>WSConfigParser</code></a> together with <code>ConfigFactory.parseString</code>, and ensure it is never used outside that context.</p>
+<p><strong>Environment Scoping</strong>: You can define <a href="https://github.com/lightbend/config/blob/master/HOCON.md#substitution-fallback-to-environment-variables">environment variables in HOCON</a> to ensure that any loose options are not hardcoded in configuration files, and therefore cannot escape an development environment.</p>
+<p><strong>Runtime / Deployment Checks</strong>: You can add code to your deployment scripts or program that checks that <code>ssl-config.loose</code> options are not enabled in a production environment. The runtime mode can be found in the <a href="api/scala/play/api/Application.html"><code>Application.mode</code></a> method.</p>
+<h2><a href="#loose-options" name="loose-options" class="anchor"><span class="anchor-link"></span></a>Loose Options</h2>
+<p>Finally, here are the options themselves.</p>
+<h3><a href="#disabling-certificate-verification" name="disabling-certificate-verification" class="anchor"><span class="anchor-link"></span></a>Disabling Certificate Verification</h3><div class="callout note "><div class="callout-title">Note</div>
+<p>In most cases, people turn off certificate verification because they haven&rsquo;t generated certificates. <strong>There are other options besides disabling certificate verification.</strong></p>
+<ul>
+  <li><a href="WSQuickStart.html">Quick Start to WS SSL</a> shows how to connect directly to a server using a self signed certificate.</li>
+  <li><a href="CertificateGeneration.html">Generating X.509 Certificates</a> lists a number of GUI applications that will generate certificates for you.</li>
+  <li><a href="ExampleSSLConfig.html">Example Configurations</a> shows complete configuration of TLS using self signed certificates.</li>
+  <li>If you want to view your application through HTTPS, you can use <a href="https://ngrok.com/">ngrok</a> to proxy your application.</li>
+  <li>If you need a certificate authority but don&rsquo;t want to pay money, <a href="https://www.startssl.com/?app=1">StartSSL</a> or <a href="http://www.cacert.org/">CACert</a> will give you a free certificate.</li>
+  <li>If you want a self signed certificate and private key without typing on the command line, you can use <a href="http://www.selfsignedcertificate.com/">selfsignedcertificate.com</a>.</li>
+</ul></div>
+<p>If you&rsquo;ve read the above and you still want to completely disable certificate verification, set the following;</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.loose.acceptAnyCertificate=true
+</code></pre>
+<p>With certificate verification completely disabled, you are vulnerable to attack from anyone on the network using a tool such as <a href="https://mitmproxy.org/">mitmproxy</a>.</p><div class="callout note "><div class="callout-title">Note</div>
+<p>By disabling certificate validation, you are also disabling hostname verification!</p></div>
+<h3><a href="#disabling-weak-ciphers-checking" name="disabling-weak-ciphers-checking" class="anchor"><span class="anchor-link"></span></a>Disabling Weak Ciphers Checking</h3>
+<p>There are some ciphers which are known to have flaws, and are <a href="http://sim.ivi.co/2011/08/jsse-oracle-provider-default-disabled.html">disabled</a> in 1.7. WS will throw an exception if a weak cipher is found in the <code>ssl-config.enabledCiphers</code> list. If you specifically want a weak cipher, set this flag:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.loose.allowWeakCiphers=true
+</code></pre>
+<p>With weak cipher checking disabled, you are vulnerable to attackers that use forged certificates, such as <a href="http://arstechnica.com/security/2012/06/flame-crypto-breakthrough/">Flame</a>.</p>
+<h3><a href="#disabling-hostname-verification" name="disabling-hostname-verification" class="anchor"><span class="anchor-link"></span></a>Disabling Hostname Verification</h3>
+<p>If you want to disable hostname verification, you can set a loose flag:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.loose.disableHostnameVerification=true
+</code></pre>
+<p>With hostname verification disabled, a DNS proxy such as <code>dnschef</code> can <a href="https://tersesystems.com/2014/03/31/testing-hostname-verification/">easily intercept communication</a>.</p><div class="callout note "><div class="callout-title">Note</div>
+<p>By disabling hostname verification, you are also disabling certificate verification!</p></div>
+<h3><a href="#disabled-protocols" name="disabled-protocols" class="anchor"><span class="anchor-link"></span></a>Disabled Protocols</h3>
+<p>WS recognizes &ldquo;SSLv3&rdquo;, &ldquo;SSLv2&rdquo; and &ldquo;SSLv2Hello&rdquo; as weak protocols with a number of <a href="https://www.schneier.com/paper-ssl.pdf">security issues</a>, and will throw an exception if they are in the <code>ssl-config.enabledProtocols</code> list. Virtually all servers support <code>TLSv1</code>, so there is no advantage in using these older protocols.</p>
+<p>If you specifically want a weak protocol, set the loose flag to disable the check:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.loose.allowWeakProtocols=true
+</code></pre>
+<p>SSLv2 and SSLv2Hello (there is no v1) are obsolete and usage in the field is <a href="https://www.trustworthyinternet.org/ssl-pulse/">down to 25% on the public Internet</a>. SSLv3 is known to have <a href="http://www.yaksman.org/~lweith/ssl.pdf">security issues</a> compared to TLS. The only reason to turn this on is if you are connecting to a legacy server, but doing so does not make you vulnerable per se.</p>
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="TestingSSL.html">Testing SSL</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="LooseSSL.html#loose-options" class="header">Loose Options</a>
+  <ul>
+    <li><a href="LooseSSL.html#we-understand" class="header">We understand</a></li>
+    <li><a href="LooseSSL.html#please-read-this-before-turning-anything-off-" class="header">Please read this before turning anything off!</a></li>
+    <li><a href="LooseSSL.html#mitigation" class="header">Mitigation</a></li>
+    <li><a href="LooseSSL.html#loose-options" class="header">Loose Options</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2017</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="js/magellan.js"></script>
+
+<style type="text/css">@import "lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+
+</html>

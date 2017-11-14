@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Configuring Certificate Validation · SSL Config</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='documentation'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.2
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="active page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="index.html">SSL Config</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.2
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="active page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="index.html">SSL Config</a></li>
+  <li>Configuring Certificate Validation</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#configuring-certificate-validation" name="configuring-certificate-validation" class="anchor"><span class="anchor-link"></span></a>Configuring Certificate Validation</h1>
+<p>In an SSL connection, the identity of the remote server is verified using an X.509 certificate which has been signed by a certificate authority.</p>
+<p>The JSSE implementation of X.509 certificates is defined in the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/certpath/CertPathProgGuide.html">PKI Programmer&rsquo;s Guide</a>.</p>
+<p>Some X.509 certificates that are used by servers are old, and are using signatures that can be forged by an attacker. Because of this, it may not be possible to verify the identity of the server if that signature algorithm is being used. Fortunately, this is rare &ndash; over 95% of trusted leaf certificates and 95% of trusted signing certificates use <a href="http://csrc.nist.gov/publications/nistpubs/800-131A/sp800-131A.pdf">NIST recommended key sizes</a>.</p>
+<p>WS automatically disables weak signature algorithms and weak keys for you, according to the <a href="http://sim.ivi.co/2012/04/nist-security-strength-time-frames.html">current standards</a>.</p>
+<p>This feature is similar to <a href="http://sim.ivi.co/2013/11/harness-ssl-and-jsse-key-size-control.html">jdk.certpath.disabledAlgorithms</a>, but is specific to the WS client and can be set dynamically, whereas jdk.certpath.disabledAlgorithms is global across the JVM, must be set via a security property, and is only available in JDK 1.7 and later.</p>
+<p>You can override this to your tastes, but it is recommended to be at least as strict as the defaults. The appropriate signature names can be looked up in the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html">Providers Documentation</a>.</p>
+<h2><a href="#disabling-certificates-with-weak-signature-algorithms" name="disabling-certificates-with-weak-signature-algorithms" class="anchor"><span class="anchor-link"></span></a>Disabling Certificates with Weak Signature Algorithms</h2>
+<p>The default list of disabled signature algorithms is defined below:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.disabledSignatureAlgorithms = &quot;MD2, MD4, MD5&quot;
+</code></pre>
+<p>MD5 is disabled, based on the proven <a href="https://www.win.tue.nl/hashclash/rogue-ca/">collision attack</a> and the Mozilla recommendations:</p>
+<blockquote>
+  <p>MD5 certificates may be compromised when attackers can create a fake cert that hashes to the same value as one with a legitimate signature, and is hence trusted. Mozilla can mitigate this potential vulnerability by turning off support for MD5-based signatures. The MD5 root certificates don&rsquo;t necessarily need to be removed from NSS, because the signatures of root certificates are not validated (roots are self-signed). Disabling MD5 will impact intermediate and end entity certificates, where the signatures are validated.</p>
+  <p>The relevant CAs have confirmed that they stopped issuing MD5 certificates. However, there are still many end entity certificates that would be impacted if support for MD5-based signatures was turned off in 2010. Therefore, we are hoping to give the affected CAs time to react, and are proposing the date of June 30, 2011 for turning off support for MD5-based signatures. The relevant CAs are aware that Mozilla will turn off MD5 support earlier if needed.</p>
+</blockquote>
+<p>SHA-1 is considered weak, and new certificates should use digest algorithms from the <a href="https://en.wikipedia.org/wiki/SHA-2">SHA-2 family</a>. However, old certificates should still be considered valid.</p>
+<h2><a href="#disabling-certificates-with-weak-key-sizes" name="disabling-certificates-with-weak-key-sizes" class="anchor"><span class="anchor-link"></span></a>Disabling Certificates With Weak Key Sizes</h2>
+<p>WS defines the default list of weak key sizes as follows:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.disabledKeyAlgorithms = &quot;DHE keySize &lt; 2048, ECDH keySize &lt; 2048, ECDHE keySize &lt; 2048, RSA keySize &lt; 2048, DSA keySize &lt; 2048, EC keySize &lt; 224&quot;
+</code></pre>
+<p>These settings are based in part on <a href="http://www.keylength.com/">keylength.com</a>, and in part on the Mozilla recommendations:</p>
+<blockquote>
+  <p>The NIST recommendation is to discontinue 1024-bit RSA certificates by December 31, 2010. Therefore, CAs have been advised that they should not sign any more certificates under their 1024-bit roots by the end of this year.</p>
+  <p>The date for disabling/removing 1024-bit root certificates will be dependent on the state of the art in public key cryptography, but under no circumstances should any party expect continued support for this modulus size past December 31, 2013. As mentioned above, this date could get moved up substantially if new attacks are discovered. We recommend all parties involved in secure transactions on the web move away from 1024-bit moduli as soon as possible.</p>
+</blockquote><div class="callout note "><div class="callout-title">Note</div>
+<p>Because weak key sizes also apply to root certificates (which is not included in the certificate chain available to the PKIX certpath checker included in JSSE), setting this option will check the accepted issuers in any configured trustmanagers and keymanagers, including the default.</p></div>
+<p>Over 95% of trusted leaf certificates and 95% of trusted signing certificates use <a href="http://csrc.nist.gov/publications/nistpubs/800-131A/sp800-131A.pdf">NIST recommended key sizes</a>, so this is considered a safe default.</p>
+<h2><a href="#disabling-weak-certificates-globally" name="disabling-weak-certificates-globally" class="anchor"><span class="anchor-link"></span></a>Disabling Weak Certificates Globally</h2>
+<p>To disable signature algorithms and weak key sizes globally across the JVM, use the <code>jdk.certpath.disabledAlgorithms</code> <a href="http://sim.ivi.co/2011/07/java-se-7-release-security-enhancements.html">security property</a>. Setting security properties is covered in more depth in <a href="CipherSuites.html">Configuring Cipher Suites</a> section.</p><div class="callout note "><div class="callout-title">Note</div>
+<p>If configured, the <code>jdk.certpath.disabledAlgorithms</code> property should contain the settings from both <code>disabledKeyAlgorithms</code> and <code>disabledSignatureAlgorithms</code>.</p></div>
+<h2><a href="#debugging-certificate-validation" name="debugging-certificate-validation" class="anchor"><span class="anchor-link"></span></a>Debugging Certificate Validation</h2>
+<p>To see more details on certificate validation, set the following debug configuration:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.debug.certpath = true
+</code></pre>
+<p>The undocumented setting <code>-Djava.security.debug=x509</code> may also be helpful.</p>
+<h2><a href="#further-reading" name="further-reading" class="anchor"><span class="anchor-link"></span></a>Further Reading</h2>
+<ul>
+  <li><a href="https://wiki.mozilla.org/CA:MD5and1024">Dates for Phasing out MD5-based signatures and 1024-bit moduli</a></li>
+  <li><a href="https://tersesystems.com/2014/03/20/fixing-x509-certificates/">Fixing X.509 Certificates</a></li>
+</ul>
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="ExampleSSLConfig.html">Example Configurations</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="CertificateValidation.html#configuring-certificate-validation" class="header">Configuring Certificate Validation</a>
+  <ul>
+    <li><a href="CertificateValidation.html#disabling-certificates-with-weak-signature-algorithms" class="header">Disabling Certificates with Weak Signature Algorithms</a></li>
+    <li><a href="CertificateValidation.html#disabling-certificates-with-weak-key-sizes" class="header">Disabling Certificates With Weak Key Sizes</a></li>
+    <li><a href="CertificateValidation.html#disabling-weak-certificates-globally" class="header">Disabling Weak Certificates Globally</a></li>
+    <li><a href="CertificateValidation.html#debugging-certificate-validation" class="header">Debugging Certificate Validation</a></li>
+    <li><a href="CertificateValidation.html#further-reading" class="header">Further Reading</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2017</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="js/magellan.js"></script>
+
+<style type="text/css">@import "lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+
+</html>
