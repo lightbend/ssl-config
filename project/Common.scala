@@ -35,7 +35,15 @@ object Common extends AutoPlugin {
       scalaVersion := "2.10.6",
       crossScalaVersions := Seq("2.10.6", "2.11.7"),
       updateOptions := updateOptions.value.withCachedResolution(true),
-      scalacOptions ++= Seq("-encoding", "UTF-8", "-target:jvm-1.6", "-unchecked", "-deprecation", "-feature"),
+      scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature"),
+      scalacOptions ++= {
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, v)) if v <= 11 =>
+            Seq("-target:jvm-1.6")
+          case _ =>
+            Nil
+        }
+      },
       javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.6", "-target", "1.6"),
       // Scalariform settings
       ScalariformKeys.preferences := ScalariformKeys.preferences.value
