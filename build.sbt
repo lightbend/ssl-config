@@ -39,28 +39,9 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
 lazy val documentation = project.in(file("documentation"))
   .settings(dontPublishSettings: _*)
 
-lazy val sslConfigAkka = project.in(file("ssl-config-akka"))
-  .dependsOn(sslConfigCore)
-  .settings(commonSettings: _*)
-  .settings(osgiSettings: _*)
-  .settings(
-    name := "ssl-config-akka",
-    // Not building to Scala 2.13 to avoid circular dependency with Akka
-    crossScalaVersions := Seq(Version.scala212, Version.scala211, Version.scala210),
-    libraryDependencies ++= (
-      scalaBinaryVersion.value match {
-        case "2.10" => Dependencies.sslConfigAkka210
-        case _      => Dependencies.sslConfigAkka
-      }),
-    OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig.akka",
-    OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.akka.*;version=${version.value}"),
-    OsgiKeys.requireBundle := Seq(s"""com.typesafe.sslconfig;bundle-version="${version.value}"""")
-  ).enablePlugins(ReleasePlugin, SbtOsgi)
-
 lazy val root = project.in(file("."))
   .aggregate(
     sslConfigCore,
-    sslConfigAkka,
     documentation
   )
   .settings(dontPublishSettings: _*)
