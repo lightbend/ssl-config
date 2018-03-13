@@ -30,6 +30,7 @@ import scala.language.existentials
 final class KeyStoreConfig private[sslconfig](
   val data: Option[String],
   val filePath: Option[String],
+  val isFileOnClasspath: Boolean = false,
   val password: Option[String] = None,
   val storeType: String = KeyStore.getDefaultType) {
   assert(filePath.isDefined ^ data.isDefined, "Either key store path or data must be defined, but not both.")
@@ -38,21 +39,24 @@ final class KeyStoreConfig private[sslconfig](
   def withData(data: Option[String]): KeyStoreConfig = copy(data = data, filePath = None)
   /** Disables `data` – only one of those can be used at any given time. */
   def withFilePath(filePath: Option[String]): KeyStoreConfig = copy(filePath = filePath, data = None)
+  def withFileOnClassPath(isFileOnClasspath: Boolean): KeyStoreConfig = copy(isFileOnClasspath = isFileOnClasspath, data = None)
   def withPassword(value: Option[String]): KeyStoreConfig = copy(password = value)
   def withStoreType(value: String): KeyStoreConfig = copy(storeType = value)
 
   private def copy(
     data: Option[String] = data,
     filePath: Option[String] = filePath,
+    isFileOnClasspath: Boolean = isFileOnClasspath,
     password: Option[String] = password,
     storeType: String = storeType): KeyStoreConfig = new KeyStoreConfig(
       data = data,
       filePath = filePath,
+      isFileOnClasspath = isFileOnClasspath,
       password = password,
       storeType = storeType)
 
   override def toString =
-    s"""KeyStoreConfig(${data},${filePath},${password},${storeType})"""
+    s"""KeyStoreConfig(${data},${filePath},${isFileOnClasspath},${password},${storeType})"""
 }
 object KeyStoreConfig {
   def apply(data: Option[String], filePath: Option[String]) = new KeyStoreConfig(data, filePath)
@@ -103,6 +107,7 @@ object TrustManagerConfig {
 final class TrustStoreConfig private[sslconfig](
   val data: Option[String],
   val filePath: Option[String],
+  val isFileOnClasspath: Boolean = false,
   val storeType: String = KeyStore.getDefaultType) {
 
   assert(filePath.isDefined ^ data.isDefined, "Either trust store path or data must be defined, but not both.")
@@ -111,18 +116,21 @@ final class TrustStoreConfig private[sslconfig](
   def withData(data: Option[String]): TrustStoreConfig = copy(data = data, filePath = None)
   /** Disables `data` – only one of those can be used at any given time. */
   def withFilePath(filePath: Option[String]): TrustStoreConfig = copy(filePath = filePath, data = None)
+  def withFileOnClasspath(isFileOnClasspath: Boolean): TrustStoreConfig = copy(isFileOnClasspath = isFileOnClasspath, data = None)
   def withStoreType(value: String): TrustStoreConfig = copy(storeType = value)
 
   private def copy(
     data: Option[String] = data,
     filePath: Option[String] = filePath,
+    isFileOnClasspath: Boolean = isFileOnClasspath,
     storeType: String = storeType): TrustStoreConfig = new TrustStoreConfig(
       data = data,
       filePath = filePath,
+      isFileOnClasspath = isFileOnClasspath,
       storeType = storeType)
 
   override def toString =
-    s"""TrustStoreConfig(${data},${filePath},${storeType})"""
+    s"""TrustStoreConfig(${data},${filePath},${isFileOnClasspath},${storeType})"""
 }
 object TrustStoreConfig {
   def apply(data: Option[String], filePath: Option[String]) = new TrustStoreConfig(data, filePath)
@@ -617,10 +625,11 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   def parseKeyStoreInfo(config: EnrichedConfig): KeyStoreConfig = {
     val storeType = config.getOptional[String]("type").getOrElse(KeyStore.getDefaultType)
     val path = config.getOptional[String]("path")
+    val classPath = config.getOptional[Boolean]("classpath").getOrElse(false)
     val data = config.getOptional[String]("data")
     val password = config.getOptional[String]("password")
 
-    new KeyStoreConfig(filePath = path, storeType = storeType, data = data, password = password)
+    new KeyStoreConfig(filePath = path, storeType = storeType, isFileOnClasspath = classPath, data = data, password = password)
   }
 
   /**
@@ -629,9 +638,10 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
   def parseTrustStoreInfo(config: EnrichedConfig): TrustStoreConfig = {
     val storeType = config.getOptional[String]("type").getOrElse(KeyStore.getDefaultType)
     val path = config.getOptional[String]("path")
+    val classPath = config.getOptional[Boolean]("classpath").getOrElse(false)
     val data = config.getOptional[String]("data")
 
-    new TrustStoreConfig(filePath = path, storeType = storeType, data = data)
+    new TrustStoreConfig(filePath = path, isFileOnClasspath = classPath, storeType = storeType, data = data)
   }
 
   /**

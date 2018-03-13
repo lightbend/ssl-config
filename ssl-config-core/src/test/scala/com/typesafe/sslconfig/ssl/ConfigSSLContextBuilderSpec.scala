@@ -184,6 +184,20 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       actual must beAnInstanceOf[FileBasedKeyStoreBuilder]
     }
 
+    "build a file on classpath based keystore builder" in {
+      val info = SSLConfigSettings()
+      val keyManagerFactory = mock[KeyManagerFactoryWrapper]
+      val trustManagerFactory = mock[TrustManagerFactoryWrapper]
+      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
+
+      val storeType = KeyStore.getDefaultType
+      val filePath = "derp"
+
+      val actual = builder.fileOnClasspathBuilder(storeType, filePath, None)
+      actual must beAnInstanceOf[FileOnClasspathBasedKeyStoreBuilder]
+
+    }
+
     "build a string based keystore builder" in {
       val info = SSLConfigSettings()
       val keyManagerFactory = mock[KeyManagerFactoryWrapper]
