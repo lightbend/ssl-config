@@ -16,6 +16,7 @@ val dontPublishSettings = Seq(
 
 lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(commonSettings: _*)
+  .settings(AutomaticModuleName.settings("ssl.config.core"))
   .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-core",
