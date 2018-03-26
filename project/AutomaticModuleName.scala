@@ -1,8 +1,6 @@
-/**
-  * Copyright (C) 2016-2018 Lightbend Inc. <https://www.lightbend.com>
-  */
-
-// package akka
+/*
+ * Copyright (C) 2016-2018 Lightbend Inc. <https://www.lightbend.com>
+ */
 
 import sbt.{Def, _}
 import sbt.Keys._
