@@ -1,0 +1,1010 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>ssl - com.typesafe.sslconfig.ssl</title>
+          <meta name="description" content="ssl - com.typesafe.sslconfig.ssl" />
+          <meta name="keywords" content="ssl com.typesafe.sslconfig.ssl" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'com.typesafe.sslconfig.ssl.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../package.html" class="extype" name="com.typesafe.sslconfig">sslconfig</a></p>
+        <h1>ssl</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ssl</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="com.typesafe.sslconfig.ssl"><span>ssl</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.typesafe.sslconfig.ssl.AlgorithmChecker" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AlgorithmCheckerextendsPKIXCertPathChecker"></a>
+      <a id="AlgorithmChecker:AlgorithmChecker"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="AlgorithmChecker.html"><span class="name">AlgorithmChecker</span></a><span class="result"> extends <span class="extype" name="java.security.cert.PKIXCertPathChecker">PKIXCertPathChecker</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Looks for disabled algorithms in the certificate.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.AlgorithmConstraint" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AlgorithmConstraintextendsProductwithSerializable"></a>
+      <a id="AlgorithmConstraint:AlgorithmConstraint"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AlgorithmConstraint.html"><span class="name">AlgorithmConstraint</span></a><span class="params">(<span name="algorithm">algorithm: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="constraint">constraint: <span class="extype" name="scala.Option">Option</span>[<a href="ExpressionSymbol.html" class="extype" name="com.typesafe.sslconfig.ssl.ExpressionSymbol">ExpressionSymbol</a>] = <span class="symbol">scala.None</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.ClientAuth" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ClientAuthextendsAnyRef"></a>
+      <a id="ClientAuth:ClientAuth"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ClientAuth.html"><span class="name">ClientAuth</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">An SSLEngine can either demand, allow or ignore its peer’s authentication
+(via certificates), where <code>Need</code> will fail the handshake if the peer does
+not provide valid credentials, <code>Want</code> allows the peer to send credentials
+and verifies them if provided, and <code>None</code> disables peer certificate
+verification.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.CompositeCertificateException" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CompositeCertificateExceptionextendsCertificateException"></a>
+      <a id="CompositeCertificateException:CompositeCertificateException"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="CompositeCertificateException.html"><span class="name">CompositeCertificateException</span></a><span class="result"> extends <span class="extype" name="java.security.cert.CertificateException">CertificateException</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A certificate exception that contains underlying exceptions.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.CompositeX509KeyManager" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CompositeX509KeyManagerextendsX509ExtendedKeyManager"></a>
+      <a id="CompositeX509KeyManager:CompositeX509KeyManager"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="CompositeX509KeyManager.html"><span class="name">CompositeX509KeyManager</span></a><span class="result"> extends <span class="extype" name="javax.net.ssl.X509ExtendedKeyManager">X509ExtendedKeyManager</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A keymanager that wraps other X509 key managers.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.CompositeX509TrustManager" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CompositeX509TrustManagerextendsX509TrustManager"></a>
+      <a id="CompositeX509TrustManager:CompositeX509TrustManager"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="CompositeX509TrustManager.html"><span class="name">CompositeX509TrustManager</span></a><span class="result"> extends <span class="extype" name="javax.net.ssl.X509TrustManager">X509TrustManager</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A trust manager that is a composite of several smaller trust managers.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.ConfigSSLContextBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ConfigSSLContextBuilderextendsSSLContextBuilder"></a>
+      <a id="ConfigSSLContextBuilder:ConfigSSLContextBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ConfigSSLContextBuilder.html"><span class="name">ConfigSSLContextBuilder</span></a><span class="result"> extends <a href="SSLContextBuilder.html" class="extype" name="com.typesafe.sslconfig.ssl.SSLContextBuilder">SSLContextBuilder</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Creates an SSL context builder from info objects.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.DefaultHostnameVerifier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DefaultHostnameVerifierextendsHostnameVerifier"></a>
+      <a id="DefaultHostnameVerifier:DefaultHostnameVerifier"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultHostnameVerifier.html"><span class="name">DefaultHostnameVerifier</span></a><span class="result"> extends <span class="extype" name="javax.net.ssl.HostnameVerifier">HostnameVerifier</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Use the internal sun hostname checker as the hostname verifier.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.DefaultKeyManagerFactoryWrapper" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DefaultKeyManagerFactoryWrapperextendsKeyManagerFactoryWrapper"></a>
+      <a id="DefaultKeyManagerFactoryWrapper:DefaultKeyManagerFactoryWrapper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultKeyManagerFactoryWrapper.html"><span class="name">DefaultKeyManagerFactoryWrapper</span></a><span class="result"> extends <a href="KeyManagerFactoryWrapper.html" class="extype" name="com.typesafe.sslconfig.ssl.KeyManagerFactoryWrapper">KeyManagerFactoryWrapper</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.DefaultTrustManagerFactoryWrapper" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DefaultTrustManagerFactoryWrapperextendsTrustManagerFactoryWrapper"></a>
+      <a id="DefaultTrustManagerFactoryWrapper:DefaultTrustManagerFactoryWrapper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultTrustManagerFactoryWrapper.html"><span class="name">DefaultTrustManagerFactoryWrapper</span></a><span class="result"> extends <a href="TrustManagerFactoryWrapper.html" class="extype" name="com.typesafe.sslconfig.ssl.TrustManagerFactoryWrapper">TrustManagerFactoryWrapper</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.DisabledComplainingHostnameVerifier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DisabledComplainingHostnameVerifierextendsHostnameVerifier"></a>
+      <a id="DisabledComplainingHostnameVerifier:DisabledComplainingHostnameVerifier"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DisabledComplainingHostnameVerifier.html"><span class="name">DisabledComplainingHostnameVerifier</span></a><span class="result"> extends <span class="extype" name="javax.net.ssl.HostnameVerifier">HostnameVerifier</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Add a disabled but complaining hostname verifier.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.Equal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EqualextendsExpressionSymbolwithProductwithSerializable"></a>
+      <a id="Equal:Equal"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Equal.html"><span class="name">Equal</span></a><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="ExpressionSymbol.html" class="extype" name="com.typesafe.sslconfig.ssl.ExpressionSymbol">ExpressionSymbol</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.ExpressionSymbol" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ExpressionSymbolextendsAnyRef"></a>
+      <a id="ExpressionSymbol:ExpressionSymbol"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ExpressionSymbol.html"><span class="name">ExpressionSymbol</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.FakeKeyStore" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FakeKeyStoreextendsAnyRef"></a>
+      <a id="FakeKeyStore:FakeKeyStore"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="FakeKeyStore.html"><span class="name">FakeKeyStore</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A fake key store</p>
+    </li><li name="com.typesafe.sslconfig.ssl.FileBasedKeyStoreBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FileBasedKeyStoreBuilderextendsKeyStoreBuilder"></a>
+      <a id="FileBasedKeyStoreBuilder:FileBasedKeyStoreBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="FileBasedKeyStoreBuilder.html"><span class="name">FileBasedKeyStoreBuilder</span></a><span class="result"> extends <a href="KeyStoreBuilder.html" class="extype" name="com.typesafe.sslconfig.ssl.KeyStoreBuilder">KeyStoreBuilder</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Builds a keystore from a file containing PEM encoded certificates, using CertificateFactory internally.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.FileOnClasspathBasedKeyStoreBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FileOnClasspathBasedKeyStoreBuilderextendsKeyStoreBuilder"></a>
+      <a id="FileOnClasspathBasedKeyStoreBuilder:FileOnClasspathBasedKeyStoreBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="FileOnClasspathBasedKeyStoreBuilder.html"><span class="name">FileOnClasspathBasedKeyStoreBuilder</span></a><span class="result"> extends <a href="KeyStoreBuilder.html" class="extype" name="com.typesafe.sslconfig.ssl.KeyStoreBuilder">KeyStoreBuilder</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.JavaSecurityDebugBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaSecurityDebugBuilderextendsAnyRef"></a>
+      <a id="JavaSecurityDebugBuilder:JavaSecurityDebugBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaSecurityDebugBuilder.html"><span class="name">JavaSecurityDebugBuilder</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="com.typesafe.sslconfig.ssl.JavaxNetDebugBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaxNetDebugBuilderextendsAnyRef"></a>
+      <a id="JavaxNetDebugBuilder:JavaxNetDebugBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaxNetDebugBuilder.html"><span class="name">JavaxNetDebugBuilder</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A builder for setting the system property options in &quot;javax.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.KeyManagerConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KeyManagerConfigextendsAnyRef"></a>
+      <a id="KeyManagerConfig:KeyManagerConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="KeyManagerConfig.html"><span class="name">KeyManagerConfig</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">The key manager config.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.KeyManagerFactoryWrapper" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="KeyManagerFactoryWrapperextendsAnyRef"></a>
+      <a id="KeyManagerFactoryWrapper:KeyManagerFactoryWrapper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="KeyManagerFactoryWrapper.html"><span class="name">KeyManagerFactoryWrapper</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.KeyStoreBuilder" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="KeyStoreBuilderextendsAnyRef"></a>
+      <a id="KeyStoreBuilder:KeyStoreBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="KeyStoreBuilder.html"><span class="name">KeyStoreBuilder</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.KeyStoreConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KeyStoreConfigextendsAnyRef"></a>
+      <a id="KeyStoreConfig:KeyStoreConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="KeyStoreConfig.html"><span class="name">KeyStoreConfig</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Configuration for a keystore.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.LessThan" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LessThanextendsExpressionSymbolwithProductwithSerializable"></a>
+      <a id="LessThan:LessThan"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="LessThan.html"><span class="name">LessThan</span></a><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="ExpressionSymbol.html" class="extype" name="com.typesafe.sslconfig.ssl.ExpressionSymbol">ExpressionSymbol</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.LessThanOrEqual" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LessThanOrEqualextendsExpressionSymbolwithProductwithSerializable"></a>
+      <a id="LessThanOrEqual:LessThanOrEqual"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="LessThanOrEqual.html"><span class="name">LessThanOrEqual</span></a><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="ExpressionSymbol.html" class="extype" name="com.typesafe.sslconfig.ssl.ExpressionSymbol">ExpressionSymbol</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.MonkeyPatcher" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="MonkeyPatcherextendsAnyRef"></a>
+      <a id="MonkeyPatcher:MonkeyPatcher"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="MonkeyPatcher.html"><span class="name">MonkeyPatcher</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="com.typesafe.sslconfig.ssl.MoreThan" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MoreThanextendsExpressionSymbolwithProductwithSerializable"></a>
+      <a id="MoreThan:MoreThan"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MoreThan.html"><span class="name">MoreThan</span></a><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="ExpressionSymbol.html" class="extype" name="com.typesafe.sslconfig.ssl.ExpressionSymbol">ExpressionSymbol</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.MoreThanOrEqual" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MoreThanOrEqualextendsExpressionSymbolwithProductwithSerializable"></a>
+      <a id="MoreThanOrEqual:MoreThanOrEqual"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MoreThanOrEqual.html"><span class="name">MoreThanOrEqual</span></a><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="ExpressionSymbol.html" class="extype" name="com.typesafe.sslconfig.ssl.ExpressionSymbol">ExpressionSymbol</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.NotEqual" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NotEqualextendsExpressionSymbolwithProductwithSerializable"></a>
+      <a id="NotEqual:NotEqual"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="NotEqual.html"><span class="name">NotEqual</span></a><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="ExpressionSymbol.html" class="extype" name="com.typesafe.sslconfig.ssl.ExpressionSymbol">ExpressionSymbol</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLConfigParser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLConfigParserextendsAnyRef"></a>
+      <a id="SSLConfigParser:SSLConfigParser"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLConfigParser.html"><span class="name">SSLConfigParser</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLConfigSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLConfigSettingsextendsAnyRef"></a>
+      <a id="SSLConfigSettings:SSLConfigSettings"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLConfigSettings.html"><span class="name">SSLConfigSettings</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">The SSL configuration.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SSLContextBuilder" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="SSLContextBuilderextendsAnyRef"></a>
+      <a id="SSLContextBuilder:SSLContextBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLContextBuilder.html"><span class="name">SSLContextBuilder</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLDebugConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLDebugConfigextendsAnyRef"></a>
+      <a id="SSLDebugConfig:SSLDebugConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLDebugConfig.html"><span class="name">SSLDebugConfig</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">SSL debug configuration.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLDebugHandshakeOptionsextendsAnyRef"></a>
+      <a id="SSLDebugHandshakeOptions:SSLDebugHandshakeOptions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLDebugHandshakeOptions.html"><span class="name">SSLDebugHandshakeOptions</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">SSL handshake debugging options.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SSLDebugRecordOptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLDebugRecordOptionsextendsAnyRef"></a>
+      <a id="SSLDebugRecordOptions:SSLDebugRecordOptions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLDebugRecordOptions.html"><span class="name">SSLDebugRecordOptions</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">SSL record debugging options.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SSLLooseConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLLooseConfigextendsAnyRef"></a>
+      <a id="SSLLooseConfig:SSLLooseConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLLooseConfig.html"><span class="name">SSLLooseConfig</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Configuration for specifying loose (potentially dangerous) ssl config.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SSLParametersConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLParametersConfigextendsAnyRef"></a>
+      <a id="SSLParametersConfig:SSLParametersConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLParametersConfig.html"><span class="name">SSLParametersConfig</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Carries values which will be later set on an <span class="extype" name="SSLParameters">SSLParameters</span> object.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SimpleSSLContextBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SimpleSSLContextBuilderextendsSSLContextBuilder"></a>
+      <a id="SimpleSSLContextBuilder:SimpleSSLContextBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SimpleSSLContextBuilder.html"><span class="name">SimpleSSLContextBuilder</span></a><span class="result"> extends <a href="SSLContextBuilder.html" class="extype" name="com.typesafe.sslconfig.ssl.SSLContextBuilder">SSLContextBuilder</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A simple SSL context builder.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.StringBasedKeyStoreBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="StringBasedKeyStoreBuilderextendsKeyStoreBuilder"></a>
+      <a id="StringBasedKeyStoreBuilder:StringBasedKeyStoreBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="StringBasedKeyStoreBuilder.html"><span class="name">StringBasedKeyStoreBuilder</span></a><span class="result"> extends <a href="KeyStoreBuilder.html" class="extype" name="com.typesafe.sslconfig.ssl.KeyStoreBuilder">KeyStoreBuilder</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Builds a keystore from a string containing PEM encoded certificates, using CertificateFactory internally.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SystemConfiguration" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SystemConfigurationextendsAnyRef"></a>
+      <a id="SystemConfiguration:SystemConfiguration"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SystemConfiguration.html"><span class="name">SystemConfiguration</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Configures global system properties on the JSSE implementation, if defined.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.TrustManagerConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TrustManagerConfigextendsAnyRef"></a>
+      <a id="TrustManagerConfig:TrustManagerConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TrustManagerConfig.html"><span class="name">TrustManagerConfig</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">The trust manager config.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.TrustManagerFactoryWrapper" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TrustManagerFactoryWrapperextendsAnyRef"></a>
+      <a id="TrustManagerFactoryWrapper:TrustManagerFactoryWrapper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="TrustManagerFactoryWrapper.html"><span class="name">TrustManagerFactoryWrapper</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.TrustStoreConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TrustStoreConfigextendsAnyRef"></a>
+      <a id="TrustStoreConfig:TrustStoreConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TrustStoreConfig.html"><span class="name">TrustStoreConfig</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Configuration for a trust store.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AlgorithmConstraintsParser"></a>
+      <a id="AlgorithmConstraintsParser:AlgorithmConstraintsParser"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AlgorithmConstraintsParser$.html"><span class="name">AlgorithmConstraintsParser</span></a><span class="result"> extends <span class="extype" name="scala.util.parsing.combinator.RegexParsers">RegexParsers</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Parser based on the jdk.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.Algorithms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Algorithms"></a>
+      <a id="Algorithms:Algorithms"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Algorithms$.html"><span class="name">Algorithms</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">This singleton object provides the code needed to check for minimum standards of an X.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.Ciphers" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Ciphers"></a>
+      <a id="Ciphers:Ciphers"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Ciphers$.html"><span class="name">Ciphers</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">This class contains sets of recommended and deprecated TLS cipher suites.</p>
+    </li><li name="com.typesafe.sslconfig.ssl.ClientAuth" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ClientAuth"></a>
+      <a id="ClientAuth:ClientAuth"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ClientAuth$.html"><span class="name">ClientAuth</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.CompositeCertificateException" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CompositeCertificateException"></a>
+      <a id="CompositeCertificateException:CompositeCertificateException"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="CompositeCertificateException$.html"><span class="name">CompositeCertificateException</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.KeyManagerConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KeyManagerConfig"></a>
+      <a id="KeyManagerConfig:KeyManagerConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="KeyManagerConfig$.html"><span class="name">KeyManagerConfig</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.KeyStoreConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KeyStoreConfig"></a>
+      <a id="KeyStoreConfig:KeyStoreConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="KeyStoreConfig$.html"><span class="name">KeyStoreConfig</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.KeystoreFormats" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KeystoreFormats"></a>
+      <a id="KeystoreFormats:KeystoreFormats"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="KeystoreFormats$.html"><span class="name">KeystoreFormats</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.Protocols" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Protocols"></a>
+      <a id="Protocols:Protocols"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Protocols$.html"><span class="name">Protocols</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLConfigFactory" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLConfigFactory"></a>
+      <a id="SSLConfigFactory:SSLConfigFactory"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLConfigFactory$.html"><span class="name">SSLConfigFactory</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">Factory for creating SSL config (for use from Java).</p>
+    </li><li name="com.typesafe.sslconfig.ssl.SSLConfigSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLConfigSettings"></a>
+      <a id="SSLConfigSettings:SSLConfigSettings"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLConfigSettings$.html"><span class="name">SSLConfigSettings</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLDebugConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLDebugConfig"></a>
+      <a id="SSLDebugConfig:SSLDebugConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLDebugConfig$.html"><span class="name">SSLDebugConfig</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLDebugHandshakeOptions"></a>
+      <a id="SSLDebugHandshakeOptions:SSLDebugHandshakeOptions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLDebugHandshakeOptions$.html"><span class="name">SSLDebugHandshakeOptions</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLDebugRecordOptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLDebugRecordOptions"></a>
+      <a id="SSLDebugRecordOptions:SSLDebugRecordOptions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLDebugRecordOptions$.html"><span class="name">SSLDebugRecordOptions</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLLooseConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLLooseConfig"></a>
+      <a id="SSLLooseConfig:SSLLooseConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLLooseConfig$.html"><span class="name">SSLLooseConfig</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.SSLParametersConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SSLParametersConfig"></a>
+      <a id="SSLParametersConfig:SSLParametersConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SSLParametersConfig$.html"><span class="name">SSLParametersConfig</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.TrustManagerConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TrustManagerConfig"></a>
+      <a id="TrustManagerConfig:TrustManagerConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TrustManagerConfig$.html"><span class="name">TrustManagerConfig</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.TrustStoreConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TrustStoreConfig"></a>
+      <a id="TrustStoreConfig:TrustStoreConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TrustStoreConfig$.html"><span class="name">TrustStoreConfig</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.package#arrayCertsToListCerts" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="arrayCertsToListCerts(chain:Array[java.security.cert.Certificate]):java.util.List[java.security.cert.Certificate]"></a>
+      <a id="arrayCertsToListCerts(Array[Certificate]):List[Certificate]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">arrayCertsToListCerts</span><span class="params">(<span name="chain">chain: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.security.cert.Certificate">Certificate</span>]</span>)</span><span class="result">: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="java.security.cert.Certificate">Certificate</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.package#certResult2PKIXResult" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="certResult2PKIXResult(result:java.security.cert.CertPathValidatorResult):java.security.cert.PKIXCertPathValidatorResult"></a>
+      <a id="certResult2PKIXResult(CertPathValidatorResult):PKIXCertPathValidatorResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">certResult2PKIXResult</span><span class="params">(<span name="result">result: <span class="extype" name="java.security.cert.CertPathValidatorResult">CertPathValidatorResult</span></span>)</span><span class="result">: <span class="extype" name="java.security.cert.PKIXCertPathValidatorResult">PKIXCertPathValidatorResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.package#certificate2X509Certificate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="certificate2X509Certificate(cert:java.security.cert.Certificate):java.security.cert.X509Certificate"></a>
+      <a id="certificate2X509Certificate(Certificate):X509Certificate"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">certificate2X509Certificate</span><span class="params">(<span name="cert">cert: <span class="extype" name="java.security.cert.Certificate">Certificate</span></span>)</span><span class="result">: <span class="extype" name="java.security.cert.X509Certificate">X509Certificate</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.debug" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="debug"></a>
+      <a id="debug:debug"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="debug/package.html"><span class="name">debug</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.package#debugChain" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="debugChain(chain:Array[java.security.cert.X509Certificate]):Seq[String]"></a>
+      <a id="debugChain(Array[X509Certificate]):Seq[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">debugChain</span><span class="params">(<span name="chain">chain: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.security.cert.X509Certificate">X509Certificate</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.package#foldRuntime" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="foldRuntime[T](older:=&gt;T,newer:=&gt;T):T"></a>
+      <a id="foldRuntime[T](⇒T,⇒T):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foldRuntime</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="older">older: ⇒ <span class="extype" name="com.typesafe.sslconfig.ssl.foldRuntime.T">T</span></span>, <span name="newer">newer: ⇒ <span class="extype" name="com.typesafe.sslconfig.ssl.foldRuntime.T">T</span></span>)</span><span class="result">: <span class="extype" name="com.typesafe.sslconfig.ssl.foldRuntime.T">T</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.package#foldVersion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="foldVersion[T](run16:=&gt;T,runHigher:=&gt;T):T"></a>
+      <a id="foldVersion[T](⇒T,⇒T):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foldVersion</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="run16">run16: ⇒ <span class="extype" name="com.typesafe.sslconfig.ssl.foldVersion.T">T</span></span>, <span name="runHigher">runHigher: ⇒ <span class="extype" name="com.typesafe.sslconfig.ssl.foldVersion.T">T</span></span>)</span><span class="result">: <span class="extype" name="com.typesafe.sslconfig.ssl.foldVersion.T">T</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sslconfig.ssl.package#isOpenJdk" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="isOpenJdk:Boolean"></a>
+      <a id="isOpenJdk:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isOpenJdk</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../lib/template.js"></script>
+    </body>
+      </html>

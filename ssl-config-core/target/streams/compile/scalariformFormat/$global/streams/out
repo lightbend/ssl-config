@@ -1,0 +1,2 @@
+[0m[[0minfo[0m] [0mFormatting 25 Scala sources {file:/Users/ktoso/code/ssl-config/}sslConfigCore(compile) ...[0m
+[0m[[33mwarn[0m] [0mScalariform parser error for /Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/Config.scala: Expected token RBRACKET but got Token(XML_START_OPEN,<,17625,<)[0m

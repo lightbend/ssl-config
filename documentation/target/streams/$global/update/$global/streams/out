@@ -1,0 +1,85 @@
+[0m[[0minfo[0m] [0mUpdating {file:/Users/ktoso/code/ssl-config/}documentation...[0m
+[0m[[0mdebug[0m] [0m:: building artificial module descriptors from com.typesafe#documentation_2.13.0-M3;0.2.3[0m
+[0m[[0mdebug[0m] [0m::: dd: dependency: org.scala-lang#scala-compiler;2.13.0-M3 {scala-tool=[default, optional(default)]} (artifacts: )[0m
+[0m[[0mdebug[0m] [0m::: dd: MergedDescriptors(dependency: org.scala-lang#scala-library;2.13.0-M3 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.13.0-M3 {compile=[default(compile)]}) (artifacts: )[0m
+[0m[[0mdebug[0m] [0m::: dd: dependency: com.lightbend.paradox#paradox-theme-generic;0.3.0 {compile=[default(compile)]} (artifacts: )[0m
+[0m[[0mdebug[0m] [0mparsing /Users/ktoso/.sbt/0.13/dependency/module/static/com.lightbend.paradox/paradox-theme-generic/0.3.0_temp-resolve-9360540a9222be4cd9cb388a3ed8c2de86bfba9b/graphs/graph.json[0m
+[0m[[0mdebug[0m] [0m:: merging update reports[0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: compile: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: com.lightbend.paradox:paradox-theme-generic, org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m:: no conflict compile: com.lightbend.paradox:paradox-theme-generic[0m
+[0m[[0mdebug[0m] [0m:: merging module reports for compile: org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m::: resolving conflict in compile:org.scala-lang:scala-library (org.scala-lang:scala-library:2.13.0-M3 (), org.scala-lang:scala-library:2.12.3 ())[0m
+[0m[[0mdebug[0m] [0m::: adds org.scala-lang:scala-library:2.13.0-M3 ()[0m
+[0m[[0mdebug[0m] [0m::: evicted org.scala-lang:scala-library:2.12.3 ()[0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: runtime: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: com.lightbend.paradox:paradox-theme-generic, org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m:: no conflict runtime: com.lightbend.paradox:paradox-theme-generic[0m
+[0m[[0mdebug[0m] [0m:: merging module reports for runtime: org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m::: resolving conflict in runtime:org.scala-lang:scala-library (org.scala-lang:scala-library:2.13.0-M3 (), org.scala-lang:scala-library:2.12.3 ())[0m
+[0m[[0mdebug[0m] [0m::: adds org.scala-lang:scala-library:2.13.0-M3 ()[0m
+[0m[[0mdebug[0m] [0m::: evicted org.scala-lang:scala-library:2.12.3 ()[0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: test: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: com.lightbend.paradox:paradox-theme-generic, org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m:: no conflict test: com.lightbend.paradox:paradox-theme-generic[0m
+[0m[[0mdebug[0m] [0m:: merging module reports for test: org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m::: resolving conflict in test:org.scala-lang:scala-library (org.scala-lang:scala-library:2.13.0-M3 (), org.scala-lang:scala-library:2.12.3 ())[0m
+[0m[[0mdebug[0m] [0m::: adds org.scala-lang:scala-library:2.13.0-M3 ()[0m
+[0m[[0mdebug[0m] [0m::: evicted org.scala-lang:scala-library:2.12.3 ()[0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: provided: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: [0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: optional: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: [0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: compile-internal: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: com.lightbend.paradox:paradox-theme-generic, org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m:: no conflict compile-internal: com.lightbend.paradox:paradox-theme-generic[0m
+[0m[[0mdebug[0m] [0m:: merging module reports for compile-internal: org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m::: resolving conflict in compile-internal:org.scala-lang:scala-library (org.scala-lang:scala-library:2.13.0-M3 (), org.scala-lang:scala-library:2.12.3 ())[0m
+[0m[[0mdebug[0m] [0m::: adds org.scala-lang:scala-library:2.13.0-M3 ()[0m
+[0m[[0mdebug[0m] [0m::: evicted org.scala-lang:scala-library:2.12.3 ()[0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: runtime-internal: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: com.lightbend.paradox:paradox-theme-generic, org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m:: no conflict runtime-internal: com.lightbend.paradox:paradox-theme-generic[0m
+[0m[[0mdebug[0m] [0m:: merging module reports for runtime-internal: org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m::: resolving conflict in runtime-internal:org.scala-lang:scala-library (org.scala-lang:scala-library:2.13.0-M3 (), org.scala-lang:scala-library:2.12.3 ())[0m
+[0m[[0mdebug[0m] [0m::: adds org.scala-lang:scala-library:2.13.0-M3 ()[0m
+[0m[[0mdebug[0m] [0m::: evicted org.scala-lang:scala-library:2.12.3 ()[0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: test-internal: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: com.lightbend.paradox:paradox-theme-generic, org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m:: no conflict test-internal: com.lightbend.paradox:paradox-theme-generic[0m
+[0m[[0mdebug[0m] [0m:: merging module reports for test-internal: org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m::: resolving conflict in test-internal:org.scala-lang:scala-library (org.scala-lang:scala-library:2.13.0-M3 (), org.scala-lang:scala-library:2.12.3 ())[0m
+[0m[[0mdebug[0m] [0m::: adds org.scala-lang:scala-library:2.13.0-M3 ()[0m
+[0m[[0mdebug[0m] [0m::: evicted org.scala-lang:scala-library:2.12.3 ()[0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: plugin: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: [0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: sources: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: [0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: docs: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: [0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: pom: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: [0m
+[0m[[0mdebug[0m] [0m::: -----------[0m
+[0m[[0mdebug[0m] [0m:: scala-tool: loop: List()[0m
+[0m[[0mdebug[0m] [0m:: sort result: org.scala-lang:scala-compiler, org.scala-lang.modules:scala-xml_2.13.0-M3, jline:jline, org.scala-lang:scala-reflect, org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m:: no conflict scala-tool: org.scala-lang:scala-compiler[0m
+[0m[[0mdebug[0m] [0m:: no conflict scala-tool: org.scala-lang.modules:scala-xml_2.13.0-M3[0m
+[0m[[0mdebug[0m] [0m:: no conflict scala-tool: jline:jline[0m
+[0m[[0mdebug[0m] [0m:: no conflict scala-tool: org.scala-lang:scala-reflect[0m
+[0m[[0mdebug[0m] [0m:: merging module reports for scala-tool: org.scala-lang:scala-library[0m
+[0m[[0mdebug[0m] [0m::: adds org.scala-lang:scala-library:2.13.0-M3 ()[0m
+[0m[[0mdebug[0m] [0m::: evicted [0m
+[0m[[0mdebug[0m] [0mignoring unhandled DependencyDescriptorMediator: class sbt.IvyScala$OverrideScalaMediator[0m
+[0m[[0minfo[0m] [0mDone updating.[0m

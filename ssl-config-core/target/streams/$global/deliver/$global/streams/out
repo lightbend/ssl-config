@@ -1,0 +1,4 @@
+[0m[[0minfo[0m] [0m:: delivering :: com.typesafe#ssl-config-core_2.10;0.2.3 :: 0.2.3 :: release :: Wed Mar 28 01:28:42 JST 2018[0m
+[0m[[0mdebug[0m] [0m	options = status=release pubdate=Wed Mar 28 01:28:42 JST 2018 validate=true resolveDynamicRevisions=true merge=true resolveId=null pubBranch=null[0m
+[0m[[0minfo[0m] [0m	delivering ivy file to /Users/ktoso/code/ssl-config/ssl-config-core/target/scala-2.10/ivy-0.2.3.xml[0m
+[0m[[0mdebug[0m] [0m	deliver done (19ms)[0m

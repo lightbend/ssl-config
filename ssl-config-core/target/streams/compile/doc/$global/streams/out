@@ -1,0 +1,66 @@
+[0m[[0minfo[0m] [0mMain Scala API documentation to /Users/ktoso/code/ssl-config/ssl-config-core/target/scala-2.13.0-M3/api...[0m
+[0m[[0mdebug[0m] [0mGetting org.scala-sbt:compiler-interface:0.13.17:component from component compiler for Scala 2.13.0-M3[0m
+[0m[[0mdebug[0m] [0mCalling Scaladoc with arguments:[0m
+[0m[[0mdebug[0m] [0m	-encoding[0m
+[0m[[0mdebug[0m] [0m	UTF-8[0m
+[0m[[0mdebug[0m] [0m	-unchecked[0m
+[0m[[0mdebug[0m] [0m	-deprecation[0m
+[0m[[0mdebug[0m] [0m	-feature[0m
+[0m[[0mdebug[0m] [0m	-d[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/target/scala-2.13.0-M3/api[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/classes:/Users/ktoso/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.13.0-M3.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/.ivy2/cache/com.typesafe/config/bundles/config-1.2.0.jar:/Users/ktoso/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.13.0-M3/bundles/scala-parser-combinators_2.13.0-M3-1.1.0.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/java/com/typesafe/sslconfig/Base64.java[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/AlgorithmChecker.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/Algorithms.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/Ciphers.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/CompositeCertificateException.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/CompositeX509KeyManager.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/CompositeX509TrustManager.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/Config.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/Debug.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/DefaultHostnameVerifier.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/DisabledComplainingHostnameVerifier.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/FakeKeyStore.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/KeyStore.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/MonkeyPatcher.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/Protocols.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/SSLContextBuilder.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/SystemConfiguration.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/debug/ClassFinder.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/debug/DebugConfiguration.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/debug/FixCertpathDebugLogging.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/debug/FixInternalDebugLogging.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/debug/FixLoggingAction.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/package.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/util/Configuration.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/util/LoggerFactory.scala[0m
+[0m[[0mdebug[0m] [0m	/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/util/NoDepsLogger.scala[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/ssl/Config.scala:364: Could not find any member to link for "SSLParameters".[0m
+[0m[[33mwarn[0m] [0m/**[0m
+[0m[[33mwarn[0m] [0m^[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/java/com/typesafe/sslconfig/Base64.java:9: unbalanced or unclosed heading[0m
+[0m[[33mwarn[0m] [0m/**[0m
+[0m[[33mwarn[0m] [0m^[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/util/Configuration.scala:60: Variable path undefined in comment for method getPrototypedMap in class EnrichedConfig[0m
+[0m[[33mwarn[0m] [0m   * Each value in the map will fallback to the object loaded from prototype.$path.[0m
+[0m[[33mwarn[0m] [0m                                                                              ^[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/util/Configuration.scala:48: Variable path undefined in comment for method getPrototypedSeq in class EnrichedConfig[0m
+[0m[[33mwarn[0m] [0m   * Each object in the sequence will fallback to the object loaded from prototype.$path.[0m
+[0m[[33mwarn[0m] [0m                                                                                    ^[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/scala/com/typesafe/sslconfig/util/Configuration.scala:29: Could not find any member to link for "com.typesafe.config.ConfigException.Missing".[0m
+[0m[[33mwarn[0m] [0m  /**[0m
+[0m[[33mwarn[0m] [0m  ^[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/java/com/typesafe/sslconfig/Base64.java:466: Could not find any member to link for "#decode(String)".[0m
+[0m[[33mwarn[0m] [0m    /**[0m
+[0m[[33mwarn[0m] [0m    ^[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/java/com/typesafe/sslconfig/Base64.java:395: Could not find any member to link for "#decode(byte[])".[0m
+[0m[[33mwarn[0m] [0m    /**[0m
+[0m[[33mwarn[0m] [0m    ^[0m
+[0m[[33mwarn[0m] [0m/Users/ktoso/code/ssl-config/ssl-config-core/src/main/java/com/typesafe/sslconfig/Base64.java:324: Could not find any member to link for "#decode(char[])".[0m
+[0m[[33mwarn[0m] [0m    /**[0m
+[0m[[33mwarn[0m] [0m    ^[0m
+[0m[[33mwarn[0m] [0m8 warnings found[0m
+[0m[[0minfo[0m] [0mMain Scala API documentation successful.[0m

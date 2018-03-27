@@ -1,0 +1,16 @@
+[0m[[0minfo[0m] [0mDebugBuilderSpec[0m
+[0m[[0minfo[0m] [0m[0m
+[0m[[0minfo[0m] [0mJavaSecurityDebugBuilder should[0m
+[0m[[0minfo[0m] [0m  [32m+[0m match nothing by default[0m
+[0m[[0minfo[0m] [0m  [32m+[0m match certpath[0m
+[0m[[0minfo[0m] [0m  [32m+[0m match certpath + ocsp[0m
+[0m[[0minfo[0m] [0mJavaxNetDebugBuilder should[0m
+[0m[[0minfo[0m] [0m  [32m+[0m match nothing by default[0m
+[0m[[0minfo[0m] [0m  [32m+[0m match all[0m
+[0m[[0minfo[0m] [0m  [32m+[0m match some random combinations[0m
+[0m[[0minfo[0m] [0m[0m
+[0m[[0minfo[0m] [0m[0m
+[0m[[0minfo[0m] [0mTotal for specification DebugBuilderSpec[0m
+[0m[[0minfo[0m] [0m[36mFinished in 591 ms[0m[0m
+[0m[[0minfo[0m] [0m[36m[0m[36m6 examples, 0 failure, 0 error[0m[0m
+[0m[[0minfo[0m] [0m[0m

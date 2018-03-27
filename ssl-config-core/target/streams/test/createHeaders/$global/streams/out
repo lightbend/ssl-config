@@ -1,0 +1,1834 @@
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509TrustManagerSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509TrustManagerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509TrustManagerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.NoopLogger[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mock.Mockito[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport javax.net.ssl.X509TrustManager[0m
+[0m[[0mdebug[0m] [0mimport java.security.cert.{ CertificateException, X509Certificate }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject CompositeX509TrustManagerSpec extends Specification with Mockito {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  val mkLogger = NoopLogger.factory()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "CompositeX509TrustManager" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "with checkClientTrusted" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "throws exception" in {[0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager1 = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager2 = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), Set())[0m
+[0m[[0mdebug[0m] [0m        val trustManager = new CompositeX509TrustManager(mkLogger, trustManagers = Seq(mockTrustManager1, mockTrustManager2), algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val certificate = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m        val chain = Array[X509Certificate](certificate)[0m
+[0m[[0mdebug[0m] [0m        val authType = ""[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager1.checkClientTrusted(chain, authType) throws new CertificateException("fake1")[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager2.checkClientTrusted(chain, authType) throws new CertificateException("fake2")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        trustManager.checkClientTrusted(chain, authType).must(throwA[CompositeCertificateException].like {[0m
+[0m[[0mdebug[0m] [0m          case e: CompositeCertificateException =>[0m
+[0m[[0mdebug[0m] [0m            val sourceExceptions = e.getSourceExceptions[0m
+[0m[[0mdebug[0m] [0m            sourceExceptions(0).getMessage must be_==("fake1")[0m
+[0m[[0mdebug[0m] [0m            sourceExceptions(1).getMessage must be_==("fake2")[0m
+[0m[[0mdebug[0m] [0m        })[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "returns true" in {[0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), Set())[0m
+[0m[[0mdebug[0m] [0m        val trustManager = new CompositeX509TrustManager(mkLogger, trustManagers = Seq(mockTrustManager), algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val certificate = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m        val chain = Array[X509Certificate](certificate)[0m
+[0m[[0mdebug[0m] [0m        val authType = ""[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        trustManager.checkClientTrusted(chain, authType) must not(throwA[Throwable].like {[0m
+[0m[[0mdebug[0m] [0m          case e: CompositeCertificateException =>[0m
+[0m[[0mdebug[0m] [0m            val sourceExceptions = e.getSourceExceptions[0m
+[0m[[0mdebug[0m] [0m            sourceExceptions(0).getMessage must be_==("fake")[0m
+[0m[[0mdebug[0m] [0m        })[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "returns true eventually" in {[0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager1 = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager2 = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), Set())[0m
+[0m[[0mdebug[0m] [0m        val trustManager = new CompositeX509TrustManager(mkLogger, trustManagers = Seq(mockTrustManager1, mockTrustManager2), algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val certificate = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m        val chain = Array[X509Certificate](certificate)[0m
+[0m[[0mdebug[0m] [0m        val authType = ""[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager1.checkClientTrusted(chain, authType) throws new CertificateException("fake1")[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager2.checkClientTrusted(chain, authType)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        trustManager.checkClientTrusted(chain, authType) must not(throwA[Throwable])[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "getAcceptedIssuers" should {[0m
+[0m[[0mdebug[0m] [0m      "work fine" in {[0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), Set())[0m
+[0m[[0mdebug[0m] [0m        val trustManager = new CompositeX509TrustManager(mkLogger, trustManagers = Seq(mockTrustManager), algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m        val certificate = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager.getAcceptedIssuers returns Array[X509Certificate](certificate)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val acceptedIssuers = trustManager.getAcceptedIssuers[0m
+[0m[[0mdebug[0m] [0m        acceptedIssuers(0) must_== certificate[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "throw exception when input exception" in {[0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), Set())[0m
+[0m[[0mdebug[0m] [0m        val trustManager = new CompositeX509TrustManager(mkLogger, trustManagers = Seq(mockTrustManager), algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager.getAcceptedIssuers throws new RuntimeException("fake")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        trustManager.getAcceptedIssuers.must(throwA[CompositeCertificateException].like {[0m
+[0m[[0mdebug[0m] [0m          case e: CompositeCertificateException =>[0m
+[0m[[0mdebug[0m] [0m            val sourceExceptions = e.getSourceExceptions[0m
+[0m[[0mdebug[0m] [0m            sourceExceptions(0).getMessage must be_==("fake")[0m
+[0m[[0mdebug[0m] [0m        })[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "checkServerTrusted" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "work fine" in {[0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), Set())[0m
+[0m[[0mdebug[0m] [0m        val trustManager = new CompositeX509TrustManager(mkLogger, trustManagers = Seq(mockTrustManager), algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m        val certificate = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m        val chain = Array[X509Certificate](certificate)[0m
+[0m[[0mdebug[0m] [0m        val authType = ""[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        trustManager.checkServerTrusted(chain, authType) must not(throwA[Throwable])[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "throw an exception when nothing works" in {[0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager1 = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val mockTrustManager2 = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m        val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), Set())[0m
+[0m[[0mdebug[0m] [0m        val trustManager = new CompositeX509TrustManager(mkLogger, trustManagers = Seq(mockTrustManager1, mockTrustManager2), algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val certificate = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m        val chain = Array[X509Certificate](certificate)[0m
+[0m[[0mdebug[0m] [0m        val authType = ""[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager1.checkServerTrusted(chain, authType) throws new CertificateException("fake1")[0m
+[0m[[0mdebug[0m] [0m        mockTrustManager2.checkServerTrusted(chain, authType) throws new CertificateException("fake2")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        trustManager.checkServerTrusted(chain, authType).must(throwA[CompositeCertificateException].like {[0m
+[0m[[0mdebug[0m] [0m          case e: CompositeCertificateException =>[0m
+[0m[[0mdebug[0m] [0m            val sourceExceptions = e.getSourceExceptions[0m
+[0m[[0mdebug[0m] [0m            sourceExceptions(0).getMessage must be_==("fake1")[0m
+[0m[[0mdebug[0m] [0m            sourceExceptions(1).getMessage must be_==("fake2")[0m
+[0m[[0mdebug[0m] [0m        })[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509TrustManagerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/ConfigSSLContextBuilderSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/ConfigSSLContextBuilderSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/ConfigSSLContextBuilderSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport java.security._[0m
+[0m[[0mdebug[0m] [0mimport java.security.cert.CertPathValidatorException[0m
+[0m[[0mdebug[0m] [0mimport javax.net.ssl._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.NoopLogger[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mock._[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mclass ConfigSSLContextBuilderSpec extends Specification with Mockito {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  val CACERTS = s"${System.getProperty("java.home")}/lib/security/cacerts"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  val mkLogger = NoopLogger.factory()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "ConfigSSLContentBuilder" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "should have the right protocol by default" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual: SSLContext = builder.build[0m
+[0m[[0mdebug[0m] [0m      actual.getProtocol must_== Protocols.recommendedProtocol[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "with protocol" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "should default to Protocols.recommendedProtocols" in {[0m
+[0m[[0mdebug[0m] [0m        val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m        val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m        val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val actual: SSLContext = builder.build[0m
+[0m[[0mdebug[0m] [0m        actual.getProtocol must_== Protocols.recommendedProtocol[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "should have an explicit protocol if defined" in {[0m
+[0m[[0mdebug[0m] [0m        val info = SSLConfigSettings().withProtocol("TLS")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m        val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m        val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val actual: SSLContext = builder.build[0m
+[0m[[0mdebug[0m] [0m        actual.getProtocol must_== "TLS"[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a key manager" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyStore = KeyStore.getInstance("PKCS12")[0m
+[0m[[0mdebug[0m] [0m      val keyPairGenerator = KeyPairGenerator.getInstance("RSA")[0m
+[0m[[0mdebug[0m] [0m      keyPairGenerator.initialize(2048) // 2048 is the NIST acceptable key length until 2030[0m
+[0m[[0mdebug[0m] [0m      val keyPair = keyPairGenerator.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair)[0m
+[0m[[0mdebug[0m] [0m      val password = "changeit" // cannot have a null password for PKCS12 in 1.6[0m
+[0m[[0mdebug[0m] [0m      keyStore.load(null, password.toCharArray)[0m
+[0m[[0mdebug[0m] [0m      keyStore.setKeyEntry("playgenerated", keyPair.getPrivate, password.toCharArray, Array(cert))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val tempFile = java.io.File.createTempFile("privatekeystore", ".p12")[0m
+[0m[[0mdebug[0m] [0m      val out = new java.io.FileOutputStream(tempFile)[0m
+[0m[[0mdebug[0m] [0m      try {[0m
+[0m[[0mdebug[0m] [0m        keyStore.store(out, password.toCharArray)[0m
+[0m[[0mdebug[0m] [0m      } finally {[0m
+[0m[[0mdebug[0m] [0m        out.close()[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m      val filePath = tempFile.getAbsolutePath[0m
+[0m[[0mdebug[0m] [0m      val keyStoreConfig = KeyStoreConfig(None, Some(filePath)).withStoreType("PKCS12").withPassword(Some(password))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m      keyManagerFactory.getKeyManagers returns Array(keyManager)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val disabledKeyAlgorithms = Set(AlgorithmConstraint("RSA", Some(LessThan(1024))))[0m
+[0m[[0mdebug[0m] [0m      val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), keyConstraints = disabledKeyAlgorithms)[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.buildKeyManager(keyStoreConfig, algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a trust manager" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val trustManager = mock[X509TrustManager][0m
+[0m[[0mdebug[0m] [0m      trustManagerFactory.getTrustManagers returns Array(trustManager)[0m
+[0m[[0mdebug[0m] [0m      val disabledSignatureAlgorithms = Set(AlgorithmConstraint("md5"))[0m
+[0m[[0mdebug[0m] [0m      val disabledKeyAlgorithms = Set(AlgorithmConstraint("RSA", Some(LessThan(1024))))[0m
+[0m[[0mdebug[0m] [0m      val algorithmChecker = new AlgorithmChecker(mkLogger, disabledSignatureAlgorithms, disabledKeyAlgorithms)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val trustManagerConfig = TrustManagerConfig()[0m
+[0m[[0mdebug[0m] [0m      val checkRevocation = false[0m
+[0m[[0mdebug[0m] [0m      val revocationLists = None[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.buildCompositeTrustManager(trustManagerConfig, checkRevocation, revocationLists, algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[javax.net.ssl.X509TrustManager][0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a composite key manager" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyManagerConfig = new KeyManagerConfig()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val disabledKeyAlgorithms = Set(AlgorithmConstraint("RSA", Some(LessThan(1024))))[0m
+[0m[[0mdebug[0m] [0m      val algorithmChecker = new AlgorithmChecker(mkLogger, Set(), disabledKeyAlgorithms)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.buildCompositeKeyManager(keyManagerConfig, algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[CompositeX509KeyManager][0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a composite trust manager" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val disabledSignatureAlgorithms = Set(AlgorithmConstraint("md5"))[0m
+[0m[[0mdebug[0m] [0m      val disabledKeyAlgorithms = Set(AlgorithmConstraint("RSA", Some(LessThan(1024))))[0m
+[0m[[0mdebug[0m] [0m      val algorithmChecker = new AlgorithmChecker(mkLogger, disabledSignatureAlgorithms, disabledKeyAlgorithms)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val trustManagerConfig = TrustManagerConfig()[0m
+[0m[[0mdebug[0m] [0m      val checkRevocation = false[0m
+[0m[[0mdebug[0m] [0m      val revocationLists = None[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.buildCompositeTrustManager(trustManagerConfig,[0m
+[0m[[0mdebug[0m] [0m        checkRevocation,[0m
+[0m[[0mdebug[0m] [0m        revocationLists, algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[CompositeX509TrustManager][0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a composite trust manager with data" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = new DefaultKeyManagerFactoryWrapper(KeyManagerFactory.getDefaultAlgorithm)[0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = new DefaultTrustManagerFactoryWrapper(TrustManagerFactory.getDefaultAlgorithm)[0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val certificate = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m      val certificateData = CertificateGenerator.toPEM(certificate)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val trustStoreConfig = TrustStoreConfig(Some(certificateData), None).withStoreType("PEM")[0m
+[0m[[0mdebug[0m] [0m      val trustManagerConfig = TrustManagerConfig().withTrustStoreConfigs(List(trustStoreConfig))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val disabledSignatureAlgorithms = Set(AlgorithmConstraint("md5"))[0m
+[0m[[0mdebug[0m] [0m      val disabledKeyAlgorithms = Set(AlgorithmConstraint("RSA", Some(LessThan(1024))))[0m
+[0m[[0mdebug[0m] [0m      val algorithmChecker = new AlgorithmChecker(mkLogger, disabledSignatureAlgorithms, disabledKeyAlgorithms)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val checkRevocation = false[0m
+[0m[[0mdebug[0m] [0m      val revocationLists = None[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.buildCompositeTrustManager(trustManagerConfig, checkRevocation, revocationLists, algorithmChecker)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[CompositeX509TrustManager][0m
+[0m[[0mdebug[0m] [0m      val issuers = actual.getAcceptedIssuers[0m
+[0m[[0mdebug[0m] [0m      issuers.size must beEqualTo(1)[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a file based keystore builder" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val storeType = KeyStore.getDefaultType[0m
+[0m[[0mdebug[0m] [0m      val filePath = "derp"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.fileBuilder(storeType, filePath, None)[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[FileBasedKeyStoreBuilder][0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a file on classpath based keystore builder" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val storeType = KeyStore.getDefaultType[0m
+[0m[[0mdebug[0m] [0m      val filePath = "derp"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.fileOnClasspathBuilder(storeType, filePath, None)[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[FileOnClasspathBasedKeyStoreBuilder][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "build a string based keystore builder" in {[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings()[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val data = "derp"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.stringBuilder(data)[0m
+[0m[[0mdebug[0m] [0m      actual must beAnInstanceOf[StringBasedKeyStoreBuilder][0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail the keystore with a weak certificate " in {[0m
+[0m[[0mdebug[0m] [0m      // RSA 1024 public key[0m
+[0m[[0mdebug[0m] [0m      val data = """-----BEGIN CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m                   |MIICcjCCAdugAwIBAgIEKdPHODANBgkqhkiG9w0BAQsFADBsMRAwDgYDVQQGEwdV[0m
+[0m[[0mdebug[0m] [0m                   |bmtub3duMRAwDgYDVQQIEwdVbmtub3duMRAwDgYDVQQHEwdVbmtub3duMRAwDgYD[0m
+[0m[[0mdebug[0m] [0m                   |VQQKEwdVbmtub3duMRAwDgYDVQQLEwdVbmtub3duMRAwDgYDVQQDEwdVbmtub3du[0m
+[0m[[0mdebug[0m] [0m                   |MB4XDTE0MDQxMzAxMzgwN1oXDTE0MTAxMDAxMzgwN1owbDEQMA4GA1UEBhMHVW5r[0m
+[0m[[0mdebug[0m] [0m                   |bm93bjEQMA4GA1UECBMHVW5rbm93bjEQMA4GA1UEBxMHVW5rbm93bjEQMA4GA1UE[0m
+[0m[[0mdebug[0m] [0m                   |ChMHVW5rbm93bjEQMA4GA1UECxMHVW5rbm93bjEQMA4GA1UEAxMHVW5rbm93bjCB[0m
+[0m[[0mdebug[0m] [0m                   |nzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAoZCRpCJyes/P8yGeSSskZ8mtgH+H[0m
+[0m[[0mdebug[0m] [0m                   |yQOnpnXcOko34Ys0mWhjxKfJjSmkUHdSfKarZ2hFmmNv05+1Og02tIIscIUraFyc[0m
+[0m[[0mdebug[0m] [0m                   |ujPsjYU3B1QUeW4duB0l/MJVwBYxpbulZuV9joNWyAyPvyE2Z3F91Ka77/FobqfI[0m
+[0m[[0mdebug[0m] [0m                   |sAbbM+qWzQspU2cCAwEAAaMhMB8wHQYDVR0OBBYEFFdSKbOXk6Of//DrMQksYUmP[0m
+[0m[[0mdebug[0m] [0m                   |WYTmMA0GCSqGSIb3DQEBCwUAA4GBAEVNSa8wtsLArg+4IQXs1P4JUAMPieOC3DjC[0m
+[0m[[0mdebug[0m] [0m                   |ioplN4UHccCXXmpBe2zkCvIxkmRUjfaYfAehHJvJSitUkBupAQSwv3rNo5zIfqCe[0m
+[0m[[0mdebug[0m] [0m                   |NzBCZh8S+IPQZa+gaE8MrLsDDzD0ZoSOT8fx5TSgF8eTUgkKxkX4I51C9B5t2SCB[0m
+[0m[[0mdebug[0m] [0m                   |0Pl6Lah4[0m
+[0m[[0mdebug[0m] [0m                   |-----END CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m                 """.stripMargin[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // This[0m
+[0m[[0mdebug[0m] [0m      val disabledKeyAlgorithms = Set(AlgorithmConstraint("RSA", Some(Equal(1024))))[0m
+[0m[[0mdebug[0m] [0m      //val disabledKeyAlgorithms = Set[AlgorithmConstraint]()[0m
+[0m[[0mdebug[0m] [0m      val tsc = TrustStoreConfig(Some(data), None).withStoreType("PEM")[0m
+[0m[[0mdebug[0m] [0m      val trustManagerConfig = TrustManagerConfig().withTrustStoreConfigs(List(tsc))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings().withTrustManagerConfig(trustManagerConfig)[0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val trustStore = builder.trustStoreBuilder(tsc).build()[0m
+[0m[[0mdebug[0m] [0m      val checker: AlgorithmChecker = new AlgorithmChecker(mkLogger, signatureConstraints = Set(), keyConstraints = disabledKeyAlgorithms)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      builder.validateStore(trustStore, checker)[0m
+[0m[[0mdebug[0m] [0m      trustStore.size() must beEqualTo(0)[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "validate success of the keystore with a private key" in {[0m
+[0m[[0mdebug[0m] [0m      val keyStore = KeyStore.getInstance("PKCS12")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // Generate the key pair[0m
+[0m[[0mdebug[0m] [0m      val keyPairGenerator = KeyPairGenerator.getInstance("RSA")[0m
+[0m[[0mdebug[0m] [0m      keyPairGenerator.initialize(2048) // 2048 is the NIST acceptable key length until 2030[0m
+[0m[[0mdebug[0m] [0m      val keyPair = keyPairGenerator.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // Generate a self signed certificate[0m
+[0m[[0mdebug[0m] [0m      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val password = "changeit" // null passwords throw exception in 1.6[0m
+[0m[[0mdebug[0m] [0m      keyStore.load(null, password.toCharArray)[0m
+[0m[[0mdebug[0m] [0m      keyStore.setKeyEntry("playgenerated", keyPair.getPrivate, password.toCharArray, Array(cert))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val ksc = KeyStoreConfig(None, Some("path")).withPassword(Some(password))[0m
+[0m[[0mdebug[0m] [0m      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)[0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m      builder.validateStoreContainsPrivateKeys(ksc, keyStore) must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "validate a failure of the keystore without a private key" in {[0m
+[0m[[0mdebug[0m] [0m      // must be JKS, PKCS12 does not support trusted certificate entries in 1.6 at least[0m
+[0m[[0mdebug[0m] [0m      // KeyStoreException: : TrustedCertEntry not supported  (PKCS12KeyStore.java:620)[0m
+[0m[[0mdebug[0m] [0m      // val keyStore = KeyStore.getInstance("PKCS12")[0m
+[0m[[0mdebug[0m] [0m      val keyStore = KeyStore.getInstance(KeyStore.getDefaultType)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // Generate the key pair[0m
+[0m[[0mdebug[0m] [0m      val keyPairGenerator = KeyPairGenerator.getInstance("RSA")[0m
+[0m[[0mdebug[0m] [0m      keyPairGenerator.initialize(2048) // 2048 is the NIST acceptable key length until 2030[0m
+[0m[[0mdebug[0m] [0m      val keyPair = keyPairGenerator.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // Generate a self signed certificate[0m
+[0m[[0mdebug[0m] [0m      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val password = "changeit" // null passwords throw exception in 1.6 in PKCS12[0m
+[0m[[0mdebug[0m] [0m      keyStore.load(null, password.toCharArray)[0m
+[0m[[0mdebug[0m] [0m      // Don't add the private key here, instead add a public cert only.[0m
+[0m[[0mdebug[0m] [0m      keyStore.setCertificateEntry("playgeneratedtrusted", cert)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val ksc = KeyStoreConfig(None, Some("path")).withPassword(Some(password))[0m
+[0m[[0mdebug[0m] [0m      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)[0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      builder.validateStoreContainsPrivateKeys(ksc, keyStore) must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "validate the keystore with a weak certificate " in {[0m
+[0m[[0mdebug[0m] [0m      // RSA 1024 public key[0m
+[0m[[0mdebug[0m] [0m      val data = """-----BEGIN CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m                   |MIICcjCCAdugAwIBAgIEKdPHODANBgkqhkiG9w0BAQsFADBsMRAwDgYDVQQGEwdV[0m
+[0m[[0mdebug[0m] [0m                   |bmtub3duMRAwDgYDVQQIEwdVbmtub3duMRAwDgYDVQQHEwdVbmtub3duMRAwDgYD[0m
+[0m[[0mdebug[0m] [0m                   |VQQKEwdVbmtub3duMRAwDgYDVQQLEwdVbmtub3duMRAwDgYDVQQDEwdVbmtub3du[0m
+[0m[[0mdebug[0m] [0m                   |MB4XDTE0MDQxMzAxMzgwN1oXDTE0MTAxMDAxMzgwN1owbDEQMA4GA1UEBhMHVW5r[0m
+[0m[[0mdebug[0m] [0m                   |bm93bjEQMA4GA1UECBMHVW5rbm93bjEQMA4GA1UEBxMHVW5rbm93bjEQMA4GA1UE[0m
+[0m[[0mdebug[0m] [0m                   |ChMHVW5rbm93bjEQMA4GA1UECxMHVW5rbm93bjEQMA4GA1UEAxMHVW5rbm93bjCB[0m
+[0m[[0mdebug[0m] [0m                   |nzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAoZCRpCJyes/P8yGeSSskZ8mtgH+H[0m
+[0m[[0mdebug[0m] [0m                   |yQOnpnXcOko34Ys0mWhjxKfJjSmkUHdSfKarZ2hFmmNv05+1Og02tIIscIUraFyc[0m
+[0m[[0mdebug[0m] [0m                   |ujPsjYU3B1QUeW4duB0l/MJVwBYxpbulZuV9joNWyAyPvyE2Z3F91Ka77/FobqfI[0m
+[0m[[0mdebug[0m] [0m                   |sAbbM+qWzQspU2cCAwEAAaMhMB8wHQYDVR0OBBYEFFdSKbOXk6Of//DrMQksYUmP[0m
+[0m[[0mdebug[0m] [0m                   |WYTmMA0GCSqGSIb3DQEBCwUAA4GBAEVNSa8wtsLArg+4IQXs1P4JUAMPieOC3DjC[0m
+[0m[[0mdebug[0m] [0m                   |ioplN4UHccCXXmpBe2zkCvIxkmRUjfaYfAehHJvJSitUkBupAQSwv3rNo5zIfqCe[0m
+[0m[[0mdebug[0m] [0m                   |NzBCZh8S+IPQZa+gaE8MrLsDDzD0ZoSOT8fx5TSgF8eTUgkKxkX4I51C9B5t2SCB[0m
+[0m[[0mdebug[0m] [0m                   |0Pl6Lah4[0m
+[0m[[0mdebug[0m] [0m                   |-----END CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m                 """.stripMargin[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // This[0m
+[0m[[0mdebug[0m] [0m      val disabledKeyAlgorithms = Set(AlgorithmConstraint("RSA", Some(LessThan(1024))))[0m
+[0m[[0mdebug[0m] [0m      //val disabledKeyAlgorithms = Set[AlgorithmConstraint]()[0m
+[0m[[0mdebug[0m] [0m      val tsc = TrustStoreConfig(Some(data), None).withStoreType("PEM")[0m
+[0m[[0mdebug[0m] [0m      val trustManagerConfig = TrustManagerConfig().withTrustStoreConfigs(List(tsc))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val info = SSLConfigSettings().withTrustManagerConfig(trustManagerConfig)[0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val trustStore = builder.trustStoreBuilder(tsc).build()[0m
+[0m[[0mdebug[0m] [0m      val checker: AlgorithmChecker = new AlgorithmChecker(mkLogger, signatureConstraints = Set(), keyConstraints = disabledKeyAlgorithms)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      {[0m
+[0m[[0mdebug[0m] [0m        builder.validateStore(trustStore, checker)[0m
+[0m[[0mdebug[0m] [0m      }.must(not(throwAn[CertPathValidatorException]))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "warnOnPKCS12EmptyPasswordBug returns true when a PKCS12 keystore has a null or empty password" in {[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val ksc = KeyStoreConfig(None, Some("path")).withStoreType("PKCS12")[0m
+[0m[[0mdebug[0m] [0m      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))[0m
+[0m[[0mdebug[0m] [0m      val sslConfig = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, sslConfig, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      builder.warnOnPKCS12EmptyPasswordBug(ksc) must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "warnOnPKCS12EmptyPasswordBug returns false when a PKCS12 keystore has a password" in {[0m
+[0m[[0mdebug[0m] [0m      val keyManagerFactory = mock[KeyManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m      val trustManagerFactory = mock[TrustManagerFactoryWrapper][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val ksc = KeyStoreConfig(None, Some("path")).withStoreType("PKCS12").withPassword(Some("password"))[0m
+[0m[[0mdebug[0m] [0m      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))[0m
+[0m[[0mdebug[0m] [0m      val sslConfig = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val builder = new ConfigSSLContextBuilder(mkLogger, sslConfig, keyManagerFactory, trustManagerFactory)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      builder.warnOnPKCS12EmptyPasswordBug(ksc) must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/ConfigSSLContextBuilderSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmConstraintsParserSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmConstraintsParserSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmConstraintsParserSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0mimport scala.util.parsing.input.CharSequenceReader[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.matcher.{ ExpectedParsedResult, ParserMatchers }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject AlgorithmConstraintsParserSpec extends Specification with ParserMatchers {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  val parsers = AlgorithmConstraintsParser[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  import AlgorithmConstraintsParser._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "AlgorithmConstraintParser" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeed to recognize 'RSA'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must succeedOn("RSA").withResult(AlgorithmConstraint("RSA"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeed to recognize 'RSA keySize < 1024'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must succeedOn("RSA keySize < 1024").withResult(AlgorithmConstraint("RSA", Some(LessThan(1024))))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeed to recognize 'RSA keySize <= 1024'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must succeedOn("RSA keySize <= 1024").withResult(AlgorithmConstraint("RSA", Some(LessThanOrEqual(1024))))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeed to recognize 'EC keySize > 1024'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must succeedOn("EC keySize > 1024").withResult(AlgorithmConstraint("EC", Some(MoreThan(1024))))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeed to recognize 'EC keySize >= 1024'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must succeedOn("EC keySize >= 1024").withResult(AlgorithmConstraint("EC", Some(MoreThanOrEqual(1024))))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeed to recognize 'EC keySize == 1024'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must succeedOn("EC keySize == 1024").withResult(AlgorithmConstraint("EC", Some(Equal(1024))))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeed to recognize 'EC keySize != 1024'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must succeedOn("EC keySize != 1024").withResult(AlgorithmConstraint("EC", Some(NotEqual(1024))))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail to recognize 'EC > 1024'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must failOn("EC > 1024")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail to recognize 'EC keySize'" in {[0m
+[0m[[0mdebug[0m] [0m      expression must failOn("EC keySize")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail to recognize ''" in {[0m
+[0m[[0mdebug[0m] [0m      expression must failOn("")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmConstraintsParserSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SSLConfigParserSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SSLConfigParserSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SSLConfigParserSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.EnrichedConfig[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.config.ConfigFactory[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject SSLConfigParserSpec extends Specification {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  // We can get horrible concurrent modification exceptions in the logger if we run[0m
+[0m[[0mdebug[0m] [0m  // several WithApplication at the same time.  Usually happens in the build.[0m
+[0m[[0mdebug[0m] [0m  sequential[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "SSLConfigParser" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def parseThis(input: String) = {[0m
+[0m[[0mdebug[0m] [0m      val config = ConfigFactory.parseString(input).withFallback(ConfigFactory.defaultReference().getConfig("ssl-config"))[0m
+[0m[[0mdebug[0m] [0m      val parser = new SSLConfigParser(EnrichedConfig(config), getClass.getClassLoader)[0m
+[0m[[0mdebug[0m] [0m      parser.parse()[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "parse ws.ssl base section" in {[0m
+[0m[[0mdebug[0m] [0m      val actual = parseThis("""[0m
+[0m[[0mdebug[0m] [0m                                |default = true[0m
+[0m[[0mdebug[0m] [0m                                |protocol = TLSv1.1[0m
+[0m[[0mdebug[0m] [0m                                |checkRevocation = true[0m
+[0m[[0mdebug[0m] [0m                                |revocationLists = [ "http://example.com" ][0m
+[0m[[0mdebug[0m] [0m                                |// hostnameVerifierClass = "com.ning.http.util.DefaultHostnameVerifier" // TODO do we need this one?[0m
+[0m[[0mdebug[0m] [0m                                |enabledCipherSuites = [ TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA ][0m
+[0m[[0mdebug[0m] [0m                                |enabledProtocols = [ TLSv1.2, TLSv1.1, SSLv3 ][0m
+[0m[[0mdebug[0m] [0m                                |disabledSignatureAlgorithms = [md2, md3][0m
+[0m[[0mdebug[0m] [0m                                |disabledKeyAlgorithms = ["RSA keySize < 1024"][0m
+[0m[[0mdebug[0m] [0m                              """.stripMargin)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.default must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.protocol must_== "TLSv1.1"[0m
+[0m[[0mdebug[0m] [0m      actual.checkRevocation must beSome(true)[0m
+[0m[[0mdebug[0m] [0m      actual.revocationLists must beSome.which {[0m
+[0m[[0mdebug[0m] [0m        _ must beEqualTo(Seq(new java.net.URL("http://example.com")))[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m      //      actual.hostnameVerifierClass must_== classOf[com.ning.http.util.DefaultHostnameVerifier][0m
+[0m[[0mdebug[0m] [0m      actual.enabledCipherSuites must beSome.which(_ must containTheSameElementsAs(Seq("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA")))[0m
+[0m[[0mdebug[0m] [0m      actual.enabledProtocols must beSome.which(_ must containTheSameElementsAs(Seq("TLSv1.2", "TLSv1.1", "SSLv3")))[0m
+[0m[[0mdebug[0m] [0m      actual.disabledSignatureAlgorithms must containTheSameElementsAs(Seq("md2", "md3"))[0m
+[0m[[0mdebug[0m] [0m      actual.disabledKeyAlgorithms must containTheSameElementsAs(Seq("RSA keySize < 1024"))[0m
+[0m[[0mdebug[0m] [0m      actual.secureRandom must beNone[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "parse ssl-config.loose section" in {[0m
+[0m[[0mdebug[0m] [0m      val actual = parseThis("""[0m
+[0m[[0mdebug[0m] [0m                                |loose = {[0m
+[0m[[0mdebug[0m] [0m                                | allowLegacyHelloMessages = true[0m
+[0m[[0mdebug[0m] [0m                                | allowUnsafeRenegotiation = true[0m
+[0m[[0mdebug[0m] [0m                                | allowWeakCiphers = true[0m
+[0m[[0mdebug[0m] [0m                                | allowWeakProtocols = true[0m
+[0m[[0mdebug[0m] [0m                                | disableHostnameVerification = true[0m
+[0m[[0mdebug[0m] [0m                                | acceptAnyCertificate = true[0m
+[0m[[0mdebug[0m] [0m                                |}[0m
+[0m[[0mdebug[0m] [0m                              """.stripMargin)[0m
+[0m[[0mdebug[0m] [0m      actual.loose.allowLegacyHelloMessages must beSome(true)[0m
+[0m[[0mdebug[0m] [0m      actual.loose.allowUnsafeRenegotiation must beSome(true)[0m
+[0m[[0mdebug[0m] [0m      actual.loose.allowWeakCiphers must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.loose.allowWeakProtocols must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.loose.disableHostnameVerification must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.loose.acceptAnyCertificate must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "say debug is disabled if all debug is disabled" in {[0m
+[0m[[0mdebug[0m] [0m      parseThis("").debug.enabled must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "parse ssl-config.debug section" in {[0m
+[0m[[0mdebug[0m] [0m      val actual = parseThis("""[0m
+[0m[[0mdebug[0m] [0m                                |debug = {[0m
+[0m[[0mdebug[0m] [0m                                |  certpath = true[0m
+[0m[[0mdebug[0m] [0m                                |  ssl = true[0m
+[0m[[0mdebug[0m] [0m                                |  defaultctx = true[0m
+[0m[[0mdebug[0m] [0m                                |  handshake = true[0m
+[0m[[0mdebug[0m] [0m                                |  verbose = true[0m
+[0m[[0mdebug[0m] [0m                                |  data = true[0m
+[0m[[0mdebug[0m] [0m                                |  keygen = true[0m
+[0m[[0mdebug[0m] [0m                                |  keymanager = true[0m
+[0m[[0mdebug[0m] [0m                                |  pluggability = true[0m
+[0m[[0mdebug[0m] [0m                                |  record = true[0m
+[0m[[0mdebug[0m] [0m                                |  packet = true[0m
+[0m[[0mdebug[0m] [0m                                |  plaintext = true[0m
+[0m[[0mdebug[0m] [0m                                |  session = true[0m
+[0m[[0mdebug[0m] [0m                                |  sessioncache = true[0m
+[0m[[0mdebug[0m] [0m                                |  sslctx = true[0m
+[0m[[0mdebug[0m] [0m                                |  trustmanager = true[0m
+[0m[[0mdebug[0m] [0m                                |}[0m
+[0m[[0mdebug[0m] [0m                              """.stripMargin)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.debug.enabled must beTrue[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.debug.certpath must beTrue[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.debug.all must beFalse[0m
+[0m[[0mdebug[0m] [0m      actual.debug.ssl must beTrue[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.debug.defaultctx must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.handshake must beSome.which { handshake =>[0m
+[0m[[0mdebug[0m] [0m        handshake.data must beTrue[0m
+[0m[[0mdebug[0m] [0m        handshake.verbose must beTrue[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m      actual.debug.keygen must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.keymanager must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.pluggability must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.record must beSome.which { record =>[0m
+[0m[[0mdebug[0m] [0m        record.packet must beTrue[0m
+[0m[[0mdebug[0m] [0m        record.plaintext must beTrue[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m      actual.debug.session must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.sessioncache must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.sslctx must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.trustmanager must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "parse ssl-config.debug section with all" in {[0m
+[0m[[0mdebug[0m] [0m      val actual = parseThis("""[0m
+[0m[[0mdebug[0m] [0m                                |debug = {[0m
+[0m[[0mdebug[0m] [0m                                |  certpath = true[0m
+[0m[[0mdebug[0m] [0m                                |  all = true[0m
+[0m[[0mdebug[0m] [0m                                |}[0m
+[0m[[0mdebug[0m] [0m                              """.stripMargin)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.debug.enabled must beTrue[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.debug.certpath must beTrue[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // everything else is false, all wins everything.[0m
+[0m[[0mdebug[0m] [0m      actual.debug.all must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "parse ssl-config.debug section with ssl" in {[0m
+[0m[[0mdebug[0m] [0m      val actual = parseThis("""[0m
+[0m[[0mdebug[0m] [0m                                |debug = {[0m
+[0m[[0mdebug[0m] [0m                                |  ssl = true[0m
+[0m[[0mdebug[0m] [0m                                |}[0m
+[0m[[0mdebug[0m] [0m                              """.stripMargin)[0m
+[0m[[0mdebug[0m] [0m      actual.debug.enabled must beTrue[0m
+[0m[[0mdebug[0m] [0m      actual.debug.ssl must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "parse ssl-config.trustBuilder section" in {[0m
+[0m[[0mdebug[0m] [0m      val info = parseThis("""[0m
+[0m[[0mdebug[0m] [0m                              |trustManager = {[0m
+[0m[[0mdebug[0m] [0m                              |  algorithm = "trustme"[0m
+[0m[[0mdebug[0m] [0m                              |  stores = [[0m
+[0m[[0mdebug[0m] [0m                              |    { type: "storeType", path: "trusted" }[0m
+[0m[[0mdebug[0m] [0m                              |  ][0m
+[0m[[0mdebug[0m] [0m                              |}[0m
+[0m[[0mdebug[0m] [0m                            """.stripMargin)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val tmc = info.trustManagerConfig[0m
+[0m[[0mdebug[0m] [0m      tmc.algorithm must_== "trustme"[0m
+[0m[[0mdebug[0m] [0m      val tsi = tmc.trustStoreConfigs(0)[0m
+[0m[[0mdebug[0m] [0m      tsi.filePath must beSome.which(_ must beEqualTo("trusted"))[0m
+[0m[[0mdebug[0m] [0m      tsi.storeType must_== "storeType"[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "parse ssl-config.keyManager section" in {[0m
+[0m[[0mdebug[0m] [0m      val info = parseThis("""[0m
+[0m[[0mdebug[0m] [0m                              |keyManager = {[0m
+[0m[[0mdebug[0m] [0m                              |  password = "changeit"[0m
+[0m[[0mdebug[0m] [0m                              |  algorithm = "keyStore"[0m
+[0m[[0mdebug[0m] [0m                              |  stores = [[0m
+[0m[[0mdebug[0m] [0m                              |    {[0m
+[0m[[0mdebug[0m] [0m                              |      type: "storeType",[0m
+[0m[[0mdebug[0m] [0m                              |      path: "cacerts",[0m
+[0m[[0mdebug[0m] [0m                              |      password: "password1"[0m
+[0m[[0mdebug[0m] [0m                              |    },[0m
+[0m[[0mdebug[0m] [0m                              |    { type: "PEM", data = "data",  password: "changeit" }[0m
+[0m[[0mdebug[0m] [0m                              |  ][0m
+[0m[[0mdebug[0m] [0m                              |}[0m
+[0m[[0mdebug[0m] [0m                            """.stripMargin)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val kmc = info.keyManagerConfig[0m
+[0m[[0mdebug[0m] [0m      kmc.algorithm must_== "keyStore"[0m
+[0m[[0mdebug[0m] [0m      kmc.keyStoreConfigs.size must_== 2[0m
+[0m[[0mdebug[0m] [0m      val fileStoreConfig = kmc.keyStoreConfigs(0)[0m
+[0m[[0mdebug[0m] [0m      fileStoreConfig.filePath must beSome.which(_ must beEqualTo("cacerts"))[0m
+[0m[[0mdebug[0m] [0m      fileStoreConfig.storeType must_== "storeType"[0m
+[0m[[0mdebug[0m] [0m      fileStoreConfig.password must beSome.which {[0m
+[0m[[0mdebug[0m] [0m        _ must beEqualTo("password1")[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m      val stringStoreConfig = kmc.keyStoreConfigs(1)[0m
+[0m[[0mdebug[0m] [0m      stringStoreConfig.data must beSome.which(_ must beEqualTo("data"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail on ssl-config.keyManager with no path defined" in {[0m
+[0m[[0mdebug[0m] [0m      parseThis("""[0m
+[0m[[0mdebug[0m] [0m                   |keyManager = {[0m
+[0m[[0mdebug[0m] [0m                   |  algorithm = "keyStore"[0m
+[0m[[0mdebug[0m] [0m                   |  stores = [[0m
+[0m[[0mdebug[0m] [0m                   |    { type: "storeType", password: "password1" }[0m
+[0m[[0mdebug[0m] [0m                   |  ][0m
+[0m[[0mdebug[0m] [0m                   |}[0m
+[0m[[0mdebug[0m] [0m                 """.stripMargin).must(throwAn[AssertionError])[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SSLConfigParserSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DefaultHostnameVerifierSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DefaultHostnameVerifierSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DefaultHostnameVerifierSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.NoopLogger[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mock._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport javax.net.ssl.{ SSLPeerUnverifiedException, SSLSession }[0m
+[0m[[0mdebug[0m] [0mimport sun.security.util.HostnameChecker[0m
+[0m[[0mdebug[0m] [0mimport java.security.cert.{ CertificateException, X509Certificate }[0m
+[0m[[0mdebug[0m] [0mimport java.security.Principal[0m
+[0m[[0mdebug[0m] [0mimport javax.security.auth.kerberos.KerberosPrincipal[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject DefaultHostnameVerifierSpec extends Specification with Mockito {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "DefaultHostnameVerifier" should {[0m
+[0m[[0mdebug[0m] [0m    val mkLogger = NoopLogger.factory()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "work" in {[0m
+[0m[[0mdebug[0m] [0m      val session = mock[SSLSession][0m
+[0m[[0mdebug[0m] [0m      val mockChecker = mock[HostnameChecker][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val verifier = new DefaultHostnameVerifier(mkLogger) {[0m
+[0m[[0mdebug[0m] [0m        override def hostnameChecker = mockChecker[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      session.getId returns "1234".getBytes("UTF-8")[0m
+[0m[[0mdebug[0m] [0m      val cert = mock[X509Certificate][0m
+[0m[[0mdebug[0m] [0m      session.getPeerCertificates returns Array(cert)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = verifier.verify("example.com", session)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual must beTrue[0m
+[0m[[0mdebug[0m] [0m      got {[0m
+[0m[[0mdebug[0m] [0m        mockChecker.`match`("example.com", cert)[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail when the match fails" in {[0m
+[0m[[0mdebug[0m] [0m      val session = mock[SSLSession][0m
+[0m[[0mdebug[0m] [0m      val mockChecker = mock[HostnameChecker][0m
+[0m[[0mdebug[0m] [0m      val cert = mock[X509Certificate][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val verifier = new DefaultHostnameVerifier(mkLogger) {[0m
+[0m[[0mdebug[0m] [0m        override def hostnameChecker = mockChecker[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      session.getId returns "1234".getBytes("UTF-8")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerCertificates returns Array(cert)[0m
+[0m[[0mdebug[0m] [0m      mockChecker.`match`("example.com", cert) throws (new CertificateException("derp"))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = verifier.verify("example.com", session)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail when there are no peer certificates" in {[0m
+[0m[[0mdebug[0m] [0m      val session = mock[SSLSession][0m
+[0m[[0mdebug[0m] [0m      val mockChecker = mock[HostnameChecker][0m
+[0m[[0mdebug[0m] [0m      val cert = mock[X509Certificate][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val verifier = new DefaultHostnameVerifier(mkLogger) {[0m
+[0m[[0mdebug[0m] [0m        override def hostnameChecker = mockChecker[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      session.getId returns "1234".getBytes("UTF-8")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerCertificates returns null // very rude, but that's Java APIs for you[0m
+[0m[[0mdebug[0m] [0m      mockChecker.`match`("example.com", cert) throws (new CertificateException("derp"))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = verifier.verify("example.com", session)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "succeeds when the peer is unverified but the peer principal is there and kerberous" in {[0m
+[0m[[0mdebug[0m] [0m      val session = mock[SSLSession][0m
+[0m[[0mdebug[0m] [0m      val mockChecker = mock[HostnameChecker][0m
+[0m[[0mdebug[0m] [0m      val principal = mock[Principal][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val verifier = new DefaultHostnameVerifier(mkLogger) {[0m
+[0m[[0mdebug[0m] [0m        override def hostnameChecker = mockChecker[0m
+[0m[[0mdebug[0m] [0m        override def isKerberos(principal: Principal) = true[0m
+[0m[[0mdebug[0m] [0m        override def matchKerberos(hostname: String, principal: Principal) = true[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      session.getId returns "1234".getBytes("UTF-8")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerCertificates throws new SSLPeerUnverifiedException("derp")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerPrincipal returns principal[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = verifier.verify("example.com", session)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fails when the peer is unverified but the peer principal is there (but is not a match)" in {[0m
+[0m[[0mdebug[0m] [0m      val session = mock[SSLSession][0m
+[0m[[0mdebug[0m] [0m      val mockChecker = mock[HostnameChecker][0m
+[0m[[0mdebug[0m] [0m      val principal = mock[Principal][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val verifier = new DefaultHostnameVerifier(mkLogger) {[0m
+[0m[[0mdebug[0m] [0m        override def hostnameChecker = mockChecker[0m
+[0m[[0mdebug[0m] [0m        override def isKerberos(principal: Principal) = true[0m
+[0m[[0mdebug[0m] [0m        override def matchKerberos(hostname: String, principal: Principal) = false[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      session.getId returns "1234".getBytes("UTF-8")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerCertificates throws new SSLPeerUnverifiedException("derp")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerPrincipal returns principal[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = verifier.verify("example.com", session)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fails when the peer is unverified but the peer principal is there (but is not a KerberosPrincipal)" in {[0m
+[0m[[0mdebug[0m] [0m      val session = mock[SSLSession][0m
+[0m[[0mdebug[0m] [0m      val mockChecker = mock[HostnameChecker][0m
+[0m[[0mdebug[0m] [0m      val principal = mock[Principal][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val verifier = new DefaultHostnameVerifier(mkLogger) {[0m
+[0m[[0mdebug[0m] [0m        override def hostnameChecker = mockChecker[0m
+[0m[[0mdebug[0m] [0m        override def isKerberos(principal: Principal) = false[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      session.getId returns "1234".getBytes("UTF-8")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerCertificates throws new SSLPeerUnverifiedException("derp")[0m
+[0m[[0mdebug[0m] [0m      session.getPeerPrincipal returns principal[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val actual = verifier.verify("example.com", session)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DefaultHostnameVerifierSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DebugBuilderSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DebugBuilderSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DebugBuilderSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject DebugBuilderSpec extends Specification {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "JavaSecurityDebugBuilder" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "match nothing by default" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLDebugConfig().withCertPath(false)[0m
+[0m[[0mdebug[0m] [0m      val builder = new JavaSecurityDebugBuilder(config)[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.build()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.trim must beEmpty[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "match certpath" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLDebugConfig().withCertPath(true)[0m
+[0m[[0mdebug[0m] [0m      val builder = new JavaSecurityDebugBuilder(config)[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.build()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.trim.split("\\s+").toSeq must containTheSameElementsAs(Seq("certpath"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "match certpath + ocsp" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLDebugConfig().withCertPath(true).withOcsp(true)[0m
+[0m[[0mdebug[0m] [0m      val builder = new JavaSecurityDebugBuilder(config)[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.build()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.trim.split("\\s+").toSeq must containTheSameElementsAs(Seq("certpath", "ocsp"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "JavaxNetDebugBuilder" should {[0m
+[0m[[0mdebug[0m] [0m    "match nothing by default" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLDebugConfig()[0m
+[0m[[0mdebug[0m] [0m      val builder = new JavaxNetDebugBuilder(config)[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.build()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.trim must beEmpty[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "match all" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLDebugConfig().withAll(true)[0m
+[0m[[0mdebug[0m] [0m      val builder = new JavaxNetDebugBuilder(config)[0m
+[0m[[0mdebug[0m] [0m      val actual = builder.build()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.trim.split("\\s+").toSeq must containTheSameElementsAs(Seq("all"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "match some random combinations" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLDebugConfig().withSsl(true).withDefaultContext(true).withHandshake(Some(SSLDebugHandshakeOptions().withData(true)))[0m
+[0m[[0mdebug[0m] [0m      val builder = new JavaxNetDebugBuilder(config)[0m
+[0m[[0mdebug[0m] [0m      val actual: String = builder.build()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      actual.trim.split("\\s+").toSeq must containTheSameElementsAs(Seq("ssl", "defaultctx", "handshake", "data"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/DebugBuilderSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509KeyManagerSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509KeyManagerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509KeyManagerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport java.net.Socket[0m
+[0m[[0mdebug[0m] [0mimport java.security.{ Principal, PrivateKey }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.NoopLogger[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport scala.Array[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport javax.net.ssl.{ X509ExtendedKeyManager, SSLEngine, X509KeyManager }[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mock._[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0mimport java.security.cert.X509Certificate[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject CompositeX509KeyManagerSpec extends Specification with Mockito {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  def mockExtendedX509KeyManager(clientResponse: String = null, serverResponse: String = null) = new X509ExtendedKeyManager() {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    override def chooseEngineClientAlias(keyType: Array[String], issuers: Array[Principal], engine: SSLEngine): String = clientResponse[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    override def chooseEngineServerAlias(keyType: String, issuers: Array[Principal], engine: SSLEngine): String = serverResponse[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def getClientAliases(keyType: String, issuers: Array[Principal]): Array[String] = ???[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def chooseClientAlias(keyType: Array[String], issuers: Array[Principal], socket: Socket): String = ???[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def getServerAliases(keyType: String, issuers: Array[Principal]): Array[String] = ???[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def chooseServerAlias(keyType: String, issuers: Array[Principal], socket: Socket): String = ???[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def getCertificateChain(alias: String): Array[X509Certificate] = ???[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def getPrivateKey(alias: String): PrivateKey = ???[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m  val mkLogger = NoopLogger.factory()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "CompositeX509KeyManager" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "chooseEngineClientAlias" should {[0m
+[0m[[0mdebug[0m] [0m      "not do anything with a X509KeyManager" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = Array("derp")[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val engine = mock[SSLEngine][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return a result" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mockExtendedX509KeyManager(clientResponse = "clientAlias")[0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = Array("derp")[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val engine = mock[SSLEngine][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must be_==("clientAlias")[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mockExtendedX509KeyManager()[0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = Array("derp")[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val engine = mock[SSLEngine][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseEngineClientAlias(keyType = keyType, issuers = issuers, engine = engine)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "chooseEngineServerAlias" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "not do anything with a X509KeyManager" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val engine = mock[SSLEngine][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseEngineServerAlias(keyType = keyType, issuers = issuers, engine = engine)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return a result" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mockExtendedX509KeyManager(serverResponse = "serverAlias")[0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val engine = mock[SSLEngine][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseEngineServerAlias(keyType = keyType, issuers = issuers, engine = engine)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must be_==("serverAlias")[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mockExtendedX509KeyManager()[0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val engine = mock[SSLEngine][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseEngineServerAlias(keyType = keyType, issuers = issuers, engine = engine)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "chooseClientAlias" should {[0m
+[0m[[0mdebug[0m] [0m      "return a result" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = Array("derp")[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val socket = mock[Socket][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.chooseClientAlias(keyType, issuers, socket) returns "clientAlias"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseClientAlias(keyType = keyType, issuers = issuers, socket = socket)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must be_==("clientAlias")[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = Array("derp")[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val socket = mock[Socket][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.chooseClientAlias(keyType, issuers, socket) returns null[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseClientAlias(keyType = keyType, issuers = issuers, socket = socket)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "getClientAliases" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return a result" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getClientAliases(keyType, issuers) returns Array("clientAliases")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val clientAliases = keyManager.getClientAliases(keyType = keyType, issuers = issuers)[0m
+[0m[[0mdebug[0m] [0m        clientAliases must be_==(Array("clientAliases"))[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getClientAliases(keyType, issuers) returns null[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val clientAliases = keyManager.getClientAliases(keyType = keyType, issuers = issuers)[0m
+[0m[[0mdebug[0m] [0m        clientAliases must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "getServerAliases" should {[0m
+[0m[[0mdebug[0m] [0m      "return a result" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getServerAliases(keyType, issuers) returns Array("serverAliases")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAliases = keyManager.getServerAliases(keyType = keyType, issuers = issuers)[0m
+[0m[[0mdebug[0m] [0m        serverAliases must be_==(Array("serverAliases"))[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getServerAliases(keyType, issuers) returns null[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAliases = keyManager.getServerAliases(keyType = keyType, issuers = issuers)[0m
+[0m[[0mdebug[0m] [0m        serverAliases must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "chooseServerAlias" should {[0m
+[0m[[0mdebug[0m] [0m      "work fine" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val socket = mock[Socket][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.chooseServerAlias(keyType, issuers, socket) returns "serverAlias"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseServerAlias(keyType = keyType, issuers = issuers, socket = socket)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must be_==("serverAlias")[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val keyType = "derp"[0m
+[0m[[0mdebug[0m] [0m        val issuers = Array[Principal]()[0m
+[0m[[0mdebug[0m] [0m        val socket = mock[Socket][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.chooseServerAlias(keyType, issuers, socket) returns null[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val serverAlias = keyManager.chooseServerAlias(keyType = keyType, issuers = issuers, socket = socket)[0m
+[0m[[0mdebug[0m] [0m        serverAlias must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "getCertificateChain" should {[0m
+[0m[[0mdebug[0m] [0m      "work fine" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val alias = "alias"[0m
+[0m[[0mdebug[0m] [0m        val cert = CertificateGenerator.generateRSAWithSHA256()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getCertificateChain(alias) returns Array(cert)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val certChain = keyManager.getCertificateChain(alias = alias)[0m
+[0m[[0mdebug[0m] [0m        certChain must be_==(Array(cert))[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val alias = "alias"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getCertificateChain(alias) returns null[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val certChain = keyManager.getCertificateChain(alias = alias)[0m
+[0m[[0mdebug[0m] [0m        certChain must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "getPrivateKey" should {[0m
+[0m[[0mdebug[0m] [0m      "work fine" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val alias = "alias"[0m
+[0m[[0mdebug[0m] [0m        val privateKey = mock[PrivateKey][0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getPrivateKey(alias) returns privateKey[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val actual = keyManager.getPrivateKey(alias = alias)[0m
+[0m[[0mdebug[0m] [0m        actual must be_==(privateKey)[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      "return null" in {[0m
+[0m[[0mdebug[0m] [0m        val mockKeyManager = mock[X509KeyManager][0m
+[0m[[0mdebug[0m] [0m        val keyManager = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))[0m
+[0m[[0mdebug[0m] [0m        val alias = "alias"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        mockKeyManager.getPrivateKey(alias) returns null[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m        val actual = keyManager.getPrivateKey(alias = alias)[0m
+[0m[[0mdebug[0m] [0m        actual must beNull[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CompositeX509KeyManagerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/KeyStoreSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/KeyStoreSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/KeyStoreSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mclass KeyStoreSpec extends Specification {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "StringBasedKeyStoreBuilder" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "create several certificate" in {[0m
+[0m[[0mdebug[0m] [0m      val builder = new StringBasedKeyStoreBuilder([0m
+[0m[[0mdebug[0m] [0m        """-----BEGIN CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m        |MIIDIDCCAomgAwIBAgIENd70zzANBgkqhkiG9w0BAQUFADBOMQswCQYDVQQGEwJV[0m
+[0m[[0mdebug[0m] [0m        |UzEQMA4GA1UEChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2Vy[0m
+[0m[[0mdebug[0m] [0m        |dGlmaWNhdGUgQXV0aG9yaXR5MB4XDTk4MDgyMjE2NDE1MVoXDTE4MDgyMjE2NDE1[0m
+[0m[[0mdebug[0m] [0m        |MVowTjELMAkGA1UEBhMCVVMxEDAOBgNVBAoTB0VxdWlmYXgxLTArBgNVBAsTJEVx[0m
+[0m[[0mdebug[0m] [0m        |dWlmYXggU2VjdXJlIENlcnRpZmljYXRlIEF1dGhvcml0eTCBnzANBgkqhkiG9w0B[0m
+[0m[[0mdebug[0m] [0m        |AQEFAAOBjQAwgYkCgYEAwV2xWGcIYu6gmi0fCG2RFGiYCh7+2gRvE4RiIcPRfM6f[0m
+[0m[[0mdebug[0m] [0m        |BeC4AfBONOziipUEZKzxa1NfBbPLZ4C/QgKO/t0BCezhABRP/PvwDN1Dulsr4R+A[0m
+[0m[[0mdebug[0m] [0m        |cJkVV5MW8Q+XarfCaCMczE1ZMKxRHjuvK9buY0V7xdlfUNLjUA86iOe/FP3gx7kC[0m
+[0m[[0mdebug[0m] [0m        |AwEAAaOCAQkwggEFMHAGA1UdHwRpMGcwZaBjoGGkXzBdMQswCQYDVQQGEwJVUzEQ[0m
+[0m[[0mdebug[0m] [0m        |MA4GA1UEChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2VydGlm[0m
+[0m[[0mdebug[0m] [0m        |aWNhdGUgQXV0aG9yaXR5MQ0wCwYDVQQDEwRDUkwxMBoGA1UdEAQTMBGBDzIwMTgw[0m
+[0m[[0mdebug[0m] [0m        |ODIyMTY0MTUxWjALBgNVHQ8EBAMCAQYwHwYDVR0jBBgwFoAUSOZo+SvSspXXR9gj[0m
+[0m[[0mdebug[0m] [0m        |IBBPM5iQn9QwHQYDVR0OBBYEFEjmaPkr0rKV10fYIyAQTzOYkJ/UMAwGA1UdEwQF[0m
+[0m[[0mdebug[0m] [0m        |MAMBAf8wGgYJKoZIhvZ9B0EABA0wCxsFVjMuMGMDAgbAMA0GCSqGSIb3DQEBBQUA[0m
+[0m[[0mdebug[0m] [0m        |A4GBAFjOKer89961zgK5F7WF0bnj4JXMJTENAKaSbn+2kmOeUJXRmm/kEd5jhW6Y[0m
+[0m[[0mdebug[0m] [0m        |7qj/WsjTVbJmcVfewCHrPSqnI0kBBIZCe/zuf6IWUrVnZ9NA2zsmWLIodz2uFHdh[0m
+[0m[[0mdebug[0m] [0m        |1voqZiegDfqnc1zqcPGUIWVEX/r87yloqaKHee9570+sB3c4[0m
+[0m[[0mdebug[0m] [0m        |-----END CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m        |-----BEGIN CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m        |MIICWjCCAcMCAgGlMA0GCSqGSIb3DQEBBAUAMHUxCzAJBgNVBAYTAlVTMRgwFgYDVQQKEw9HVEUg[0m
+[0m[[0mdebug[0m] [0m        |Q29ycG9yYXRpb24xJzAlBgNVBAsTHkdURSBDeWJlclRydXN0IFNvbHV0aW9ucywgSW5jLjEjMCEG[0m
+[0m[[0mdebug[0m] [0m        |A1UEAxMaR1RFIEN5YmVyVHJ1c3QgR2xvYmFsIFJvb3QwHhcNOTgwODEzMDAyOTAwWhcNMTgwODEz[0m
+[0m[[0mdebug[0m] [0m        |MjM1OTAwWjB1MQswCQYDVQQGEwJVUzEYMBYGA1UEChMPR1RFIENvcnBvcmF0aW9uMScwJQYDVQQL[0m
+[0m[[0mdebug[0m] [0m        |Ex5HVEUgQ3liZXJUcnVzdCBTb2x1dGlvbnMsIEluYy4xIzAhBgNVBAMTGkdURSBDeWJlclRydXN0[0m
+[0m[[0mdebug[0m] [0m        |IEdsb2JhbCBSb290MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCVD6C28FCc6HrHiM3dFw4u[0m
+[0m[[0mdebug[0m] [0m        |sJTQGz0O9pTAipTHBsiQl8i4ZBp6fmw8U+E3KHNgf7KXUwefU/ltWJTSr41tiGeA5u2ylc9yMcql[0m
+[0m[[0mdebug[0m] [0m        |HHK6XALnZELn+aks1joNrI1CqiQBOeacPwGFVw1Yh0X404Wqk2kmhXBIgD8SFcd5tB8FLztimQID[0m
+[0m[[0mdebug[0m] [0m        |AQABMA0GCSqGSIb3DQEBBAUAA4GBAG3rGwnpXtlR22ciYaQqPEh346B8pt5zohQDhT37qw4wxYMW[0m
+[0m[[0mdebug[0m] [0m        |M4ETCJ57NE7fQMh017l93PR2VX2bY1QY6fDq81yx2YtCHrnAlU66+tXifPVoYb+O7AWXX1uw16OF[0m
+[0m[[0mdebug[0m] [0m        |NMQkpw0PlZPvy5TYnh+dXIVtx6quTx8itc2VrbqnzPmrC3p/[0m
+[0m[[0mdebug[0m] [0m        |-----END CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m        |-----BEGIN CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m        |MIIDPDCCAqWgAwIBAgIQEj3w59oqIkekOIngiu7JZzANBgkqhkiG9w0BAQUFADCB0TELMAkGA1UE[0m
+[0m[[0mdebug[0m] [0m        |BhMCWkExFTATBgNVBAgTDFdlc3Rlcm4gQ2FwZTESMBAGA1UEBxMJQ2FwZSBUb3duMRowGAYDVQQK[0m
+[0m[[0mdebug[0m] [0m        |ExFUaGF3dGUgQ29uc3VsdGluZzEoMCYGA1UECxMfQ2VydGlmaWNhdGlvbiBTZXJ2aWNlcyBEaXZp[0m
+[0m[[0mdebug[0m] [0m        |c2lvbjEkMCIGA1UEAxMbVGhhd3RlIFBlcnNvbmFsIEZyZWVtYWlsIENBMSswKQYJKoZIhvcNAQkB[0m
+[0m[[0mdebug[0m] [0m        |FhxwZXJzb25hbC1mcmVlbWFpbEB0aGF3dGUuY29tMB4XDTk2MDEwMTAwMDAwMFoXDTIxMDEwMTIz[0m
+[0m[[0mdebug[0m] [0m        |NTk1OVowgdExCzAJBgNVBAYTAlpBMRUwEwYDVQQIEwxXZXN0ZXJuIENhcGUxEjAQBgNVBAcTCUNh[0m
+[0m[[0mdebug[0m] [0m        |cGUgVG93bjEaMBgGA1UEChMRVGhhd3RlIENvbnN1bHRpbmcxKDAmBgNVBAsTH0NlcnRpZmljYXRp[0m
+[0m[[0mdebug[0m] [0m        |b24gU2VydmljZXMgRGl2aXNpb24xJDAiBgNVBAMTG1RoYXd0ZSBQZXJzb25hbCBGcmVlbWFpbCBD[0m
+[0m[[0mdebug[0m] [0m        |QTErMCkGCSqGSIb3DQEJARYccGVyc29uYWwtZnJlZW1haWxAdGhhd3RlLmNvbTCBnzANBgkqhkiG[0m
+[0m[[0mdebug[0m] [0m        |9w0BAQEFAAOBjQAwgYkCgYEA1GnX1LCUZFtx6UfYDFG26nKRsIRefS0Nj3sS34UldSh0OkIsYyef[0m
+[0m[[0mdebug[0m] [0m        |lXtL734Zhx2G6qPduc6WZBrCFG5ErHzmj+hND3EfQDimAKOHePb5lIZererAXnbr2RSjXW56fAyl[0m
+[0m[[0mdebug[0m] [0m        |S1V/Bhkpf56aJtVquzgkCGqYx7Hao5iR/Xnb5VrEHLkCAwEAAaMTMBEwDwYDVR0TAQH/BAUwAwEB[0m
+[0m[[0mdebug[0m] [0m        |/zANBgkqhkiG9w0BAQUFAAOBgQAemGDU5fJUYLA9GoFkR/dbo9lvwykLp9KpgUn2w22FFChFRAH0[0m
+[0m[[0mdebug[0m] [0m        |cVyVLhQPGivRqWvBX2c9FvFyIK++FsoOMF/Jy6WTLMNnVB5yIoojdmyUHVFSbJ3E4EcC18y/8IB7[0m
+[0m[[0mdebug[0m] [0m        |GG4l3GJh1qb+wR1/2bP9jVxFEFrGZWSa6yz1A0/WSGL7Lg==[0m
+[0m[[0mdebug[0m] [0m        |-----END CERTIFICATE-----[0m
+[0m[[0mdebug[0m] [0m        |""".stripMargin)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val certs = builder.build()[0m
+[0m[[0mdebug[0m] [0m      certs.size() must be_==(3)[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/KeyStoreSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmsSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmsSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmsSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport java.security.{ SecureRandom, KeyPairGenerator }[0m
+[0m[[0mdebug[0m] [0mimport org.joda.time.Instant[0m
+[0m[[0mdebug[0m] [0mimport sun.security.x509.AlgorithmId[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject AlgorithmsSpec extends Specification {[0m
+[0m[[0mdebug[0m] [0m  import Algorithms._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "keySize" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "show a keysize of 1024 for RSA" in {[0m
+[0m[[0mdebug[0m] [0m      val dn = "cn=Common Name, ou=eng  ineering, o=company, c=US"[0m
+[0m[[0mdebug[0m] [0m      val from = Instant.now[0m
+[0m[[0mdebug[0m] [0m      val to = from.plus(5000000)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // Use RSA with a SHA1 certificate signing algoirthm.[0m
+[0m[[0mdebug[0m] [0m      val keyGen = KeyPairGenerator.getInstance("RSA")[0m
+[0m[[0mdebug[0m] [0m      keyGen.initialize(1024, new SecureRandom())[0m
+[0m[[0mdebug[0m] [0m      val pair = keyGen.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m      val cert = CertificateGenerator.generateCertificate(dn, pair, from.toDate, to.toDate, "SHA1WithRSA", AlgorithmId.sha1WithRSAEncryption_oid)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // RSA is getModulus.bitLength[0m
+[0m[[0mdebug[0m] [0m      keySize(cert.getPublicKey) must_== Some(1024)[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "show a keysize of 1024 for DSA" in {[0m
+[0m[[0mdebug[0m] [0m      val dn = "cn=Common Name, ou=engineering, o=company, c=US"[0m
+[0m[[0mdebug[0m] [0m      val from = Instant.now[0m
+[0m[[0mdebug[0m] [0m      val to = from.plus(5000000)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // Use RSA with a DSA certificate signing algoirthm.[0m
+[0m[[0mdebug[0m] [0m      val keyGen = KeyPairGenerator.getInstance("DSA")[0m
+[0m[[0mdebug[0m] [0m      keyGen.initialize(1024, new SecureRandom())[0m
+[0m[[0mdebug[0m] [0m      val pair = keyGen.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m      val cert = CertificateGenerator.generateCertificate(dn, pair, from.toDate, to.toDate, "SHA1WithDSA", AlgorithmId.sha1WithDSA_oid)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // DSA is getP.bitLength[0m
+[0m[[0mdebug[0m] [0m      keySize(cert.getPublicKey) must_== Some(1024)[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "decompose" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "decompose MD5" in {[0m
+[0m[[0mdebug[0m] [0m      decomposes("MD5WithRSA") must containTheSameElementsAs(Seq("MD5", "RSA"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "decompose MD2" in {[0m
+[0m[[0mdebug[0m] [0m      decomposes("MD2WithRSA") must containTheSameElementsAs(Seq("MD2", "RSA"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "decompose SHA1" in {[0m
+[0m[[0mdebug[0m] [0m      decomposes("SHA1WithRSA") must containTheSameElementsAs(Seq("SHA1", "SHA-1", "RSA"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "map SHA-1 to SHA1" in {[0m
+[0m[[0mdebug[0m] [0m      decomposes("SHA-1WithRSA") must containTheSameElementsAs(Seq("SHA1", "SHA-1", "RSA"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "decompose SHA256" in {[0m
+[0m[[0mdebug[0m] [0m      decomposes("SHA256WithRSA") must containTheSameElementsAs(Seq("SHA256", "RSA"))[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmsSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmCheckerSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmCheckerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmCheckerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport java.security.cert.{ CertPathValidatorException, Certificate, X509Certificate }[0m
+[0m[[0mdebug[0m] [0mimport java.util.Collections._[0m
+[0m[[0mdebug[0m] [0mimport java.util.GregorianCalendar[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser._[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.NoopLogger[0m
+[0m[[0mdebug[0m] [0mimport org.joda.time.{ DateTime, Instant }[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport scala.concurrent.duration._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject AlgorithmCheckerSpec extends Specification {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  val mkLogger = NoopLogger.factory()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "AlgorithmChecker" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    def checker(sigs: Seq[String], keys: Seq[String]) = {[0m
+[0m[[0mdebug[0m] [0m      new AlgorithmChecker(mkLogger, sigs.map(s => parseAll(expression, s).get).toSet,[0m
+[0m[[0mdebug[0m] [0m        keys.map(s => parseAll(expression, s).get).toSet)[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "pass a good key algorithm (RSA > 1024)" in {[0m
+[0m[[0mdebug[0m] [0m      val certificate: Certificate = CertificateGenerator.generateRSAWithSHA256(2048)[0m
+[0m[[0mdebug[0m] [0m      checker(Nil, Seq("RSA keySize < 1024")).check(certificate, emptySet())[0m
+[0m[[0mdebug[0m] [0m      success[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail a weak key algorithm (RSA < 512)" in {[0m
+[0m[[0mdebug[0m] [0m      val certificate: Certificate = CertificateGenerator.generateRSAWithSHA256(512)[0m
+[0m[[0mdebug[0m] [0m      checker(Nil, Seq("RSA keySize < 1024")).check(certificate, emptySet()).must(throwA[CertPathValidatorException])[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "pass a good signature algorithm (SHA256)" in {[0m
+[0m[[0mdebug[0m] [0m      val certificate: Certificate = CertificateGenerator.generateRSAWithSHA256(512)[0m
+[0m[[0mdebug[0m] [0m      checker(Seq("MD5"), Nil).check(certificate, emptySet())[0m
+[0m[[0mdebug[0m] [0m      success[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "fail a bad signature algorithm (MD5)" in {[0m
+[0m[[0mdebug[0m] [0m      val intermediateCert: Certificate = CertificateGenerator.generateRSAWithMD5(2048)[0m
+[0m[[0mdebug[0m] [0m      checker(Seq("MD5"), Nil).check(intermediateCert, emptySet()).must(throwA[CertPathValidatorException])[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "neither info nor warning on a signature containing sha-1 that expires before 1 June 2016" in {[0m
+[0m[[0mdebug[0m] [0m      val oneHundredAndEightyDays = 180.days[0m
+[0m[[0mdebug[0m] [0m      val certificate = CertificateGenerator.generateRSAWithSHA1(2048, from = Instant.parse("2015-06-01T12:00:00Z"), duration = oneHundredAndEightyDays)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      var infoCalled = false[0m
+[0m[[0mdebug[0m] [0m      var warningCalled = false[0m
+[0m[[0mdebug[0m] [0m      val checker = new AlgorithmChecker(mkLogger, Set.empty, Set.empty) {[0m
+[0m[[0mdebug[0m] [0m        override def infoOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {[0m
+[0m[[0mdebug[0m] [0m          infoCalled = true[0m
+[0m[[0mdebug[0m] [0m        }[0m
+[0m[[0mdebug[0m] [0m        override def warnOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {[0m
+[0m[[0mdebug[0m] [0m          warningCalled = true[0m
+[0m[[0mdebug[0m] [0m        }[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      checker.check(certificate, emptySet())[0m
+[0m[[0mdebug[0m] [0m      infoCalled must beFalse[0m
+[0m[[0mdebug[0m] [0m      warningCalled must beFalse[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "info on a signature containing sha-1 that expires between 1 June 2016 to 31 December 2016" in {[0m
+[0m[[0mdebug[0m] [0m      val thirtyDays = 30.days[0m
+[0m[[0mdebug[0m] [0m      val certificate = CertificateGenerator.generateRSAWithSHA1(2048, from = Instant.parse("2016-06-01T12:00:00Z"), duration = thirtyDays)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      var infoCalled = false[0m
+[0m[[0mdebug[0m] [0m      val checker = new AlgorithmChecker(mkLogger, Set.empty, Set.empty) {[0m
+[0m[[0mdebug[0m] [0m        override def infoOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {[0m
+[0m[[0mdebug[0m] [0m          infoCalled = true[0m
+[0m[[0mdebug[0m] [0m        }[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      checker.check(certificate, emptySet())[0m
+[0m[[0mdebug[0m] [0m      infoCalled must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "warn on a signature containing sha-1 that expires after 2017" in {[0m
+[0m[[0mdebug[0m] [0m      val tenYears = (365 * 10).days[0m
+[0m[[0mdebug[0m] [0m      val certificate = CertificateGenerator.generateRSAWithSHA1(2048, from = Instant.parse("2016-06-01T12:00:00Z"), duration = tenYears)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      var warningCalled = false[0m
+[0m[[0mdebug[0m] [0m      val checker = new AlgorithmChecker(mkLogger, Set.empty, Set.empty) {[0m
+[0m[[0mdebug[0m] [0m        override def warnOnSunset(x509Cert: X509Certificate, expirationDate: GregorianCalendar): Unit = {[0m
+[0m[[0mdebug[0m] [0m          warningCalled = true[0m
+[0m[[0mdebug[0m] [0m        }[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      checker.check(certificate, emptySet())[0m
+[0m[[0mdebug[0m] [0m      warningCalled must beTrue[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/AlgorithmCheckerSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CertificateGenerator.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CertificateGenerator.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CertificateGenerator.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport java.math.BigInteger[0m
+[0m[[0mdebug[0m] [0mimport java.security._[0m
+[0m[[0mdebug[0m] [0mimport java.security.cert._[0m
+[0m[[0mdebug[0m] [0mimport java.util.Date[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.Base64[0m
+[0m[[0mdebug[0m] [0mimport org.joda.time.Instant[0m
+[0m[[0mdebug[0m] [0mimport sun.security.util.ObjectIdentifier[0m
+[0m[[0mdebug[0m] [0mimport sun.security.x509._[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport scala.concurrent.duration.{ FiniteDuration, _ }[0m
+[0m[[0mdebug[0m] [0mimport scala.util.Properties.isJavaAtLeast[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m/**[0m
+[0m[[0mdebug[0m] [0m * Used for testing only.  This relies on internal sun.security packages, so cannot be used in OpenJDK.[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0mobject CertificateGenerator {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  // http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#KeyPairGenerator[0m
+[0m[[0mdebug[0m] [0m  // http://www.keylength.com/en/4/[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  /**[0m
+[0m[[0mdebug[0m] [0m   * Generates a certificate using RSA (which is available in 1.6).[0m
+[0m[[0mdebug[0m] [0m   */[0m
+[0m[[0mdebug[0m] [0m  def generateRSAWithSHA256(keySize: Int = 2048, from: Instant = Instant.now, duration: FiniteDuration = 365.days): X509Certificate = {[0m
+[0m[[0mdebug[0m] [0m    val dn = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Moon Base 1, ST=Cyberspace, C=CY"[0m
+[0m[[0mdebug[0m] [0m    val to = from plus duration.toMillis[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    val keyGen = KeyPairGenerator.getInstance("RSA")[0m
+[0m[[0mdebug[0m] [0m    keyGen.initialize(keySize, new SecureRandom())[0m
+[0m[[0mdebug[0m] [0m    val pair = keyGen.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m    generateCertificate(dn, pair, from.toDate, to.toDate, "SHA256withRSA", AlgorithmId.sha256WithRSAEncryption_oid)[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  def generateRSAWithSHA1(keySize: Int = 2048, from: Instant = Instant.now, duration: FiniteDuration = 365.days): X509Certificate = {[0m
+[0m[[0mdebug[0m] [0m    val dn = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Moon Base 1, ST=Cyberspace, C=CY"[0m
+[0m[[0mdebug[0m] [0m    val to = from plus duration.toMillis[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    val keyGen = KeyPairGenerator.getInstance("RSA")[0m
+[0m[[0mdebug[0m] [0m    keyGen.initialize(keySize, new SecureRandom())[0m
+[0m[[0mdebug[0m] [0m    val pair = keyGen.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m    generateCertificate(dn, pair, from.toDate, to.toDate, "SHA1withRSA", AlgorithmId.sha256WithRSAEncryption_oid)[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  def toPEM(certificate: X509Certificate) = {[0m
+[0m[[0mdebug[0m] [0m    val encoder = Base64.rfc2045()[0m
+[0m[[0mdebug[0m] [0m    val certBegin = "-----BEGIN CERTIFICATE-----\n"[0m
+[0m[[0mdebug[0m] [0m    val certEnd = "-----END CERTIFICATE-----"[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    val derCert = certificate.getEncoded()[0m
+[0m[[0mdebug[0m] [0m    val pemCertPre = encoder.encodeToString(derCert, false)[0m
+[0m[[0mdebug[0m] [0m    val pemCert = certBegin + pemCertPre + certEnd[0m
+[0m[[0mdebug[0m] [0m    pemCert[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  def generateRSAWithMD5(keySize: Int = 2048, from: Instant = Instant.now, duration: FiniteDuration = 365.days): X509Certificate = {[0m
+[0m[[0mdebug[0m] [0m    val dn = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Moon Base 1, ST=Cyberspace, C=CY"[0m
+[0m[[0mdebug[0m] [0m    val to = from plus duration.toMillis[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    val keyGen = KeyPairGenerator.getInstance("RSA")[0m
+[0m[[0mdebug[0m] [0m    keyGen.initialize(keySize, new SecureRandom())[0m
+[0m[[0mdebug[0m] [0m    val pair = keyGen.generateKeyPair()[0m
+[0m[[0mdebug[0m] [0m    generateCertificate(dn, pair, from.toDate, to.toDate, "MD5WithRSA", AlgorithmId.md5WithRSAEncryption_oid)[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  private[sslconfig] def generateCertificate(dn: String, pair: KeyPair, from: Date, to: Date, algorithm: String, oid: ObjectIdentifier): X509Certificate = {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    val info: X509CertInfo = new X509CertInfo[0m
+[0m[[0mdebug[0m] [0m    val interval: CertificateValidity = new CertificateValidity(from, to)[0m
+[0m[[0mdebug[0m] [0m    // I have no idea why 64 bits specifically are used for the certificate serial number.[0m
+[0m[[0mdebug[0m] [0m    val sn: BigInteger = new BigInteger(64, new SecureRandom)[0m
+[0m[[0mdebug[0m] [0m    val owner: X500Name = new X500Name(dn)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    // Note: CertificateSubjectName and CertificateIssuerName are removed in Java 8[0m
+[0m[[0mdebug[0m] [0m    // and when setting the subject or issuer just the X500Name should be used.[0m
+[0m[[0mdebug[0m] [0m    val justName = isJavaAtLeast("1.8")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    info.set(X509CertInfo.VALIDITY, interval)[0m
+[0m[[0mdebug[0m] [0m    info.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(sn))[0m
+[0m[[0mdebug[0m] [0m    info.set(X509CertInfo.SUBJECT, if (justName) owner else new CertificateSubjectName(owner))[0m
+[0m[[0mdebug[0m] [0m    info.set(X509CertInfo.ISSUER, if (justName) owner else new CertificateIssuerName(owner))[0m
+[0m[[0mdebug[0m] [0m    info.set(X509CertInfo.KEY, new CertificateX509Key(pair.getPublic))[0m
+[0m[[0mdebug[0m] [0m    info.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    var algo: AlgorithmId = new AlgorithmId(oid)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    info.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algo))[0m
+[0m[[0mdebug[0m] [0m    var cert: X509CertImpl = new X509CertImpl(info)[0m
+[0m[[0mdebug[0m] [0m    val privkey: PrivateKey = pair.getPrivate[0m
+[0m[[0mdebug[0m] [0m    cert.sign(privkey, algorithm)[0m
+[0m[[0mdebug[0m] [0m    algo = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId][0m
+[0m[[0mdebug[0m] [0m    info.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, algo)[0m
+[0m[[0mdebug[0m] [0m    cert = new X509CertImpl(info)[0m
+[0m[[0mdebug[0m] [0m    cert.sign(privkey, algorithm)[0m
+[0m[[0mdebug[0m] [0m    cert[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/CertificateGenerator.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SystemPropertiesSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SystemPropertiesSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SystemPropertiesSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.NoopLogger[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable._[0m
+[0m[[0mdebug[0m] [0mimport java.security.Security[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject SystemPropertiesSpec extends Specification with After {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  sequential[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  def after = sp.clearProperties()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  val mkLogger = NoopLogger.factory()[0m
+[0m[[0mdebug[0m] [0m  val sp = new SystemConfiguration(mkLogger)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "SystemProperties" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "disableCheckRevocation should not be set normally" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLConfigSettings().withCheckRevocation(None)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val originalOscp = Security.getProperty("ocsp.enable")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      sp.configure(config)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // http://stackoverflow.com/a/8507905/5266[0m
+[0m[[0mdebug[0m] [0m      Security.getProperty("ocsp.enable") must_== originalOscp[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("com.sun.security.enableCRLDP") must beNull[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("com.sun.net.ssl.checkRevocation") must beNull[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "disableCheckRevocation is set explicitly" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLConfigSettings().withCheckRevocation(Some(true))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      sp.configure(config)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      // http://stackoverflow.com/a/8507905/5266[0m
+[0m[[0mdebug[0m] [0m      Security.getProperty("ocsp.enable") must be("true")[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("com.sun.security.enableCRLDP") must be("true")[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("com.sun.net.ssl.checkRevocation") must be("true")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html[0m
+[0m[[0mdebug[0m] [0m    "allowLegacyHelloMessages is not set" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowLegacyHelloMessages(None))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      sp.configure(config)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("sun.security.ssl.allowLegacyHelloMessages") must beNull[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html[0m
+[0m[[0mdebug[0m] [0m    "allowLegacyHelloMessages is set" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowLegacyHelloMessages(Some(true)))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      sp.configure(config)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("sun.security.ssl.allowLegacyHelloMessages") must be("true")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html[0m
+[0m[[0mdebug[0m] [0m    "allowUnsafeRenegotiation not set" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowUnsafeRenegotiation(None))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      sp.configure(config)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("sun.security.ssl.allowUnsafeRenegotiation") must beNull[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    // @see http://www.oracle.com/technetwork/java/javase/documentation/tlsreadme2-176330.html[0m
+[0m[[0mdebug[0m] [0m    "allowUnsafeRenegotiation is set" in {[0m
+[0m[[0mdebug[0m] [0m      val config = SSLConfigSettings().withLoose(SSLLooseConfig().withAllowUnsafeRenegotiation(Some(true)))[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      sp.configure(config)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("sun.security.ssl.allowUnsafeRenegotiation") must be("true")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/SystemPropertiesSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m
+[0m[[0mdebug[0m] [0mAbout to create/update header for /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/debug/DebugConfigurationSpec.scala[0m
+[0m[[0mdebug[0m] [0mFirst line of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/debug/DebugConfigurationSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mText of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/debug/DebugConfigurationSpec.scala is:[0m
+[0m[[0mdebug[0m] [0m/*[0m
+[0m[[0mdebug[0m] [0m * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>[0m
+[0m[[0mdebug[0m] [0m */[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mpackage com.typesafe.sslconfig.ssl.debug[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.ssl.SSLDebugConfig[0m
+[0m[[0mdebug[0m] [0mimport com.typesafe.sslconfig.util.{ NoopLogger, NoDepsLogger }[0m
+[0m[[0mdebug[0m] [0mimport org.specs2.mutable.{ Specification, After }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mobject DebugConfigurationSpec extends Specification with After {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  def after = {[0m
+[0m[[0mdebug[0m] [0m    System.clearProperty("java.security.debug")[0m
+[0m[[0mdebug[0m] [0m    System.clearProperty("javax.net.debug")[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  sequential // global settings, must be sequential[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  // Loggers not needed, but useful to doublecheck that the code is doing what it should.[0m
+[0m[[0mdebug[0m] [0m  // ./build test-only com.typesafe.sslconfig.ssl.debug.DebugConfigurationSpec[0m
+[0m[[0mdebug[0m] [0m  val mkLogger = NoopLogger.factory()[0m
+[0m[[0mdebug[0m] [0m  val internalDebugLogger = mkLogger.apply("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging")[0m
+[0m[[0mdebug[0m] [0m  val certpathDebugLogger = mkLogger.apply("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m  "configure" should {[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "turn on java.security.debug code" in {[0m
+[0m[[0mdebug[0m] [0m      Option(System.getProperty("java.security.debug")) must beLike {[0m
+[0m[[0mdebug[0m] [0m        case Some(value) => value must beEmpty[0m
+[0m[[0mdebug[0m] [0m        case None        => ok[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val debugConfig = SSLDebugConfig().withCertPath(true)[0m
+[0m[[0mdebug[0m] [0m      val config = new DebugConfiguration(mkLogger)[0m
+[0m[[0mdebug[0m] [0m      config.configure(debugConfig)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("java.security.debug") must contain("certpath")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "turn off java.security.debug code" in {[0m
+[0m[[0mdebug[0m] [0m      System.setProperty("java.security.debug", "certpath")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val debugConfig = SSLDebugConfig().withCertPath(false)[0m
+[0m[[0mdebug[0m] [0m      val config = new DebugConfiguration(mkLogger)[0m
+[0m[[0mdebug[0m] [0m      config.configure(debugConfig)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("java.security.debug") must not contain ("certpath")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "turn on javax.ssl.debug code" in {[0m
+[0m[[0mdebug[0m] [0m      Option(System.getProperty("javax.net.debug")) must beLike {[0m
+[0m[[0mdebug[0m] [0m        case Some(value) => value must beEmpty[0m
+[0m[[0mdebug[0m] [0m        case None        => ok[0m
+[0m[[0mdebug[0m] [0m      }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val debugConfig = SSLDebugConfig().withSsl(true)[0m
+[0m[[0mdebug[0m] [0m      val config = new DebugConfiguration(mkLogger)[0m
+[0m[[0mdebug[0m] [0m      config.configure(debugConfig)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("javax.net.debug") must contain("ssl")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m    "turn off javax.ssl.debug code" in {[0m
+[0m[[0mdebug[0m] [0m      System.setProperty("javax.net.debug", "ssl")[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      val debugConfig = SSLDebugConfig().withSsl(false)[0m
+[0m[[0mdebug[0m] [0m      val config = new DebugConfiguration(mkLogger)[0m
+[0m[[0mdebug[0m] [0m      config.configure(debugConfig)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m      System.getProperty("javax.net.debug") must not contain ("ssl")[0m
+[0m[[0mdebug[0m] [0m    }[0m
+[0m[[0mdebug[0m] [0m  }[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0m}[0m
+[0m[[0mdebug[0m] [0mModified text of /Users/ktoso/code/ssl-config/ssl-config-core/src/test/scala/com/typesafe/sslconfig/ssl/debug/DebugConfigurationSpec.scala is:[0m
+[0m[[0mdebug[0m] [0mNone[0m

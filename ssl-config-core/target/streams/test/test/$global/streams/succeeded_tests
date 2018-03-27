@@ -1,0 +1,14 @@
+#Successful Tests
+#Wed Mar 28 01:28:31 JST 2018
+com.typesafe.sslconfig.ssl.SSLConfigParserSpec=1522168109730
+com.typesafe.sslconfig.ssl.CompositeX509TrustManagerSpec=1522168110950
+com.typesafe.sslconfig.ssl.SystemPropertiesSpec=1522168109314
+com.typesafe.sslconfig.ssl.AlgorithmCheckerSpec=1522168110982
+com.typesafe.sslconfig.ssl.CompositeX509KeyManagerSpec=1522168111524
+com.typesafe.sslconfig.ssl.ConfigSSLContextBuilderSpec=1522168111875
+com.typesafe.sslconfig.ssl.DebugBuilderSpec=1522168108968
+com.typesafe.sslconfig.ssl.KeyStoreSpec=1522168108968
+com.typesafe.sslconfig.ssl.debug.DebugConfigurationSpec=1522168110305
+com.typesafe.sslconfig.ssl.DefaultHostnameVerifierSpec=1522168109509
+com.typesafe.sslconfig.ssl.AlgorithmsSpec=1522168108968
+com.typesafe.sslconfig.ssl.AlgorithmConstraintsParserSpec=1522168108968

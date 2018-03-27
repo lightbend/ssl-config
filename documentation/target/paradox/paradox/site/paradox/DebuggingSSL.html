@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Debugging SSL Connections · SSL Config</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='documentation'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.3
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="active page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="index.html">SSL Config</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.3
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="active page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="index.html">SSL Config</a></li>
+  <li>Debugging SSL Connections</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#debugging-ssl-connections" name="debugging-ssl-connections" class="anchor"><span class="anchor-link"></span></a>Debugging SSL Connections</h1>
+<p>In the event that an HTTPS connection does not go through, debugging JSSE can be a hassle.</p>
+<p>WS SSL provides configuration options that will turn on JSSE debug options defined in the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#Debug">Debugging Utilities</a> and <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/troubleshooting-security.html">Troubleshooting Security</a> pages.</p>
+<p>To configure, set the <code>ssl-config.debug</code> property in <code>application.conf</code>:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.debug = {
+  # Turn on all debugging
+  all = false
+  # Turn on ssl debugging
+  ssl = false
+  # Turn certpath debugging on
+  certpath = false
+  # Turn ocsp debugging on
+  ocsp = false
+  # Enable per-record tracing
+  record = false
+  # hex dump of record plaintext, requires record to be true
+  plaintext = false
+  # print raw SSL/TLS packets, requires record to be true
+  packet = false
+  # Print each handshake message
+  handshake = false
+  # Print hex dump of each handshake message, requires handshake to be true
+  data = false
+  # Enable verbose handshake message printing, requires handshake to be true
+  verbose = false
+  # Print key generation data
+  keygen = false
+  # Print session activity
+  session = false
+  # Print default SSL initialization
+  defaultctx = false
+  # Print SSLContext tracing
+  sslctx = false
+  # Print session cache tracing
+  sessioncache = false
+  # Print key manager tracing
+  keymanager = false
+  # Print trust manager tracing
+  trustmanager = false
+  # Turn pluggability debugging on
+  pluggability = false
+}
+</code></pre><div class="callout note "><div class="callout-title">Note</div>
+<p>This feature changes the setting of the <code>java.net.debug</code> system property which is global on the JVM. In addition, this feature <a href="https://tersesystems.com/2014/03/02/monkeypatching-java-classes/">changes static properties at runtime</a>, and is only intended for use in development environments.</p></div>
+<h2><a href="#verbose-debugging" name="verbose-debugging" class="anchor"><span class="anchor-link"></span></a>Verbose Debugging</h2>
+<p>To see the behavior of WS, you can configuring the SLF4J logger for debug output:</p>
+<pre><code>logger.play.api.libs.ws.ssl=DEBUG
+</code></pre>
+<h2><a href="#dynamic-debugging" name="dynamic-debugging" class="anchor"><span class="anchor-link"></span></a>Dynamic Debugging</h2>
+<p>If you are working with WSClient instances created dynamically, you can use the <code>SSLDebugConfig</code> class to set up debugging using a builder pattern:</p>
+<pre class="prettyprint"><code class="language-scala">val debugConfig = SSLDebugConfig().withKeyManager().withHandshake(data = true, verbose = true)
+</code></pre>
+<h2><a href="#further-reading" name="further-reading" class="anchor"><span class="anchor-link"></span></a>Further reading</h2>
+<p>Oracle has a number of sections on debugging JSSE issues:</p>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/ReadDebug.html">Debugging SSL/TLS connections</a></li>
+  <li><a href="https://blogs.oracle.com/xuelei/entry/jsse_debug_logging_with_timestamp">JSSE Debug Logging With Timestamp</a></li>
+  <li><a href="http://www.smartjava.org/content/how-analyze-java-ssl-errors">How to Analyze Java SSL Errors</a></li>
+</ul>
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="LooseSSL.html">Loose Options</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="DebuggingSSL.html#debugging-ssl-connections" class="header">Debugging SSL Connections</a>
+  <ul>
+    <li><a href="DebuggingSSL.html#verbose-debugging" class="header">Verbose Debugging</a></li>
+    <li><a href="DebuggingSSL.html#dynamic-debugging" class="header">Dynamic Debugging</a></li>
+    <li><a href="DebuggingSSL.html#further-reading" class="header">Further reading</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2018</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="js/magellan.js"></script>
+
+<style type="text/css">@import "lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+
+</html>

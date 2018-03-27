@@ -1,0 +1,540 @@
+format version: 5
+output mode:
+1 items
+0 -> single
+output directories:
+1 items
+output dir -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes
+compile options:
+1 items
+0 -> -deprecation
+javac options:
+0 items
+compiler version:
+1 items
+0 -> 2.10.7
+compile order:
+1 items
+0 -> Mixed
+name hashing:
+1 items
+0 -> true
+products:
+32 items
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/AutomaticModuleName$$anonfun$settings$1.class
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/AutomaticModuleName$.class
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/AutomaticModuleName.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$header$1.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$1.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$2.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$3.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$4.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$5.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$6.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$7.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$8.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$9.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$sonatype$.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$generatePomExtra$1.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$1.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$2.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$3.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$4$$anonfun$apply$1.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$4.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$5.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$Developer$.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$Developer.class
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype.class
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Dependencies$.class
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Dependencies.class
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Library$.class
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Library.class
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Version$.class
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Version.class
+binary dependencies:
+26 items
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/actions/jars/actions-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/apply-macro/jars/apply-macro-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/collections/jars/collections-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/ivy/jars/ivy-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/main-settings/jars/main-settings-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/main/jars/main-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/sbt/jars/sbt-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/task-system/jars/task-system-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> /Users/ktoso/.sbt/boot/scala-2.10.7/lib/scala-library.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/apply-macro/jars/apply-macro-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/collections/jars/collections-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/ivy/jars/ivy-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/main-settings/jars/main-settings-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/main/jars/main-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/sbt/jars/sbt-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/task-system/jars/task-system-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/org.scalariform/scalariform_2.10/jars/scalariform_2.10-0.1.4.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-scalariform/jars/sbt-scalariform-1.3.0.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.tmp/sbt-header/jars/sbt-header-1.5.0-JDK6-0.1.jar
+/Users/ktoso/code/ssl-config/project/Common.scala -> /Users/ktoso/.sbt/boot/scala-2.10.7/lib/scala-library.jar
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/ivy/jars/ivy-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/.ivy2/cache/org.scala-sbt/sbt/jars/sbt-0.13.17.jar
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> /Users/ktoso/.sbt/boot/scala-2.10.7/lib/scala-library.jar
+direct source dependencies:
+0 items
+direct external dependencies:
+0 items
+public inherited source dependencies:
+0 items
+public inherited external dependencies:
+0 items
+member reference internal dependencies:
+0 items
+member reference external dependencies:
+0 items
+inheritance internal dependencies:
+0 items
+inheritance external dependencies:
+0 items
+class names:
+32 items
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> AutomaticModuleName
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> AutomaticModuleName$
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> AutomaticModuleName$$anonfun$settings$1
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$header$1
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$1
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$2
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$3
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$4
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$5
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$6
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$7
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$8
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$$anonfun$projectSettings$9
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common$sonatype$
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$$anonfun$generatePomExtra$1
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$$anonfun$settings$1
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$$anonfun$settings$2
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$$anonfun$settings$3
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$$anonfun$settings$4
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$$anonfun$settings$4$$anonfun$apply$1
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$$anonfun$settings$5
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$Developer
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype$Developer$
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Dependencies
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Dependencies$
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Library
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Library$
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Version
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Version$
+used names:
+315 items
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> +=
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> <init>
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> <repeated>
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> A
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Any
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> AnyRef
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Append
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> ArrowAssoc
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> AutomaticModuleName
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> B
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Compile
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> ConfigKey
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Configuration
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Def
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> File
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> FullInstance
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Function0
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Initialize
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Int
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Keys
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> LinePosition
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> ManifestAttributes
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Nothing
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Object
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Package
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> PackageOption
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Predef
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> S
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Scoped
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Seq
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Sequence
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Setting
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> SourcePosition
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> String
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> T
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Task
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> TaskKey
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Tuple2
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> U
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> V
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> Value
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> any2ArrowAssoc
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> append1
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> appendSeq
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> apply
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> collection
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> configurationToKey
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> in
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> name
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> package
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> packageBin
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> packageOptions
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> pure
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> sbt
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> scala
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> →
+/Users/ktoso/code/ssl-config/project/Common.scala -> $buf
+/Users/ktoso/code/ssl-config/project/Common.scala -> $scope
+/Users/ktoso/code/ssl-config/project/Common.scala -> &&
+/Users/ktoso/code/ssl-config/project/Common.scala -> &+
+/Users/ktoso/code/ssl-config/project/Common.scala -> +
+/Users/ktoso/code/ssl-config/project/Common.scala -> ++
+/Users/ktoso/code/ssl-config/project/Common.scala -> ++=
+/Users/ktoso/code/ssl-config/project/Common.scala -> ->
+/Users/ktoso/code/ssl-config/project/Common.scala -> :=
+/Users/ktoso/code/ssl-config/project/Common.scala -> <<=
+/Users/ktoso/code/ssl-config/project/Common.scala -> <=
+/Users/ktoso/code/ssl-config/project/Common.scala -> <init>
+/Users/ktoso/code/ssl-config/project/Common.scala -> <repeated>
+/Users/ktoso/code/ssl-config/project/Common.scala -> ==
+/Users/ktoso/code/ssl-config/project/Common.scala -> A
+/Users/ktoso/code/ssl-config/project/Common.scala -> AbstractFunction3
+/Users/ktoso/code/ssl-config/project/Common.scala -> AlignParameters
+/Users/ktoso/code/ssl-config/project/Common.scala -> AlignSingleLineCaseStatements
+/Users/ktoso/code/ssl-config/project/Common.scala -> Any
+/Users/ktoso/code/ssl-config/project/Common.scala -> AnyRef
+/Users/ktoso/code/ssl-config/project/Common.scala -> Append
+/Users/ktoso/code/ssl-config/project/Common.scala -> ArrowAssoc
+/Users/ktoso/code/ssl-config/project/Common.scala -> AutoPlugin
+/Users/ktoso/code/ssl-config/project/Common.scala -> AutomateHeaderPlugin
+/Users/ktoso/code/ssl-config/project/Common.scala -> B
+/Users/ktoso/code/ssl-config/project/Common.scala -> Basic
+/Users/ktoso/code/ssl-config/project/Common.scala -> Boolean
+/Users/ktoso/code/ssl-config/project/Common.scala -> CanBuildFrom
+/Users/ktoso/code/ssl-config/project/Common.scala -> Coll
+/Users/ktoso/code/ssl-config/project/Common.scala -> Common
+/Users/ktoso/code/ssl-config/project/Common.scala -> ConfigKey
+/Users/ktoso/code/ssl-config/project/Common.scala -> Configuration
+/Users/ktoso/code/ssl-config/project/Common.scala -> CrossVersion
+/Users/ktoso/code/ssl-config/project/Common.scala -> Def
+/Users/ktoso/code/ssl-config/project/Common.scala -> Developer
+/Users/ktoso/code/ssl-config/project/Common.scala -> DoubleIndentClassDeclaration
+/Users/ktoso/code/ssl-config/project/Common.scala -> Elem
+/Users/ktoso/code/ssl-config/project/Common.scala -> FullInstance
+/Users/ktoso/code/ssl-config/project/Common.scala -> Function0
+/Users/ktoso/code/ssl-config/project/Common.scala -> Function1
+/Users/ktoso/code/ssl-config/project/Common.scala -> GenTraversableOnce
+/Users/ktoso/code/ssl-config/project/Common.scala -> HeaderKey
+/Users/ktoso/code/ssl-config/project/Common.scala -> HeaderPattern
+/Users/ktoso/code/ssl-config/project/Common.scala -> HeaderPlugin
+/Users/ktoso/code/ssl-config/project/Common.scala -> IFormattingPreferences
+/Users/ktoso/code/ssl-config/project/Common.scala -> IndexOutOfBoundsException
+/Users/ktoso/code/ssl-config/project/Common.scala -> Initialize
+/Users/ktoso/code/ssl-config/project/Common.scala -> InitializeInstance
+/Users/ktoso/code/ssl-config/project/Common.scala -> InputWrapper
+/Users/ktoso/code/ssl-config/project/Common.scala -> Int
+/Users/ktoso/code/ssl-config/project/Common.scala -> Iterable
+/Users/ktoso/code/ssl-config/project/Common.scala -> Iterator
+/Users/ktoso/code/ssl-config/project/Common.scala -> JvmPlugin
+/Users/ktoso/code/ssl-config/project/Common.scala -> Keys
+/Users/ktoso/code/ssl-config/project/Common.scala -> LinePosition
+/Users/ktoso/code/ssl-config/project/Common.scala -> List
+/Users/ktoso/code/ssl-config/project/Common.scala -> M
+/Users/ktoso/code/ssl-config/project/Common.scala -> MacroValue
+/Users/ktoso/code/ssl-config/project/Common.scala -> Map
+/Users/ktoso/code/ssl-config/project/Common.scala -> MavenRepository
+/Users/ktoso/code/ssl-config/project/Common.scala -> MaxArrowIndent
+/Users/ktoso/code/ssl-config/project/Common.scala -> MetaData
+/Users/ktoso/code/ssl-config/project/Common.scala -> NamespaceBinding
+/Users/ktoso/code/ssl-config/project/Common.scala -> Nil
+/Users/ktoso/code/ssl-config/project/Common.scala -> Node
+/Users/ktoso/code/ssl-config/project/Common.scala -> NodeBuffer
+/Users/ktoso/code/ssl-config/project/Common.scala -> NodeSeq
+/Users/ktoso/code/ssl-config/project/Common.scala -> None
+/Users/ktoso/code/ssl-config/project/Common.scala -> Nothing
+/Users/ktoso/code/ssl-config/project/Common.scala -> Null
+/Users/ktoso/code/ssl-config/project/Common.scala -> Object
+/Users/ktoso/code/ssl-config/project/Common.scala -> Option
+/Users/ktoso/code/ssl-config/project/Common.scala -> PluginTrigger
+/Users/ktoso/code/ssl-config/project/Common.scala -> Plugins
+/Users/ktoso/code/ssl-config/project/Common.scala -> Predef
+/Users/ktoso/code/ssl-config/project/Common.scala -> PreferenceDescriptor
+/Users/ktoso/code/ssl-config/project/Common.scala -> PreserveDanglingCloseParenthesis
+/Users/ktoso/code/ssl-config/project/Common.scala -> Product
+/Users/ktoso/code/ssl-config/project/Common.scala -> PublishToSonatype
+/Users/ktoso/code/ssl-config/project/Common.scala -> Regex
+/Users/ktoso/code/ssl-config/project/Common.scala -> RepositoryName
+/Users/ktoso/code/ssl-config/project/Common.scala -> Resolver
+/Users/ktoso/code/ssl-config/project/Common.scala -> S
+/Users/ktoso/code/ssl-config/project/Common.scala -> SbtScalariform
+/Users/ktoso/code/ssl-config/project/Common.scala -> ScalaRunTime
+/Users/ktoso/code/ssl-config/project/Common.scala -> ScalariformKeys
+/Users/ktoso/code/ssl-config/project/Common.scala -> Seq
+/Users/ktoso/code/ssl-config/project/Common.scala -> Sequence
+/Users/ktoso/code/ssl-config/project/Common.scala -> Serializable
+/Users/ktoso/code/ssl-config/project/Common.scala -> Setting
+/Users/ktoso/code/ssl-config/project/Common.scala -> SettingKey
+/Users/ktoso/code/ssl-config/project/Common.scala -> Some
+/Users/ktoso/code/ssl-config/project/Common.scala -> SourcePosition
+/Users/ktoso/code/ssl-config/project/Common.scala -> String
+/Users/ktoso/code/ssl-config/project/Common.scala -> T
+/Users/ktoso/code/ssl-config/project/Common.scala -> T0
+/Users/ktoso/code/ssl-config/project/Common.scala -> T1
+/Users/ktoso/code/ssl-config/project/Common.scala -> T2
+/Users/ktoso/code/ssl-config/project/Common.scala -> T3
+/Users/ktoso/code/ssl-config/project/Common.scala -> Task
+/Users/ktoso/code/ssl-config/project/Common.scala -> TaskKey
+/Users/ktoso/code/ssl-config/project/Common.scala -> Test
+/Users/ktoso/code/ssl-config/project/Common.scala -> Text
+/Users/ktoso/code/ssl-config/project/Common.scala -> That
+/Users/ktoso/code/ssl-config/project/Common.scala -> TopScope
+/Users/ktoso/code/ssl-config/project/Common.scala -> Tuple2
+/Users/ktoso/code/ssl-config/project/Common.scala -> Tuple3
+/Users/ktoso/code/ssl-config/project/Common.scala -> U
+/Users/ktoso/code/ssl-config/project/Common.scala -> UpdateOptions
+/Users/ktoso/code/ssl-config/project/Common.scala -> V
+/Users/ktoso/code/ssl-config/project/Common.scala -> Values
+/Users/ktoso/code/ssl-config/project/Common.scala -> Z
+/Users/ktoso/code/ssl-config/project/Common.scala -> _$1
+/Users/ktoso/code/ssl-config/project/Common.scala -> _1
+/Users/ktoso/code/ssl-config/project/Common.scala -> _2
+/Users/ktoso/code/ssl-config/project/Common.scala -> _hashCode
+/Users/ktoso/code/ssl-config/project/Common.scala -> _root_
+/Users/ktoso/code/ssl-config/project/Common.scala -> _toString
+/Users/ktoso/code/ssl-config/project/Common.scala -> after
+/Users/ktoso/code/ssl-config/project/Common.scala -> allRequirements
+/Users/ktoso/code/ssl-config/project/Common.scala -> any2ArrowAssoc
+/Users/ktoso/code/ssl-config/project/Common.scala -> appendN
+/Users/ktoso/code/ssl-config/project/Common.scala -> appendSeq
+/Users/ktoso/code/ssl-config/project/Common.scala -> apply
+/Users/ktoso/code/ssl-config/project/Common.scala -> asInstanceOf
+/Users/ktoso/code/ssl-config/project/Common.scala -> at
+/Users/ktoso/code/ssl-config/project/Common.scala -> autoImport
+/Users/ktoso/code/ssl-config/project/Common.scala -> before
+/Users/ktoso/code/ssl-config/project/Common.scala -> cStyleBlockComment
+/Users/ktoso/code/ssl-config/project/Common.scala -> canBuildFrom
+/Users/ktoso/code/ssl-config/project/Common.scala -> collection
+/Users/ktoso/code/ssl-config/project/Common.scala -> com
+/Users/ktoso/code/ssl-config/project/Common.scala -> confHeader
+/Users/ktoso/code/ssl-config/project/Common.scala -> configurationToKey
+/Users/ktoso/code/ssl-config/project/Common.scala -> content
+/Users/ktoso/code/ssl-config/project/Common.scala -> crossScalaVersions
+/Users/ktoso/code/ssl-config/project/Common.scala -> de
+/Users/ktoso/code/ssl-config/project/Common.scala -> dev
+/Users/ktoso/code/ssl-config/project/Common.scala -> developers
+/Users/ktoso/code/ssl-config/project/Common.scala -> eq
+/Users/ktoso/code/ssl-config/project/Common.scala -> formatter
+/Users/ktoso/code/ssl-config/project/Common.scala -> generatePomExtra
+/Users/ktoso/code/ssl-config/project/Common.scala -> hashLineComment
+/Users/ktoso/code/ssl-config/project/Common.scala -> header
+/Users/ktoso/code/ssl-config/project/Common.scala -> headers
+/Users/ktoso/code/ssl-config/project/Common.scala -> heikoseeberger
+/Users/ktoso/code/ssl-config/project/Common.scala -> id
+/Users/ktoso/code/ssl-config/project/Common.scala -> immutable
+/Users/ktoso/code/ssl-config/project/Common.scala -> in
+/Users/ktoso/code/ssl-config/project/Common.scala -> isInstanceOf
+/Users/ktoso/code/ssl-config/project/Common.scala -> isSnapshot
+/Users/ktoso/code/ssl-config/project/Common.scala -> javacOptions
+/Users/ktoso/code/ssl-config/project/Common.scala -> licenseDistribution
+/Users/ktoso/code/ssl-config/project/Common.scala -> licenseName
+/Users/ktoso/code/ssl-config/project/Common.scala -> licenseUrl
+/Users/ktoso/code/ssl-config/project/Common.scala -> macroValueI
+/Users/ktoso/code/ssl-config/project/Common.scala -> map
+/Users/ktoso/code/ssl-config/project/Common.scala -> mkString
+/Users/ktoso/code/ssl-config/project/Common.scala -> name
+/Users/ktoso/code/ssl-config/project/Common.scala -> ne
+/Users/ktoso/code/ssl-config/project/Common.scala -> option2Iterable
+/Users/ktoso/code/ssl-config/project/Common.scala -> organization
+/Users/ktoso/code/ssl-config/project/Common.scala -> ossSnapshots
+/Users/ktoso/code/ssl-config/project/Common.scala -> ossStaging
+/Users/ktoso/code/ssl-config/project/Common.scala -> package
+/Users/ktoso/code/ssl-config/project/Common.scala -> partialVersion
+/Users/ktoso/code/ssl-config/project/Common.scala -> plugins
+/Users/ktoso/code/ssl-config/project/Common.scala -> pomExtra
+/Users/ktoso/code/ssl-config/project/Common.scala -> pomIncludeRepository
+/Users/ktoso/code/ssl-config/project/Common.scala -> preferences
+/Users/ktoso/code/ssl-config/project/Common.scala -> prefix
+/Users/ktoso/code/ssl-config/project/Common.scala -> projectSettings
+/Users/ktoso/code/ssl-config/project/Common.scala -> projectUrl
+/Users/ktoso/code/ssl-config/project/Common.scala -> publishArtifact
+/Users/ktoso/code/ssl-config/project/Common.scala -> publishMavenStyle
+/Users/ktoso/code/ssl-config/project/Common.scala -> publishTo
+/Users/ktoso/code/ssl-config/project/Common.scala -> pure
+/Users/ktoso/code/ssl-config/project/Common.scala -> runtime
+/Users/ktoso/code/ssl-config/project/Common.scala -> sbt
+/Users/ktoso/code/ssl-config/project/Common.scala -> sbtheader
+/Users/ktoso/code/ssl-config/project/Common.scala -> scala
+/Users/ktoso/code/ssl-config/project/Common.scala -> scalaOrJavaHeader
+/Users/ktoso/code/ssl-config/project/Common.scala -> scalaVersion
+/Users/ktoso/code/ssl-config/project/Common.scala -> scalacOptions
+/Users/ktoso/code/ssl-config/project/Common.scala -> scalariform
+/Users/ktoso/code/ssl-config/project/Common.scala -> scalariformSettings
+/Users/ktoso/code/ssl-config/project/Common.scala -> scmConnection
+/Users/ktoso/code/ssl-config/project/Common.scala -> scmUrl
+/Users/ktoso/code/ssl-config/project/Common.scala -> seqToNodeSeq
+/Users/ktoso/code/ssl-config/project/Common.scala -> set
+/Users/ktoso/code/ssl-config/project/Common.scala -> setPreference
+/Users/ktoso/code/ssl-config/project/Common.scala -> settings
+/Users/ktoso/code/ssl-config/project/Common.scala -> snapshot
+/Users/ktoso/code/ssl-config/project/Common.scala -> sonatype
+/Users/ktoso/code/ssl-config/project/Common.scala -> toITask
+/Users/ktoso/code/ssl-config/project/Common.scala -> toRepositoryName
+/Users/ktoso/code/ssl-config/project/Common.scala -> toSeq
+/Users/ktoso/code/ssl-config/project/Common.scala -> toString
+/Users/ktoso/code/ssl-config/project/Common.scala -> typedProductIterator
+/Users/ktoso/code/ssl-config/project/Common.scala -> typesafe
+/Users/ktoso/code/ssl-config/project/Common.scala -> updateOptions
+/Users/ktoso/code/ssl-config/project/Common.scala -> url
+/Users/ktoso/code/ssl-config/project/Common.scala -> v
+/Users/ktoso/code/ssl-config/project/Common.scala -> value
+/Users/ktoso/code/ssl-config/project/Common.scala -> withCachedResolution
+/Users/ktoso/code/ssl-config/project/Common.scala -> wrapInit_☃☃
+/Users/ktoso/code/ssl-config/project/Common.scala -> x
+/Users/ktoso/code/ssl-config/project/Common.scala -> xml
+/Users/ktoso/code/ssl-config/project/Common.scala -> ||
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> %
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> %%
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> ++
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> <init>
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> <repeated>
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> A
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Any
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> AnyRef
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> B
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> CanBuildFrom
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Coll
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Dependencies
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> GenTraversableOnce
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> GroupArtifactID
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> GroupID
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Library
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> ModuleID
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> ModuleIDConfigurable
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Nothing
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Object
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Predef
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Seq
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> String
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> That
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> Version
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> akkaActor
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> akkaActor210
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> apply
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> canBuildFrom
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> collection
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> jodaTime
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> jodaTimeConvert
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> moduleIDConfigurable
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> package
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> parserCombinators
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> sbt
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> scala
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> scala210
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> scala211
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> scala212
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> scala213
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> specs2
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> specs2Scala210
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> sslConfigAkka
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> sslConfigAkka210
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> sslConfigCore
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> testDependencies
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> testDependencies210
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> toGroupID
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> typesafeConfig
+product stamps:
+32 items
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/AutomaticModuleName$$anonfun$settings$1.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/AutomaticModuleName$.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/AutomaticModuleName.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$header$1.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$1.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$2.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$3.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$4.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$5.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$6.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$7.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$8.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$$anonfun$projectSettings$9.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common$sonatype$.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Common.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Dependencies$.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Dependencies.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Library$.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Library.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$generatePomExtra$1.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$1.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$2.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$3.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$4$$anonfun$apply$1.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$4.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$$anonfun$settings$5.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$Developer$.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype$Developer.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/PublishToSonatype.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Version$.class -> lastModified(1522167918000)
+/Users/ktoso/code/ssl-config/project/target/scala-2.10/sbt-0.13/classes/Version.class -> lastModified(1522167918000)
+source stamps:
+3 items
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> hash(4e6d7c43cb1fb3ac30d12b2a4eee49c1efe12927)
+/Users/ktoso/code/ssl-config/project/Common.scala -> hash(81fd5a64c07f2b3b35d331c13532f58b2de6bb48)
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> hash(53efc1dd83da577f960b7e2bee484c26a1ceac13)
+binary stamps:
+13 items
+/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar -> lastModified(1500701265000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/actions/jars/actions-0.13.17.jar -> lastModified(1517428341000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/apply-macro/jars/apply-macro-0.13.17.jar -> lastModified(1517428101000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/collections/jars/collections-0.13.17.jar -> lastModified(1517428109000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/ivy/jars/ivy-0.13.17.jar -> lastModified(1517428256000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/main-settings/jars/main-settings-0.13.17.jar -> lastModified(1517428297000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/main/jars/main-0.13.17.jar -> lastModified(1517428332000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/sbt/jars/sbt-0.13.17.jar -> lastModified(1517428372000)
+/Users/ktoso/.ivy2/cache/org.scala-sbt/task-system/jars/task-system-0.13.17.jar -> lastModified(1517428237000)
+/Users/ktoso/.ivy2/cache/org.scalariform/scalariform_2.10/jars/scalariform_2.10-0.1.4.jar -> lastModified(1507858509000)
+/Users/ktoso/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-scalariform/jars/sbt-scalariform-1.3.0.jar -> lastModified(1393259730000)
+/Users/ktoso/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.tmp/sbt-header/jars/sbt-header-1.5.0-JDK6-0.1.jar -> lastModified(1430874263000)
+/Users/ktoso/.sbt/boot/scala-2.10.7/lib/scala-library.jar -> lastModified(1509739617000)
+class names:
+13 items
+/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar -> java.lang.Object
+/Users/ktoso/.ivy2/cache/org.scala-sbt/actions/jars/actions-0.13.17.jar -> sbt.PackageOption
+/Users/ktoso/.ivy2/cache/org.scala-sbt/apply-macro/jars/apply-macro-0.13.17.jar -> sbt.appmacro.Instance$
+/Users/ktoso/.ivy2/cache/org.scala-sbt/collections/jars/collections-0.13.17.jar -> sbt.LinePosition$
+/Users/ktoso/.ivy2/cache/org.scala-sbt/ivy/jars/ivy-0.13.17.jar -> sbt.impl.DependencyBuilders
+/Users/ktoso/.ivy2/cache/org.scala-sbt/main-settings/jars/main-settings-0.13.17.jar -> sbt.std.MacroValue
+/Users/ktoso/.ivy2/cache/org.scala-sbt/main/jars/main-0.13.17.jar -> sbt.AutoPlugin
+/Users/ktoso/.ivy2/cache/org.scala-sbt/sbt/jars/sbt-0.13.17.jar -> sbt.package$
+/Users/ktoso/.ivy2/cache/org.scala-sbt/task-system/jars/task-system-0.13.17.jar -> sbt.Task
+/Users/ktoso/.ivy2/cache/org.scalariform/scalariform_2.10/jars/scalariform_2.10-0.1.4.jar -> scalariform.formatter.preferences.AlignParameters$
+/Users/ktoso/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-scalariform/jars/sbt-scalariform-1.3.0.jar -> com.typesafe.sbt.SbtScalariform$
+/Users/ktoso/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.tmp/sbt-header/jars/sbt-header-1.5.0-JDK6-0.1.jar -> de.heikoseeberger.sbtheader.HeaderPlugin$
+/Users/ktoso/.sbt/boot/scala-2.10.7/lib/scala-library.jar -> scala.collection.GenTraversableOnce
+internal apis:
+3 items
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> 
+rO0ABXNyABB4c2J0aS5hcGkuU291cmNlSjH5SdlLSkQCAAdJAAdhcGlIYXNoWgAIaGFzTWFjcm9aABBoYXNQYWNrYWdlT2JqZWN0TAAYX2ludGVybmFsT25seV9uYW1lSGFzaGVzdAAkTHhzYnRpL2FwaS9faW50ZXJuYWxPbmx5X05hbWVIYXNoZXM7TAADYXBpdAAVTHhzYnRpL2FwaS9Tb3VyY2VBUEk7TAALY29tcGlsYXRpb250ABdMeHNidGkvYXBpL0NvbXBpbGF0aW9uO1sABGhhc2h0AAJbQnhw9DPd7AAAc3IAInhzYnRpLmFwaS5faW50ZXJuYWxPbmx5X05hbWVIYXNoZXNU2r6Z+tTsTAIAAlsAD2ltcGxpY2l0TWVtYmVyc3QAI1tMeHNidGkvYXBpL19pbnRlcm5hbE9ubHlfTmFtZUhhc2g7WwAOcmVndWxhck1lbWJlcnNxAH4AB3hwdXIAI1tMeHNidGkuYXBpLl9pbnRlcm5hbE9ubHlfTmFtZUhhc2g7SVqAtt2Wi/QCAAB4cAAAAAB1cQB+AAkAAAAVc3IAIHhzYnRpLmFwaS5faW50ZXJuYWxPbmx5X05hbWVIYXNoWw71InY4V88CAAJJAARoYXNoTAAEbmFtZXQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwPaNsmHQABm5vdGlmeXNxAH4ADHUyIFl0AAR3YWl0c3EAfgAMPTxSnHQADSRhc0luc3RhbmNlT2ZzcQB+AAywDl11dAAGZXF1YWxzc3EAfgAMOO5NgnQADGFzSW5zdGFuY2VPZnNxAH4ADMUYlrh0AAxzeW5jaHJvbml6ZWRzcQB+AAyPyI+rdAANJGlzSW5zdGFuY2VPZnNxAH4ADMNzIIF0AAlub3RpZnlBbGxzcQB+AAxHj9M+dAATQXV0b21hdGljTW9kdWxlTmFtZXNxAH4ADO6wwzR0AAxpc0luc3RhbmNlT2ZzcQB+AAyvGa90dAACPT1zcQB+AAzfje9PdAAFY2xvbmVzcQB+AAx5yc3QdAAIdG9TdHJpbmdzcQB+AAwwlNBodAACIT1zcQB+AAybB503dAAIZ2V0Q2xhc3NzcQB+AAz3nWJHdAACbmVzcQB+AAx/FAqqdAACZXFzcQB+AAy+eQFtdAAIc2V0dGluZ3NzcQB+AAy1/A+gdAACIyNzcQB+AAyijf5NdAAIZmluYWxpemVzcQB+AAyU65SSdAAIaGFzaENvZGVzcgATeHNidGkuYXBpLlNvdXJjZUFQSblep/kpIzikAgACWwALZGVmaW5pdGlvbnN0ABdbTHhzYnRpL2FwaS9EZWZpbml0aW9uO1sACHBhY2thZ2VzdAAUW0x4c2J0aS9hcGkvUGFja2FnZTt4cHVyABdbTHhzYnRpLmFwaS5EZWZpbml0aW9uO4jJXOe0414OAgAAeHAAAAABc3IAE3hzYnRpLmFwaS5DbGFzc0xpa2WDNByh37CXbAIABEwADmRlZmluaXRpb25UeXBldAAaTHhzYnRpL2FwaS9EZWZpbml0aW9uVHlwZTtbABBzYXZlZEFubm90YXRpb25zdAATW0xqYXZhL2xhbmcvU3RyaW5nO0wACHNlbGZUeXBldAAQTHhzYnRpL2FwaS9MYXp5O0wACXN0cnVjdHVyZXEAfgBBeHIAIXhzYnRpLmFwaS5QYXJhbWV0ZXJpemVkRGVmaW5pdGlvbvkRbrHVUDziAgABWwAOdHlwZVBhcmFtZXRlcnN0ABpbTHhzYnRpL2FwaS9UeXBlUGFyYW1ldGVyO3hyABR4c2J0aS5hcGkuRGVmaW5pdGlvbocqG+hxQuNGAgAETAAGYWNjZXNzdAASTHhzYnRpL2FwaS9BY2Nlc3M7WwALYW5ub3RhdGlvbnN0ABdbTHhzYnRpL2FwaS9Bbm5vdGF0aW9uO0wACW1vZGlmaWVyc3QAFUx4c2J0aS9hcGkvTW9kaWZpZXJzO0wABG5hbWVxAH4ADXhwc3IAEHhzYnRpLmFwaS5QdWJsaWO6WD2ubC1gQgIAAHhyABB4c2J0aS5hcGkuQWNjZXNz3WKa+B1jMUgCAAB4cHVyABdbTHhzYnRpLmFwaS5Bbm5vdGF0aW9uO+uX6xkQ9o1IAgAAeHAAAAAAc3IAE3hzYnRpLmFwaS5Nb2RpZmllcnOX52HcEyZ7swIAAUIABWZsYWdzeHAAcQB+AB91cgAaW0x4c2J0aS5hcGkuVHlwZVBhcmFtZXRlcjvZbSYPKJ3ytgIAAHhwAAAAAH5yABh4c2J0aS5hcGkuRGVmaW5pdGlvblR5cGUAAAAAAAAAABIAAHhyAA5qYXZhLmxhbmcuRW51bQAAAAAAAAAAEgAAeHB0AAZNb2R1bGV1cgATW0xqYXZhLmxhbmcuU3RyaW5nO63SVufpHXtHAgAAeHAAAAAAc3IAIXhzYnRpLmFwaS5BYnN0cmFjdExhenkkU3RyaWN0TGF6eQ1mHGspFiq4AgABTAAFdmFsdWV0ABJMamF2YS9sYW5nL09iamVjdDt4cHNyABN4c2J0aS5hcGkuRW1wdHlUeXBlvP2eRkk7iSQCAAB4cgAUeHNidGkuYXBpLlNpbXBsZVR5cGVyeGKIISO/QAIAAHhyAA54c2J0aS5hcGkuVHlwZT9q2SEWSarKAgAAeHBzcQB+AFhzcgATeHNidGkuYXBpLlN0cnVjdHVyZamq+YCTb9gAAgADTAAIZGVjbGFyZWRxAH4AQUwACWluaGVyaXRlZHEAfgBBTAAHcGFyZW50c3EAfgBBeHEAfgBdc3EAfgBYdXEAfgA8AAAAAHNxAH4AWHVxAH4APAAAAABzcQB+AFh1cgARW0x4c2J0aS5hcGkuVHlwZTt0/6Vae/npQQIAAHhwAAAAAnNyABR4c2J0aS5hcGkuUHJvamVjdGlvbvPSjVTpRaQtAgACTAACaWRxAH4ADUwABnByZWZpeHQAFkx4c2J0aS9hcGkvU2ltcGxlVHlwZTt4cQB+AFx0AAZPYmplY3RzcgATeHNidGkuYXBpLlNpbmdsZXRvbvynX/jPVuRGAgABTAAEcGF0aHQAEEx4c2J0aS9hcGkvUGF0aDt4cQB+AFxzcgAOeHNidGkuYXBpLlBhdGibPVwIzqUnhAIAAVsACmNvbXBvbmVudHN0ABpbTHhzYnRpL2FwaS9QYXRoQ29tcG9uZW50O3hwdXIAGltMeHNidGkuYXBpLlBhdGhDb21wb25lbnQ7Q9oJdC1nFnQCAAB4cAAAAANzcgAMeHNidGkuYXBpLklkmDJsizdTxEACAAFMAAJpZHEAfgANeHIAF3hzYnRpLmFwaS5QYXRoQ29tcG9uZW50X5oiWy6Gn7wCAAB4cHQABGphdmFzcQB+AHV0AARsYW5nc3IADnhzYnRpLmFwaS5UaGlz2wntpsxaQFwCAAB4cQB+AHZzcQB+AGl0AANBbnlzcQB+AG1zcQB+AHB1cQB+AHMAAAACc3EAfgB1dAAFc2NhbGFxAH4AfHVyABRbTHhzYnRpLmFwaS5QYWNrYWdlO1sTGTdwpyehAgAAeHAAAAAAc3IAFXhzYnRpLmFwaS5Db21waWxhdGlvbu364MNq6KBCAgACSgAJc3RhcnRUaW1lWwAHb3V0cHV0c3QAGltMeHNidGkvYXBpL091dHB1dFNldHRpbmc7eHAAAAFiaEcfwnVyABpbTHhzYnRpLmFwaS5PdXRwdXRTZXR0aW5nO39qwvOnh6VCAgAAeHAAAAABc3IAF3hzYnRpLmFwaS5PdXRwdXRTZXR0aW5netmaR3T7HXsCAAJMAA9vdXRwdXREaXJlY3RvcnlxAH4ADUwAD3NvdXJjZURpcmVjdG9yeXEAfgANeHB0AEcvVXNlcnMva3Rvc28vY29kZS9zc2wtY29uZmlnL3Byb2plY3QvdGFyZ2V0L3NjYWxhLTIuMTAvc2J0LTAuMTMvY2xhc3Nlc3QAAS91cgACW0Ks8xf4BghU4AIAAHhwAAAAFE5tfEPLH7OsMNErKk7uScHv4Skn
+/Users/ktoso/code/ssl-config/project/Common.scala -> 
+rO0ABXNyABB4c2J0aS5hcGkuU291cmNlSjH5SdlLSkQCAAdJAAdhcGlIYXNoWgAIaGFzTWFjcm9aABBoYXNQYWNrYWdlT2JqZWN0TAAYX2ludGVybmFsT25seV9uYW1lSGFzaGVzdAAkTHhzYnRpL2FwaS9faW50ZXJuYWxPbmx5X05hbWVIYXNoZXM7TAADYXBpdAAVTHhzYnRpL2FwaS9Tb3VyY2VBUEk7TAALY29tcGlsYXRpb250ABdMeHNidGkvYXBpL0NvbXBpbGF0aW9uO1sABGhhc2h0AAJbQnhwNaAlKAAAc3IAInhzYnRpLmFwaS5faW50ZXJuYWxPbmx5X05hbWVIYXNoZXNU2r6Z+tTsTAIAAlsAD2ltcGxpY2l0TWVtYmVyc3QAI1tMeHNidGkvYXBpL19pbnRlcm5hbE9ubHlfTmFtZUhhc2g7WwAOcmVndWxhck1lbWJlcnNxAH4AB3hwdXIAI1tMeHNidGkuYXBpLl9pbnRlcm5hbE9ubHlfTmFtZUhhc2g7SVqAtt2Wi/QCAAB4cAAAAAB1cQB+AAkAAABHc3IAIHhzYnRpLmFwaS5faW50ZXJuYWxPbmx5X05hbWVIYXNoWw71InY4V88CAAJJAARoYXNoTAAEbmFtZXQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwjv1seHQABmlzUm9vdHNxAH4ADAKG/hV0AAZub3RpZnlzcQB+AAxaMUemdAAVcHJvamVjdENvbmZpZ3VyYXRpb25zc3EAfgAMoRnEZnQAB3VuYXBwbHlzcQB+AAxx1d0kdAAHY3VycmllZHNxAH4ADIR7/qR0AARuYW1lc3EAfgAMcJQen3QADXNjbUNvbm5lY3Rpb25zcQB+AAwkv6dddAAEd2FpdHNxAH4ADGD4Mgh0AA9kZXJpdmVkUHJvamVjdHNzcQB+AAz0Wl9qdAAOY29weSRkZWZhdWx0JDJzcQB+AAyMiERXdAANJGFzSW5zdGFuY2VPZnNxAH4ADOdOJ5J0AAVlbXB0eXNxAH4ADBDKBhl0AA1leHRyYVByb2plY3Rzc3EAfgAMLitg9HQAC2xpY2Vuc2VOYW1lc3EAfgAM+1Q2yHQADHByb2R1Y3RBcml0eXNxAH4ADGev/H90AAN1cmxzcQB+AAxhhwkLdAAGZXF1YWxzc3EAfgAMplxk+XQACW5vVHJpZ2dlcnNxAH4ADOsQKmt0AAZzY21VcmxzcQB+AAwxaYJHdAAMYXNJbnN0YW5jZU9mc3EAfgAMyyjblXQADHN5bmNocm9uaXplZHNxAH4ADIj+Zvh0AAd1bmFyeV8hc3EAfgAMbEfLJHQABWxhYmVsc3EAfgAM1MfKCXQADSRpc0luc3RhbmNlT2ZzcQB+AAzA+hZxdAAGdHVwbGVkc3EAfgAMcaRsunQACnByb2plY3RVcmxzcQB+AAxXN8vBdAAPYWxsUmVxdWlyZW1lbnRzc3EAfgAMP1kgh3QACGNhbkVxdWFsc3EAfgAMp2FEd3QAD2lzQWx3YXlzRW5hYmxlZHNxAH4ADDC33o10AA1wcm9kdWN0UHJlZml4c3EAfgAMDyfYIXQACW5vdGlmeUFsbHNxAH4ADITIaVp0ABNsaWNlbnNlRGlzdHJpYnV0aW9uc3EAfgAMCebQPnQADGlzSW5zdGFuY2VPZnNxAH4ADK+0CCp0AA5nbG9iYWxTZXR0aW5nc3NxAH4ADIdWPQJ0AA9wcm9qZWN0U2V0dGluZ3NzcQB+AAw3NTmMdAAGPGluaXQ+c3EAfgAMB7+J1nQAAmlkc3EAfgAMCgExL3QABkNvbW1vbnNxAH4ADNZLf7J0AApjb25mSGVhZGVyc3EAfgAMdpmA2HQABWFwcGx5c3EAfgAM4NAD7nQAAj09c3EAfgAMNLHNo3QABWNsb25lc3EAfgAMo/BzD3QADG9zc1NuYXBzaG90c3NxAH4ADPJWCQ10AAYkaW5pdCRzcQB+AAxTxFYudAAIc29uYXR5cGVzcQB+AAyFtIALdAAOY29weSRkZWZhdWx0JDNzcQB+AAwLemIYdAAEY29weXNxAH4ADBixvvF0AAZoZWFkZXJzcQB+AAyaSotSdAAKZGV2ZWxvcGVyc3NxAH4ADEIbSfB0AAh0b1N0cmluZ3NxAH4ADEMKBCt0AAhyZXF1aXJlc3NxAH4ADJBl3SZ0ABFQdWJsaXNoVG9Tb25hdHlwZXNxAH4ADDqyUF90AAIhPXNxAH4ADCv7CWt0AApvc3NTdGFnaW5nc3EAfgAM1yKoMHQAAiYmc3EAfgAMS/zHOHQACGdldENsYXNzc3EAfgAM55sL93QADmNvcHkkZGVmYXVsdCQxc3EAfgAMUg8aSnQAAm5lc3EAfgAMVmAFmnQADWJ1aWxkU2V0dGluZ3NzcQB+AAxuUhmMdAAQZ2VuZXJhdGVQb21FeHRyYXNxAH4ADCb6D+V0AAJlcXNxAH4ADHdY/PF0AA9wcm9kdWN0SXRlcmF0b3JzcQB+AAwB+CPzdAAIc2V0dGluZ3NzcQB+AAxk+4lEdAARc2NhbGFPckphdmFIZWFkZXJzcQB+AAxaej+jdAACIyNzcQB+AAwEsmyIdAAKbGljZW5zZVVybHNxAH4ADK5n39p0AAhmaW5hbGl6ZXNxAH4ADNNNs+J0AAlEZXZlbG9wZXJzcQB+AAyt6qtIdAAOcHJvZHVjdEVsZW1lbnRzcQB+AAwzSJ5MdAAIaGFzaENvZGVzcQB+AAzOgOM9dAAHdHJpZ2dlcnNyABN4c2J0aS5hcGkuU291cmNlQVBJuV6n+SkjOKQCAAJbAAtkZWZpbml0aW9uc3QAF1tMeHNidGkvYXBpL0RlZmluaXRpb247WwAIcGFja2FnZXN0ABRbTHhzYnRpL2FwaS9QYWNrYWdlO3hwdXIAF1tMeHNidGkuYXBpLkRlZmluaXRpb247iMlc57TjXg4CAAB4cAAAAAJzcgATeHNidGkuYXBpLkNsYXNzTGlrZYM0HKHfsJdsAgAETAAOZGVmaW5pdGlvblR5cGV0ABpMeHNidGkvYXBpL0RlZmluaXRpb25UeXBlO1sAEHNhdmVkQW5ub3RhdGlvbnN0ABNbTGphdmEvbGFuZy9TdHJpbmc7TAAIc2VsZlR5cGV0ABBMeHNidGkvYXBpL0xhenk7TAAJc3RydWN0dXJlcQB+AKV4cgAheHNidGkuYXBpLlBhcmFtZXRlcml6ZWREZWZpbml0aW9u+RFusdVQPOICAAFbAA50eXBlUGFyYW1ldGVyc3QAGltMeHNidGkvYXBpL1R5cGVQYXJhbWV0ZXI7eHIAFHhzYnRpLmFwaS5EZWZpbml0aW9uhyob6HFC40YCAARMAAZhY2Nlc3N0ABJMeHNidGkvYXBpL0FjY2VzcztbAAthbm5vdGF0aW9uc3QAF1tMeHNidGkvYXBpL0Fubm90YXRpb247TAAJbW9kaWZpZXJzdAAVTHhzYnRpL2FwaS9Nb2RpZmllcnM7TAAEbmFtZXEAfgANeHBzcgAQeHNidGkuYXBpLlB1YmxpY7pYPa5sLWBCAgAAeHIAEHhzYnRpLmFwaS5BY2Nlc3PdYpr4HWMxSAIAAHhwdXIAF1tMeHNidGkuYXBpLkFubm90YXRpb24765frGRD2jUgCAAB4cAAAAABzcgATeHNidGkuYXBpLk1vZGlmaWVyc5fnYdwTJnuzAgABQgAFZmxhZ3N4cABxAH4AWXVyABpbTHhzYnRpLmFwaS5UeXBlUGFyYW1ldGVyO9ltJg8onfK2AgAAeHAAAAAAfnIAGHhzYnRpLmFwaS5EZWZpbml0aW9uVHlwZQAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQABk1vZHVsZXVyABNbTGphdmEubGFuZy5TdHJpbmc7rdJW5+kde0cCAAB4cAAAAABzcgAheHNidGkuYXBpLkFic3RyYWN0TGF6eSRTdHJpY3RMYXp5DWYcaykWKrgCAAFMAAV2YWx1ZXQAEkxqYXZhL2xhbmcvT2JqZWN0O3hwc3IAE3hzYnRpLmFwaS5FbXB0eVR5cGW8/Z5GSTuJJAIAAHhyABR4c2J0aS5hcGkuU2ltcGxlVHlwZXJ4YoghI79AAgAAeHIADnhzYnRpLmFwaS5UeXBlP2rZIRZJqsoCAAB4cHNxAH4AvHNyABN4c2J0aS5hcGkuU3RydWN0dXJlqar5gJNv2AACAANMAAhkZWNsYXJlZHEAfgClTAAJaW5oZXJpdGVkcQB+AKVMAAdwYXJlbnRzcQB+AKV4cQB+AMFzcQB+ALx1cQB+AKAAAAAAc3EAfgC8dXEAfgCgAAAAAHNxAH4AvHVyABFbTHhzYnRpLmFwaS5UeXBlO3T/pVp7+elBAgAAeHAAAAAGc3IAFHhzYnRpLmFwaS5Qcm9qZWN0aW9u89KNVOlFpC0CAAJMAAJpZHEAfgANTAAGcHJlZml4dAAWTHhzYnRpL2FwaS9TaW1wbGVUeXBlO3hxAH4AwHQACkF1dG9QbHVnaW5zcgATeHNidGkuYXBpLlNpbmdsZXRvbvynX/jPVuRGAgABTAAEcGF0aHQAEEx4c2J0aS9hcGkvUGF0aDt4cQB+AMBzcgAOeHNidGkuYXBpLlBhdGibPVwIzqUnhAIAAVsACmNvbXBvbmVudHN0ABpbTHhzYnRpL2FwaS9QYXRoQ29tcG9uZW50O3hwdXIAGltMeHNidGkuYXBpLlBhdGhDb21wb25lbnQ7Q9oJdC1nFnQCAAB4cAAAAAJzcgAMeHNidGkuYXBpLklkmDJsizdTxEACAAFMAAJpZHEAfgANeHIAF3hzYnRpLmFwaS5QYXRoQ29tcG9uZW50X5oiWy6Gn7wCAAB4cHQAA3NidHNyAA54c2J0aS5hcGkuVGhpc9sJ7abMWkBcAgAAeHEAfgDac3EAfgDNdAAQUGx1Z2luc0Z1bmN0aW9uc3EAfgDTc3EAfgDNdAAFQmFzaWNzcQB+AM10AAdQbHVnaW5zcQB+ANNzcQB+AM10AAdQbHVnaW5zcQB+ANNzcQB+AM10AAZPYmplY3RzcQB+ANFzcQB+ANR1cQB+ANcAAAADc3EAfgDZdAAEamF2YXNxAH4A2XQABGxhbmdxAH4A3nNxAH4AzXQAA0FueXNxAH4A0XNxAH4A1HVxAH4A1wAAAAJzcQB+ANl0AAVzY2FsYXEAfgDec3EAfgCicQB+AK91cQB+ALAAAAAAc3EAfgCyAXEAfgB1dXEAfgC0AAAAAH5xAH4AtnQACENsYXNzRGVmdXEAfgC6AAAAAHNxAH4AvHEAfgDCc3EAfgC8c3EAfgDEc3EAfgC8dXEAfgCgAAAAAHNxAH4AvHVxAH4AoAAAAABzcQB+ALx1cQB+AMsAAAACc3EAfgDNcQB+AOhzcQB+ANFzcQB+ANR1cQB+ANcAAAADc3EAfgDZcQB+AO1zcQB+ANlxAH4A73EAfgDec3EAfgDNcQB+APFzcQB+ANFzcQB+ANR1cQB+ANcAAAACc3EAfgDZcQB+APZxAH4A3nVyABRbTHhzYnRpLmFwaS5QYWNrYWdlO1sTGTdwpyehAgAAeHAAAAAAc3IAFXhzYnRpLmFwaS5Db21waWxhdGlvbu364MNq6KBCAgACSgAJc3RhcnRUaW1lWwAHb3V0cHV0c3QAGltMeHNidGkvYXBpL091dHB1dFNldHRpbmc7eHAAAAFiaEcfwnVyABpbTHhzYnRpLmFwaS5PdXRwdXRTZXR0aW5nO39qwvOnh6VCAgAAeHAAAAABc3IAF3hzYnRpLmFwaS5PdXRwdXRTZXR0aW5netmaR3T7HXsCAAJMAA9vdXRwdXREaXJlY3RvcnlxAH4ADUwAD3NvdXJjZURpcmVjdG9yeXEAfgANeHB0AEcvVXNlcnMva3Rvc28vY29kZS9zc2wtY29uZmlnL3Byb2plY3QvdGFyZ2V0L3NjYWxhLTIuMTAvc2J0LTAuMTMvY2xhc3Nlc3QAAS91cgACW0Ks8xf4BghU4AIAAHhwAAAAFIH9WmTAfys7NdMxwTUy9Yst5rtI
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> 
+rO0ABXNyABB4c2J0aS5hcGkuU291cmNlSjH5SdlLSkQCAAdJAAdhcGlIYXNoWgAIaGFzTWFjcm9aABBoYXNQYWNrYWdlT2JqZWN0TAAYX2ludGVybmFsT25seV9uYW1lSGFzaGVzdAAkTHhzYnRpL2FwaS9faW50ZXJuYWxPbmx5X05hbWVIYXNoZXM7TAADYXBpdAAVTHhzYnRpL2FwaS9Tb3VyY2VBUEk7TAALY29tcGlsYXRpb250ABdMeHNidGkvYXBpL0NvbXBpbGF0aW9uO1sABGhhc2h0AAJbQnhwmlxwSQAAc3IAInhzYnRpLmFwaS5faW50ZXJuYWxPbmx5X05hbWVIYXNoZXNU2r6Z+tTsTAIAAlsAD2ltcGxpY2l0TWVtYmVyc3QAI1tMeHNidGkvYXBpL19pbnRlcm5hbE9ubHlfTmFtZUhhc2g7WwAOcmVndWxhck1lbWJlcnNxAH4AB3hwdXIAI1tMeHNidGkuYXBpLl9pbnRlcm5hbE9ubHlfTmFtZUhhc2g7SVqAtt2Wi/QCAAB4cAAAAAB1cQB+AAkAAAAnc3IAIHhzYnRpLmFwaS5faW50ZXJuYWxPbmx5X05hbWVIYXNoWw71InY4V88CAAJJAARoYXNoTAAEbmFtZXQAEkxqYXZhL2xhbmcvU3RyaW5nO3hw5BTfDnQACHNjYWxhMjEyc3EAfgAMaKfz2HQABm5vdGlmeXNxAH4ADNBSKPB0AAlha2thQWN0b3JzcQB+AAzllRModAAEd2FpdHNxAH4ADG9bZoR0AA1zc2xDb25maWdDb3Jlc3EAfgAMAOyGeHQADSRhc0luc3RhbmNlT2ZzcQB+AAwf2iMEdAAQdGVzdERlcGVuZGVuY2llc3NxAH4ADLKKFzN0AAZlcXVhbHNzcQB+AAwe72TadAAOdHlwZXNhZmVDb25maWdzcQB+AAwYqbPVdAAMYXNJbnN0YW5jZU9mc3EAfgAMXeBViXQADGFra2FBY3RvcjIxMHNxAH4ADGbeAcx0AAxzeW5jaHJvbml6ZWRzcQB+AAwjAVqYdAAMRGVwZW5kZW5jaWVzc3EAfgAMGAe7W3QADSRpc0luc3RhbmNlT2ZzcQB+AAxpSgmCdAAHVmVyc2lvbnNxAH4ADKfoRDp0ABN0ZXN0RGVwZW5kZW5jaWVzMjEwc3EAfgAMAwxS8XQAD2pvZGFUaW1lQ29udmVydHNxAH4ADAKTWip0AA5zcGVjczJTY2FsYTIxMHNxAH4ADN8vAHt0AAlub3RpZnlBbGxzcQB+AAzuSiQ4dAAHTGlicmFyeXNxAH4ADI0JIP10AAxpc0luc3RhbmNlT2ZzcQB+AAwZO5iadAAIc2NhbGEyMTFzcQB+AAxaPeF2dAACPT1zcQB+AAy93MtudAAFY2xvbmVzcQB+AAzsi1UAdAAIc2NhbGEyMTBzcQB+AAxxIPyedAAIam9kYVRpbWVzcQB+AAxWKaSXdAARcGFyc2VyQ29tYmluYXRvcnNzcQB+AAwz0rFwdAAQc3NsQ29uZmlnQWtrYTIxMHNxAH4ADHql4pV0AAh0b1N0cmluZ3NxAH4ADHPrugp0AAhzY2FsYTIxM3NxAH4ADJ331Z10AAIhPXNxAH4ADDM3IDR0AAhnZXRDbGFzc3NxAH4ADHiaAol0AAJuZXNxAH4ADPDrZyB0AA1zc2xDb25maWdBa2thc3EAfgAMFh4whnQAAmVxc3EAfgAM81Ej7nQABnNwZWNzMnNxAH4ADJi9kOB0AAIjI3NxAH4ADJYEQN10AAhmaW5hbGl6ZXNxAH4ADG/Kfl50AAhoYXNoQ29kZXNyABN4c2J0aS5hcGkuU291cmNlQVBJuV6n+SkjOKQCAAJbAAtkZWZpbml0aW9uc3QAF1tMeHNidGkvYXBpL0RlZmluaXRpb247WwAIcGFja2FnZXN0ABRbTHhzYnRpL2FwaS9QYWNrYWdlO3hwdXIAF1tMeHNidGkuYXBpLkRlZmluaXRpb247iMlc57TjXg4CAAB4cAAAAANzcgATeHNidGkuYXBpLkNsYXNzTGlrZYM0HKHfsJdsAgAETAAOZGVmaW5pdGlvblR5cGV0ABpMeHNidGkvYXBpL0RlZmluaXRpb25UeXBlO1sAEHNhdmVkQW5ub3RhdGlvbnN0ABNbTGphdmEvbGFuZy9TdHJpbmc7TAAIc2VsZlR5cGV0ABBMeHNidGkvYXBpL0xhenk7TAAJc3RydWN0dXJlcQB+AGV4cgAheHNidGkuYXBpLlBhcmFtZXRlcml6ZWREZWZpbml0aW9u+RFusdVQPOICAAFbAA50eXBlUGFyYW1ldGVyc3QAGltMeHNidGkvYXBpL1R5cGVQYXJhbWV0ZXI7eHIAFHhzYnRpLmFwaS5EZWZpbml0aW9uhyob6HFC40YCAARMAAZhY2Nlc3N0ABJMeHNidGkvYXBpL0FjY2VzcztbAAthbm5vdGF0aW9uc3QAF1tMeHNidGkvYXBpL0Fubm90YXRpb247TAAJbW9kaWZpZXJzdAAVTHhzYnRpL2FwaS9Nb2RpZmllcnM7TAAEbmFtZXEAfgANeHBzcgAQeHNidGkuYXBpLlB1YmxpY7pYPa5sLWBCAgAAeHIAEHhzYnRpLmFwaS5BY2Nlc3PdYpr4HWMxSAIAAHhwdXIAF1tMeHNidGkuYXBpLkFubm90YXRpb24765frGRD2jUgCAAB4cAAAAABzcgATeHNidGkuYXBpLk1vZGlmaWVyc5fnYdwTJnuzAgABQgAFZmxhZ3N4cABxAH4AK3VyABpbTHhzYnRpLmFwaS5UeXBlUGFyYW1ldGVyO9ltJg8onfK2AgAAeHAAAAAAfnIAGHhzYnRpLmFwaS5EZWZpbml0aW9uVHlwZQAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQABk1vZHVsZXVyABNbTGphdmEubGFuZy5TdHJpbmc7rdJW5+kde0cCAAB4cAAAAABzcgAheHNidGkuYXBpLkFic3RyYWN0TGF6eSRTdHJpY3RMYXp5DWYcaykWKrgCAAFMAAV2YWx1ZXQAEkxqYXZhL2xhbmcvT2JqZWN0O3hwc3IAE3hzYnRpLmFwaS5FbXB0eVR5cGW8/Z5GSTuJJAIAAHhyABR4c2J0aS5hcGkuU2ltcGxlVHlwZXJ4YoghI79AAgAAeHIADnhzYnRpLmFwaS5UeXBlP2rZIRZJqsoCAAB4cHNxAH4AfHNyABN4c2J0aS5hcGkuU3RydWN0dXJlqar5gJNv2AACAANMAAhkZWNsYXJlZHEAfgBlTAAJaW5oZXJpdGVkcQB+AGVMAAdwYXJlbnRzcQB+AGV4cQB+AIFzcQB+AHx1cQB+AGAAAAAAc3EAfgB8dXEAfgBgAAAAAHNxAH4AfHVyABFbTHhzYnRpLmFwaS5UeXBlO3T/pVp7+elBAgAAeHAAAAACc3IAFHhzYnRpLmFwaS5Qcm9qZWN0aW9u89KNVOlFpC0CAAJMAAJpZHEAfgANTAAGcHJlZml4dAAWTHhzYnRpL2FwaS9TaW1wbGVUeXBlO3hxAH4AgHQABk9iamVjdHNyABN4c2J0aS5hcGkuU2luZ2xldG9u/Kdf+M9W5EYCAAFMAARwYXRodAAQTHhzYnRpL2FwaS9QYXRoO3hxAH4AgHNyAA54c2J0aS5hcGkuUGF0aJs9XAjOpSeEAgABWwAKY29tcG9uZW50c3QAGltMeHNidGkvYXBpL1BhdGhDb21wb25lbnQ7eHB1cgAaW0x4c2J0aS5hcGkuUGF0aENvbXBvbmVudDtD2gl0LWcWdAIAAHhwAAAAA3NyAAx4c2J0aS5hcGkuSWSYMmyLN1PEQAIAAUwAAmlkcQB+AA14cgAXeHNidGkuYXBpLlBhdGhDb21wb25lbnRfmiJbLoafvAIAAHhwdAAEamF2YXNxAH4AmXQABGxhbmdzcgAOeHNidGkuYXBpLlRoaXPbCe2mzFpAXAIAAHhxAH4AmnNxAH4AjXQAA0FueXNxAH4AkXNxAH4AlHVxAH4AlwAAAAJzcQB+AJl0AAVzY2FsYXEAfgCgc3EAfgBicQB+AG91cQB+AHAAAAAAc3EAfgByAHEAfgA1dXEAfgB0AAAAAHEAfgB4dXEAfgB6AAAAAHNxAH4AfHEAfgCCc3EAfgB8c3EAfgCEc3EAfgB8dXEAfgBgAAAAAHNxAH4AfHVxAH4AYAAAAABzcQB+AHx1cQB+AIsAAAACc3EAfgCNcQB+AJBzcQB+AJFzcQB+AJR1cQB+AJcAAAADc3EAfgCZcQB+AJxzcQB+AJlxAH4AnnEAfgCgc3EAfgCNcQB+AKJzcQB+AJFzcQB+AJR1cQB+AJcAAAACc3EAfgCZcQB+AKdxAH4AoHNxAH4AYnEAfgBvdXEAfgBwAAAAAHNxAH4AcgBxAH4AJ3VxAH4AdAAAAABxAH4AeHVxAH4AegAAAABzcQB+AHxxAH4AgnNxAH4AfHNxAH4AhHNxAH4AfHVxAH4AYAAAAABzcQB+AHx1cQB+AGAAAAAAc3EAfgB8dXEAfgCLAAAAAnNxAH4AjXEAfgCQc3EAfgCRc3EAfgCUdXEAfgCXAAAAA3NxAH4AmXEAfgCcc3EAfgCZcQB+AJ5xAH4AoHNxAH4AjXEAfgCic3EAfgCRc3EAfgCUdXEAfgCXAAAAAnNxAH4AmXEAfgCncQB+AKB1cgAUW0x4c2J0aS5hcGkuUGFja2FnZTtbExk3cKcnoQIAAHhwAAAAAHNyABV4c2J0aS5hcGkuQ29tcGlsYXRpb27t+uDDauigQgIAAkoACXN0YXJ0VGltZVsAB291dHB1dHN0ABpbTHhzYnRpL2FwaS9PdXRwdXRTZXR0aW5nO3hwAAABYmhHH8J1cgAaW0x4c2J0aS5hcGkuT3V0cHV0U2V0dGluZzt/asLzp4elQgIAAHhwAAAAAXNyABd4c2J0aS5hcGkuT3V0cHV0U2V0dGluZ3rZmkd0+x17AgACTAAPb3V0cHV0RGlyZWN0b3J5cQB+AA1MAA9zb3VyY2VEaXJlY3RvcnlxAH4ADXhwdABHL1VzZXJzL2t0b3NvL2NvZGUvc3NsLWNvbmZpZy9wcm9qZWN0L3RhcmdldC9zY2FsYS0yLjEwL3NidC0wLjEzL2NsYXNzZXN0AAEvdXIAAltCrPMX+AYIVOACAAB4cAAAABRT78Hdg9pXf5YLfivuSEwmoc6sEw==
+external apis:
+0 items
+source infos:
+3 items
+/Users/ktoso/code/ssl-config/project/AutomaticModuleName.scala -> 
+AAAAAAAAAAA=
+/Users/ktoso/code/ssl-config/project/Common.scala -> 
+AAAAAQAAAQAAAHYAYCAgICBwdWJsaXNoVG8gPDw9IGlzU25hcHNob3QgeyAoc25hcHNob3QpID0+IFNvbWUoaWYgKHNuYXBzaG90KSBvc3NTbmFwc2hvdHMgZWxzZSBvc3NTdGFnaW5nKSB9LAEAABC3AQAAAA4BAA4gICAgICAgICAgICAgIAEAMS9Vc2Vycy9rdG9zby9jb2RlL3NzbC1jb25maWcvcHJvamVjdC9Db21tb24uc2NhbGEBADEvVXNlcnMva3Rvc28vY29kZS9zc2wtY29uZmlnL3Byb2plY3QvQ29tbW9uLnNjYWxhAJ1gPDw9YCBvcGVyYXRvciBpcyBkZXByZWNhdGVkLiBVc2UgYGtleSA6PSB7IHgudmFsdWUgfWAgb3IgYGtleSB+PSAob2xkID0+IHsgbmV3VmFsdWUgfSlgLgpTZWUgaHR0cDovL3d3dy5zY2FsYS1zYnQub3JnLzAuMTMvZG9jcy9NaWdyYXRpbmctZnJvbS1zYnQtMDEyeC5odG1sAQAAAAA=
+/Users/ktoso/code/ssl-config/project/Dependencies.scala -> 
+AAAAAAAAAAA=
+compilations:
+1 items
+0 -> rO0ABXNyABV4c2J0aS5hcGkuQ29tcGlsYXRpb27t+uDDauigQgIAAkoACXN0YXJ0VGltZVsAB291dHB1dHN0ABpbTHhzYnRpL2FwaS9PdXRwdXRTZXR0aW5nO3hwAAABYmhHH8J1cgAaW0x4c2J0aS5hcGkuT3V0cHV0U2V0dGluZzt/asLzp4elQgIAAHhwAAAAAXNyABd4c2J0aS5hcGkuT3V0cHV0U2V0dGluZ3rZmkd0+x17AgACTAAPb3V0cHV0RGlyZWN0b3J5dAASTGphdmEvbGFuZy9TdHJpbmc7TAAPc291cmNlRGlyZWN0b3J5cQB+AAZ4cHQARy9Vc2Vycy9rdG9zby9jb2RlL3NzbC1jb25maWcvcHJvamVjdC90YXJnZXQvc2NhbGEtMi4xMC9zYnQtMC4xMy9jbGFzc2VzdAABLw==

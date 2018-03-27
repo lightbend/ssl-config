@@ -1,0 +1,15 @@
+[0m[[0minfo[0m] [0mDefaultHostnameVerifierSpec[0m
+[0m[[0minfo[0m] [0m[0m
+[0m[[0minfo[0m] [0mDefaultHostnameVerifier should[0m
+[0m[[0minfo[0m] [0m  [32m+[0m work[0m
+[0m[[0minfo[0m] [0m  [32m+[0m fail when the match fails[0m
+[0m[[0minfo[0m] [0m  [32m+[0m fail when there are no peer certificates[0m
+[0m[[0minfo[0m] [0m  [32m+[0m succeeds when the peer is unverified but the peer principal is there and kerberous[0m
+[0m[[0minfo[0m] [0m  [32m+[0m fails when the peer is unverified but the peer principal is there (but is not a match)[0m
+[0m[[0minfo[0m] [0m  [32m+[0m fails when the peer is unverified but the peer principal is there (but is not a KerberosPrincipal)[0m
+[0m[[0minfo[0m] [0m[0m
+[0m[[0minfo[0m] [0m[0m
+[0m[[0minfo[0m] [0mTotal for specification DefaultHostnameVerifierSpec[0m
+[0m[[0minfo[0m] [0m[36mFinished in 1 second, 226 ms[0m[0m
+[0m[[0minfo[0m] [0m[36m[0m[36m6 examples, 0 failure, 0 error[0m[0m
+[0m[[0minfo[0m] [0m[0m
