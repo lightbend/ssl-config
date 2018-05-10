@@ -34,7 +34,8 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     ),
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
-    OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*")
+    OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*"),
+    OsgiKeys.requireCapability := """osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=1.8))""""
   ).enablePlugins(ReleasePlugin, SbtOsgi)
 
 lazy val documentation = project.in(file("documentation"))
