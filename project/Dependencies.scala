@@ -14,9 +14,9 @@ object Version {
   val specs2Scala210  = "3.8.9"
   val specs2          = "4.0.2"
 
-  val scala210       = "2.10.6"
-  val scala211       = "2.11.11"
-  val scala212       = "2.12.3"
+  val scala210       = "2.10.7"
+  val scala211       = "2.11.12"
+  val scala212       = "2.12.6"
   val scala213       = "2.13.0-M3"
 }
 
