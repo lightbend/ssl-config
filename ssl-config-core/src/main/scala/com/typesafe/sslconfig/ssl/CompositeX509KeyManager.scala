@@ -8,7 +8,8 @@ import javax.net.ssl.{ SSLEngine, X509ExtendedKeyManager, X509KeyManager }
 import java.security.{ Principal, PrivateKey }
 import java.security.cert.{ CertificateException, X509Certificate }
 import java.net.Socket
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+
+import com.typesafe.sslconfig.util.LoggerFactory
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -34,11 +35,11 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   def getClientAliases(keyType: String, issuers: Array[Principal]): Array[String] = {
     logger.debug(s"getClientAliases: keyType = $keyType, issuers = ${issuers.toSeq}")
 
-    val clientAliases = new ArrayBuffer[String]
+    val clientAliases = ArrayBuffer[String]()
     withKeyManagers { keyManager =>
       val aliases = keyManager.getClientAliases(keyType, issuers)
       if (aliases != null) {
-        clientAliases.appendAll(aliases)
+        clientAliases ++= aliases
       }
     }
     logger.debug(s"getCertificateChain: clientAliases = $clientAliases")
@@ -97,11 +98,11 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   def getServerAliases(keyType: String, issuers: Array[Principal]): Array[String] = {
     logger.debug(s"getServerAliases: keyType = $keyType, issuers = ${issuers.toSeq}")
 
-    val serverAliases = new ArrayBuffer[String]
+    val serverAliases = ArrayBuffer[String]()
     withKeyManagers { keyManager =>
       val aliases = keyManager.getServerAliases(keyType, issuers)
       if (aliases != null) {
-        serverAliases.appendAll(aliases)
+        serverAliases ++= aliases
       }
     }
     logger.debug(s"getServerAliases: serverAliases = $serverAliases")
@@ -155,7 +156,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
           exceptionList.append(certEx)
       }
     }
-    exceptionList
+    exceptionList.toSeq
   }
 
   private def nullIfEmpty[T](array: Array[T]) = if (array.size == 0) null else array

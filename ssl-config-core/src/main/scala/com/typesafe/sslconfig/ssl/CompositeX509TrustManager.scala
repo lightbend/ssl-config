@@ -7,7 +7,7 @@ package com.typesafe.sslconfig.ssl
 import javax.net.ssl.X509TrustManager
 import java.security.cert._
 
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import com.typesafe.sslconfig.util.LoggerFactory
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.NonFatal
@@ -26,7 +26,7 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
     val certificates = ArrayBuffer[X509Certificate]()
     val exceptionList = withTrustManagers {
       trustManager =>
-        certificates.appendAll(trustManager.getAcceptedIssuers)
+        certificates ++= trustManager.getAcceptedIssuers
     }
     // getAcceptedIssuers should never throw an exception.
     if (!exceptionList.isEmpty) {
@@ -109,7 +109,7 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
             exceptionList.append(e)
         }
     }
-    exceptionList
+    exceptionList.toSeq
   }
 
   override def toString = {

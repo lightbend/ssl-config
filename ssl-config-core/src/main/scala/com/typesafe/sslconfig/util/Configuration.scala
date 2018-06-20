@@ -198,7 +198,7 @@ object ConfigLoader {
   implicit val seqLongLoader = ConfigLoader(_.getLongList).map(toScala)
 
   implicit val configLoader: ConfigLoader[Config] = ConfigLoader(_.getConfig)
-  implicit val seqConfigLoader: ConfigLoader[Seq[Config]] = ConfigLoader(_.getConfigList).map(_.asScala)
+  implicit val seqConfigLoader: ConfigLoader[Seq[Config]] = ConfigLoader(_.getConfigList).map(_.asScala.toSeq)
 
   implicit val playConfigLoader = configLoader.map(new EnrichedConfig(_))
   implicit val seqEnrichedConfigLoader = seqConfigLoader.map(_.map(new EnrichedConfig(_)))
