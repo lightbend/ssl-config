@@ -9,15 +9,15 @@ object Version {
   val akkaActor      = "2.4.20"
   val akkaActor210   = "2.3.16"
 
-  val parserCombinators = "1.1.0"
+  val parserCombinators = "1.1.1"
 
   val specs2Scala210  = "3.8.9"
-  val specs2          = "4.0.2"
+  val specs2          = "4.3.0"
 
   val scala210       = "2.10.7"
   val scala211       = "2.11.12"
   val scala212       = "2.12.6"
-  val scala213       = "2.13.0-M3"
+  val scala213       = "2.13.0-M4"
 }
 
 object Library {
