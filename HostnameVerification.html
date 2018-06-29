@@ -1,130 +1,209 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html class="no-js" lang="en">
 
+<head>
+<title>Hostname Verification · SSL Config</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='documentation'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/page.css"/>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Hostname Verification &mdash; ssl-config documentation</title>
-    
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ssl-config documentation" href="index.html" />
-    <link rel="next" title="Configuring Certificate Validation" href="CertificateValidation.html" />
-    <link rel="prev" title="Configuring Certificate Revocation" href="CertificateRevocation.html" />
-   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+<!--
+<link rel="shortcut icon" href="images/favicon.ico" />
+-->
+</head>
 
-  </head>
-  <body>  
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
-            
-  <div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#hostname-verification" id="id1">Hostname Verification</a><ul>
-<li><a class="reference internal" href="#debugging" id="id2">Debugging</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="hostname-verification">
-<span id="hostnameverification"></span><h1><a class="toc-backref" href="#id1">Hostname Verification</a><a class="headerlink" href="#hostname-verification" title="Permalink to this headline">¶</a></h1>
-<p>Hostname verification is a little known part of HTTPS that involves a
-<a class="reference external" href="https://tools.ietf.org/search/rfc2818#section-3.1">server identity check</a> to ensure
-that the client is talking to the correct server and has not been
-redirected by a man in the middle attack.</p>
-<p>The check involves looking at the certificate sent by the server, and
-verifying that the <tt class="docutils literal"><span class="pre">dnsName</span></tt> in the <tt class="docutils literal"><span class="pre">subjectAltName</span></tt> field of the
-certificate matches the host portion of the URL used to make the
-request.</p>
-<p>WS SSL does hostname verification automatically.</p>
-<div class="section" id="debugging">
-<h2><a class="toc-backref" href="#id2">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
-<p>Hostname Verification can be tested using <tt class="docutils literal"><span class="pre">dnschef</span></tt>. A complete guide
-is out of scope of documentation, but an example can be found in
-<a class="reference external" href="https://tersesystems.com/2014/03/31/testing-hostname-verification/">Testing Hostname
-Verification</a>.</p>
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.4
 </div>
 </div>
-
-
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Hostname Verification</a><ul>
-<li><a class="reference internal" href="#debugging">Debugging</a></li>
-</ul>
-</li>
-</ul>
-<div class="relations">
-<h3>Related Topics</h3>
+<div class="nav-toc">
 <ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="CertificateRevocation.html" title="previous chapter">Configuring Certificate Revocation</a></li>
-      <li>Next: <a href="CertificateValidation.html" title="next chapter">Configuring Certificate Validation</a></li>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="active page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="index.html">SSL Config</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.4
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="active page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="index.html">SSL Config</a></li>
+  <li>Hostname Verification</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#hostname-verification" name="hostname-verification" class="anchor"><span class="anchor-link"></span></a>Hostname Verification</h1>
+<p>Hostname verification is a little known part of HTTPS that involves a <a href="https://tools.ietf.org/search/rfc2818#section-3.1">server identity check</a> to ensure that the client is talking to the correct server and has not been redirected by a man in the middle attack.</p>
+<p>The check involves looking at the certificate sent by the server, and verifying that the <code>dnsName</code> in the <code>subjectAltName</code> field of the certificate matches the host portion of the URL used to make the request.</p>
+<p>WS SSL does hostname verification automatically.</p>
+<h2><a href="#debugging" name="debugging" class="anchor"><span class="anchor-link"></span></a>Debugging</h2>
+<p>Hostname Verification can be tested using <code>dnschef</code>. A complete guide is out of scope of documentation, but an example can be found in <a href="https://tersesystems.com/2014/03/31/testing-hostname-verification/">Testing Hostname Verification</a>.</p>
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="CertificateValidation.html">Configuring Certificate Validation</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="HostnameVerification.html#hostname-verification" class="header">Hostname Verification</a>
+  <ul>
+    <li><a href="HostnameVerification.html#debugging" class="header">Debugging</a></li>
   </ul></li>
 </ul>
 </div>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/HostnameVerification.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2015, Typesafe.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
-      
-      |
-      <a href="_sources/HostnameVerification.txt"
-          rel="nofollow">Page source</a>
-    </div>
+</nav>
+</div>
+</div>
 
-    
+</section>
+</div>
 
-    
-  </body>
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2018</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="js/magellan.js"></script>
+
+<style type="text/css">@import "lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+
 </html>

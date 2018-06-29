@@ -1,80 +1,131 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html class="no-js" lang="en">
 
+<head>
+<title>Configuring Cipher Suites · SSL Config</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='documentation'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/page.css"/>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Configuring Cipher Suites &mdash; ssl-config documentation</title>
-    
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ssl-config documentation" href="index.html" />
-    <link rel="next" title="Configuring Certificate Revocation" href="CertificateRevocation.html" />
-    <link rel="prev" title="Configuring Protocols" href="Protocols.html" />
-   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+<!--
+<link rel="shortcut icon" href="images/favicon.ico" />
+-->
+</head>
 
-  </head>
-  <body>  
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
-            
-  <div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#configuring-cipher-suites" id="id1">Configuring Cipher Suites</a><ul>
-<li><a class="reference internal" href="#configuring-enabled-ciphers" id="id2">Configuring Enabled Ciphers</a></li>
-<li><a class="reference internal" href="#recommendation-increase-the-dhe-key-size" id="id3">Recommendation: increase the DHE key size</a></li>
-<li><a class="reference internal" href="#recommendation-use-ciphers-with-perfect-forward-secrecy" id="id4">Recommendation: Use Ciphers with Perfect Forward Secrecy</a></li>
-<li><a class="reference internal" href="#disabling-weak-ciphers-and-weak-key-sizes-globally" id="id5">Disabling Weak Ciphers and Weak Key Sizes Globally</a></li>
-<li><a class="reference internal" href="#debugging" id="id6">Debugging</a></li>
-</ul>
-</li>
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.4
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="active page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
 </ul>
 </div>
-<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="configuring-cipher-suites">
-<span id="ciphersuites"></span><h1><a class="toc-backref" href="#id1">Configuring Cipher Suites</a><a class="headerlink" href="#configuring-cipher-suites" title="Permalink to this headline">¶</a></h1>
-<p>A <a class="reference external" href="https://en.wikipedia.org/wiki/Cipher_suite">cipher suite</a> is
-really four different ciphers in one, describing the key exchange, bulk
-encryption, message authentication and random number function. There is
-<a class="reference external" href="https://utcc.utoronto.ca/~cks/space/blog/tech/SSLCipherNames">no official naming
-convention</a>
-of cipher suites, but most cipher suites are described in order &#8211; for
-example, &#8220;TLS_DHE_RSA_WITH_AES_256_CBC_SHA&#8221; uses DHE for key
-exchange, RSA for server certificate authentication, 256-bit key AES in
-CBC mode for the stream cipher, and SHA for the message authentication.</p>
-<div class="section" id="configuring-enabled-ciphers">
-<h2><a class="toc-backref" href="#id2">Configuring Enabled Ciphers</a><a class="headerlink" href="#configuring-enabled-ciphers" title="Permalink to this headline">¶</a></h2>
-<p>The list of cipher suites has changed considerably between 1.6, 1.7 and
-1.8.</p>
-<p>In 1.7 and 1.8, the default <a class="reference external" href="http://sim.ivi.co/2011/07/jsse-oracle-provider-preference-of-tls.html">out of the
-box</a>
-cipher suite list is used.</p>
-<p>In 1.6, the out of the box list is <a class="reference external" href="http://op-co.de/blog/posts/android_ssl_downgrade/">out of
-order</a>, with some
-weaker cipher suites configured in front of stronger ones, and contains
-a number of ciphers that are now considered weak. As such, the default
-list of enabled cipher suites is as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre>&quot;TLS_DHE_RSA_WITH_AES_256_CBC_SHA&quot;,
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="index.html">SSL Config</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.4
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="active page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="index.html">SSL Config</a></li>
+  <li>Configuring Cipher Suites</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#configuring-cipher-suites" name="configuring-cipher-suites" class="anchor"><span class="anchor-link"></span></a>Configuring Cipher Suites</h1>
+<p>A <a href="https://en.wikipedia.org/wiki/Cipher_suite">cipher suite</a> is really four different ciphers in one, describing the key exchange, bulk encryption, message authentication and random number function. There is <a href="https://utcc.utoronto.ca/~cks/space/blog/tech/SSLCipherNames">no official naming convention</a> of cipher suites, but most cipher suites are described in order &ndash; for example, &ldquo;TLS_DHE_RSA_WITH_AES_256_CBC_SHA&rdquo; uses DHE for key exchange, RSA for server certificate authentication, 256-bit key AES in CBC mode for the stream cipher, and SHA for the message authentication.</p>
+<h2><a href="#configuring-enabled-ciphers" name="configuring-enabled-ciphers" class="anchor"><span class="anchor-link"></span></a>Configuring Enabled Ciphers</h2>
+<p>The list of cipher suites has changed considerably between 1.6, 1.7 and 1.8.</p>
+<p>In 1.7 and 1.8, the default <a href="http://sim.ivi.co/2011/07/jsse-oracle-provider-preference-of-tls.html">out of the box</a> cipher suite list is used.</p>
+<p>In 1.6, the out of the box list is <a href="http://op-co.de/blog/posts/android_ssl_downgrade/">out of order</a>, with some weaker cipher suites configured in front of stronger ones, and contains a number of ciphers that are now considered weak. As such, the default list of enabled cipher suites is as follows:</p>
+<pre><code>&quot;TLS_DHE_RSA_WITH_AES_256_CBC_SHA&quot;,
 &quot;TLS_DHE_RSA_WITH_AES_128_CBC_SHA&quot;,
 &quot;TLS_DHE_DSS_WITH_AES_128_CBC_SHA&quot;,
 &quot;TLS_RSA_WITH_AES_256_CBC_SHA&quot;,
@@ -82,153 +133,130 @@ list of enabled cipher suites is as follows:</p>
 &quot;SSL_RSA_WITH_RC4_128_SHA&quot;,
 &quot;SSL_RSA_WITH_RC4_128_MD5&quot;,
 &quot;TLS_EMPTY_RENEGOTIATION_INFO_SCSV&quot; // per RFC 5746
-</pre></div>
-</div>
-<p>The list of cipher suites can be configured manually using the
-<tt class="docutils literal"><span class="pre">ssl-config.ssl.enabledCipherSuites</span></tt> setting:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">enabledCipherSuites</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s">&quot;TLS_DHE_RSA_WITH_AES_128_GCM_SHA256&quot;</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-<p>This can be useful to enable perfect forward security, for example, as
-only DHE and ECDHE cipher suites enable PFE.</p>
-</div>
-<div class="section" id="recommendation-increase-the-dhe-key-size">
-<h2><a class="toc-backref" href="#id3">Recommendation: increase the DHE key size</a><a class="headerlink" href="#recommendation-increase-the-dhe-key-size" title="Permalink to this headline">¶</a></h2>
-<p>Diffie Hellman has been in the news recently because it offers perfect
-forward secrecy. However, in 1.6 and 1.7, the server handshake of DHE is
-set to 1024 at most, which is considered weak and can be compromised by
-attackers.</p>
-<p>If you have JDK 1.8, setting the system property
-<tt class="docutils literal"><span class="pre">-Djdk.tls.ephemeralDHKeySize=2048</span></tt> is recommended to ensure stronger
-keysize in the handshake. Please see <a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#customizing_dh_keys">Customizing Size of Ephemeral
-Diffie-Hellman
-Keys</a>.</p>
-</div>
-<div class="section" id="recommendation-use-ciphers-with-perfect-forward-secrecy">
-<h2><a class="toc-backref" href="#id4">Recommendation: Use Ciphers with Perfect Forward Secrecy</a><a class="headerlink" href="#recommendation-use-ciphers-with-perfect-forward-secrecy" title="Permalink to this headline">¶</a></h2>
-<p>As per the <a class="reference external" href="https://datatracker.ietf.org/doc/draft-ietf-uta-tls-bcp/">Recommendations for Secure Use of TLS and
-DTLS</a>, the
-following cipher suites are recommended:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">enabledCipherSuites</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s">&quot;TLS_DHE_RSA_WITH_AES_128_GCM_SHA256&quot;</span><span class="p">,</span>
-  <span class="s">&quot;TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256&quot;</span><span class="p">,</span>
-  <span class="s">&quot;TLS_DHE_RSA_WITH_AES_256_GCM_SHA384&quot;</span><span class="p">,</span>
-  <span class="s">&quot;TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384&quot;</span><span class="p">,</span>
-<span class="p">]</span>
-</pre></div>
-</div>
+</code></pre>
+<p>The list of cipher suites can be configured manually using the <code>ssl-config.enabledCipherSuites</code> setting:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.enabledCipherSuites = [
+  &quot;TLS_DHE_RSA_WITH_AES_128_GCM_SHA256&quot;
+]
+</code></pre>
+<p>This can be useful to enable perfect forward security, for example, as only DHE and ECDHE cipher suites enable PFE.</p>
+<h2><a href="#recommendation-increase-the-dhe-key-size" name="recommendation-increase-the-dhe-key-size" class="anchor"><span class="anchor-link"></span></a>Recommendation: increase the DHE key size</h2>
+<p>Diffie Hellman has been in the news recently because it offers perfect forward secrecy. However, in 1.6 and 1.7, the server handshake of DHE is set to 1024 at most, which is considered weak and can be compromised by attackers.</p>
+<p>If you have JDK 1.8, setting the system property <code>-Djdk.tls.ephemeralDHKeySize=2048</code> is recommended to ensure stronger keysize in the handshake. Please see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#customizing_dh_keys">Customizing Size of Ephemeral Diffie-Hellman Keys</a>.</p>
+<h2><a href="#recommendation-use-ciphers-with-perfect-forward-secrecy" name="recommendation-use-ciphers-with-perfect-forward-secrecy" class="anchor"><span class="anchor-link"></span></a>Recommendation: Use Ciphers with Perfect Forward Secrecy</h2>
+<p>As per the <a href="https://datatracker.ietf.org/doc/draft-ietf-uta-tls-bcp/">Recommendations for Secure Use of TLS and DTLS</a>, the following cipher suites are recommended:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config.enabledCipherSuites = [
+  &quot;TLS_DHE_RSA_WITH_AES_128_GCM_SHA256&quot;,
+  &quot;TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256&quot;,
+  &quot;TLS_DHE_RSA_WITH_AES_256_GCM_SHA384&quot;,
+  &quot;TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384&quot;,
+]
+</code></pre>
 <p>Some of these ciphers are only available in JDK 1.8.</p>
-</div>
-<div class="section" id="disabling-weak-ciphers-and-weak-key-sizes-globally">
-<h2><a class="toc-backref" href="#id5">Disabling Weak Ciphers and Weak Key Sizes Globally</a><a class="headerlink" href="#disabling-weak-ciphers-and-weak-key-sizes-globally" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">jdk.tls.disabledAlgorithms</span></tt> can be used to prevent weak ciphers,
-and can also be used to prevent <a class="reference external" href="http://sim.ivi.co/2011/07/java-se-7-release-security-enhancements.html">small key
-sizes</a>
-from being used in a handshake. This is a <a class="reference external" href="http://sim.ivi.co/2013/11/harness-ssl-and-jsse-key-size-control.html">useful
-feature</a>
-that is only available in Oracle JDK 1.7 and later.</p>
-<p>The official documentation for disabled algorithms is in the <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#DisabledAlgorithms">JSSE
-Reference
-Guide</a>.</p>
-<p>For TLS, the code will match the first part of the cipher suite after
-the protocol, i.e. TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 has
-ECDHE as the relevant cipher. The parameter names to use for the
-disabled algorithms are not obvious, but are listed in the <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html">Providers
-documentation</a>
-and can be seen in the <a class="reference external" href="http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8-b132/sun/security/ssl/SSLAlgorithmConstraints.java/#271">source
-code</a>.</p>
-<p>To enable <tt class="docutils literal"><span class="pre">jdk.tls.disabledAlgorithms</span></tt> or
-<tt class="docutils literal"><span class="pre">jdk.certpath.disabledAlgorithms</span></tt> (which looks at signature algorithms
-and weak keys in X.509 certificates) you must create a properties file:</p>
-<div class="highlight-python"><div class="highlight"><pre># disabledAlgorithms.properties
+<h2><a href="#disabling-weak-ciphers-and-weak-key-sizes-globally" name="disabling-weak-ciphers-and-weak-key-sizes-globally" class="anchor"><span class="anchor-link"></span></a>Disabling Weak Ciphers and Weak Key Sizes Globally</h2>
+<p>The <code>jdk.tls.disabledAlgorithms</code> can be used to prevent weak ciphers, and can also be used to prevent <a href="http://sim.ivi.co/2011/07/java-se-7-release-security-enhancements.html">small key sizes</a> from being used in a handshake. This is a <a href="http://sim.ivi.co/2013/11/harness-ssl-and-jsse-key-size-control.html">useful feature</a> that is only available in Oracle JDK 1.7 and later.</p>
+<p>The official documentation for disabled algorithms is in the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#DisabledAlgorithms">JSSE Reference Guide</a>.</p>
+<p>For TLS, the code will match the first part of the cipher suite after the protocol, i.e. TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 has ECDHE as the relevant cipher. The parameter names to use for the disabled algorithms are not obvious, but are listed in the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html">Providers documentation</a> and can be seen in the <a href="http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8-b132/sun/security/ssl/SSLAlgorithmConstraints.java/#271">source code</a>.</p>
+<p>To enable <code>jdk.tls.disabledAlgorithms</code> or <code>jdk.certpath.disabledAlgorithms</code> (which looks at signature algorithms and weak keys in X.509 certificates) you must create a properties file:</p>
+<pre class="prettyprint"><code class="language-properties"># disabledAlgorithms.properties
 jdk.tls.disabledAlgorithms=EC keySize &lt; 160, RSA keySize &lt; 2048, DSA keySize &lt; 2048
 jdk.certpath.disabledAlgorithms=MD2, MD4, MD5, EC keySize &lt; 160, RSA keySize &lt; 2048, DSA keySize &lt; 2048
-</pre></div>
-</div>
-<p>And then start up the JVM with
-<a class="reference external" href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=7133344">java.security.properties</a>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">java</span> <span class="o">-</span><span class="n">Djava</span><span class="o">.</span><span class="n">security</span><span class="o">.</span><span class="n">properties</span><span class="o">=</span><span class="n">disabledAlgorithms</span><span class="o">.</span><span class="n">properties</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="debugging">
-<h2><a class="toc-backref" href="#id6">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+</code></pre>
+<p>And then start up the JVM with <a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=7133344">java.security.properties</a>:</p>
+<pre><code>java -Djava.security.properties=disabledAlgorithms.properties
+</code></pre>
+<h2><a href="#debugging" name="debugging" class="anchor"><span class="anchor-link"></span></a>Debugging</h2>
 <p>To debug ciphers and weak keys, turn on the following debug settings:</p>
-<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl.debug = {
- ssl = true
- handshake = true
- verbose = true
- data = true
+<pre class="prettyprint"><code class="language-conf">ssl-config.debug = {
+  ssl = true
+  handshake = true
+  verbose = true
+  data = true
 }
-</pre></div>
+</code></pre>
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="CertificateRevocation.html">Configuring Certificate Revocation</a></p>
 </div>
 </div>
-</div>
-
-
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Configuring Cipher Suites</a><ul>
-<li><a class="reference internal" href="#configuring-enabled-ciphers">Configuring Enabled Ciphers</a></li>
-<li><a class="reference internal" href="#recommendation-increase-the-dhe-key-size">Recommendation: increase the DHE key size</a></li>
-<li><a class="reference internal" href="#recommendation-use-ciphers-with-perfect-forward-secrecy">Recommendation: Use Ciphers with Perfect Forward Secrecy</a></li>
-<li><a class="reference internal" href="#disabling-weak-ciphers-and-weak-key-sizes-globally">Disabling Weak Ciphers and Weak Key Sizes Globally</a></li>
-<li><a class="reference internal" href="#debugging">Debugging</a></li>
-</ul>
-</li>
-</ul>
-<div class="relations">
-<h3>Related Topics</h3>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
 <ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="Protocols.html" title="previous chapter">Configuring Protocols</a></li>
-      <li>Next: <a href="CertificateRevocation.html" title="next chapter">Configuring Certificate Revocation</a></li>
+  <li><a href="CipherSuites.html#configuring-cipher-suites" class="header">Configuring Cipher Suites</a>
+  <ul>
+    <li><a href="CipherSuites.html#configuring-enabled-ciphers" class="header">Configuring Enabled Ciphers</a></li>
+    <li><a href="CipherSuites.html#recommendation-increase-the-dhe-key-size" class="header">Recommendation: increase the DHE key size</a></li>
+    <li><a href="CipherSuites.html#recommendation-use-ciphers-with-perfect-forward-secrecy" class="header">Recommendation: Use Ciphers with Perfect Forward Secrecy</a></li>
+    <li><a href="CipherSuites.html#disabling-weak-ciphers-and-weak-key-sizes-globally" class="header">Disabling Weak Ciphers and Weak Key Sizes Globally</a></li>
+    <li><a href="CipherSuites.html#debugging" class="header">Debugging</a></li>
   </ul></li>
 </ul>
 </div>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/CipherSuites.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2015, Typesafe.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
-      
-      |
-      <a href="_sources/CipherSuites.txt"
-          rel="nofollow">Page source</a>
-    </div>
+</nav>
+</div>
+</div>
 
-    
+</section>
+</div>
 
-    
-  </body>
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2018</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="js/magellan.js"></script>
+
+<style type="text/css">@import "lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+
 </html>

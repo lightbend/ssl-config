@@ -1,121 +1,143 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html class="no-js" lang="en">
 
+<head>
+<title>Generating X.509 Certificates · SSL Config</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='documentation'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/page.css"/>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Generating X.509 Certificates &mdash; ssl-config documentation</title>
-    
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ssl-config documentation" href="index.html" />
-    <link rel="next" title="Configuring Trust Stores and Key Stores" href="KeyStores.html" />
-    <link rel="prev" title="Quick Start to WS SSL" href="WSQuickStart.html" />
-   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+<!--
+<link rel="shortcut icon" href="images/favicon.ico" />
+-->
+</head>
 
-  </head>
-  <body>  
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
-            
-  <div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#generating-x-509-certificates" id="id1">Generating X.509 Certificates</a><ul>
-<li><a class="reference internal" href="#x-509-certificates" id="id2">X.509 Certificates</a></li>
-<li><a class="reference internal" href="#using-keytool" id="id3">Using Keytool</a></li>
-<li><a class="reference internal" href="#generating-a-random-password" id="id4">Generating a random password</a></li>
-<li><a class="reference internal" href="#server-configuration" id="id5">Server Configuration</a><ul>
-<li><a class="reference internal" href="#generating-a-server-ca" id="id6">Generating a server CA</a></li>
-<li><a class="reference internal" href="#generating-example-com-certificates" id="id7">Generating example.com certificates</a></li>
-<li><a class="reference internal" href="#configuring-example-com-certificates-in-nginx" id="id8">Configuring example.com certificates in Nginx</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#client-configuration" id="id9">Client Configuration</a><ul>
-<li><a class="reference internal" href="#configuring-a-trust-store" id="id10">Configuring a Trust Store</a></li>
-<li><a class="reference internal" href="#configure-client-authentication" id="id11">Configure Client Authentication</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#certificate-management-tools" id="id12">Certificate Management Tools</a></li>
-<li><a class="reference internal" href="#certificate-settings" id="id13">Certificate Settings</a><ul>
-<li><a class="reference internal" href="#secure" id="id14">Secure</a></li>
-<li><a class="reference internal" href="#compatible" id="id15">Compatible</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#further-reading" id="id16">Further Reading</a></li>
-</ul>
-</li>
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.4
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="active page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
 </ul>
 </div>
-<!--- Copyright (C) 2009-2015 Typesafe Inc. <http://www.typesafe.com> --><div class="section" id="generating-x-509-certificates">
-<span id="certificategeneration"></span><h1><a class="toc-backref" href="#id1">Generating X.509 Certificates</a><a class="headerlink" href="#generating-x-509-certificates" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="x-509-certificates">
-<h2><a class="toc-backref" href="#id2">X.509 Certificates</a><a class="headerlink" href="#x-509-certificates" title="Permalink to this headline">¶</a></h2>
-<p>Public key certificates are a solution to the problem of identity.
-Encryption alone is enough to set up a secure connection, but there&#8217;s no
-guarantee that you are talking to the server that you think you are
-talking to. Without some means to verify the identity of a remote
-server, an attacker could still present itself as the remote server and
-then forward the secure connection onto the remote server. Public key
-certificates solve this problem.</p>
-<p>The best way to think about public key certificates is as a passport
-system. Certificates are used to establish information about the bearer
-of that information in a way that is difficult to forge. This is why
-certificate verification is so important: accepting <strong>any</strong> certificate
-means that even an attacker&#8217;s certificate will be blindly accepted.</p>
+
+</nav>
 </div>
-<div class="section" id="using-keytool">
-<h2><a class="toc-backref" href="#id3">Using Keytool</a><a class="headerlink" href="#using-keytool" title="Permalink to this headline">¶</a></h2>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="index.html">SSL Config</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="index.html" >
+<span class="home-icon">⌂</span>SSL Config
+</a>
+<div class="version-number">
+0.2.4
+</div>
+</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="WSQuickStart.html" class="page">Quick Start to WS SSL</a></li>
+  <li><a href="CertificateGeneration.html" class="active page">Generating X.509 Certificates</a></li>
+  <li><a href="KeyStores.html" class="page">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="Protocols.html" class="page">Configuring Protocols</a></li>
+  <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a></li>
+  <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a></li>
+  <li><a href="HostnameVerification.html" class="page">Hostname Verification</a></li>
+  <li><a href="CertificateValidation.html" class="page">Configuring Certificate Validation</a></li>
+  <li><a href="ExampleSSLConfig.html" class="page">Example Configurations</a></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
+  <li><a href="LooseSSL.html" class="page">Loose Options</a></li>
+  <li><a href="TestingSSL.html" class="page">Testing SSL</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="index.html">SSL Config</a></li>
+  <li>Generating X.509 Certificates</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#generating-x-509-certificates" name="generating-x-509-certificates" class="anchor"><span class="anchor-link"></span></a>Generating X.509 Certificates</h1>
+<h2><a href="#x-509-certificates" name="x-509-certificates" class="anchor"><span class="anchor-link"></span></a>X.509 Certificates</h2>
+<p>Public key certificates are a solution to the problem of identity. Encryption alone is enough to set up a secure connection, but there&rsquo;s no guarantee that you are talking to the server that you think you are talking to. Without some means to verify the identity of a remote server, an attacker could still present itself as the remote server and then forward the secure connection onto the remote server. Public key certificates solve this problem.</p>
+<p>The best way to think about public key certificates is as a passport system. Certificates are used to establish information about the bearer of that information in a way that is difficult to forge. This is why certificate verification is so important: accepting <strong>any</strong> certificate means that even an attacker&rsquo;s certificate will be blindly accepted.</p>
+<h2><a href="#using-keytool" name="using-keytool" class="anchor"><span class="anchor-link"></span></a>Using Keytool</h2>
 <p>Use the keytool version that comes with JDK 8:</p>
-<ul class="simple">
-<li><a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html">1.8</a></li>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html">1.8</a></li>
 </ul>
-<p>The examples below use keytool 1.8 for marking a certificate for CA
-usage or for a hostname.</p>
-</div>
-<div class="section" id="generating-a-random-password">
-<h2><a class="toc-backref" href="#id4">Generating a random password</a><a class="headerlink" href="#generating-a-random-password" title="Permalink to this headline">¶</a></h2>
-<p>Create a random password using pwgen (<tt class="docutils literal"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">pwgen</span></tt> if you&#8217;re
-on a Mac):</p>
-<div class="highlight-python"><div class="highlight"><pre>export PW=`pwgen -Bs 10 1`
-echo $PW &gt; password
-</pre></div>
-</div>
-</div>
-<div class="section" id="server-configuration">
-<h2><a class="toc-backref" href="#id5">Server Configuration</a><a class="headerlink" href="#server-configuration" title="Permalink to this headline">¶</a></h2>
-<p>You will need a server with a DNS hostname assigned, for hostname
-verification. In this example, we assume the hostname is
-<tt class="docutils literal"><span class="pre">example.com</span></tt>.</p>
-<div class="section" id="generating-a-server-ca">
-<h3><a class="toc-backref" href="#id6">Generating a server CA</a><a class="headerlink" href="#generating-a-server-ca" title="Permalink to this headline">¶</a></h3>
-<p>The first step is to create a certificate authority that will sign the
-example.com certificate. The root CA certificate has a couple of
-additional attributes (ca:true, keyCertSign) that mark it explicitly as
-a CA certificate, and will be kept in a trust store.</p>
-<div class="highlight-python"><div class="highlight"><pre>#!/bin/bash
-
-export PW=`cat password`
+<p>The examples below use keytool 1.8 for marking a certificate for CA usage or for a hostname.</p>
+<h2><a href="#generating-a-random-password" name="generating-a-random-password" class="anchor"><span class="anchor-link"></span></a>Generating a random password</h2>
+<p>Create a random password using pwgen (<code>brew install pwgen</code> if you&rsquo;re on a Mac):</p>
+<pre class="prettyprint"><code class="language-sh">export PW=`pwgen -Bs 10 1`
+echo $PW &gt; password</code></pre>
+<h2><a href="#server-configuration" name="server-configuration" class="anchor"><span class="anchor-link"></span></a>Server Configuration</h2>
+<p>You will need a server with a DNS hostname assigned, for hostname verification. In this example, we assume the hostname is <code>example.com</code>.</p>
+<h3><a href="#generating-a-server-ca" name="generating-a-server-ca" class="anchor"><span class="anchor-link"></span></a>Generating a server CA</h3>
+<p>The first step is to create a certificate authority that will sign the example.com certificate. The root CA certificate has a couple of additional attributes (ca:true, keyCertSign) that mark it explicitly as a CA certificate, and will be kept in a trust store.</p>
+<pre class="prettyprint"><code class="language-sh">export PW=`cat password`
 
 # Create a self signed key pair root CA certificate.
 keytool -genkeypair -v \
@@ -137,17 +159,10 @@ keytool -export -v \
   -keypass:env PW \
   -storepass:env PW \
   -keystore exampleca.jks \
-  -rfc
-</pre></div>
-</div>
-</div>
-<div class="section" id="generating-example-com-certificates">
-<h3><a class="toc-backref" href="#id7">Generating example.com certificates</a><a class="headerlink" href="#generating-example-com-certificates" title="Permalink to this headline">¶</a></h3>
-<p>The example.com certificate is presented by the <tt class="docutils literal"><span class="pre">example.com</span></tt> server
-in the handshake.</p>
-<div class="highlight-python"><div class="highlight"><pre>#!/bin/bash
-
-export PW=`cat password`
+  -rfc</code></pre>
+<h3><a href="#generating-example-com-certificates" name="generating-example-com-certificates" class="anchor"><span class="anchor-link"></span></a>Generating example.com certificates</h3>
+<p>The example.com certificate is presented by the <code>example.com</code> server in the handshake.</p>
+<pre class="prettyprint"><code class="language-sh">export PW=`cat password`
 
 # Create a server certificate, tied to example.com
 keytool -genkeypair -v \
@@ -205,29 +220,20 @@ keytool -import -v \
 # If you are using Play as a TLS termination point, this is the key store you should present as the server.
 keytool -list -v \
   -keystore example.com.jks \
-  -storepass:env PW
-</pre></div>
-</div>
+  -storepass:env PW</code></pre>
 <p>You should see:</p>
-<div class="highlight-python"><div class="highlight"><pre>Alias name: example.com
+<pre><code>Alias name: example.com
 Creation date: ...
 Entry type: PrivateKeyEntry
 Certificate chain length: 2
 Certificate[1]:
 Owner: CN=example.com, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
 Issuer: CN=exampleCA, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
-</pre></div>
-</div>
-</div>
-<div class="section" id="configuring-example-com-certificates-in-nginx">
-<h3><a class="toc-backref" href="#id8">Configuring example.com certificates in Nginx</a><a class="headerlink" href="#configuring-example-com-certificates-in-nginx" title="Permalink to this headline">¶</a></h3>
-<p>If example.com does not use Java as a TLS termination point, and you are
-using nginx, you may need to export the certificates in PEM format.</p>
-<p>Unfortunately, keytool does not export private key information, so
-openssl must be installed to pull private keys.</p>
-<div class="highlight-python"><div class="highlight"><pre>#!/bin/bash
-
-export PW=`cat password`
+</code></pre>
+<h3><a href="#configuring-example-com-certificates-in-nginx" name="configuring-example-com-certificates-in-nginx" class="anchor"><span class="anchor-link"></span></a>Configuring example.com certificates in Nginx</h3>
+<p>If example.com does not use Java as a TLS termination point, and you are using nginx, you may need to export the certificates in PEM format.</p>
+<p>Unfortunately, keytool does not export private key information, so openssl must be installed to pull private keys.</p>
+<pre class="prettyprint"><code class="language-sh">export PW=`cat password`
 
 # Export example.com&#39;s public certificate for use with nginx.
 keytool -export -v \
@@ -259,44 +265,24 @@ openssl pkcs12 \
   -out example.com.key
 
 # Clean up.
-rm example.com.p12
-# #context
-</pre></div>
-</div>
-<p>Now that you have both <tt class="docutils literal"><span class="pre">example.com.crt</span></tt> (the public key certificate)
-and <tt class="docutils literal"><span class="pre">example.com.key</span></tt> (the private key), you can set up an HTTPS
-server.</p>
-<p>For example, to use the keys in nginx, you would set the following in
-<tt class="docutils literal"><span class="pre">nginx.conf</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">ssl_certificate</span>      <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">certs</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">crt</span><span class="p">;</span>
-<span class="n">ssl_certificate_key</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">certs</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">key</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>If you are using client authentication (covered in <strong>Client
-Configuration</strong> below), you will also need to add:</p>
-<div class="highlight-python"><div class="highlight"><pre>ssl_client_certificate /etc/nginx/certs/clientca.crt;
+rm example.com.p12</code></pre>
+<p>Now that you have both <code>example.com.crt</code> (the public key certificate) and <code>example.com.key</code> (the private key), you can set up an HTTPS server.</p>
+<p>For example, to use the keys in nginx, you would set the following in <code>nginx.conf</code>:</p>
+<pre><code>ssl_certificate      /etc/nginx/certs/example.com.crt;
+ssl_certificate_key  /etc/nginx/certs/example.com.key;
+</code></pre>
+<p>If you are using client authentication (covered in <strong>Client Configuration</strong> below), you will also need to add:</p>
+<pre><code>ssl_client_certificate /etc/nginx/certs/clientca.crt;
 ssl_verify_client on;
-</pre></div>
-</div>
+</code></pre>
 <p>You can check the certificate is what you expect by checking the server:</p>
-<div class="highlight-python"><div class="highlight"><pre>keytool -printcert -sslserver example.com
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="client-configuration">
-<h2><a class="toc-backref" href="#id9">Client Configuration</a><a class="headerlink" href="#client-configuration" title="Permalink to this headline">¶</a></h2>
-<p>There are two parts to setting up a client &#8211; configuring a trust store,
-and configuring client authentication.</p>
-<div class="section" id="configuring-a-trust-store">
-<h3><a class="toc-backref" href="#id10">Configuring a Trust Store</a><a class="headerlink" href="#configuring-a-trust-store" title="Permalink to this headline">¶</a></h3>
-<p>Any clients need to see that the server&#8217;s example.com certificate is
-trusted, but don&#8217;t need to see the private key. Generate a trust store
-which contains only the certificate and hand that out to clients. Many
-java clients prefer to have the trust store in JKS format.</p>
-<div class="highlight-python"><div class="highlight"><pre>#!/bin/bash
-
-export PW=`cat password`
+<pre><code>keytool -printcert -sslserver example.com
+</code></pre>
+<h2><a href="#client-configuration" name="client-configuration" class="anchor"><span class="anchor-link"></span></a>Client Configuration</h2>
+<p>There are two parts to setting up a client &ndash; configuring a trust store, and configuring client authentication.</p>
+<h3><a href="#configuring-a-trust-store" name="configuring-a-trust-store" class="anchor"><span class="anchor-link"></span></a>Configuring a Trust Store</h3>
+<p>Any clients need to see that the server&rsquo;s example.com certificate is trusted, but don&rsquo;t need to see the private key. Generate a trust store which contains only the certificate and hand that out to clients. Many java clients prefer to have the trust store in JKS format.</p>
+<pre class="prettyprint"><code class="language-sh">export PW=`cat password`
 
 # Create a JKS keystore that trusts the example CA, with the default password.
 keytool -import -v \
@@ -311,56 +297,35 @@ EOF
 # List out the details of the store password.
 keytool -list -v \
   -keystore exampletrust.jks \
-  -storepass changeit
-
-# #context
-</pre></div>
-</div>
-<p>You should see a <tt class="docutils literal"><span class="pre">trustedCertEntry</span></tt> for exampleca:</p>
-<div class="highlight-python"><div class="highlight"><pre>Alias name: exampleca
+  -storepass changeit</code></pre>
+<p>You should see a <code>trustedCertEntry</code> for exampleca:</p>
+<pre><code>Alias name: exampleca
 Creation date: ...
 Entry type: trustedCertEntry
 
 Owner: CN=exampleCA, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
 Issuer: CN=exampleCA, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
-</pre></div>
-</div>
-<p>The <tt class="docutils literal"><span class="pre">exampletrust.jks</span></tt> store will be used in the TrustManager.</p>
-<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl {
+</code></pre>
+<p>The <code>exampletrust.jks</code> store will be used in the TrustManager.</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config {
   trustManager = {
     stores = [
       { path = &quot;/Users/wsargent/work/ssltest/conf/exampletrust.jks&quot; }
     ]
   }
 }
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Also see the <a class="reference internal" href="KeyStores.html#keystores"><em>Configuring Key Stores and Trust Stores</em></a> section for more information.</p>
-</div>
-</div>
-<div class="section" id="configure-client-authentication">
-<h3><a class="toc-backref" href="#id11">Configure Client Authentication</a><a class="headerlink" href="#configure-client-authentication" title="Permalink to this headline">¶</a></h3>
-<p>Client authentication can be obscure and poorly documented, but it
-relies on the following steps:</p>
-<ol class="arabic simple">
-<li>The server asks for a client certificate, presenting a CA that it
-expects a client certificate to be signed with. In this case,
-<tt class="docutils literal"><span class="pre">CN=clientCA</span></tt> (see the <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/ReadDebug.html">debug
-example</a>).</li>
-<li>The client looks in the KeyManager for a certificate which is signed
-by <tt class="docutils literal"><span class="pre">clientCA</span></tt>, using <tt class="docutils literal"><span class="pre">chooseClientAlias</span></tt> and
-<tt class="docutils literal"><span class="pre">certRequest.getAuthorities</span></tt>.</li>
-<li>The KeyManager will return the <tt class="docutils literal"><span class="pre">client</span></tt> certificate to the server.</li>
-<li>The server will do an additional ClientKeyExchange in the handshake.</li>
+</code></pre><div class="callout note "><div class="callout-title">Note</div>
+<p>Also see the <a href="KeyStores.html">Configuring Key Stores and Trust Stores</a> section for more information.</p></div>
+<h3><a href="#configure-client-authentication" name="configure-client-authentication" class="anchor"><span class="anchor-link"></span></a>Configure Client Authentication</h3>
+<p>Client authentication can be obscure and poorly documented, but it relies on the following steps:</p>
+<ol>
+  <li>The server asks for a client certificate, presenting a CA that it expects a client certificate to be signed with. In this case, <code>CN=clientCA</code> (see the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/ReadDebug.html">debug example</a>).</li>
+  <li>The client looks in the KeyManager for a certificate which is signed by <code>clientCA</code>, using <code>chooseClientAlias</code> and <code>certRequest.getAuthorities</code>.</li>
+  <li>The KeyManager will return the <code>client</code> certificate to the server.</li>
+  <li>The server will do an additional ClientKeyExchange in the handshake.</li>
 </ol>
-<p>The steps to create a client CA and a signed client certificate are
-broadly similiar to the server certificate generation, but for
-convenience are presented in a single script:</p>
-<div class="highlight-python"><div class="highlight"><pre>#!/bin/bash
-
-export PW=`cat password`
+<p>The steps to create a client CA and a signed client certificate are broadly similiar to the server certificate generation, but for convenience are presented in a single script:</p>
+<pre class="prettyprint"><code class="language-sh">export PW=`cat password`
 
 # Create a self signed certificate &amp; private key to create a root certificate authority.
 keytool -genkeypair -v \
@@ -450,11 +415,9 @@ keytool -delete -v \
 # List out the contents of client.jks just to confirm it.
 keytool -list -v \
   -keystore client.jks \
-  -storepass:env PW
-</pre></div>
-</div>
-<p>There should be one alias <tt class="docutils literal"><span class="pre">client</span></tt>, looking like the following:</p>
-<div class="highlight-python"><div class="highlight"><pre>Your keystore contains 1 entry
+  -storepass:env PW</code></pre>
+<p>There should be one alias <code>client</code>, looking like the following:</p>
+<pre><code>Your keystore contains 1 entry
 
 Alias name: client
 Creation date: ...
@@ -463,144 +426,117 @@ Certificate chain length: 2
 Certificate[1]:
 Owner: CN=client, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
 Issuer: CN=clientCA, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US
-</pre></div>
-</div>
-<p>And put <tt class="docutils literal"><span class="pre">client.jks</span></tt> in the key manager:</p>
-<div class="highlight-python"><div class="highlight"><pre>ssl-config.ssl {
+</code></pre>
+<p>And put <code>client.jks</code> in the key manager:</p>
+<pre class="prettyprint"><code class="language-conf">ssl-config {
   keyManager = {
     stores = [
       { type = &quot;JKS&quot;, path = &quot;conf/client.jks&quot;, password = $PW }
     ]
   }
 }
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Also see the <a class="reference internal" href="KeyStores.html#keystores"><em>Configuring Key Stores and Trust Stores</em></a> section for more information.</p>
-</div>
-</div>
-</div>
-<div class="section" id="certificate-management-tools">
-<h2><a class="toc-backref" href="#id12">Certificate Management Tools</a><a class="headerlink" href="#certificate-management-tools" title="Permalink to this headline">¶</a></h2>
-<p>If you want to examine certificates in a graphical tool than a command
-line tool, you can use <a class="reference external" href="http://keystore-explorer.sourceforge.net/">Keystore
-Explorer</a> or
-<a class="reference external" href="http://sourceforge.net/projects/xca/">xca</a>. <a class="reference external" href="http://keystore-explorer.sourceforge.net/">Keystore
-Explorer</a> is especially
-convenient as it recognizes JKS format. It works better as a manual
-installation, and requires some tweaking to the export policy.</p>
-<p>If you want to use a command line tool with more flexibility than
-keytool, try <a class="reference external" href="https://code.google.com/p/java-keyutil/">java-keyutil</a>,
-which understands multi-part PEM formatted certificates and JKS.</p>
-</div>
-<div class="section" id="certificate-settings">
-<h2><a class="toc-backref" href="#id13">Certificate Settings</a><a class="headerlink" href="#certificate-settings" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="secure">
-<h3><a class="toc-backref" href="#id14">Secure</a><a class="headerlink" href="#secure" title="Permalink to this headline">¶</a></h3>
-<p>If you want the best security, consider using
-<a class="reference external" href="https://blog.cloudflare.com/ecdsa-the-digital-signature-algorithm-of-a-better-internet">ECDSA</a>
-as the signature algorithm (in keytool, this would be <tt class="docutils literal"><span class="pre">-sigalg</span> <span class="pre">EC</span></tt>).
-ECDSA is also known as &#8220;ECC SSL Certificate&#8221;.</p>
-</div>
-<div class="section" id="compatible">
-<h3><a class="toc-backref" href="#id15">Compatible</a><a class="headerlink" href="#compatible" title="Permalink to this headline">¶</a></h3>
-<p>For compatibility with older systems, use RSA with 2048 bit keys and
-SHA256 as the signature algorithm. If you are creating your own CA
-certificate, use 4096 bits for the root.</p>
-</div>
-</div>
-<div class="section" id="further-reading">
-<h2><a class="toc-backref" href="#id16">Further Reading</a><a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#CreateKeystore">JSSE Reference Guide To Creating
-KeyStores</a></li>
-<li><a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/certpath/CertPathProgGuide.html">Java PKI Programmer&#8217;s
-Guide</a></li>
-<li><a class="reference external" href="https://tersesystems.com/2014/03/20/fixing-x509-certificates/">Fixing X.509
-Certificates</a></li>
-</ul>
-</div>
-</div>
-
-
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Generating X.509 Certificates</a><ul>
-<li><a class="reference internal" href="#x-509-certificates">X.509 Certificates</a></li>
-<li><a class="reference internal" href="#using-keytool">Using Keytool</a></li>
-<li><a class="reference internal" href="#generating-a-random-password">Generating a random password</a></li>
-<li><a class="reference internal" href="#server-configuration">Server Configuration</a><ul>
-<li><a class="reference internal" href="#generating-a-server-ca">Generating a server CA</a></li>
-<li><a class="reference internal" href="#generating-example-com-certificates">Generating example.com certificates</a></li>
-<li><a class="reference internal" href="#configuring-example-com-certificates-in-nginx">Configuring example.com certificates in Nginx</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#client-configuration">Client Configuration</a><ul>
-<li><a class="reference internal" href="#configuring-a-trust-store">Configuring a Trust Store</a></li>
-<li><a class="reference internal" href="#configure-client-authentication">Configure Client Authentication</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#certificate-management-tools">Certificate Management Tools</a></li>
-<li><a class="reference internal" href="#certificate-settings">Certificate Settings</a><ul>
-<li><a class="reference internal" href="#secure">Secure</a></li>
-<li><a class="reference internal" href="#compatible">Compatible</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#further-reading">Further Reading</a></li>
-</ul>
-</li>
-</ul>
-<div class="relations">
-<h3>Related Topics</h3>
+</code></pre><div class="callout note "><div class="callout-title">Note</div>
+<p>Also see the <a href="KeyStores.html">Configuring Key Stores and Trust Stores</a> section for more information.</p></div>
+<h2><a href="#certificate-management-tools" name="certificate-management-tools" class="anchor"><span class="anchor-link"></span></a>Certificate Management Tools</h2>
+<p>If you want to examine certificates in a graphical tool than a command line tool, you can use <a href="http://keystore-explorer.sourceforge.net/">Keystore Explorer</a> or <a href="http://sourceforge.net/projects/xca/">xca</a>. <a href="http://keystore-explorer.sourceforge.net/">Keystore Explorer</a> is especially convenient as it recognizes JKS format. It works better as a manual installation, and requires some tweaking to the export policy.</p>
+<p>If you want to use a command line tool with more flexibility than keytool, try <a href="https://code.google.com/p/java-keyutil/">java-keyutil</a>, which understands multi-part PEM formatted certificates and JKS.</p>
+<h2><a href="#certificate-settings" name="certificate-settings" class="anchor"><span class="anchor-link"></span></a>Certificate Settings</h2>
+<h3><a href="#secure" name="secure" class="anchor"><span class="anchor-link"></span></a>Secure</h3>
+<p>If you want the best security, consider using <a href="https://blog.cloudflare.com/ecdsa-the-digital-signature-algorithm-of-a-better-internet">ECDSA</a> as the signature algorithm (in keytool, this would be <code>-sigalg EC</code>). ECDSA is also known as &ldquo;ECC SSL Certificate&rdquo;.</p>
+<h3><a href="#compatible" name="compatible" class="anchor"><span class="anchor-link"></span></a>Compatible</h3>
+<p>For compatibility with older systems, use RSA with 2048 bit keys and SHA256 as the signature algorithm. If you are creating your own CA certificate, use 4096 bits for the root.</p>
+<h2><a href="#further-reading" name="further-reading" class="anchor"><span class="anchor-link"></span></a>Further Reading</h2>
 <ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="WSQuickStart.html" title="previous chapter">Quick Start to WS SSL</a></li>
-      <li>Next: <a href="KeyStores.html" title="next chapter">Configuring Trust Stores and Key Stores</a></li>
+  <li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#CreateKeystore">JSSE Reference Guide To Creating KeyStores</a></li>
+  <li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/certpath/CertPathProgGuide.html">Java PKI Programmer&rsquo;s Guide</a></li>
+  <li><a href="https://tersesystems.com/2014/03/20/fixing-x509-certificates/">Fixing X.509 Certificates</a></li>
+</ul>
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="KeyStores.html">Configuring Trust Stores and Key Stores</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="CertificateGeneration.html#generating-x-509-certificates" class="header">Generating X.509 Certificates</a>
+  <ul>
+    <li><a href="CertificateGeneration.html#x-509-certificates" class="header">X.509 Certificates</a></li>
+    <li><a href="CertificateGeneration.html#using-keytool" class="header">Using Keytool</a></li>
+    <li><a href="CertificateGeneration.html#generating-a-random-password" class="header">Generating a random password</a></li>
+    <li><a href="CertificateGeneration.html#server-configuration" class="header">Server Configuration</a></li>
+    <li><a href="CertificateGeneration.html#client-configuration" class="header">Client Configuration</a></li>
+    <li><a href="CertificateGeneration.html#certificate-management-tools" class="header">Certificate Management Tools</a></li>
+    <li><a href="CertificateGeneration.html#certificate-settings" class="header">Certificate Settings</a></li>
+    <li><a href="CertificateGeneration.html#further-reading" class="header">Further Reading</a></li>
   </ul></li>
 </ul>
 </div>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/CertificateGeneration.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2015, Typesafe.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
-      
-      |
-      <a href="_sources/CertificateGeneration.txt"
-          rel="nofollow">Page source</a>
-    </div>
+</nav>
+</div>
+</div>
 
-    
+</section>
+</div>
 
-    
-  </body>
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2018</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="js/magellan.js"></script>
+
+<style type="text/css">@import "lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+
 </html>
