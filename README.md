@@ -26,7 +26,7 @@ Latest versions:
 
 ```
 // JDK8: 
-"com.typesafe" %% "ssl-config-akka" % "0.2.1"
+"com.typesafe" %% "ssl-config-akka" % "0.2.2"
 
 // JDK6/7 (some features may be backported here)
 "com.typesafe" %% "ssl-config-akka" % "0.1.3"
