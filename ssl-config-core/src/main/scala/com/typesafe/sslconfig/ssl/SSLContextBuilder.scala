@@ -74,7 +74,7 @@ trait TrustManagerFactoryWrapper {
 class DefaultKeyManagerFactoryWrapper(keyManagerAlgorithm: String) extends KeyManagerFactoryWrapper {
   private val instance = KeyManagerFactory.getInstance(keyManagerAlgorithm)
 
-  def init(keystore: KeyStore, password: Array[Char]) {
+  def init(keystore: KeyStore, password: Array[Char]): Unit = {
     instance.init(keystore, password)
   }
 
@@ -84,7 +84,7 @@ class DefaultKeyManagerFactoryWrapper(keyManagerAlgorithm: String) extends KeyMa
 class DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm: String) extends TrustManagerFactoryWrapper {
   private val instance = TrustManagerFactory.getInstance(trustManagerAlgorithm)
 
-  def init(spec: ManagerFactoryParameters) {
+  def init(spec: ManagerFactoryParameters): Unit = {
     instance.init(spec)
   }
 
@@ -369,7 +369,7 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
    * Tests each trusted certificate in the store, and warns if the certificate is not valid.  Does not throw
    * exceptions.
    */
-  def validateStore(store: KeyStore, algorithmChecker: AlgorithmChecker) {
+  def validateStore(store: KeyStore, algorithmChecker: AlgorithmChecker): Unit = {
     import scala.collection.JavaConverters._
     logger.debug(s"validateStore: type = ${store.getType}, size = ${store.size}")
 

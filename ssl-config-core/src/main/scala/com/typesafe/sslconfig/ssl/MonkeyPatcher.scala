@@ -24,7 +24,7 @@ trait MonkeyPatcher {
    * @param field the field to change
    * @param newObject the new object to place in the field.
    */
-  def monkeyPatchField(field: Field, newObject: AnyRef) {
+  def monkeyPatchField(field: Field, newObject: AnyRef): Unit = {
     val base = unsafe.staticFieldBase(field)
     val offset = unsafe.staticFieldOffset(field)
     unsafe.putObject(base, offset, newObject)
