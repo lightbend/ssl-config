@@ -20,23 +20,23 @@ class SystemConfiguration(mkLogger: LoggerFactory) {
 
   val logger = mkLogger(getClass)
 
-  def configure(config: SSLConfigSettings) {
+  def configure(config: SSLConfigSettings): Unit = {
     config.loose.allowUnsafeRenegotiation.foreach(configureUnsafeRenegotiation)
     config.loose.allowLegacyHelloMessages.foreach(configureAllowLegacyHelloMessages)
     config.checkRevocation.foreach(configureCheckRevocation)
   }
 
-  def configureUnsafeRenegotiation(allowUnsafeRenegotiation: Boolean) {
+  def configureUnsafeRenegotiation(allowUnsafeRenegotiation: Boolean): Unit = {
     System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", allowUnsafeRenegotiation.toString)
     logger.debug(s"configureUnsafeRenegotiation: sun.security.ssl.allowUnsafeRenegotiation = ${allowUnsafeRenegotiation.toString}")
   }
 
-  def configureAllowLegacyHelloMessages(allowLegacyHelloMessages: Boolean) {
+  def configureAllowLegacyHelloMessages(allowLegacyHelloMessages: Boolean): Unit = {
     System.setProperty("sun.security.ssl.allowLegacyHelloMessages", allowLegacyHelloMessages.toString)
     logger.debug(s"configureAllowLegacyHelloMessages: sun.security.ssl.allowLegacyHelloMessages = ${allowLegacyHelloMessages.toString}")
   }
 
-  def configureCheckRevocation(checkRevocation: Boolean) {
+  def configureCheckRevocation(checkRevocation: Boolean): Unit = {
     // http://docs.oracle.com/javase/8/docs/technotes/guides/security/certpath/CertPathProgGuide.html#AppC
     // https://blogs.oracle.com/xuelei/entry/enable_ocsp_checking
 
@@ -51,7 +51,7 @@ class SystemConfiguration(mkLogger: LoggerFactory) {
   /**
    * For use in testing.
    */
-  def clearProperties() {
+  def clearProperties(): Unit = {
     Security.setProperty("ocsp.enable", "false")
     System.clearProperty("com.sun.security.enableCRLDP")
     System.clearProperty("com.sun.net.ssl.checkRevocation")

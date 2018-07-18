@@ -45,7 +45,7 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
   //def checkClientTrusted(chain: Array[X509Certificate], authType: String, hostname: String, algorithm: String): Unit = ???
   //def checkServerTrusted(chain: Array[X509Certificate], authType: String, hostname: String, algorithm: String): Unit = ???
 
-  def checkClientTrusted(chain: Array[X509Certificate], authType: String) {
+  def checkClientTrusted(chain: Array[X509Certificate], authType: String): Unit = {
     logger.debug(s"checkClientTrusted: chain = ${debugChain(chain)}")
 
     val anchor: TrustAnchor = new TrustAnchor(chain(chain.length - 1), null)

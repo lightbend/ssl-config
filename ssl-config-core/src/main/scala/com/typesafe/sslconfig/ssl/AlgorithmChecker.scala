@@ -45,7 +45,7 @@ class AlgorithmChecker(mkLogger: LoggerFactory, val signatureConstraints: Set[Al
 
   def getSupportedExtensions: java.util.Set[String] = java.util.Collections.emptySet()
 
-  def init(forward: Boolean) {
+  def init(forward: Boolean): Unit = {
     logger.debug(s"init: forward = $forward")
     // forward is from target to most-trusted CA
     // backwards is from most-trusted CA to target, which means we get the root CA first.
@@ -115,7 +115,7 @@ class AlgorithmChecker(mkLogger: LoggerFactory, val signatureConstraints: Set[Al
    * Checks the algorithms in the given certificate.  Note that this implementation skips signature checking in a
    * root certificate, as a trusted root cert by definition is in the trust store and doesn't need to be signed.
    */
-  def check(cert: Certificate, unresolvedCritExts: java.util.Collection[String]) {
+  def check(cert: Certificate, unresolvedCritExts: java.util.Collection[String]): Unit = {
     cert match {
       case x509Cert: X509Certificate =>
 

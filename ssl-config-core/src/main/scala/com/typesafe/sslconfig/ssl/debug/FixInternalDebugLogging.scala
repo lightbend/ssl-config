@@ -51,7 +51,7 @@ class FixInternalDebugLogging(mkLogger: LoggerFactory) {
      */
     def isUsingDebug: Boolean = (newOptions != null) && (!newOptions.isEmpty)
 
-    def run() {
+    def run(): Unit = {
       System.setProperty("javax.net.debug", newOptions)
 
       val debugType: Class[_] = Thread.currentThread().getContextClassLoader.loadClass(debugClassName)
@@ -85,7 +85,7 @@ class FixInternalDebugLogging(mkLogger: LoggerFactory) {
     }
   }
 
-  def apply(newOptions: String) {
+  def apply(newOptions: String): Unit = {
     logger.debug(s"apply: newOptions = ${newOptions}")
 
     try {

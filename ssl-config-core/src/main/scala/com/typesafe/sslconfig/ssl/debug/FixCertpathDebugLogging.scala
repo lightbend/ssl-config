@@ -51,7 +51,7 @@ class FixCertpathDebugLogging(mkLogger: LoggerFactory) {
      */
     def isUsingDebug: Boolean = (newOptions != null) && newOptions.contains("certpath")
 
-    def run() {
+    def run(): Unit = {
       System.setProperty("java.security.debug", newOptions)
 
       logger.debug(s"run: debugType = $debugType")
@@ -88,20 +88,20 @@ class FixCertpathDebugLogging(mkLogger: LoggerFactory) {
    * @param logger the logger which will receive debug calls.
    */
   class SunSecurityUtilDebugLogger(logger: NoDepsLogger) extends sun.security.util.Debug {
-    override def println(message: String) {
+    override def println(message: String): Unit = {
       if (logger.isDebugEnabled) {
         logger.debug(message)
       }
     }
 
-    override def println() {
+    override def println(): Unit = {
       if (logger.isDebugEnabled) {
         logger.debug("")
       }
     }
   }
 
-  def apply(newOptions: String, debugOption: Option[Debug] = None) {
+  def apply(newOptions: String, debugOption: Option[Debug] = None): Unit = {
     logger.debug(s"apply: newOptions = $newOptions, debugOption = $debugOption")
     try {
       val newDebug = debugOption match {

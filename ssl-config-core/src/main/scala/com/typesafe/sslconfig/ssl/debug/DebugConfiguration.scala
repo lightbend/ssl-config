@@ -11,18 +11,18 @@ class DebugConfiguration(mkLogger: LoggerFactory) {
 
   private val logger = mkLogger(getClass)
 
-  def configure(d: SSLDebugConfig) {
+  def configure(d: SSLDebugConfig): Unit = {
     configureJavaxNetDebug(d)
     configureJavaSecurityDebug(d)
   }
 
-  def configureJavaxNetDebug(d: SSLDebugConfig) {
+  def configureJavaxNetDebug(d: SSLDebugConfig): Unit = {
     val netDebugOptions = new JavaxNetDebugBuilder(d).build()
     logger.debug(s"configureJavaxNetDebug: d = $d, netDebugOptions = $netDebugOptions")
     new FixInternalDebugLogging(mkLogger).apply(netDebugOptions)
   }
 
-  def configureJavaSecurityDebug(d: SSLDebugConfig) {
+  def configureJavaSecurityDebug(d: SSLDebugConfig): Unit = {
     val securityOptions = new JavaSecurityDebugBuilder(d).build()
     logger.debug(s"configureJavaSecurityDebug: d = $d, securityOptions = $securityOptions")
     System.setProperty("java.security.debug", securityOptions)
