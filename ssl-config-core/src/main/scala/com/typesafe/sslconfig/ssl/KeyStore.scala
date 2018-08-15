@@ -4,12 +4,9 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.security.KeyStore
-
 import java.io._
+import java.security.KeyStore
 import java.security.cert._
-
-import com.typesafe.sslconfig.util.NoDepsLogger
 
 trait KeyStoreBuilder {
   def build(): KeyStore
@@ -18,7 +15,6 @@ trait KeyStoreBuilder {
 object KeystoreFormats {
 
   def loadCertificates(certs: TraversableOnce[Certificate]): KeyStore = {
-    // Must be JKS internally, to enable trusted certificates in JDK 1.6
     val keystore = KeyStore.getInstance(KeyStore.getDefaultType)
     keystore.load(null)
     certs.foreach { cert =>
@@ -30,7 +26,7 @@ object KeystoreFormats {
 
 }
 
-import KeystoreFormats._
+import com.typesafe.sslconfig.ssl.KeystoreFormats._
 
 /**
  * Builds a keystore from a string containing PEM encoded certificates, using CertificateFactory internally.

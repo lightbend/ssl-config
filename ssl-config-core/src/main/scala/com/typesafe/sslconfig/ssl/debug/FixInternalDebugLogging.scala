@@ -4,15 +4,14 @@
 
 package com.typesafe.sslconfig.ssl.debug
 
-import com.typesafe.sslconfig.ssl._
-
 import java.security.AccessController
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+
+import com.typesafe.sslconfig.util.LoggerFactory
 
 import scala.util.control.NonFatal
 
 /**
- * This fixes logging for the SSL Debug class. It will worth for both Java 1.6 and Java 1.7 VMs.
+ * This fixes logging for the SSL Debug class.
  */
 class FixInternalDebugLogging(mkLogger: LoggerFactory) {
 
@@ -22,15 +21,9 @@ class FixInternalDebugLogging(mkLogger: LoggerFactory) {
 
     override val logger = mkLogger("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging.MonkeyPatchInternalSslDebugAction")
 
-    val initialResource = foldRuntime(
-      older = "/javax/net/ssl/SSLContext.class", // in 1.6 the JSSE classes are in rt.jar
-      newer = "/sun/security/ssl/Debug.class" // in 1.7 the JSSE classes are in jsse.jar
-    )
+    val initialResource = "/sun/security/ssl/Debug.class"
 
-    val debugClassName = foldRuntime(
-      older = "com.sun.net.ssl.internal.ssl.Debug",
-      newer = "sun.security.ssl.Debug"
-    )
+    val debugClassName = "sun.security.ssl.Debug"
 
     /**
      * Returns true if this class has an instance of the class returned by debugClassName, false otherwise.

@@ -27,9 +27,6 @@ Latest versions:
 ```
 // JDK8: 
 "com.typesafe" %% "ssl-config-akka" % "0.2.2"
-
-// JDK6/7 (some features may be backported here)
-"com.typesafe" %% "ssl-config-akka" % "0.1.3"
 ```
 
 State of this project
@@ -65,4 +62,4 @@ An excellent series by [Will Sargent](https://github.com/wsargent) about making
 License
 =======
 
-Lightbend 2015-2016, Apache 2.0
+Lightbend 2015-2018, Apache 2.0
