@@ -5,15 +5,14 @@
 package com.typesafe.sslconfig.ssl
 
 import java.net.Socket
-
-import javax.net.ssl.{ SSLEngine, X509ExtendedTrustManager, X509TrustManager }
+import java.security.GeneralSecurityException
 import java.security.cert._
 
 import com.typesafe.sslconfig.util.LoggerFactory
+import javax.net.ssl.{SSLEngine, X509ExtendedTrustManager, X509TrustManager}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.NonFatal
-import java.security.GeneralSecurityException
 
 /**
  * A trust manager that is a composite of several smaller trust managers.   It is responsible for verifying the
@@ -181,7 +180,12 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
     trustManagers.foreach {
       trustManager =>
         try {
-          block(trustManager.asInstanceOf[T])
+          trustManager match {
+            case t: T =>
+              block(trustManager)
+            case _ =>
+              throw new IllegalStateException("Trust manager does not extend X509ExtendedTrustManager interface!")
+          }
         } catch {
           case e: CertPathBuilderException =>
             logger.debug(s"No path found to certificate: this usually means the CA is not in the trust store. Cause: $e")
