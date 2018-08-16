@@ -13,8 +13,8 @@ object Protocols {
 
   val recommendedProtocols = Array("TLSv1.2", "TLSv1.1", "TLSv1")
 
-  // Use 1.2 as a default in 1.7, use 1.0 in 1.6
+  // Use 1.2 as a default in 1.7
   // https://docs.fedoraproject.org/en-US/Fedora_Security_Team//html/Defensive_Coding/sect-Defensive_Coding-TLS-Client-OpenJDK.html
-  def recommendedProtocol = foldVersion(run16 = "TLSv1", runHigher = "TLSv1.2")
+  def recommendedProtocol = "TLSv1.2"
 
 }

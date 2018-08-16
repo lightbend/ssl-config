@@ -4,13 +4,13 @@
 
 package com.typesafe.sslconfig.ssl
 
-import javax.net.ssl._
-import java.security._
-import java.security.cert._
 import java.io._
 import java.net.URL
+import java.security._
+import java.security.cert._
 
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import com.typesafe.sslconfig.util.LoggerFactory
+import javax.net.ssl._
 
 trait SSLContextBuilder {
   def build(): SSLContext
@@ -202,19 +202,6 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
     val keyStore = try {
       keyStoreBuilder(ksc).build()
     } catch {
-      case e: java.lang.ArithmeticException =>
-        // This bug only exists in 1.6: we'll only check on 1.6 and explain after the exception.
-        val willExplodeOnEmptyPassword = foldVersion(run16 = warnOnPKCS12EmptyPasswordBug(ksc), runHigher = false)
-        if (willExplodeOnEmptyPassword) {
-          val msg =
-            """You are running JDK 1.6, have a PKCS12 keystore with a null or empty password, and have run into a JSSE bug.
-              |The bug is closed in JDK 1.8, and backported to 1.7u4 / b13, so upgrading will fix this.
-              |Please see: http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6879539
-            """.stripMargin
-          throw new IllegalStateException(msg, e)
-        } else {
-          throw e
-        }
       case bpe: javax.crypto.BadPaddingException =>
         // http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6415637
         // http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6974037

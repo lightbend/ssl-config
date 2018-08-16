@@ -39,12 +39,12 @@ object Common extends AutoPlugin {
       scalacOptions ++= {
         CrossVersion.partialVersion(scalaVersion.value) match {
           case Some((2, v)) if v <= 11 =>
-            Seq("-target:jvm-1.6")
+            Seq("-target:jvm-1.8")
           case _ =>
             Nil
         }
       },
-      javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.6", "-target", "1.6"),
+      javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8"),
       // Scalariform settings
       ScalariformKeys.preferences := ScalariformKeys.preferences.value
         .setPreference(AlignSingleLineCaseStatements, true)

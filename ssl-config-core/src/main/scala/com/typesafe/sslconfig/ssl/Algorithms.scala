@@ -4,13 +4,13 @@
 
 package com.typesafe.sslconfig.ssl
 
-import javax.crypto.SecretKey
 import java.security.interfaces._
+import java.security.{ Key, KeyFactory }
+
+import javax.crypto.SecretKey
 import javax.crypto.interfaces.DHKey
 
 import scala.util.parsing.combinator.RegexParsers
-import java.security.{ KeyFactory, Key }
-import scala.Some
 
 /**
  * This singleton object provides the code needed to check for minimum standards of an X.509 certificate.  Over 95% of trusted leaf certificates and 95% of trusted signing certificates use <a href="http://csrc.nist.gov/publications/nistpubs/800-131A/sp800-131A.pdf">NIST recommended key sizes</a>.  Play supports Java 1.6, which does not have built in <a href="http://sim.ivi.co/2013/11/harness-ssl-and-jsse-key-size-control.html">certificate strength checking</a>, so we roll our own here.
@@ -104,22 +104,8 @@ object Algorithms {
 
   def translateKey(pubk: Key): Key = {
     val keyAlgName = getKeyAlgorithmName(pubk)
-    foldVersion(
-      run16 = {
-        keyAlgName match {
-          case "EC" =>
-            // If we are on 1.6, then we can't use the EC factory and have to pull it directly.
-            translateECKey(pubk)
-          case _ =>
-            val keyFactory = KeyFactory.getInstance(keyAlgName)
-            keyFactory.translateKey(pubk)
-        }
-      },
-      runHigher = {
-        val keyFactory = KeyFactory.getInstance(keyAlgName)
-        keyFactory.translateKey(pubk)
-      }
-    )
+    val keyFactory = KeyFactory.getInstance(keyAlgName)
+    keyFactory.translateKey(pubk)
   }
 
   def translateECKey(pubk: Key): Key = {

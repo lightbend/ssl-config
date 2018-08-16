@@ -36,7 +36,6 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
     certificates.toArray
   }
 
-  // In 1.6, sun.security.ssl.X509TrustManagerImpl extends from com.sun.net.ssl.internal.ssl.X509ExtendedTrustManager
   // In 1.7, sun.security.ssl.X509TrustManagerImpl extends from javax.net.ssl.X509ExtendedTrustManager.
   // The two X509ExtendedTrustManager contain different method signatures, and both are available in 1.7, which means
   // it's really hard to keep something backwards compatible if something is calling trustManager.asInstanceOf[X509ExtendedTrustManager]

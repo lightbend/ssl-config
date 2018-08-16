@@ -12,29 +12,7 @@ CBC mode for the stream cipher, and SHA for the message authentication.
 
 ## Configuring Enabled Ciphers
 
-The list of cipher suites has changed considerably between 1.6, 1.7 and
-1.8.
-
-In 1.7 and 1.8, the default [out of the
-box](http://sim.ivi.co/2011/07/jsse-oracle-provider-preference-of-tls.html)
-cipher suite list is used.
-
-In 1.6, the out of the box list is [out of
-order](http://op-co.de/blog/posts/android_ssl_downgrade/), with some
-weaker cipher suites configured in front of stronger ones, and contains
-a number of ciphers that are now considered weak. As such, the default
-list of enabled cipher suites is as follows:
-
-```
-"TLS_DHE_RSA_WITH_AES_256_CBC_SHA",
-"TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
-"TLS_DHE_DSS_WITH_AES_128_CBC_SHA",
-"TLS_RSA_WITH_AES_256_CBC_SHA",
-"TLS_RSA_WITH_AES_128_CBC_SHA",
-"SSL_RSA_WITH_RC4_128_SHA",
-"SSL_RSA_WITH_RC4_128_MD5",
-"TLS_EMPTY_RENEGOTIATION_INFO_SCSV" // per RFC 5746
-```
+The list of cipher suites is ordered by the [SunJSSE provider cipher suites](https://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html#SupportedCipherSuites).
 
 The list of cipher suites can be configured manually using the
 `ssl-config.enabledCipherSuites` setting:
@@ -51,11 +29,7 @@ only DHE and ECDHE cipher suites enable PFE.
 ## Recommendation: increase the DHE key size
 
 Diffie Hellman has been in the news recently because it offers perfect
-forward secrecy. However, in 1.6 and 1.7, the server handshake of DHE is
-set to 1024 at most, which is considered weak and can be compromised by
-attackers.
-
-If you have JDK 1.8, setting the system property
+forward secrecy. If you have JDK 1.8, setting the system property
 `-Djdk.tls.ephemeralDHKeySize=2048` is recommended to ensure stronger
 keysize in the handshake. Please see [Customizing Size of Ephemeral
 Diffie-Hellman

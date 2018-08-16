@@ -21,23 +21,9 @@ object Ciphers {
   // using OpenJDK, you're out of luck.
   // http://armoredbarista.blogspot.com/2013/10/how-to-use-ecc-with-openjdk.html
 
-  def recommendedCiphers: Seq[String] = foldVersion(
-    run16 = java16RecommendedCiphers,
-    runHigher = java17RecommendedCiphers)
-
-  lazy val java17RecommendedCiphers: Seq[String] = {
+  def recommendedCiphers: Seq[String] = {
     SSLContext.getDefault.getDefaultSSLParameters.getCipherSuites
   }.filterNot(deprecatedCiphers.contains(_))
-
-  val java16RecommendedCiphers: Seq[String] = Seq(
-    "TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
-    "TLS_DHE_RSA_WITH_AES_256_CBC_SHA",
-    "TLS_DHE_DSS_WITH_AES_128_CBC_SHA",
-    "TLS_RSA_WITH_AES_256_CBC_SHA",
-    "TLS_RSA_WITH_AES_128_CBC_SHA",
-    "SSL_RSA_WITH_3DES_EDE_CBC_SHA",
-    "TLS_EMPTY_RENEGOTIATION_INFO_SCSV" // per RFC 5746
-  )
 
   // Suite B profile for TLS (requires 1.2): http://tools.ietf.org/html/rfc6460
   // http://adambard.com/blog/the-new-ssl-basics/
