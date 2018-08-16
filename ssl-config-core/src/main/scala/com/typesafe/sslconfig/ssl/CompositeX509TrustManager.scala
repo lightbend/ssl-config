@@ -9,9 +9,10 @@ import java.security.GeneralSecurityException
 import java.security.cert._
 
 import com.typesafe.sslconfig.util.LoggerFactory
-import javax.net.ssl.{SSLEngine, X509ExtendedTrustManager, X509TrustManager}
+import javax.net.ssl.{ SSLEngine, X509ExtendedTrustManager, X509TrustManager }
 
 import scala.collection.mutable.ArrayBuffer
+import scala.reflect.ClassTag
 import scala.util.control.NonFatal
 
 /**
@@ -175,14 +176,14 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
     }
   }
 
-  private def withTrustManagers[T](block: T => Unit): Seq[Throwable] = {
+  private def withTrustManagers[T <: X509TrustManager: ClassTag](block: T => Unit): Seq[Throwable] = {
     val exceptionList = ArrayBuffer[Throwable]()
     trustManagers.foreach {
       trustManager =>
         try {
           trustManager match {
-            case t: T =>
-              block(trustManager)
+            case tr: T =>
+              block(tr)
             case _ =>
               throw new IllegalStateException("Trust manager does not extend X509ExtendedTrustManager interface!")
           }
