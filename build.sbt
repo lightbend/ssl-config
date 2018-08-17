@@ -20,6 +20,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-core",
+    mimaPreviousArtifacts := Set("com.typesafe" %% "ssl-config-core" % "0.2.3"), // "sbt mimaReportBinaryIssues"
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= (
       scalaBinaryVersion.value match {
