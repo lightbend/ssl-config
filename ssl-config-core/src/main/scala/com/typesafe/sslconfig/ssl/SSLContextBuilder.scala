@@ -20,11 +20,10 @@ trait SSLContextBuilder {
  * A simple SSL context builder.  If the keyManagers or trustManagers are empty, then null is used in the init method.
  * Likewise, if secureRandom is None then null is used.
  */
-class SimpleSSLContextBuilder(
-    protocol:      String,
-    keyManagers:   Seq[KeyManager],
-    trustManagers: Seq[TrustManager],
-    secureRandom:  Option[SecureRandom]) extends SSLContextBuilder {
+class SimpleSSLContextBuilder(protocol: String,
+                              keyManagers: Seq[KeyManager],
+                              trustManagers: Seq[TrustManager],
+                              secureRandom: Option[SecureRandom]) extends SSLContextBuilder {
 
   def nullIfEmpty[T](array: Array[T]) = {
     if (array.isEmpty) null else array
@@ -95,11 +94,10 @@ class DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm: String) extends T
 /**
  * Creates an SSL context builder from info objects.
  */
-class ConfigSSLContextBuilder(
-    mkLogger:            LoggerFactory,
-    info:                SSLConfigSettings,
-    keyManagerFactory:   KeyManagerFactoryWrapper,
-    trustManagerFactory: TrustManagerFactoryWrapper) extends SSLContextBuilder {
+class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
+                              info: SSLConfigSettings,
+                              keyManagerFactory: KeyManagerFactoryWrapper,
+                              trustManagerFactory: TrustManagerFactoryWrapper) extends SSLContextBuilder {
 
   protected val logger = mkLogger(getClass)
 
@@ -123,11 +121,10 @@ class ConfigSSLContextBuilder(
     buildSSLContext(info.protocol, keyManagers, trustManagers, info.secureRandom)
   }
 
-  def buildSSLContext(
-    protocol:      String,
-    keyManagers:   Seq[KeyManager],
-    trustManagers: Seq[TrustManager],
-    secureRandom:  Option[SecureRandom]) = {
+  def buildSSLContext(protocol: String,
+                      keyManagers: Seq[KeyManager],
+                      trustManagers: Seq[TrustManager],
+                      secureRandom: Option[SecureRandom]) = {
     val builder = new SimpleSSLContextBuilder(protocol, keyManagers, trustManagers, secureRandom)
     builder.build()
   }
@@ -140,10 +137,9 @@ class ConfigSSLContextBuilder(
     new CompositeX509KeyManager(mkLogger, keyManagers)
   }
 
-  def buildCompositeTrustManager(
-    trustManagerInfo:  TrustManagerConfig,
-    revocationEnabled: Boolean,
-    revocationLists:   Option[Seq[CRL]], algorithmChecker: AlgorithmChecker) = {
+  def buildCompositeTrustManager(trustManagerInfo: TrustManagerConfig,
+                                 revocationEnabled: Boolean,
+                                 revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker) = {
 
     val trustManagers = trustManagerInfo.trustStoreConfigs.map {
       tsc =>
@@ -278,11 +274,10 @@ class ConfigSSLContextBuilder(
     }
   }
 
-  def buildTrustManagerParameters(
-    trustStore:        KeyStore,
-    revocationEnabled: Boolean,
-    revocationLists:   Option[Seq[CRL]],
-    algorithmChecker:  AlgorithmChecker): CertPathTrustManagerParameters = {
+  def buildTrustManagerParameters(trustStore: KeyStore,
+                                  revocationEnabled: Boolean,
+                                  revocationLists: Option[Seq[CRL]],
+                                  algorithmChecker: AlgorithmChecker): CertPathTrustManagerParameters = {
     import scala.collection.JavaConverters._
 
     val certSelect: X509CertSelector = new X509CertSelector
@@ -307,10 +302,9 @@ class ConfigSSLContextBuilder(
   /**
    * Builds trust managers, using a TrustManagerFactory internally.
    */
-  def buildTrustManager(
-    tsc:               TrustStoreConfig,
-    revocationEnabled: Boolean,
-    revocationLists:   Option[Seq[CRL]], algorithmChecker: AlgorithmChecker): X509TrustManager = {
+  def buildTrustManager(tsc: TrustStoreConfig,
+                        revocationEnabled: Boolean,
+                        revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker): X509TrustManager = {
 
     val factory = trustManagerFactory
     val trustStore = trustStoreBuilder(tsc).build()

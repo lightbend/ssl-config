@@ -56,7 +56,7 @@ object Common extends AutoPlugin {
         .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 100)
         .setPreference(DoubleIndentConstructorArguments, true)
         .setPreference(DanglingCloseParenthesis, Preserve)
-        .setPreference(AlignParameters, true),
+        .setPreference(AlignParameters, false),
 
       // Header settings
 
@@ -71,7 +71,7 @@ object Common extends AutoPlugin {
       licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")),
 
       HeaderPlugin.autoImport.headerLicense := Some(HeaderLicense.Custom(
-        """Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>"""
+        """Copyright (C) 2018 Lightbend Inc. <https://www.lightbend.com>"""
       ))
     )
 
