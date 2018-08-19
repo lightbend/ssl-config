@@ -77,7 +77,7 @@ object Common extends AutoPlugin {
 
 }
 
-// from https://raw.github.com/paulp/scala-improving/master/project/PublishToSonatype.scala
+// from https://github.com/lightbend/config/blob/master/project/PublishToSonatype.scala
 abstract class PublishToSonatype {
   val ossSnapshots = "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
   val ossStaging   = "Sonatype OSS Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
