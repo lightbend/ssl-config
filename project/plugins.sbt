@@ -1,15 +1,13 @@
-addSbtPlugin("com.github.gseitz"     % "sbt-release"         % "1.0.6")
-addSbtPlugin("com.typesafe.sbt"      % "sbt-native-packager" % "1.2.2")
-addSbtPlugin("com.typesafe.sbt"      % "sbt-osgi"            % "0.9.2")
-addSbtPlugin("com.typesafe.sbt"      % "sbt-s3"              % "0.9")
-addSbtPlugin("com.typesafe.sbt"      % "sbt-scalariform"     % "1.3.0")
-addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.3.1")
-addSbtPlugin("com.jsuereth"          % "sbt-pgp"             % "1.1.0")
-addSbtPlugin("com.lightbend.paradox" % "sbt-paradox"         % "0.2.13")
-addSbtPlugin("com.eed3si9n"          % "sbt-doge"            % "0.1.5")
+resolvers += Resolver.url("sbts3 ivy resolver", url("https://dl.bintray.com/emersonloureiro/sbt-plugins"))(Resolver.ivyStylePatterns)
+
+addSbtPlugin("com.github.gseitz"     % "sbt-release"         % "1.0.9")
+addSbtPlugin("com.typesafe.sbt"      % "sbt-native-packager" % "1.3.6")
+addSbtPlugin("com.typesafe.sbt"      % "sbt-osgi"            % "0.9.4")
+addSbtPlugin("cf.janga"              % "sbts3"               % "0.10.3")
+addSbtPlugin("org.scalariform"       % "sbt-scalariform"     % "1.8.2")
+addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.3.2")
+
+addSbtPlugin("de.heikoseeberger"     % "sbt-header"          % "5.0.0")
+addSbtPlugin("io.crashbox"           % "sbt-gpg"             % "0.2.0")
 addSbtPlugin("com.typesafe"          % "sbt-mima-plugin"     % "0.3.0")
-
-
-// XXX is this really needed since we don't use JDK 1.6 any more?
-// why not use https://github.com/sbt/sbt-header ?
-addSbtPlugin("com.typesafe.tmp"      % "sbt-header"          % "1.5.0-JDK6-0.1")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox"         % "0.2.13")

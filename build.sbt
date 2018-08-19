@@ -1,7 +1,6 @@
 import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 import sbtrelease.ReleasePlugin
-import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, ProblemFilters}
 
 val commonSettings = Seq(
@@ -11,7 +10,6 @@ val commonSettings = Seq(
 )
 
 val dontPublishSettings = Seq(
-   publishSigned := (),
    publish := ()
  )
 
@@ -61,7 +59,6 @@ lazy val root = project.in(file("."))
     documentation
   )
   .settings(dontPublishSettings: _*)
-  .enablePlugins(CrossPerProjectPlugin)
 
 
 def configImport(packageName: String = "com.typesafe.config.*") = versionedImport(packageName, "1.3.0", "1.4.0")

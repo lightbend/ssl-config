@@ -63,9 +63,10 @@ class StringBasedKeyStoreBuilder(data: String) extends KeyStoreBuilder {
  *
  * @see java.security.cert.CertificateFactory
  */
-class FileBasedKeyStoreBuilder(keyStoreType: String,
-                               filePath: String,
-                               password: Option[Array[Char]]) extends KeyStoreBuilder {
+class FileBasedKeyStoreBuilder(
+    keyStoreType: String,
+    filePath:     String,
+    password:     Option[Array[Char]]) extends KeyStoreBuilder {
 
   def build(): KeyStore = {
     val file = new File(filePath)
@@ -105,9 +106,10 @@ class FileBasedKeyStoreBuilder(keyStoreType: String,
 
 }
 
-class FileOnClasspathBasedKeyStoreBuilder(keyStoreType: String,
-                                          filePath: String,
-                                          password: Option[Array[Char]]) extends KeyStoreBuilder {
+class FileOnClasspathBasedKeyStoreBuilder(
+    keyStoreType: String,
+    filePath:     String,
+    password:     Option[Array[Char]]) extends KeyStoreBuilder {
 
   def build(): KeyStore = {
 
