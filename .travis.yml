@@ -15,9 +15,9 @@ cache:
   - "$HOME/.sbt/boot/"
   - "$HOME/.sbt/launchers/"
 script:
-- sbt "+++ $TRAVIS_SCALA_VERSION test"
-- sbt "+++ $TRAVIS_SCALA_VERSION doc"
-- sbt "+++ $TRAVIS_SCALA_VERSION mimaReportBinaryIssues"
+- sbt "++$TRAVIS_SCALA_VERSION test"
+- sbt "++$TRAVIS_SCALA_VERSION doc"
+- sbt "++$TRAVIS_SCALA_VERSION mimaReportBinaryIssues"
 before_cache:
 - find $HOME/.sbt -name "*.lock" -delete
 - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
