@@ -115,7 +115,7 @@ abstract class PublishToSonatype {
 
   def settings: Seq[Setting[_]] = Seq(
     publishMavenStyle := true,
-    publishTo <<= isSnapshot { (snapshot) => Some(if (snapshot) ossSnapshots else ossStaging) },
+    publishTo := { Some(if (isSnapshot.value) ossSnapshots else ossStaging) },
     publishArtifact in Test := false,
     pomIncludeRepository := (_ => false),
     pomExtra := generatePomExtra
