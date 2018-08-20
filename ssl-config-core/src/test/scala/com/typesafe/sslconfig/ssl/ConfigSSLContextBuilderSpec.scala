@@ -345,32 +345,6 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
         builder.validateStore(trustStore, checker)
       }.must(not(throwAn[CertPathValidatorException]))
     }
-
-    "warnOnPKCS12EmptyPasswordBug returns true when a PKCS12 keystore has a null or empty password" in {
-      val keyManagerFactory = mock[KeyManagerFactoryWrapper]
-      val trustManagerFactory = mock[TrustManagerFactoryWrapper]
-
-      val ksc = KeyStoreConfig(None, Some("path")).withStoreType("PKCS12")
-      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))
-      val sslConfig = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)
-
-      val builder = new ConfigSSLContextBuilder(mkLogger, sslConfig, keyManagerFactory, trustManagerFactory)
-
-      builder.warnOnPKCS12EmptyPasswordBug(ksc) must beTrue
-    }
-
-    "warnOnPKCS12EmptyPasswordBug returns false when a PKCS12 keystore has a password" in {
-      val keyManagerFactory = mock[KeyManagerFactoryWrapper]
-      val trustManagerFactory = mock[TrustManagerFactoryWrapper]
-
-      val ksc = KeyStoreConfig(None, Some("path")).withStoreType("PKCS12").withPassword(Some("password"))
-      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))
-      val sslConfig = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)
-
-      val builder = new ConfigSSLContextBuilder(mkLogger, sslConfig, keyManagerFactory, trustManagerFactory)
-
-      builder.warnOnPKCS12EmptyPasswordBug(ksc) must beFalse
-    }
   }
 
 }
