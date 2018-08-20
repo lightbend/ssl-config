@@ -2,7 +2,7 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 import sbtrelease.ReleasePlugin
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
-import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, ProblemFilters}
+import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, MissingClassProblem, ProblemFilters}
 
 val commonSettings = Seq(
   scalaVersion := Version.scala212,
@@ -48,7 +48,8 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.package.foldVersion"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.package.foldRuntime"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java16RecommendedCiphers"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java17RecommendedCiphers")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java17RecommendedCiphers"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.Base64")
     )
 ).enablePlugins(ReleasePlugin, SbtOsgi)
 

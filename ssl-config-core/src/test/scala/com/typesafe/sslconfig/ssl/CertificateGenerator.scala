@@ -9,7 +9,6 @@ import java.security._
 import java.security.cert._
 import java.util.Date
 
-import com.typesafe.sslconfig.Base64
 import org.joda.time.Instant
 import sun.security.util.ObjectIdentifier
 import sun.security.x509._
@@ -49,12 +48,12 @@ object CertificateGenerator {
   }
 
   def toPEM(certificate: X509Certificate) = {
-    val encoder = Base64.rfc2045()
+    val encoder = java.util.Base64.getMimeEncoder()
     val certBegin = "-----BEGIN CERTIFICATE-----\n"
     val certEnd = "-----END CERTIFICATE-----"
 
     val derCert = certificate.getEncoded()
-    val pemCertPre = encoder.encodeToString(derCert, false)
+    val pemCertPre = encoder.encodeToString(derCert)
     val pemCert = certBegin + pemCertPre + certEnd
     pemCert
   }
