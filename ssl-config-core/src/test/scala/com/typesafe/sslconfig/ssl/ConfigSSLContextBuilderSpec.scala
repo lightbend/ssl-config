@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
@@ -139,7 +139,8 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       val checkRevocation = false
       val revocationLists = None
 
-      val actual = builder.buildCompositeTrustManager(trustManagerConfig,
+      val actual = builder.buildCompositeTrustManager(
+        trustManagerConfig,
         checkRevocation,
         revocationLists, algorithmChecker)
       actual must beAnInstanceOf[CompositeX509TrustManager]
