@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Clean up the directory of local changes so that we can be sure
+# the HEAD from release branch is used to run the release.
+(read -p "The working directory will now be cleaned from all non-tracked files. Are you sure you want this? " x; test "$x" = yes) || fail "bailing out"
+git clean -fxd || fail "cannot git clean -fxd"
+
 echo "Starting release. You will be prompt to confirm the version and push changes at the end of the process"
 sbt 'release cross'
 
