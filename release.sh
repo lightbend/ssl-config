@@ -59,6 +59,8 @@ git commit -m "Releasing docs for $version"
 git push origin gh-pages
 
 echo "Tagging release..."
+# Should first get back to the branch used to run the release.
+git cd -
 git tag -m "Releasing $version" "v$version"
 git push --tags
 
