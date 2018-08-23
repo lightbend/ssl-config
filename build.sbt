@@ -1,6 +1,5 @@
 import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
-import sbtrelease.ReleasePlugin
 import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, MissingClassProblem, ProblemFilters}
 
 val commonSettings = Seq(
@@ -9,9 +8,10 @@ val commonSettings = Seq(
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 )
 
-val dontPublishSettings = Seq(
+val disablePublishingSettings = Seq(
   // https://github.com/sbt/sbt/pull/3380
-  skip in publish := true
+  skip in publish := true,
+  publishArtifact := false
  )
 
 lazy val sslConfigCore = project.in(file("ssl-config-core"))
@@ -50,18 +50,44 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java17RecommendedCiphers"),
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.Base64")
     )
-).enablePlugins(ReleasePlugin, SbtOsgi)
+).enablePlugins(SbtOsgi)
 
 lazy val documentation = project.in(file("documentation"))
-  .settings(dontPublishSettings: _*)
+  .settings(disablePublishingSettings: _*)
 
 lazy val root = project.in(file("."))
   .aggregate(
     sslConfigCore,
     documentation
   )
-  .settings(dontPublishSettings: _*)
+  .settings(disablePublishingSettings: _*)
 
+// Release settings
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
+
+// This automatically selects the snapshots or staging repository
+// according to the version value.
+publishTo in ThisBuild := Some(sonatypeDefaultResolver.value)
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  // sbt-gpg works different from sbt-pgp. According to its docs it "hooks into the publish and publishLocal
+  // tasks. All artifacts will be signed; there is no need to run a separate publishSigned task."
+  // Keep in mind it requires proper `credentials` configuration:
+  // https://github.com/jodersky/sbt-gpg#signing-key
+  publishArtifacts,
+  setNextVersion,
+  commitNextVersion,
+  // Automatically promote artifacts in Sonatype
+  releaseStepCommand("sonatypeRelease"),
+  pushChanges
+)
 
 def configImport(packageName: String = "com.typesafe.config.*") = versionedImport(packageName, "1.3.0", "1.4.0")
 def versionedImport(packageName: String, lower: String, upper: String) = s"""$packageName;version="[$lower,$upper)""""
