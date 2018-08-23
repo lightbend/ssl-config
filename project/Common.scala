@@ -1,11 +1,16 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
-import sbt._
+import com.typesafe.sbt.SbtScalariform
+import de.heikoseeberger.sbtheader._
 import sbt.Keys._
-import de.heikoseeberger.sbtheader.{ HeaderPattern, HeaderPlugin, AutomateHeaderPlugin }
-import com.typesafe.sbt.SbtScalariform.{ scalariformSettings, ScalariformKeys }
+import sbt._
+
+// Docs have it as HeaderFileType but that is actually a TYPE ALIAS >:-(
+// https://github.com/sbt/sbt-header/blob/master/src/main/scala/de/heikoseeberger/sbtheader/HeaderPlugin.scala#L58
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
+import de.heikoseeberger.sbtheader.{CommentStyle => HeaderCommentStyle, FileType => HeaderFileType, License => HeaderLicense}
 import scalariform.formatter.preferences._
 
 /**
@@ -27,7 +32,7 @@ object Common extends AutoPlugin {
   }
 
   // AutomateHeaderPlugin is not an allRequirements-AutoPlugin, so explicitly add settings here:
-  override def projectSettings = scalariformSettings ++
+  override def projectSettings = SbtScalariform.autoImport.scalariformSettings(autoformat = true) ++
     AutomateHeaderPlugin.projectSettings ++
     sonatype.settings ++
     Seq(
@@ -49,31 +54,33 @@ object Common extends AutoPlugin {
       ScalariformKeys.preferences := ScalariformKeys.preferences.value
         .setPreference(AlignSingleLineCaseStatements, true)
         .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 100)
-        .setPreference(DoubleIndentClassDeclaration, true)
-        .setPreference(PreserveDanglingCloseParenthesis, true)
-        .setPreference(AlignParameters, true),
+        .setPreference(DoubleIndentConstructorArguments, true)
+        .setPreference(DanglingCloseParenthesis, Preserve)
+        .setPreference(AlignParameters, false),
 
       // Header settings
-      HeaderPlugin.autoImport.headers := Map(
-        "scala" ->(HeaderPattern.cStyleBlockComment, scalaOrJavaHeader),
-        "java" ->(HeaderPattern.cStyleBlockComment, scalaOrJavaHeader),
-        "conf" ->(HeaderPattern.hashLineComment, confHeader)
-      )
+
+      HeaderPlugin.autoImport.headerMappings := Map(
+        HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment,
+        HeaderFileType.java  -> HeaderCommentStyle.cStyleBlockComment,
+        HeaderFileType.conf -> HeaderCommentStyle.hashLineComment
+      ),
+
+      organizationName := "Lightbend",
+      startYear := Some(2015),
+      licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")),
+
+      HeaderPlugin.autoImport.headerLicense := {
+        val currentYear = java.time.Year.now(java.time.Clock.systemUTC).getValue
+        Some(HeaderLicense.Custom(
+          s"""Copyright (C) 2015 - $currentYear Lightbend Inc. <https://www.lightbend.com>"""
+        ))
+      }
     )
-
-  // Header text generation
-
-  val scalaOrJavaHeader = header(before = Some("/*"), prefix = " * ", after = Some(" */"))
-  val confHeader = header(before = None, prefix = "# ", after = None)
-
-  def header(before: Option[String], prefix: String, after: Option[String]): String = {
-    val content = Seq("Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>")
-    (before.toSeq ++ content.map(prefix.+) ++ after.toSeq).mkString("", "\n", "\n\n")
-  }
 
 }
 
-// from https://raw.github.com/paulp/scala-improving/master/project/PublishToSonatype.scala
+// from https://github.com/lightbend/config/blob/master/project/PublishToSonatype.scala
 abstract class PublishToSonatype {
   val ossSnapshots = "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
   val ossStaging   = "Sonatype OSS Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
@@ -113,7 +120,7 @@ abstract class PublishToSonatype {
     </developers>
   }
 
-  def settings: Seq[Setting[_]] = Seq(
+  def settings = Seq(
     publishMavenStyle := true,
     publishTo := { Some(if (isSnapshot.value) ossSnapshots else ossStaging) },
     publishArtifact in Test := false,

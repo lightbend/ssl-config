@@ -1,12 +1,12 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl.debug
 
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
-import com.typesafe.sslconfig.util.{ NoopLogger, NoDepsLogger }
-import org.specs2.mutable.{ Specification, After }
+import com.typesafe.sslconfig.util.NoopLogger
+import org.specs2.mutable.{ After, Specification }
 
 object DebugConfigurationSpec extends Specification with After {
 
