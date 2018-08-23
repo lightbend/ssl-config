@@ -5,7 +5,7 @@ SSL Config
 
 Goal and purpose of this library is to make Play's WS library as well as Akka HTTP "secure by default".
 Sadly, while Java's security has been steadily improving some settings are still left up to the user,
-and certain algorithms which should never be used in a serious prodution system are still accepted by 
+and certain algorithms which should never be used in a serious production system are still accepted by 
 the default settings of the SSL/TLS infrastructure. These things are possible to fix, by providing specialized 
 implementations and/or defining additional settings for the Java runtime to use – this is exactly the purpose of SSL Config.
 
@@ -24,9 +24,9 @@ The project is maintained on two branches:
 
 Latest versions:
 
-```
+```scala
 // JDK8: 
-"com.typesafe" %% "ssl-config-akka" % "0.2.2"
+"com.typesafe" %% "ssl-config-akka" % "0.2.4"
 ```
 
 State of this project
@@ -58,6 +58,11 @@ An excellent series by [Will Sargent](https://github.com/wsargent) about making
 - [Fixing Certificate Revocation](https://tersesystems.com/blog/2014/03/22/fixing-certificate-revocation/)
 - [Fixing Hostname Verification](https://tersesystems.com/blog/2014/03/23/fixing-hostname-verification/) 
 - [Testing Hostname Verification](https://tersesystems.com/blog/2014/03/31/testing-hostname-verification)
+
+Releasing
+=========
+
+Run `release.sh` script.
 
 License
 =======
