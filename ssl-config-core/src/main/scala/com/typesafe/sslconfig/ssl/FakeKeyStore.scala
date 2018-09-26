@@ -25,15 +25,15 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
 
   val GeneratedKeyStore: String = fileInDevModeDir("generated.keystore")
   val ExportedCert: String = fileInDevModeDir("service.crt")
-  val TrustedAlias = "playgeneratedtrusted"
-  val DistinguishedName = "CN=localhost, OU=Unit Testing, O=Mavericks, L=Play Base 1, ST=Cyberspace, C=CY"
+  val TrustedAlias = "sslconfiggeneratedtrusted"
+  val DistinguishedName = "CN=localhost, OU=Unit Testing, O=Mavericks, L=SSL Config Base 1, ST=Cyberspace, C=CY"
   val SignatureAlgorithmName = "SHA256withRSA"
   val SignatureAlgorithmOID: ObjectIdentifier = AlgorithmId.sha256WithRSAEncryption_oid
 
   object CertificateAuthority {
     val ExportedCertificate = "target/dev-mode/ca.crt"
-    val TrustedAlias = "playgeneratedCAtrusted"
-    val DistinguishedName = "CN=localhost-CA, OU=Unit Testing, O=Mavericks, L=Play Base 1, ST=Cyberspace, C=CY"
+    val TrustedAlias = "sslconfiggeneratedCAtrusted"
+    val DistinguishedName = "CN=localhost-CA, OU=Unit Testing, O=Mavericks, L=SSL Config Base 1, ST=Cyberspace, C=CY"
   }
 
   private def fileInDevModeDir(filename: String): String = {
@@ -110,12 +110,12 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
       logger.debug(s"No need to create $keyStoreDir since it already exists.")
     } else if (keyStoreDir.exists() && keyStoreDir.isFile) {
       // File.mkdirs also returns false when there is a file for that path.
-      // Play will then fail to write the keystore file later, so we fail fast here.
-      throw new IllegalStateException(s"$keyStoreDir exists, but it is NOT a directory. Play won't be able to generate a key store file.")
+      // A consumer will then fail to write the keystore file later, so we fail fast here.
+      throw new IllegalStateException(s"$keyStoreDir exists, but it is NOT a directory, making it not possible to generate a key store file.")
     } else {
       // Not being able to create a directory inside target folder is weird, but if it happens
-      // Play will then fail to write the keystore file later, so we fail fast here.
-      throw new IllegalStateException(s"Play was not able to create $keyStoreDir. Check if there is permission to create such folder.")
+      // a consumer will then fail to write the keystore file later, so we fail fast here.
+      throw new IllegalStateException(s"Failed to create $keyStoreDir. Check if there is permission to create such folder.")
     }
   }
 
@@ -151,9 +151,9 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
 
     // Create the key store, first set the store pass
     keyStore.load(null, Array.emptyCharArray)
-    keyStore.setKeyEntry("playgeneratedCA", keyPair.getPrivate, Array.emptyCharArray, Array(cacert))
+    keyStore.setKeyEntry("sslconfiggeneratedCA", keyPair.getPrivate, Array.emptyCharArray, Array(cacert))
     keyStore.setCertificateEntry(CertificateAuthority.TrustedAlias, cacert)
-    keyStore.setKeyEntry("playgenerated", keyPair.getPrivate, Array.emptyCharArray, Array(cert))
+    keyStore.setKeyEntry("sslconfiggenerated", keyPair.getPrivate, Array.emptyCharArray, Array(cert))
     keyStore.setCertificateEntry(TrustedAlias, cert)
     keyStore
   }
