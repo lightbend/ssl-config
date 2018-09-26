@@ -48,7 +48,12 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.package.foldRuntime"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java16RecommendedCiphers"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java17RecommendedCiphers"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.Base64")
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.Base64"),
+
+      // Merge Lagom changes to KeyStore generation
+      // https://github.com/lightbend/ssl-config/pull/114
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.DnName"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.createSelfSignedCertificate"),
     )
 ).enablePlugins(ReleasePlugin, SbtOsgi)
 
