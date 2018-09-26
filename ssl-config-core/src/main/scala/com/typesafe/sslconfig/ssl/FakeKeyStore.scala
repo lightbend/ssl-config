@@ -35,7 +35,7 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
 
     // Should regenerate if we find an unacceptably weak key in there.
     val store = KeyStore.getInstance("JKS")
-    val in = new FileInputStream(keyStoreFile)
+    val in = java.nio.file.Files.newInputStream(keyStoreFile.toPath)
     try {
       store.load(in, "".toCharArray)
     } finally {
@@ -70,14 +70,14 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
       keyStore.load(null, "".toCharArray)
       keyStore.setKeyEntry("playgenerated", keyPair.getPrivate, "".toCharArray, Array(cert))
       keyStore.setCertificateEntry("playgeneratedtrusted", cert)
-      val out = new FileOutputStream(keyStoreFile)
+      val out = java.nio.file.Files.newOutputStream(keyStoreFile.toPath)
       try {
         keyStore.store(out, "".toCharArray)
       } finally {
         closeQuietly(out)
       }
     } else {
-      val in = new FileInputStream(keyStoreFile)
+      val in = java.nio.file.Files.newInputStream(keyStoreFile.toPath)
       try {
         keyStore.load(in, "".toCharArray)
       } finally {
