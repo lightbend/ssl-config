@@ -12,7 +12,6 @@ import java.math.BigInteger
 import java.security.cert.X509Certificate
 import java.io._
 import javax.net.ssl.KeyManagerFactory
-import scala.util.Properties.isJavaAtLeast
 import java.security.interfaces.RSAPublicKey
 
 /**
@@ -110,12 +109,9 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
     certInfo.set(X509CertInfo.VALIDITY, validity)
 
     // Subject and issuer
-    // Note: CertificateSubjectName and CertificateIssuerName are removed in Java 8
-    // and when setting the subject or issuer just the X500Name should be used.
     val owner = new X500Name(DnName)
-    val justName = isJavaAtLeast("1.8")
-    certInfo.set(X509CertInfo.SUBJECT, if (justName) owner else new CertificateSubjectName(owner))
-    certInfo.set(X509CertInfo.ISSUER, if (justName) owner else new CertificateIssuerName(owner))
+    certInfo.set(X509CertInfo.SUBJECT, owner)
+    certInfo.set(X509CertInfo.ISSUER, owner)
 
     // Key and algorithm
     certInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic))
