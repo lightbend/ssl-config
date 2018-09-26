@@ -26,6 +26,6 @@ git commit -m "Releasing docs for version $version"
 git push origin gh-pages
 
 echo "Docs where published. Getting back to release branch."
-git cd -
+git checkout -
 
 echo "[RELEASE SUCCESSFUL]"
