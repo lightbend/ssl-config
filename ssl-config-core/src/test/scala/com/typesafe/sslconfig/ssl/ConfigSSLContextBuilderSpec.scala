@@ -72,7 +72,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       keyStore.setKeyEntry("playgenerated", keyPair.getPrivate, password.toCharArray, Array(cert))
 
       val tempFile = java.io.File.createTempFile("privatekeystore", ".p12")
-      val out = new java.io.FileOutputStream(tempFile)
+      val out = java.nio.file.Files.newOutputStream(tempFile.toPath)
       try {
         keyStore.store(out, password.toCharArray)
       } finally {

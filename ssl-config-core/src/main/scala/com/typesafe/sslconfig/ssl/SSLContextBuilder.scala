@@ -269,7 +269,7 @@ class ConfigSSLContextBuilder(
   }
 
   def generateCRLFromFile(file: File): CRL = {
-    val fileStream = new BufferedInputStream(new FileInputStream(file))
+    val fileStream = new BufferedInputStream(java.nio.file.Files.newInputStream(file.toPath))
     val inStream = new DataInputStream(fileStream)
     try {
       generateCRL(inStream)
