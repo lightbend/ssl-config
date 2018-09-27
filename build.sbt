@@ -82,11 +82,7 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  // sbt-gpg works different from sbt-pgp. According to its docs it "hooks into the publish and publishLocal
-  // tasks. All artifacts will be signed; there is no need to run a separate publishSigned task."
-  // Keep in mind it requires proper `credentials` configuration:
-  // https://github.com/jodersky/sbt-gpg#signing-key
-  publishArtifacts,
+  releaseStepCommandAndRemaining("+publishSigned"),
   setNextVersion,
   commitNextVersion,
   // Automatically promote artifacts in Sonatype
