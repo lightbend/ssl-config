@@ -87,8 +87,6 @@ abstract class PublishToSonatype {
   case class Developer(id: String, name: String, url: String)
   def projectUrl: String
 
-  def licenseName         = "Apache License, Version 2.0"
-  def licenseUrl          = "http://www.apache.org/licenses/LICENSE-2.0"
   def developers: List[Developer]
   def licenseDistribution = "repo"
   def scmUrl: String
@@ -96,13 +94,6 @@ abstract class PublishToSonatype {
 
   def generatePomExtra: xml.NodeSeq = {
     <url>{ projectUrl }</url>
-    <licenses>
-      <license>
-        <name>{ licenseName }</name>
-        <url>{ licenseUrl }</url>
-        <distribution>{ licenseDistribution }</distribution>
-      </license>
-    </licenses>
     <scm>
       <url>{ scmUrl }</url>
       <connection>{ scmConnection }</connection>
