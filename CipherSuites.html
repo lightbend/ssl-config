@@ -30,7 +30,7 @@
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.2.4
+0.3.0
 </div>
 </div>
 <div class="nav-toc">
@@ -79,7 +79,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.2.4
+0.3.0
 </div>
 </div>
 <div class="nav-toc">
@@ -122,18 +122,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <h1><a href="#configuring-cipher-suites" name="configuring-cipher-suites" class="anchor"><span class="anchor-link"></span></a>Configuring Cipher Suites</h1>
 <p>A <a href="https://en.wikipedia.org/wiki/Cipher_suite">cipher suite</a> is really four different ciphers in one, describing the key exchange, bulk encryption, message authentication and random number function. There is <a href="https://utcc.utoronto.ca/~cks/space/blog/tech/SSLCipherNames">no official naming convention</a> of cipher suites, but most cipher suites are described in order &ndash; for example, &ldquo;TLS_DHE_RSA_WITH_AES_256_CBC_SHA&rdquo; uses DHE for key exchange, RSA for server certificate authentication, 256-bit key AES in CBC mode for the stream cipher, and SHA for the message authentication.</p>
 <h2><a href="#configuring-enabled-ciphers" name="configuring-enabled-ciphers" class="anchor"><span class="anchor-link"></span></a>Configuring Enabled Ciphers</h2>
-<p>The list of cipher suites has changed considerably between 1.6, 1.7 and 1.8.</p>
-<p>In 1.7 and 1.8, the default <a href="http://sim.ivi.co/2011/07/jsse-oracle-provider-preference-of-tls.html">out of the box</a> cipher suite list is used.</p>
-<p>In 1.6, the out of the box list is <a href="http://op-co.de/blog/posts/android_ssl_downgrade/">out of order</a>, with some weaker cipher suites configured in front of stronger ones, and contains a number of ciphers that are now considered weak. As such, the default list of enabled cipher suites is as follows:</p>
-<pre><code>&quot;TLS_DHE_RSA_WITH_AES_256_CBC_SHA&quot;,
-&quot;TLS_DHE_RSA_WITH_AES_128_CBC_SHA&quot;,
-&quot;TLS_DHE_DSS_WITH_AES_128_CBC_SHA&quot;,
-&quot;TLS_RSA_WITH_AES_256_CBC_SHA&quot;,
-&quot;TLS_RSA_WITH_AES_128_CBC_SHA&quot;,
-&quot;SSL_RSA_WITH_RC4_128_SHA&quot;,
-&quot;SSL_RSA_WITH_RC4_128_MD5&quot;,
-&quot;TLS_EMPTY_RENEGOTIATION_INFO_SCSV&quot; // per RFC 5746
-</code></pre>
+<p>The list of cipher suites is ordered by the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html#SupportedCipherSuites">SunJSSE provider cipher suites</a>.</p>
 <p>The list of cipher suites can be configured manually using the <code>ssl-config.enabledCipherSuites</code> setting:</p>
 <pre class="prettyprint"><code class="language-conf">ssl-config.enabledCipherSuites = [
   &quot;TLS_DHE_RSA_WITH_AES_128_GCM_SHA256&quot;
@@ -141,8 +130,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 </code></pre>
 <p>This can be useful to enable perfect forward security, for example, as only DHE and ECDHE cipher suites enable PFE.</p>
 <h2><a href="#recommendation-increase-the-dhe-key-size" name="recommendation-increase-the-dhe-key-size" class="anchor"><span class="anchor-link"></span></a>Recommendation: increase the DHE key size</h2>
-<p>Diffie Hellman has been in the news recently because it offers perfect forward secrecy. However, in 1.6 and 1.7, the server handshake of DHE is set to 1024 at most, which is considered weak and can be compromised by attackers.</p>
-<p>If you have JDK 1.8, setting the system property <code>-Djdk.tls.ephemeralDHKeySize=2048</code> is recommended to ensure stronger keysize in the handshake. Please see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#customizing_dh_keys">Customizing Size of Ephemeral Diffie-Hellman Keys</a>.</p>
+<p>Diffie Hellman has been in the news recently because it offers perfect forward secrecy. If you have JDK 1.8, setting the system property <code>-Djdk.tls.ephemeralDHKeySize=2048</code> is recommended to ensure stronger keysize in the handshake. Please see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#customizing_dh_keys">Customizing Size of Ephemeral Diffie-Hellman Keys</a>.</p>
 <h2><a href="#recommendation-use-ciphers-with-perfect-forward-secrecy" name="recommendation-use-ciphers-with-perfect-forward-secrecy" class="anchor"><span class="anchor-link"></span></a>Recommendation: Use Ciphers with Perfect Forward Secrecy</h2>
 <p>As per the <a href="https://datatracker.ietf.org/doc/draft-ietf-uta-tls-bcp/">Recommendations for Secure Use of TLS and DTLS</a>, the following cipher suites are recommended:</p>
 <pre class="prettyprint"><code class="language-conf">ssl-config.enabledCipherSuites = [

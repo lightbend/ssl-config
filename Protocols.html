@@ -30,7 +30,7 @@
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.2.4
+0.3.0
 </div>
 </div>
 <div class="nav-toc">
@@ -79,7 +79,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.2.4
+0.3.0
 </div>
 </div>
 <div class="nav-toc">
@@ -120,11 +120,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <div class="page-content row">
 <div class="small-12 large-9 column" id="docs">
 <h1><a href="#configuring-protocols" name="configuring-protocols" class="anchor"><span class="anchor-link"></span></a>Configuring Protocols</h1>
-<p>By default, WS SSL will use the most secure version of the TLS protocol available in the JVM.</p>
-<ul>
-  <li>On JDK 1.7 and later, the default protocol is &ldquo;TLSv1.2&rdquo;.</li>
-  <li>On JDK 1.6, the default protocol is &ldquo;TLSv1&rdquo;.</li>
-</ul>
+<p>By default, WS SSL will use the most secure version of the TLS protocol available in the JVM. On JDK 1.7 and later, the default protocol is &ldquo;TLSv1.2&rdquo;.</p>
 <p>The full protocol list in JSSE is available in the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#jssenames">Standard Algorithm Name Documentation</a>.</p>
 <h2><a href="#defining-the-default-protocol" name="defining-the-default-protocol" class="anchor"><span class="anchor-link"></span></a>Defining the default protocol</h2>
 <p>If you want to define a different <a href="https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/SSLContext.html#getInstance-java.lang.String-">default protocol</a>, you can set it specifically in the client:</p>
