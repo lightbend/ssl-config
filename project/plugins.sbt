@@ -9,6 +9,6 @@ addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.3.2")
 
 addSbtPlugin("de.heikoseeberger"     % "sbt-header"          % "5.0.0")
 addSbtPlugin("org.xerial.sbt"        % "sbt-sonatype"        % "2.3")
-addSbtPlugin("io.crashbox"           % "sbt-gpg"             % "0.2.0")
+addSbtPlugin("com.jsuereth"          % "sbt-pgp"             % "1.1.1")
 addSbtPlugin("com.typesafe"          % "sbt-mima-plugin"     % "0.3.0")
 addSbtPlugin("com.lightbend.paradox" % "sbt-paradox"         % "0.2.13")
