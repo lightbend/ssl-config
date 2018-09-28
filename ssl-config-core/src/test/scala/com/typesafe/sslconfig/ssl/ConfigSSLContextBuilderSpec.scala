@@ -67,7 +67,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       keyPairGenerator.initialize(2048) // 2048 is the NIST acceptable key length until 2030
       val keyPair = keyPairGenerator.generateKeyPair()
       val certificateAuthorityKeyPair = keyPairGenerator.generateKeyPair()
-      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair, certificateAuthorityKeyPair)
+      val cert = FakeKeyStore.createSelfSignedCertificate(keyPair, certificateAuthorityKeyPair)
       val password = "changeit" // cannot have a null password for PKCS12 in 1.6
       keyStore.load(null, password.toCharArray)
       keyStore.setKeyEntry("playgenerated", keyPair.getPrivate, password.toCharArray, Array(cert))
@@ -261,7 +261,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       val certificateAuthorityKeyPair = keyPairGenerator.generateKeyPair()
 
       // Generate a self signed certificate
-      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair, certificateAuthorityKeyPair)
+      val cert = FakeKeyStore.createSelfSignedCertificate(keyPair, certificateAuthorityKeyPair)
 
       val password = "changeit" // null passwords throw exception in 1.6
       keyStore.load(null, password.toCharArray)
@@ -291,7 +291,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       val certificateAuthorityKeyPair = keyPairGenerator.generateKeyPair()
 
       // Generate a self signed certificate
-      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair, certificateAuthorityKeyPair)
+      val cert = FakeKeyStore.createSelfSignedCertificate(keyPair, certificateAuthorityKeyPair)
 
       val password = "changeit" // null passwords throw exception in 1.6 in PKCS12
       keyStore.load(null, password.toCharArray)

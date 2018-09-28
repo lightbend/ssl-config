@@ -20,9 +20,7 @@ import java.security.interfaces.RSAPublicKey
  *
  * Was: play.core.server.ssl.FakeKeyStore
  */
-class FakeKeyStore(mkLogger: LoggerFactory) {
-  private val logger = mkLogger(getClass)
-
+object FakeKeyStore {
   val GeneratedKeyStore: String = fileInDevModeDir("generated.keystore")
   val ExportedCert: String = fileInDevModeDir("service.crt")
   val TrustedAlias = "sslconfiggeneratedtrusted"
@@ -38,94 +36,6 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
 
   private def fileInDevModeDir(filename: String): String = {
     "target" + File.separatorChar + "dev-mode" + File.separatorChar + filename
-  }
-
-  /**
-   * @param appPath a file descriptor to the root folder of the project (the root, not a particular module).
-   */
-  def getKeyStoreFilePath(appPath: File) = new File(appPath, GeneratedKeyStore)
-
-  private[ssl] def shouldGenerate(keyStoreFile: File): Boolean = {
-    import scala.collection.JavaConverters._
-
-    if (!keyStoreFile.exists()) {
-      return true
-    }
-
-    // Should regenerate if we find an unacceptably weak key in there.
-    val store = loadKeyStore(keyStoreFile)
-    store.aliases().asScala.exists { alias =>
-      Option(store.getCertificate(alias)).exists(c => certificateTooWeak(c))
-    }
-  }
-
-  private def loadKeyStore(file: File): KeyStore = {
-    val keyStore: KeyStore = KeyStore.getInstance("JKS")
-    val in = java.nio.file.Files.newInputStream(file.toPath)
-    try {
-      keyStore.load(in, "".toCharArray)
-    } finally {
-      closeQuietly(in)
-    }
-    keyStore
-  }
-
-  private[ssl] def certificateTooWeak(c: java.security.cert.Certificate): Boolean = {
-    val key: RSAPublicKey = c.getPublicKey.asInstanceOf[RSAPublicKey]
-    key.getModulus.bitLength < 2048 || c.asInstanceOf[X509CertImpl].getSigAlgName != SignatureAlgorithmName
-  }
-
-  /** Public only for consumption by Play/Lagom. */
-  def createKeyStore(appPath: File): KeyStore = {
-    val keyStoreFile = getKeyStoreFilePath(appPath)
-    val keyStoreDir = keyStoreFile.getParentFile
-
-    createKeystoreParentDirectory(keyStoreDir)
-
-    val keyStore: KeyStore = if (shouldGenerate(keyStoreFile)) {
-      logger.info(s"Generating HTTPS key pair in ${keyStoreFile.getAbsolutePath} - this may take some time. If nothing happens, try moving the mouse/typing on the keyboard to generate some entropy.")
-
-      val freshKeyStore: KeyStore = generateKeyStore
-      val out = java.nio.file.Files.newOutputStream(keyStoreFile.toPath)
-      try {
-        freshKeyStore.store(out, Array.emptyCharArray)
-      } finally {
-        closeQuietly(out)
-      }
-      freshKeyStore
-    } else {
-      // Load a KeyStore from a file
-      val loadedKeyStore = loadKeyStore(keyStoreFile)
-      logger.info(s"HTTPS key pair generated in ${keyStoreFile.getAbsolutePath}.")
-      loadedKeyStore
-    }
-    keyStore
-  }
-
-  private def createKeystoreParentDirectory(keyStoreDir: File) = {
-    if (keyStoreDir.mkdirs()) {
-      logger.debug(s"Parent directory for keystore successfully created at ${keyStoreDir.getAbsolutePath}")
-    } else if (keyStoreDir.exists() && keyStoreDir.isDirectory) {
-      // File.mkdirs returns false when the directory already exists.
-      logger.debug(s"No need to create $keyStoreDir since it already exists.")
-    } else if (keyStoreDir.exists() && keyStoreDir.isFile) {
-      // File.mkdirs also returns false when there is a file for that path.
-      // A consumer will then fail to write the keystore file later, so we fail fast here.
-      throw new IllegalStateException(s"$keyStoreDir exists, but it is NOT a directory, making it not possible to generate a key store file.")
-    } else {
-      // Not being able to create a directory inside target folder is weird, but if it happens
-      // a consumer will then fail to write the keystore file later, so we fail fast here.
-      throw new IllegalStateException(s"Failed to create $keyStoreDir. Check if there is permission to create such folder.")
-    }
-  }
-
-  private[ssl] def keyManagerFactory(appPath: File): KeyManagerFactory = {
-    val keyStore = createKeyStore(appPath)
-
-    // Load the key and certificate into a key manager factory
-    val kmf = KeyManagerFactory.getInstance("SunX509")
-    kmf.init(keyStore, Array.emptyCharArray)
-    kmf
   }
 
   /**
@@ -232,6 +142,106 @@ class FakeKeyStore(mkLogger: LoggerFactory) {
     val newCert = new X509CertImpl(certInfo)
     newCert.sign(keyPair.getPrivate, SignatureAlgorithmName)
     newCert
+  }
+
+}
+
+/**
+ * A fake key store
+ *
+ * Was: play.core.server.ssl.FakeKeyStore
+ */
+final class FakeKeyStore(mkLogger: LoggerFactory) {
+  import FakeKeyStore._
+
+  private val logger: NoDepsLogger = mkLogger(getClass)
+
+  /**
+   * @param appPath a file descriptor to the root folder of the project (the root, not a particular module).
+   */
+  def getKeyStoreFilePath(appPath: File) = new File(appPath, GeneratedKeyStore)
+
+  private[ssl] def shouldGenerate(keyStoreFile: File): Boolean = {
+    import scala.collection.JavaConverters._
+
+    if (!keyStoreFile.exists()) {
+      return true
+    }
+
+    // Should regenerate if we find an unacceptably weak key in there.
+    val store = loadKeyStore(keyStoreFile)
+    store.aliases().asScala.exists { alias =>
+      Option(store.getCertificate(alias)).exists(c => certificateTooWeak(c))
+    }
+  }
+
+  private def loadKeyStore(file: File): KeyStore = {
+    val keyStore: KeyStore = KeyStore.getInstance("JKS")
+    val in = java.nio.file.Files.newInputStream(file.toPath)
+    try {
+      keyStore.load(in, "".toCharArray)
+    } finally {
+      closeQuietly(in)
+    }
+    keyStore
+  }
+
+  private[ssl] def certificateTooWeak(c: java.security.cert.Certificate): Boolean = {
+    val key: RSAPublicKey = c.getPublicKey.asInstanceOf[RSAPublicKey]
+    key.getModulus.bitLength < 2048 || c.asInstanceOf[X509CertImpl].getSigAlgName != SignatureAlgorithmName
+  }
+
+  /** Public only for consumption by Play/Lagom. */
+  def createKeyStore(appPath: File): KeyStore = {
+    val keyStoreFile = getKeyStoreFilePath(appPath)
+    val keyStoreDir = keyStoreFile.getParentFile
+
+    createKeystoreParentDirectory(keyStoreDir)
+
+    val keyStore: KeyStore = if (shouldGenerate(keyStoreFile)) {
+      logger.info(s"Generating HTTPS key pair in ${keyStoreFile.getAbsolutePath} - this may take some time. If nothing happens, try moving the mouse/typing on the keyboard to generate some entropy.")
+
+      val freshKeyStore: KeyStore = generateKeyStore
+      val out = java.nio.file.Files.newOutputStream(keyStoreFile.toPath)
+      try {
+        freshKeyStore.store(out, Array.emptyCharArray)
+      } finally {
+        closeQuietly(out)
+      }
+      freshKeyStore
+    } else {
+      // Load a KeyStore from a file
+      val loadedKeyStore = loadKeyStore(keyStoreFile)
+      logger.info(s"HTTPS key pair generated in ${keyStoreFile.getAbsolutePath}.")
+      loadedKeyStore
+    }
+    keyStore
+  }
+
+  private def createKeystoreParentDirectory(keyStoreDir: File) = {
+    if (keyStoreDir.mkdirs()) {
+      logger.debug(s"Parent directory for keystore successfully created at ${keyStoreDir.getAbsolutePath}")
+    } else if (keyStoreDir.exists() && keyStoreDir.isDirectory) {
+      // File.mkdirs returns false when the directory already exists.
+      logger.debug(s"No need to create $keyStoreDir since it already exists.")
+    } else if (keyStoreDir.exists() && keyStoreDir.isFile) {
+      // File.mkdirs also returns false when there is a file for that path.
+      // A consumer will then fail to write the keystore file later, so we fail fast here.
+      throw new IllegalStateException(s"$keyStoreDir exists, but it is NOT a directory, making it not possible to generate a key store file.")
+    } else {
+      // Not being able to create a directory inside target folder is weird, but if it happens
+      // a consumer will then fail to write the keystore file later, so we fail fast here.
+      throw new IllegalStateException(s"Failed to create $keyStoreDir. Check if there is permission to create such folder.")
+    }
+  }
+
+  private[ssl] def keyManagerFactory(appPath: File): KeyManagerFactory = {
+    val keyStore = createKeyStore(appPath)
+
+    // Load the key and certificate into a key manager factory
+    val kmf = KeyManagerFactory.getInstance("SunX509")
+    kmf.init(keyStore, Array.emptyCharArray)
+    kmf
   }
 
   /**
