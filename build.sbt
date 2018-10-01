@@ -1,6 +1,6 @@
 import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
-import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, MissingClassProblem, ProblemFilters}
+import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, FinalClassProblem, MissingClassProblem, ProblemFilters}
 
 val commonSettings = Seq(
   scalaVersion := Version.scala212,
@@ -56,6 +56,14 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       // https://github.com/lightbend/ssl-config/pull/114
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.DnName"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.createSelfSignedCertificate"),
+
+      // Should've always been final
+      ProblemFilters.exclude[FinalClassProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore"),
+
+      // Moved to FakeKeyStore-the-object
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.GeneratedKeyStore"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.SignatureAlgorithmOID"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.SignatureAlgorithmName"),
     )
 ).enablePlugins(SbtOsgi)
 
