@@ -42,10 +42,9 @@ object FakeKeyStore {
    * Generate a fresh KeyStore object in memory. This KeyStore
    * is not saved to disk. If you want that, then call `keyManagerFactory`.
    *
-   * This method has has `private[ssl]` access so it can be used for
-   * testing.
+   * This method is public only for consumption by Play/Lagom.
    */
-  private[ssl] def generateKeyStore: KeyStore = {
+  def generateKeyStore: KeyStore = {
     // Create a new KeyStore
     val keyStore: KeyStore = KeyStore.getInstance("JKS")
 
@@ -235,7 +234,8 @@ final class FakeKeyStore(mkLogger: LoggerFactory) {
     }
   }
 
-  private[ssl] def keyManagerFactory(appPath: File): KeyManagerFactory = {
+  /** Public only for consumption by Play/Lagom. */
+  def keyManagerFactory(appPath: File): KeyManagerFactory = {
     val keyStore = createKeyStore(appPath)
 
     // Load the key and certificate into a key manager factory
