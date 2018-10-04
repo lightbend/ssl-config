@@ -197,7 +197,7 @@ final class FakeKeyStore(mkLogger: LoggerFactory) {
 
     createKeystoreParentDirectory(keyStoreDir)
 
-    val keyStore: KeyStore = if (shouldGenerate(keyStoreFile)) {
+    val keyStore: KeyStore = synchronized(if (shouldGenerate(keyStoreFile)) {
       logger.info(s"Generating HTTPS key pair in ${keyStoreFile.getAbsolutePath} - this may take some time. If nothing happens, try moving the mouse/typing on the keyboard to generate some entropy.")
 
       val freshKeyStore: KeyStore = generateKeyStore
@@ -213,7 +213,7 @@ final class FakeKeyStore(mkLogger: LoggerFactory) {
       val loadedKeyStore = loadKeyStore(keyStoreFile)
       logger.info(s"HTTPS key pair generated in ${keyStoreFile.getAbsolutePath}.")
       loadedKeyStore
-    }
+    })
     keyStore
   }
 
