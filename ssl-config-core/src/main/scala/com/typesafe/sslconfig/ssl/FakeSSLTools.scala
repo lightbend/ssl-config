@@ -8,9 +8,15 @@ import java.security.KeyStore
 
 import javax.net.ssl._
 
-/** Extracted reusable tools from `play.it.test.ServerEndpoint.SelfSigned`. */
 object FakeSSLTools {
-  /** NOT FOR PRODUCTION USE. */
+  /**
+   * NOT FOR PRODUCTION USE. Builds a "TLS" `SSLContext` and `X509TrustManager` initializing both with the keys and
+   * certificates in the provided `KeyStore`. This means the `SSLContext` will produce `SSLEngine`'s, `SSLSocket``s
+   * and `SSLServerSocket`'s that will use a `KeyPair` from the `KeyStore`, and will trust any  `trustedCertEntry`
+   * in the `KeyStore`.
+   *
+   * This is a naïve implementation for testing purposes only.
+   */
   def buildContextAndTrust(keyStore: KeyStore): (SSLContext, X509TrustManager) = {
     val kmf: KeyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm)
     kmf.init(keyStore, Array.emptyCharArray)
