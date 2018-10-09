@@ -29,3 +29,4 @@ echo "Docs where published. Getting back to release branch."
 git checkout -
 
 echo "[RELEASE SUCCESSFUL]"
+echo Make sure to update mimaPreviousArtifacts
