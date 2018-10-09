@@ -22,7 +22,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     name := "ssl-config-core",
     mimaPreviousArtifacts ++= (CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v <= 12 =>
-        Set("com.typesafe" %% "ssl-config-core" % "0.2.3")
+        Set("com.typesafe" %% "ssl-config-core" % "0.3.5")
       case _ => // 2.13 we don't have a library capable of this
         Set.empty[ModuleID]
     }), // "sbt mimaReportBinaryIssues"
