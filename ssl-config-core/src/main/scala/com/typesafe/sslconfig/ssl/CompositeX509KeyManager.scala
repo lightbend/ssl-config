@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
@@ -33,7 +33,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   // the same class, i.e. you can't have two X509KeyManagers in the array.
 
   def getClientAliases(keyType: String, issuers: Array[Principal]): Array[String] = {
-    logger.debug(s"getClientAliases: keyType = $keyType, issuers = ${issuers.toSeq}")
+    logger.debug(s"getClientAliases: keyType = $keyType, issuers = ${issuersToString(issuers)}")
 
     val clientAliases = ArrayBuffer[String]()
     withKeyManagers { keyManager =>
@@ -48,7 +48,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   def chooseClientAlias(keyType: Array[String], issuers: Array[Principal], socket: Socket): String = {
-    logger.debug(s"chooseClientAlias: keyType = ${keyType.toSeq}, issuers = ${issuers.toSeq}, socket = $socket")
+    logger.debug(s"chooseClientAlias: keyType = ${keyType.toSeq}, issuers = ${issuersToString(issuers)}, socket = $socket")
 
     withKeyManagers { keyManager =>
       val clientAlias = keyManager.chooseClientAlias(keyType, issuers, socket)
@@ -61,7 +61,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   override def chooseEngineClientAlias(keyType: Array[String], issuers: Array[Principal], engine: SSLEngine): String = {
-    logger.debug(s"chooseEngineClientAlias: keyType = ${keyType.toSeq}, issuers = ${issuers.toSeq}, engine = $engine")
+    logger.debug(s"chooseEngineClientAlias: keyType = ${keyType.toSeq}, issuers = ${issuersToString(issuers)}, engine = $engine")
     withKeyManagers { keyManager: X509KeyManager =>
       keyManager match {
         case extendedKeyManager: X509ExtendedKeyManager =>
@@ -78,7 +78,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   override def chooseEngineServerAlias(keyType: String, issuers: Array[Principal], engine: SSLEngine): String = {
-    logger.debug(s"chooseEngineServerAlias: keyType = ${keyType.toSeq}, issuers = ${issuers.toSeq}, engine = $engine")
+    logger.debug(s"chooseEngineServerAlias: keyType = ${keyType.toSeq}, issuers = ${issuersToString(issuers)}, engine = $engine")
 
     withKeyManagers { keyManager: X509KeyManager =>
       keyManager match {
@@ -96,7 +96,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   def getServerAliases(keyType: String, issuers: Array[Principal]): Array[String] = {
-    logger.debug(s"getServerAliases: keyType = $keyType, issuers = ${issuers.toSeq}")
+    logger.debug(s"getServerAliases: keyType = $keyType, issuers = ${issuersToString(issuers)}")
 
     val serverAliases = ArrayBuffer[String]()
     withKeyManagers { keyManager =>
@@ -111,7 +111,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   def chooseServerAlias(keyType: String, issuers: Array[Principal], socket: Socket): String = {
-    logger.debug(s"chooseServerAlias: keyType = $keyType, issuers = ${issuers.toSeq}, socket = $socket")
+    logger.debug(s"chooseServerAlias: keyType = $keyType, issuers = ${issuersToString(issuers)}, socket = $socket")
     withKeyManagers { keyManager =>
       val serverAlias = keyManager.chooseServerAlias(keyType, issuers, socket)
       if (serverAlias != null) {
@@ -160,6 +160,9 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   }
 
   private def nullIfEmpty[T](array: Array[T]) = if (array.size == 0) null else array
+
+  private def issuersToString(issuers: Array[Principal]) =
+    if (issuers != null) issuers.mkString("[", ", ", "]") else null
 
   override def toString = {
     s"CompositeX509KeyManager(keyManagers = [$keyManagers])"

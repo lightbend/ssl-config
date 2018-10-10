@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
@@ -20,10 +20,11 @@ trait SSLContextBuilder {
  * A simple SSL context builder.  If the keyManagers or trustManagers are empty, then null is used in the init method.
  * Likewise, if secureRandom is None then null is used.
  */
-class SimpleSSLContextBuilder(protocol: String,
-                              keyManagers: Seq[KeyManager],
-                              trustManagers: Seq[TrustManager],
-                              secureRandom: Option[SecureRandom]) extends SSLContextBuilder {
+class SimpleSSLContextBuilder(
+    protocol: String,
+    keyManagers: Seq[KeyManager],
+    trustManagers: Seq[TrustManager],
+    secureRandom: Option[SecureRandom]) extends SSLContextBuilder {
 
   def nullIfEmpty[T](array: Array[T]) = {
     if (array.isEmpty) null else array
@@ -94,10 +95,11 @@ class DefaultTrustManagerFactoryWrapper(trustManagerAlgorithm: String) extends T
 /**
  * Creates an SSL context builder from info objects.
  */
-class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
-                              info: SSLConfigSettings,
-                              keyManagerFactory: KeyManagerFactoryWrapper,
-                              trustManagerFactory: TrustManagerFactoryWrapper) extends SSLContextBuilder {
+class ConfigSSLContextBuilder(
+    mkLogger: LoggerFactory,
+    info: SSLConfigSettings,
+    keyManagerFactory: KeyManagerFactoryWrapper,
+    trustManagerFactory: TrustManagerFactoryWrapper) extends SSLContextBuilder {
 
   protected val logger = mkLogger(getClass)
 
@@ -121,10 +123,11 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
     buildSSLContext(info.protocol, keyManagers, trustManagers, info.secureRandom)
   }
 
-  def buildSSLContext(protocol: String,
-                      keyManagers: Seq[KeyManager],
-                      trustManagers: Seq[TrustManager],
-                      secureRandom: Option[SecureRandom]) = {
+  def buildSSLContext(
+    protocol: String,
+    keyManagers: Seq[KeyManager],
+    trustManagers: Seq[TrustManager],
+    secureRandom: Option[SecureRandom]) = {
     val builder = new SimpleSSLContextBuilder(protocol, keyManagers, trustManagers, secureRandom)
     builder.build()
   }
@@ -137,9 +140,10 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
     new CompositeX509KeyManager(mkLogger, keyManagers)
   }
 
-  def buildCompositeTrustManager(trustManagerInfo: TrustManagerConfig,
-                                 revocationEnabled: Boolean,
-                                 revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker) = {
+  def buildCompositeTrustManager(
+    trustManagerInfo: TrustManagerConfig,
+    revocationEnabled: Boolean,
+    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker) = {
 
     val trustManagers = trustManagerInfo.trustStoreConfigs.map {
       tsc =>
@@ -266,7 +270,7 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
   }
 
   def generateCRLFromFile(file: File): CRL = {
-    val fileStream = new BufferedInputStream(new FileInputStream(file))
+    val fileStream = new BufferedInputStream(java.nio.file.Files.newInputStream(file.toPath))
     val inStream = new DataInputStream(fileStream)
     try {
       generateCRL(inStream)
@@ -275,10 +279,11 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
     }
   }
 
-  def buildTrustManagerParameters(trustStore: KeyStore,
-                                  revocationEnabled: Boolean,
-                                  revocationLists: Option[Seq[CRL]],
-                                  algorithmChecker: AlgorithmChecker): CertPathTrustManagerParameters = {
+  def buildTrustManagerParameters(
+    trustStore: KeyStore,
+    revocationEnabled: Boolean,
+    revocationLists: Option[Seq[CRL]],
+    algorithmChecker: AlgorithmChecker): CertPathTrustManagerParameters = {
     import scala.collection.JavaConverters._
 
     val certSelect: X509CertSelector = new X509CertSelector
@@ -303,9 +308,10 @@ class ConfigSSLContextBuilder(mkLogger: LoggerFactory,
   /**
    * Builds trust managers, using a TrustManagerFactory internally.
    */
-  def buildTrustManager(tsc: TrustStoreConfig,
-                        revocationEnabled: Boolean,
-                        revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker): X509TrustManager = {
+  def buildTrustManager(
+    tsc: TrustStoreConfig,
+    revocationEnabled: Boolean,
+    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker): X509TrustManager = {
 
     val factory = trustManagerFactory
     val trustStore = trustStoreBuilder(tsc).build()

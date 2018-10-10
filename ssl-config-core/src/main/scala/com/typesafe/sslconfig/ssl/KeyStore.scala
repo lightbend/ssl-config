@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
@@ -63,9 +63,10 @@ class StringBasedKeyStoreBuilder(data: String) extends KeyStoreBuilder {
  *
  * @see java.security.cert.CertificateFactory
  */
-class FileBasedKeyStoreBuilder(keyStoreType: String,
-                               filePath: String,
-                               password: Option[Array[Char]]) extends KeyStoreBuilder {
+class FileBasedKeyStoreBuilder(
+    keyStoreType: String,
+    filePath: String,
+    password: Option[Array[Char]]) extends KeyStoreBuilder {
 
   def build(): KeyStore = {
     val file = new File(filePath)
@@ -83,7 +84,7 @@ class FileBasedKeyStoreBuilder(keyStoreType: String,
   }
 
   def buildFromKeystoreFile(storeType: String, file: File): KeyStore = {
-    val inputStream = new BufferedInputStream(new FileInputStream(file))
+    val inputStream = new BufferedInputStream(java.nio.file.Files.newInputStream(file.toPath))
     try {
       val storeType = keyStoreType
       val store = KeyStore.getInstance(storeType)
@@ -97,7 +98,7 @@ class FileBasedKeyStoreBuilder(keyStoreType: String,
   def readCertificates(file: File): Iterable[Certificate] = {
     import scala.collection.JavaConverters._
     val cf = CertificateFactory.getInstance("X.509")
-    val fis = new FileInputStream(file)
+    val fis = java.nio.file.Files.newInputStream(file.toPath)
     val bis = new BufferedInputStream(fis)
 
     cf.generateCertificates(bis).asScala
@@ -105,9 +106,10 @@ class FileBasedKeyStoreBuilder(keyStoreType: String,
 
 }
 
-class FileOnClasspathBasedKeyStoreBuilder(keyStoreType: String,
-                                          filePath: String,
-                                          password: Option[Array[Char]]) extends KeyStoreBuilder {
+class FileOnClasspathBasedKeyStoreBuilder(
+    keyStoreType: String,
+    filePath: String,
+    password: Option[Array[Char]]) extends KeyStoreBuilder {
 
   def build(): KeyStore = {
 

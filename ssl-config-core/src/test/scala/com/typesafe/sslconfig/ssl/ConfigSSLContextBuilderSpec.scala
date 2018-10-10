@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
@@ -66,13 +66,13 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
       keyPairGenerator.initialize(2048) // 2048 is the NIST acceptable key length until 2030
       val keyPair = keyPairGenerator.generateKeyPair()
-      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair)
+      val cert = FakeKeyStore.createSelfSignedCertificate(keyPair)
       val password = "changeit" // cannot have a null password for PKCS12 in 1.6
       keyStore.load(null, password.toCharArray)
       keyStore.setKeyEntry("playgenerated", keyPair.getPrivate, password.toCharArray, Array(cert))
 
       val tempFile = java.io.File.createTempFile("privatekeystore", ".p12")
-      val out = new java.io.FileOutputStream(tempFile)
+      val out = java.nio.file.Files.newOutputStream(tempFile.toPath)
       try {
         keyStore.store(out, password.toCharArray)
       } finally {
@@ -139,7 +139,8 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       val checkRevocation = false
       val revocationLists = None
 
-      val actual = builder.buildCompositeTrustManager(trustManagerConfig,
+      val actual = builder.buildCompositeTrustManager(
+        trustManagerConfig,
         checkRevocation,
         revocationLists, algorithmChecker)
       actual must beAnInstanceOf[CompositeX509TrustManager]
@@ -258,7 +259,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       val keyPair = keyPairGenerator.generateKeyPair()
 
       // Generate a self signed certificate
-      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair)
+      val cert = FakeKeyStore.createSelfSignedCertificate(keyPair)
 
       val password = "changeit" // null passwords throw exception in 1.6
       keyStore.load(null, password.toCharArray)
@@ -287,7 +288,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       val keyPair = keyPairGenerator.generateKeyPair()
 
       // Generate a self signed certificate
-      val cert = new FakeKeyStore(mkLogger).createSelfSignedCertificate(keyPair)
+      val cert = FakeKeyStore.createSelfSignedCertificate(keyPair)
 
       val password = "changeit" // null passwords throw exception in 1.6 in PKCS12
       keyStore.load(null, password.toCharArray)
@@ -344,32 +345,6 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
       {
         builder.validateStore(trustStore, checker)
       }.must(not(throwAn[CertPathValidatorException]))
-    }
-
-    "warnOnPKCS12EmptyPasswordBug returns true when a PKCS12 keystore has a null or empty password" in {
-      val keyManagerFactory = mock[KeyManagerFactoryWrapper]
-      val trustManagerFactory = mock[TrustManagerFactoryWrapper]
-
-      val ksc = KeyStoreConfig(None, Some("path")).withStoreType("PKCS12")
-      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))
-      val sslConfig = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)
-
-      val builder = new ConfigSSLContextBuilder(mkLogger, sslConfig, keyManagerFactory, trustManagerFactory)
-
-      builder.warnOnPKCS12EmptyPasswordBug(ksc) must beTrue
-    }
-
-    "warnOnPKCS12EmptyPasswordBug returns false when a PKCS12 keystore has a password" in {
-      val keyManagerFactory = mock[KeyManagerFactoryWrapper]
-      val trustManagerFactory = mock[TrustManagerFactoryWrapper]
-
-      val ksc = KeyStoreConfig(None, Some("path")).withStoreType("PKCS12").withPassword(Some("password"))
-      val keyManagerConfig = KeyManagerConfig().withKeyStoreConfigs(List(ksc))
-      val sslConfig = SSLConfigSettings().withKeyManagerConfig(keyManagerConfig)
-
-      val builder = new ConfigSSLContextBuilder(mkLogger, sslConfig, keyManagerFactory, trustManagerFactory)
-
-      builder.warnOnPKCS12EmptyPasswordBug(ksc) must beFalse
     }
   }
 

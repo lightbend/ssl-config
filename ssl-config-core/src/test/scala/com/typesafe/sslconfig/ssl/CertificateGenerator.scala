@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
@@ -9,13 +9,11 @@ import java.security._
 import java.security.cert._
 import java.util.Date
 
-import com.typesafe.sslconfig.Base64
 import org.joda.time.Instant
 import sun.security.util.ObjectIdentifier
 import sun.security.x509._
 
 import scala.concurrent.duration.{ FiniteDuration, _ }
-import scala.util.Properties.isJavaAtLeast
 
 /**
  * Used for testing only.  This relies on internal sun.security packages, so cannot be used in OpenJDK.
@@ -49,12 +47,12 @@ object CertificateGenerator {
   }
 
   def toPEM(certificate: X509Certificate) = {
-    val encoder = Base64.rfc2045()
+    val encoder = java.util.Base64.getMimeEncoder()
     val certBegin = "-----BEGIN CERTIFICATE-----\n"
     val certEnd = "-----END CERTIFICATE-----"
 
     val derCert = certificate.getEncoded()
-    val pemCertPre = encoder.encodeToString(derCert, false)
+    val pemCertPre = encoder.encodeToString(derCert)
     val pemCert = certBegin + pemCertPre + certEnd
     pemCert
   }
@@ -77,14 +75,10 @@ object CertificateGenerator {
     val sn: BigInteger = new BigInteger(64, new SecureRandom)
     val owner: X500Name = new X500Name(dn)
 
-    // Note: CertificateSubjectName and CertificateIssuerName are removed in Java 8
-    // and when setting the subject or issuer just the X500Name should be used.
-    val justName = isJavaAtLeast("1.8")
-
     info.set(X509CertInfo.VALIDITY, interval)
     info.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(sn))
-    info.set(X509CertInfo.SUBJECT, if (justName) owner else new CertificateSubjectName(owner))
-    info.set(X509CertInfo.ISSUER, if (justName) owner else new CertificateIssuerName(owner))
+    info.set(X509CertInfo.SUBJECT, owner)
+    info.set(X509CertInfo.ISSUER, owner)
     info.set(X509CertInfo.KEY, new CertificateX509Key(pair.getPublic))
     info.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
 

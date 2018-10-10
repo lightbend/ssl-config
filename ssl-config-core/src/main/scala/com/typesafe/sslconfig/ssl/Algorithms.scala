@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
@@ -250,27 +250,32 @@ object AlgorithmConstraintsParser extends RegexParsers {
       AlgorithmConstraint(algorithm, None)
   }
 
-  def keySizeConstraint: Parser[ExpressionSymbol] = "keySize" ~> operator ~ decimalInteger ^^ {
-    case "<=" ~ decimal =>
+  def keySizeConstraint: Parser[ExpressionSymbol] = "keySize" ~> opSym ~ decimalInteger ^^ {
+    case OpSym.LTE ~ decimal =>
       LessThanOrEqual(decimal)
 
-    case "<" ~ decimal =>
+    case OpSym.LT ~ decimal =>
       LessThan(decimal)
 
-    case "==" ~ decimal =>
+    case OpSym.EQ ~ decimal =>
       Equal(decimal)
 
-    case "!=" ~ decimal =>
+    case OpSym.NE ~ decimal =>
       NotEqual(decimal)
 
-    case ">=" ~ decimal =>
+    case OpSym.GTE ~ decimal =>
       MoreThanOrEqual(decimal)
 
-    case ">" ~ decimal =>
+    case OpSym.GT ~ decimal =>
       MoreThan(decimal)
   }
 
   def operator: Parser[String] = "<=" | "<" | "==" | "!=" | ">=" | ">"
+
+  private def opSym: Parser[OpSym] = {
+    import OpSym._
+    "<=" ^^^ LTE | "<" ^^^ LT | "==" ^^^ EQ | "!=" ^^^ NE | ">=" ^^^ GTE | ">" ^^^ GT
+  }
 
   def decimalInteger: Parser[Int] = """\d+""".r ^^ {
     f => f.toInt
@@ -282,3 +287,12 @@ object AlgorithmConstraintsParser extends RegexParsers {
 
 }
 
+private[ssl] sealed trait OpSym
+private[ssl] object OpSym {
+  case object LTE extends OpSym
+  case object LT extends OpSym
+  case object EQ extends OpSym
+  case object NE extends OpSym
+  case object GTE extends OpSym
+  case object GT extends OpSym
+}

@@ -1,13 +1,13 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
 import java.net.URL
-import java.security.{KeyStore, SecureRandom}
+import java.security.{ KeyStore, SecureRandom }
 import java.util.Optional
-import javax.net.ssl.{HostnameVerifier, KeyManagerFactory, SSLParameters, TrustManagerFactory}
+import javax.net.ssl.{ HostnameVerifier, KeyManagerFactory, SSLParameters, TrustManagerFactory }
 
 import scala.collection.immutable
 import com.typesafe.config.Config
@@ -27,12 +27,12 @@ import scala.language.existentials
  * @param data The data to load the key store file from.
  * @param password The password to use to load the key store file, if the file is password protected.
  */
-final class KeyStoreConfig private[sslconfig](
-  val data: Option[String],
-  val filePath: Option[String],
-  val isFileOnClasspath: Boolean = false,
-  val password: Option[String] = None,
-  val storeType: String = KeyStore.getDefaultType) {
+final class KeyStoreConfig private[sslconfig] (
+    val data: Option[String],
+    val filePath: Option[String],
+    val isFileOnClasspath: Boolean = false,
+    val password: Option[String] = None,
+    val storeType: String = KeyStore.getDefaultType) {
   assert(filePath.isDefined ^ data.isDefined, "Either key store path or data must be defined, but not both.")
 
   /** Disables `filePath` – only one of those can be used at any given time. */
@@ -49,11 +49,11 @@ final class KeyStoreConfig private[sslconfig](
     isFileOnClasspath: Boolean = isFileOnClasspath,
     password: Option[String] = password,
     storeType: String = storeType): KeyStoreConfig = new KeyStoreConfig(
-      data = data,
-      filePath = filePath,
-      isFileOnClasspath = isFileOnClasspath,
-      password = password,
-      storeType = storeType)
+    data = data,
+    filePath = filePath,
+    isFileOnClasspath = isFileOnClasspath,
+    password = password,
+    storeType = storeType)
 
   override def toString =
     s"""KeyStoreConfig(${data},${filePath},${isFileOnClasspath},${storeType})"""
@@ -65,16 +65,15 @@ object KeyStoreConfig {
     apply(Option(data.orElse(null)), Option(filePath.orElse(null)))
 }
 
-
 /**
  * The trust manager config.
  *
  * @param algorithm The algorithm to use.
  * @param trustStoreConfigs The trust stores to use.
  */
-final class TrustManagerConfig private[sslconfig](
-  val algorithm: String = TrustManagerFactory.getDefaultAlgorithm,
-  val trustStoreConfigs: immutable.Seq[TrustStoreConfig] = Nil) {
+final class TrustManagerConfig private[sslconfig] (
+    val algorithm: String = TrustManagerFactory.getDefaultAlgorithm,
+    val trustStoreConfigs: immutable.Seq[TrustStoreConfig] = Nil) {
 
   def withAlgorithm(value: String): TrustManagerConfig = copy(algorithm = value)
   def withTrustStoreConfigs(value: scala.collection.immutable.Seq[com.typesafe.sslconfig.ssl.TrustStoreConfig]): TrustManagerConfig = copy(trustStoreConfigs = value)
@@ -82,8 +81,8 @@ final class TrustManagerConfig private[sslconfig](
   private def copy(
     algorithm: String = algorithm,
     trustStoreConfigs: scala.collection.immutable.Seq[com.typesafe.sslconfig.ssl.TrustStoreConfig] = trustStoreConfigs): TrustManagerConfig = new TrustManagerConfig(
-      algorithm = algorithm,
-      trustStoreConfigs = trustStoreConfigs)
+    algorithm = algorithm,
+    trustStoreConfigs = trustStoreConfigs)
 
   override def toString =
     s"""TrustManagerConfig(${algorithm},${trustStoreConfigs})"""
@@ -93,7 +92,6 @@ object TrustManagerConfig {
   /** Java API */
   def getInstance() = apply()
 }
-
 
 /**
  * Configuration for a trust store.
@@ -106,12 +104,12 @@ object TrustManagerConfig {
  * @param data The data to load the key store file from.
  * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
  */
-final class TrustStoreConfig private[sslconfig](
-  val data: Option[String],
-  val filePath: Option[String],
-  val password: Option[String],
-  val isFileOnClasspath: Boolean = false,
-  val storeType: String = KeyStore.getDefaultType) {
+final class TrustStoreConfig private[sslconfig] (
+    val data: Option[String],
+    val filePath: Option[String],
+    val password: Option[String],
+    val isFileOnClasspath: Boolean = false,
+    val storeType: String = KeyStore.getDefaultType) {
 
   assert(filePath.isDefined ^ data.isDefined, "Either trust store path or data must be defined, but not both.")
 
@@ -146,16 +144,15 @@ object TrustStoreConfig {
     apply(Option(data.orElse(null)), Option(filePath.orElse(null)))
 }
 
-
 /**
  * The key manager config.
  *
  * @param algorithm The algoritm to use.
  * @param keyStoreConfigs The key stores to use.
  */
-final class KeyManagerConfig private[sslconfig](
-  val algorithm: String = KeyManagerFactory.getDefaultAlgorithm,
-  val keyStoreConfigs: immutable.Seq[KeyStoreConfig] = Nil) {
+final class KeyManagerConfig private[sslconfig] (
+    val algorithm: String = KeyManagerFactory.getDefaultAlgorithm,
+    val keyStoreConfigs: immutable.Seq[KeyStoreConfig] = Nil) {
 
   def withAlgorithm(value: String): KeyManagerConfig = copy(algorithm = value)
   def withKeyStoreConfigs(value: scala.collection.immutable.Seq[com.typesafe.sslconfig.ssl.KeyStoreConfig]): KeyManagerConfig = copy(keyStoreConfigs = value)
@@ -163,8 +160,8 @@ final class KeyManagerConfig private[sslconfig](
   private def copy(
     algorithm: String = algorithm,
     keyStoreConfigs: scala.collection.immutable.Seq[com.typesafe.sslconfig.ssl.KeyStoreConfig] = keyStoreConfigs): KeyManagerConfig = new KeyManagerConfig(
-      algorithm = algorithm,
-      keyStoreConfigs = keyStoreConfigs)
+    algorithm = algorithm,
+    keyStoreConfigs = keyStoreConfigs)
 
   override def toString =
     s"""KeyManagerConfig(${algorithm},${keyStoreConfigs})"""
@@ -175,25 +172,24 @@ object KeyManagerConfig {
   def getInstance() = apply()
 }
 
-
 /**
  * SSL debug configuration.
  */
-final class SSLDebugConfig private[sslconfig](
-  val all: Boolean = false,
-  val certpath: Boolean = false,
-  val defaultctx: Boolean = false,
-  val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
-  val keygen: Boolean = false,
-  val keymanager: Boolean = false,
-  val ocsp: Boolean = false,
-  val pluggability: Boolean = false,
-  val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
-  val session: Boolean = false,
-  val sessioncache: Boolean = false,
-  val ssl: Boolean = false,
-  val sslctx: Boolean = false,
-  val trustmanager: Boolean = false) {
+final class SSLDebugConfig private[sslconfig] (
+    val all: Boolean = false,
+    val certpath: Boolean = false,
+    val defaultctx: Boolean = false,
+    val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
+    val keygen: Boolean = false,
+    val keymanager: Boolean = false,
+    val ocsp: Boolean = false,
+    val pluggability: Boolean = false,
+    val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
+    val session: Boolean = false,
+    val sessioncache: Boolean = false,
+    val ssl: Boolean = false,
+    val sslctx: Boolean = false,
+    val trustmanager: Boolean = false) {
 
   /**
    * Whether any debug options are enabled.
@@ -232,20 +228,20 @@ final class SSLDebugConfig private[sslconfig](
     ssl: Boolean = ssl,
     sslctx: Boolean = sslctx,
     trustmanager: Boolean = trustmanager): SSLDebugConfig = new SSLDebugConfig(
-      all = all,
-      certpath = certpath,
-      defaultctx = defaultctx,
-      handshake = handshake,
-      keygen = keygen,
-      keymanager = keymanager,
-      ocsp = ocsp,
-      pluggability = pluggability,
-      record = record,
-      session = session,
-      sessioncache = sessioncache,
-      ssl = ssl,
-      sslctx = sslctx,
-      trustmanager = trustmanager)
+    all = all,
+    certpath = certpath,
+    defaultctx = defaultctx,
+    handshake = handshake,
+    keygen = keygen,
+    keymanager = keymanager,
+    ocsp = ocsp,
+    pluggability = pluggability,
+    record = record,
+    session = session,
+    sessioncache = sessioncache,
+    ssl = ssl,
+    sslctx = sslctx,
+    trustmanager = trustmanager)
 
   override def toString =
     s"""SSLDebugConfig(${all},${certpath},${defaultctx},${handshake},${keygen},${keymanager},${ocsp},${pluggability},${record},${session},${sessioncache},${ssl},${sslctx},${trustmanager})"""
@@ -256,13 +252,12 @@ object SSLDebugConfig {
   def getInstance() = apply()
 }
 
-
 /**
  * SSL handshake debugging options.
  */
-final class SSLDebugHandshakeOptions private[sslconfig](
-  val data: Boolean = false,
-  val verbose: Boolean = false) {
+final class SSLDebugHandshakeOptions private[sslconfig] (
+    val data: Boolean = false,
+    val verbose: Boolean = false) {
 
   def withData(value: Boolean): SSLDebugHandshakeOptions = copy(data = value)
   def withVerbose(value: Boolean): SSLDebugHandshakeOptions = copy(verbose = value)
@@ -270,8 +265,8 @@ final class SSLDebugHandshakeOptions private[sslconfig](
   private def copy(
     data: Boolean = data,
     verbose: Boolean = verbose): SSLDebugHandshakeOptions = new SSLDebugHandshakeOptions(
-      data = data,
-      verbose = verbose)
+    data = data,
+    verbose = verbose)
 
   override def toString =
     s"""SSLDebugHandshakeOptions(${data},${verbose})"""
@@ -282,14 +277,12 @@ object SSLDebugHandshakeOptions {
   def getInstance() = apply()
 }
 
-
-
 /**
  * SSL record debugging options.
  */
-final class SSLDebugRecordOptions private[sslconfig](
-  val packet: Boolean = false,
-  val plaintext: Boolean = false) {
+final class SSLDebugRecordOptions private[sslconfig] (
+    val packet: Boolean = false,
+    val plaintext: Boolean = false) {
 
   def withPacket(value: Boolean): SSLDebugRecordOptions = copy(packet = value)
   def withPlaintext(value: Boolean): SSLDebugRecordOptions = copy(plaintext = value)
@@ -297,8 +290,8 @@ final class SSLDebugRecordOptions private[sslconfig](
   private def copy(
     packet: Boolean = packet,
     plaintext: Boolean = plaintext): SSLDebugRecordOptions = new SSLDebugRecordOptions(
-      packet = packet,
-      plaintext = plaintext)
+    packet = packet,
+    plaintext = plaintext)
 
   override def toString =
     s"""SSLDebugRecordOptions(${packet},${plaintext})"""
@@ -308,8 +301,6 @@ object SSLDebugRecordOptions {
   /** Java API */
   def getInstance() = apply()
 }
-
-
 
 /**
  * Configuration for specifying loose (potentially dangerous) ssl config.
@@ -324,14 +315,14 @@ object SSLDebugRecordOptions {
  * @param disableSNI Whether SNI should be disabled (up to client library to respect this setting or not)
  * @param acceptAnyCertificate Whether any X.509 certificate should be accepted or not.
  */
-final class SSLLooseConfig private[sslconfig](
-  val acceptAnyCertificate: Boolean = false,
-  val allowLegacyHelloMessages: Option[Boolean] = None,
-  val allowUnsafeRenegotiation: Option[Boolean]= None,
-  val allowWeakCiphers: Boolean = false,
-  val allowWeakProtocols: Boolean = false,
-  val disableHostnameVerification: Boolean = false,
-  val disableSNI: Boolean = false) {
+final class SSLLooseConfig private[sslconfig] (
+    val acceptAnyCertificate: Boolean = false,
+    val allowLegacyHelloMessages: Option[Boolean] = None,
+    val allowUnsafeRenegotiation: Option[Boolean] = None,
+    val allowWeakCiphers: Boolean = false,
+    val allowWeakProtocols: Boolean = false,
+    val disableHostnameVerification: Boolean = false,
+    val disableSNI: Boolean = false) {
 
   def withAcceptAnyCertificate(value: Boolean): SSLLooseConfig = copy(acceptAnyCertificate = value)
   def withAllowLegacyHelloMessages(value: Option[Boolean]): SSLLooseConfig = copy(allowLegacyHelloMessages = value)
@@ -349,13 +340,13 @@ final class SSLLooseConfig private[sslconfig](
     allowWeakProtocols: Boolean = allowWeakProtocols,
     disableHostnameVerification: Boolean = disableHostnameVerification,
     disableSNI: Boolean = disableSNI): SSLLooseConfig = new SSLLooseConfig(
-      acceptAnyCertificate = acceptAnyCertificate,
-      allowLegacyHelloMessages = allowLegacyHelloMessages,
-      allowUnsafeRenegotiation = allowUnsafeRenegotiation,
-      allowWeakCiphers = allowWeakCiphers,
-      allowWeakProtocols = allowWeakProtocols,
-      disableHostnameVerification = disableHostnameVerification,
-      disableSNI = disableSNI)
+    acceptAnyCertificate = acceptAnyCertificate,
+    allowLegacyHelloMessages = allowLegacyHelloMessages,
+    allowUnsafeRenegotiation = allowUnsafeRenegotiation,
+    allowWeakCiphers = allowWeakCiphers,
+    allowWeakProtocols = allowWeakProtocols,
+    disableHostnameVerification = disableHostnameVerification,
+    disableSNI = disableSNI)
 
   override def toString =
     s"""SSLLooseConfig(${acceptAnyCertificate},${allowLegacyHelloMessages},${allowUnsafeRenegotiation},${allowWeakCiphers},${allowWeakProtocols},${disableHostnameVerification},${disableSNI})"""
@@ -366,16 +357,14 @@ object SSLLooseConfig {
   def getInstance() = apply()
 }
 
-
-
 /**
  * Carries values which will be later set on an [[SSLParameters]] object.
  *
  * @param clientAuth see [[ClientAuth]] for detailed docs on ClientAuth modes
  */
-final class SSLParametersConfig private[sslconfig](
-  val clientAuth: ClientAuth = ClientAuth.Default,
-  val protocols: scala.collection.immutable.Seq[String] = Nil) {
+final class SSLParametersConfig private[sslconfig] (
+    val clientAuth: ClientAuth = ClientAuth.Default,
+    val protocols: scala.collection.immutable.Seq[String] = Nil) {
 
   def withClientAuth(value: com.typesafe.sslconfig.ssl.ClientAuth): SSLParametersConfig = copy(clientAuth = value)
   def withProtocols(value: scala.collection.immutable.Seq[String]): SSLParametersConfig = copy(protocols = value)
@@ -383,8 +372,8 @@ final class SSLParametersConfig private[sslconfig](
   private def copy(
     clientAuth: com.typesafe.sslconfig.ssl.ClientAuth = clientAuth,
     protocols: scala.collection.immutable.Seq[String] = protocols): SSLParametersConfig = new SSLParametersConfig(
-      clientAuth = clientAuth,
-      protocols = protocols)
+    clientAuth = clientAuth,
+    protocols = protocols)
 
   override def toString =
     s"""SSLParametersConfig(${clientAuth},${protocols})"""
@@ -394,7 +383,6 @@ object SSLParametersConfig {
   /** Java API */
   def getInstance() = apply()
 }
-
 
 /**
  * The SSL configuration.
@@ -414,22 +402,22 @@ object SSLParametersConfig {
  * @param debug The debug config.
  * @param loose Loose configuratino parameters
  */
-final class SSLConfigSettings private[sslconfig](
-  val default: Boolean = false,
-  val protocol: String = "TLSv1.2",
-  val checkRevocation: Option[Boolean] = None,
-  val revocationLists: Option[immutable.Seq[URL]] = None,
-  val enabledCipherSuites: Option[immutable.Seq[String]] = None,
-  val enabledProtocols: Option[immutable.Seq[String]] = Some(List("TLSv1.2", "TLSv1.1", "TLSv1")),
-  val disabledSignatureAlgorithms: immutable.Seq[String] = List("MD2", "MD4", "MD5"),
-  val disabledKeyAlgorithms: immutable.Seq[String] = List("RSA keySize < 2048", "DSA keySize < 2048", "EC keySize < 224"),
-  val sslParametersConfig: SSLParametersConfig = SSLParametersConfig(),
-  val keyManagerConfig: KeyManagerConfig = KeyManagerConfig(),
-  val trustManagerConfig: TrustManagerConfig = TrustManagerConfig(),
-  val hostnameVerifierClass: Class[_ <: HostnameVerifier] = classOf[DefaultHostnameVerifier],
-  val secureRandom: Option[SecureRandom] = None,
-  val debug: SSLDebugConfig = SSLDebugConfig(),
-  val loose: SSLLooseConfig = SSLLooseConfig()) {
+final class SSLConfigSettings private[sslconfig] (
+    val default: Boolean = false,
+    val protocol: String = "TLSv1.2",
+    val checkRevocation: Option[Boolean] = None,
+    val revocationLists: Option[immutable.Seq[URL]] = None,
+    val enabledCipherSuites: Option[immutable.Seq[String]] = None,
+    val enabledProtocols: Option[immutable.Seq[String]] = Some(List("TLSv1.2", "TLSv1.1", "TLSv1")),
+    val disabledSignatureAlgorithms: immutable.Seq[String] = List("MD2", "MD4", "MD5"),
+    val disabledKeyAlgorithms: immutable.Seq[String] = List("RSA keySize < 2048", "DSA keySize < 2048", "EC keySize < 224"),
+    val sslParametersConfig: SSLParametersConfig = SSLParametersConfig(),
+    val keyManagerConfig: KeyManagerConfig = KeyManagerConfig(),
+    val trustManagerConfig: TrustManagerConfig = TrustManagerConfig(),
+    val hostnameVerifierClass: Class[_ <: HostnameVerifier] = classOf[DefaultHostnameVerifier],
+    val secureRandom: Option[SecureRandom] = None,
+    val debug: SSLDebugConfig = SSLDebugConfig(),
+    val loose: SSLLooseConfig = SSLLooseConfig()) {
 
   def withCheckRevocation(value: Option[Boolean]): SSLConfigSettings = copy(checkRevocation = value)
   def withDebug(value: com.typesafe.sslconfig.ssl.SSLDebugConfig): SSLConfigSettings = copy(debug = value)
@@ -463,21 +451,21 @@ final class SSLConfigSettings private[sslconfig](
     secureRandom: Option[java.security.SecureRandom] = secureRandom,
     sslParametersConfig: com.typesafe.sslconfig.ssl.SSLParametersConfig = sslParametersConfig,
     trustManagerConfig: com.typesafe.sslconfig.ssl.TrustManagerConfig = trustManagerConfig): SSLConfigSettings = new SSLConfigSettings(
-      checkRevocation = checkRevocation,
-      debug = debug,
-      default = default,
-      disabledKeyAlgorithms = disabledKeyAlgorithms,
-      disabledSignatureAlgorithms = disabledSignatureAlgorithms,
-      enabledCipherSuites = enabledCipherSuites,
-      enabledProtocols = enabledProtocols,
-      hostnameVerifierClass = hostnameVerifierClass,
-      keyManagerConfig = keyManagerConfig,
-      loose = loose,
-      protocol = protocol,
-      revocationLists = revocationLists,
-      secureRandom = secureRandom,
-      sslParametersConfig = sslParametersConfig,
-      trustManagerConfig = trustManagerConfig)
+    checkRevocation = checkRevocation,
+    debug = debug,
+    default = default,
+    disabledKeyAlgorithms = disabledKeyAlgorithms,
+    disabledSignatureAlgorithms = disabledSignatureAlgorithms,
+    enabledCipherSuites = enabledCipherSuites,
+    enabledProtocols = enabledProtocols,
+    hostnameVerifierClass = hostnameVerifierClass,
+    keyManagerConfig = keyManagerConfig,
+    loose = loose,
+    protocol = protocol,
+    revocationLists = revocationLists,
+    secureRandom = secureRandom,
+    sslParametersConfig = sslParametersConfig,
+    trustManagerConfig = trustManagerConfig)
 
   override def toString =
     s"""SSLConfig(${checkRevocation},${debug},${default},${disabledKeyAlgorithms},${disabledSignatureAlgorithms},${enabledCipherSuites},${enabledProtocols},${hostnameVerifierClass},${keyManagerConfig},${loose},${protocol},${revocationLists},${secureRandom},${sslParametersConfig},${trustManagerConfig})"""
@@ -689,9 +677,9 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
     // could instantiate SSLParameters directly, but seems less clean, here we only parse config
 
     val clientAuth = config.getOptional[String]("clientAuth") match {
-      case Some("none")           => ClientAuth.None
-      case Some("want")           => ClientAuth.Want
-      case Some("need")           => ClientAuth.Need
+      case Some("none")   => ClientAuth.None
+      case Some("want")   => ClientAuth.Want
+      case Some("need")   => ClientAuth.Need
       case None | Some(_) => ClientAuth.Default
     }
 

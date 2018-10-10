@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2015 Typesafe Inc. <http://www.typesafe.com>
+ * Copyright (C) 2015 - 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
+import java.security.Principal
 import java.security.cert.{ Certificate, CertificateException, X509Certificate }
+
+import com.typesafe.sslconfig.util.LoggerFactory
 import javax.net.ssl.{ HostnameVerifier, SSLPeerUnverifiedException, SSLSession }
 import javax.security.auth.kerberos.KerberosPrincipal
-import com.typesafe.sslconfig.Base64
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 import sun.security.util.HostnameChecker
-import java.security.Principal
 
 /**
  * Use the internal sun hostname checker as the hostname verifier. Thanks to Kevin Locke.
@@ -42,8 +42,8 @@ class DefaultHostnameVerifier(mkLogger: LoggerFactory) extends HostnameVerifier 
   def isKerberos(principal: Principal): Boolean = principal != null && principal.isInstanceOf[KerberosPrincipal]
 
   def verify(hostname: String, session: SSLSession): Boolean = {
-    val base64 = Base64.rfc2045()
-    logger.debug(s"verify: hostname = $hostname, sessionId (base64) = ${base64.encodeToString(session.getId, false)}")
+    val base64 = java.util.Base64.getMimeEncoder()
+    logger.debug(s"verify: hostname = $hostname, sessionId (base64) = ${base64.encodeToString(session.getId)}")
 
     val result = try {
       val peerCertificates = session.getPeerCertificates
