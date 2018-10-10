@@ -55,7 +55,6 @@ class FakeKeyStoreSpec extends Specification {
       val ksPath = fakeKeyStore.getKeyStoreFilePath(basePath)
       fakeKeyStore.createKeyStore(basePath)
 
-
       // load the persisted key store using sslconfig.KeyStore
       val keyStore = new FileBasedKeyStoreBuilder(
         FakeKeyStore.KeystoreSettings.KeystoreType,
