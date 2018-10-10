@@ -127,11 +127,11 @@ final class TrustStoreConfig private[sslconfig] (
     password: Option[String] = password,
     isFileOnClasspath: Boolean = isFileOnClasspath,
     storeType: String = storeType): TrustStoreConfig = new TrustStoreConfig(
-      data = data,
-      filePath = filePath,
-      password = password,
-      isFileOnClasspath = isFileOnClasspath,
-      storeType = storeType)
+    data = data,
+    filePath = filePath,
+    password = password,
+    isFileOnClasspath = isFileOnClasspath,
+    storeType = storeType)
 
   override def toString =
     s"""TrustStoreConfig(${data},${filePath},${isFileOnClasspath},${storeType})"""
