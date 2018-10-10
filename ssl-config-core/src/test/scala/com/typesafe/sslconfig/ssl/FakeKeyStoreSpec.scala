@@ -4,8 +4,7 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.io.File
-import java.nio.file.{ Files, Path }
+import java.nio.file.Files
 
 import com.typesafe.sslconfig.util.NoopLogger
 import org.specs2.mutable.Specification
@@ -43,7 +42,7 @@ class FakeKeyStoreSpec extends Specification {
           alias =>
             Try(keyStore.getCertificate(alias)).toOption
         }
-        certificates.size must be_>(1)
+        certificates.size must be_==(2) // the self-signed and the trusted
       } finally {
         ksPath.delete()
       }
@@ -69,7 +68,7 @@ class FakeKeyStoreSpec extends Specification {
           alias =>
             Try(keyStore.getCertificate(alias)).toOption
         }
-        certificates.size must be_==(1)
+        certificates.size must be_==(2) // the self-signed and the trusted
       } finally {
         ksPath.delete()
       }
