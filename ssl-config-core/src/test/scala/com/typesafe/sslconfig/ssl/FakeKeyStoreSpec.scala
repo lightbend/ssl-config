@@ -4,9 +4,13 @@
 
 package com.typesafe.sslconfig.ssl
 
-import com.typesafe.sslconfig.util.NoopLogger
+import java.io.File
+import java.nio.file.{ Files, Path }
 
+import com.typesafe.sslconfig.util.NoopLogger
 import org.specs2.mutable.Specification
+
+import scala.util.Try
 
 class FakeKeyStoreSpec extends Specification {
   val mkLogger = NoopLogger.factory()
@@ -22,6 +26,55 @@ class FakeKeyStoreSpec extends Specification {
       val actual = new FakeKeyStore(mkLogger).certificateTooWeak(strongCert)
       actual must beFalse
     }
+
+    "build a keystore with a selfsigned certificate and trust on that certificate" in {
+      // create and persist a key store
+      val fakeKeyStore = new FakeKeyStore(mkLogger)
+      val basePath = Files.createTempDirectory("fake-keystore-spec-").toFile
+      val ksPath = fakeKeyStore.getKeyStoreFilePath(basePath)
+      fakeKeyStore.createKeyStore(basePath)
+
+      // load the persisted key store
+      val fakeKeyStore2 = new FakeKeyStore(mkLogger)
+      val keyStore = fakeKeyStore2.createKeyStore(basePath)
+      try {
+        import scala.collection.JavaConverters._
+        val certificates = keyStore.aliases().asScala.flatMap {
+          alias =>
+            Try(keyStore.getCertificate(alias)).toOption
+        }
+        certificates.size must be_>(1)
+      } finally {
+        ksPath.delete()
+      }
+    }
+
+    "build a keystore that's compatible with sslconfig.KeyStore" in {
+      // create and persist a key store
+      val fakeKeyStore = new FakeKeyStore(mkLogger)
+      val basePath = Files.createTempDirectory("fake-keystore-spec-").toFile
+      val ksPath = fakeKeyStore.getKeyStoreFilePath(basePath)
+      fakeKeyStore.createKeyStore(basePath)
+
+
+      // load the persisted key store using sslconfig.KeyStore
+      val keyStore = new FileBasedKeyStoreBuilder(
+        FakeKeyStore.KeystoreSettings.KeystoreType,
+        ksPath.getAbsolutePath,
+        Some(FakeKeyStore.KeystoreSettings.keystorePassword)
+      ).build()
+      try {
+        import scala.collection.JavaConverters._
+        val certificates = keyStore.aliases().asScala.flatMap {
+          alias =>
+            Try(keyStore.getCertificate(alias)).toOption
+        }
+        certificates.size must be_==(1)
+      } finally {
+        ksPath.delete()
+      }
+    }
+
   }
 
 }
