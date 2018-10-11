@@ -51,7 +51,7 @@ object FakeKeyStore {
     val SignatureAlgorithmName = "SHA256withRSA"
     val KeyPairAlgorithmName = "RSA"
     val KeyPairKeyLength = 2048 // 2048 is the NIST acceptable key length until 2030
-    val KeystoreType = "PKCS12"
+    val KeystoreType = "JKS"
     val SignatureAlgorithmOID: ObjectIdentifier = AlgorithmId.sha256WithRSAEncryption_oid
     val keystorePassword: Array[Char] = EMPTY_PASSWORD
   }

@@ -67,7 +67,7 @@ object FakeChainedKeyStore {
     val SignatureAlgorithmName = "SHA256withRSA"
     val KeyPairAlgorithmName = "RSA"
     val KeyPairKeyLength = 2048 // 2048 is the NIST acceptable key length until 2030
-    val KeystoreType = "PKCS12"
+    val KeystoreType = "JKS"
     val SignatureAlgorithmOID: ObjectIdentifier = AlgorithmId.sha256WithRSAEncryption_oid
     val keystorePassword: Array[Char] = EMPTY_PASSWORD
   }
@@ -217,7 +217,7 @@ final class FakeChainedKeyStore(mkLogger: LoggerFactory) {
     val keyStore: KeyStore = KeyStore.getInstance(KeystoreSettings.KeystoreType)
     val in = java.nio.file.Files.newInputStream(file.toPath)
     try {
-      keyStore.load(in, "".toCharArray)
+      keyStore.load(in, KeystoreSettings.keystorePassword)
     } finally {
       closeQuietly(in)
     }
