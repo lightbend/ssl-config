@@ -1,6 +1,6 @@
 import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
-import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, FinalClassProblem, MissingClassProblem, ProblemFilters}
+import com.typesafe.tools.mima.core._
 
 val commonSettings = Seq(
   scalaVersion := Version.scala212,
@@ -64,7 +64,12 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.GeneratedKeyStore"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.SignatureAlgorithmOID"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.SignatureAlgorithmName"),
-    )
+
+      // Support trustStore password
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.TrustStoreConfig.this"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.TrustStoreConfig.<init>$default$3"),
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.TrustStoreConfig.<init>$default$4"),
+)
 ).enablePlugins(SbtOsgi)
 
 lazy val documentation = project.in(file("documentation"))
