@@ -3,7 +3,7 @@ import sbt._
 object Version {
   val typesafeConfig = "1.3.3"
 
-  val jodaTime       = "2.9.9"
+  val jodaTime       = "2.10"
   val jodaTimeConvert = "1.9.2"
 
   val parserCombinators = "1.1.1"
