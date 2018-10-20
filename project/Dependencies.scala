@@ -11,13 +11,13 @@ object Version {
 
   val specs2Scala210  = "3.8.9"
   val specs2Scala213M3 = "4.2.0"
-  val specs2          = "4.3.0"
+  val specs2          = "4.3.5"
 
   val scala210       = "2.10.7"
   val scala211       = "2.11.12"
   val scala212       = "2.12.6"
   val scala213M3     = "2.13.0-M3"
-  val scala213       = "2.13.0-M4"
+  val scala213       = "2.13.0-M5"
 }
 
 object Library {
