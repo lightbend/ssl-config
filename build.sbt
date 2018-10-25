@@ -72,15 +72,6 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
 
       // DefaultHostnameVerifier was decomissioned
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.DefaultHostnameVerifier"),
-      // was private[sslconfig]
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.this"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.<init>$default$1*"),
-      ProblemFilters.exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.<init>$default$*"),
-      // hostnameVerifierClass was also decomissioned
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.hostnameVerifierClass"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.withHostnameVerifierClass"),
-      // DisabledComplainingHostnameVerifier was also decomissioned
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.DisabledComplainingHostnameVerifier"),
 )
 ).enablePlugins(SbtOsgi)
 

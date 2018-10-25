@@ -397,6 +397,7 @@ object SSLParametersConfig {
  * @param disabledKeyAlgorithms The disabled key algorithms.
  * @param keyManagerConfig The key manager configuration.
  * @param trustManagerConfig The trust manager configuration.
+ * @param hostnameVerifierClass The hostname verifier class.
  * @param secureRandom The SecureRandom instance to use. Let the platform choose if None.
  * @param debug The debug config.
  * @param loose Loose configuratino parameters
@@ -413,6 +414,7 @@ final class SSLConfigSettings private[sslconfig] (
     val sslParametersConfig: SSLParametersConfig = SSLParametersConfig(),
     val keyManagerConfig: KeyManagerConfig = KeyManagerConfig(),
     val trustManagerConfig: TrustManagerConfig = TrustManagerConfig(),
+    val hostnameVerifierClass: Class[_ <: HostnameVerifier] = classOf[NoopHostnameVerifier],
     val secureRandom: Option[SecureRandom] = None,
     val debug: SSLDebugConfig = SSLDebugConfig(),
     val loose: SSLLooseConfig = SSLLooseConfig()) {
@@ -424,6 +426,7 @@ final class SSLConfigSettings private[sslconfig] (
   def withDisabledSignatureAlgorithms(value: scala.collection.immutable.Seq[String]): SSLConfigSettings = copy(disabledSignatureAlgorithms = value)
   def withEnabledCipherSuites(value: Option[scala.collection.immutable.Seq[String]]): SSLConfigSettings = copy(enabledCipherSuites = value)
   def withEnabledProtocols(value: Option[scala.collection.immutable.Seq[String]]): SSLConfigSettings = copy(enabledProtocols = value)
+  def withHostnameVerifierClass(value: Class[_ <: javax.net.ssl.HostnameVerifier]): SSLConfigSettings = copy(hostnameVerifierClass = value)
   def withKeyManagerConfig(value: com.typesafe.sslconfig.ssl.KeyManagerConfig): SSLConfigSettings = copy(keyManagerConfig = value)
   def withLoose(value: com.typesafe.sslconfig.ssl.SSLLooseConfig): SSLConfigSettings = copy(loose = value)
   def withProtocol(value: String): SSLConfigSettings = copy(protocol = value)
@@ -440,6 +443,7 @@ final class SSLConfigSettings private[sslconfig] (
     disabledSignatureAlgorithms: scala.collection.immutable.Seq[String] = disabledSignatureAlgorithms,
     enabledCipherSuites: Option[scala.collection.immutable.Seq[String]] = enabledCipherSuites,
     enabledProtocols: Option[scala.collection.immutable.Seq[String]] = enabledProtocols,
+    hostnameVerifierClass: Class[_ <: javax.net.ssl.HostnameVerifier] = hostnameVerifierClass,
     keyManagerConfig: com.typesafe.sslconfig.ssl.KeyManagerConfig = keyManagerConfig,
     loose: com.typesafe.sslconfig.ssl.SSLLooseConfig = loose,
     protocol: String = protocol,
@@ -454,6 +458,7 @@ final class SSLConfigSettings private[sslconfig] (
     disabledSignatureAlgorithms = disabledSignatureAlgorithms,
     enabledCipherSuites = enabledCipherSuites,
     enabledProtocols = enabledProtocols,
+    hostnameVerifierClass = hostnameVerifierClass,
     keyManagerConfig = keyManagerConfig,
     loose = loose,
     protocol = protocol,
@@ -463,7 +468,7 @@ final class SSLConfigSettings private[sslconfig] (
     trustManagerConfig = trustManagerConfig)
 
   override def toString =
-    s"""SSLConfig(${checkRevocation},${debug},${default},${disabledKeyAlgorithms},${disabledSignatureAlgorithms},${enabledCipherSuites},${enabledProtocols},${keyManagerConfig},${loose},${protocol},${revocationLists},${secureRandom},${sslParametersConfig},${trustManagerConfig})"""
+    s"""SSLConfig(${checkRevocation},${debug},${default},${disabledKeyAlgorithms},${disabledSignatureAlgorithms},${enabledCipherSuites},${enabledProtocols},${hostnameVerifierClass},${keyManagerConfig},${loose},${protocol},${revocationLists},${secureRandom},${sslParametersConfig},${trustManagerConfig})"""
 }
 object SSLConfigSettings {
   def apply() = new SSLConfigSettings()
@@ -503,6 +508,11 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
     val ciphers = Some(c.getSeq[String]("enabledCipherSuites")).filter(_.nonEmpty)
     val protocols = Some(c.getSeq[String]("enabledProtocols")).filter(_.nonEmpty)
 
+    val hostnameVerifierClass = c.getOptional[String]("hostnameVerifierClass") match {
+      case None       => classOf[NoopHostnameVerifier]
+      case Some(fqcn) => classLoader.loadClass(fqcn).asSubclass(classOf[HostnameVerifier])
+    }
+
     val disabledSignatureAlgorithms = c.getSeq[String]("disabledSignatureAlgorithms")
     val disabledKeyAlgorithms = c.getSeq[String]("disabledKeyAlgorithms")
 
@@ -520,6 +530,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
       enabledCipherSuites = ciphers,
       enabledProtocols = protocols,
       keyManagerConfig = keyManagers,
+      hostnameVerifierClass = hostnameVerifierClass,
       disabledSignatureAlgorithms = disabledSignatureAlgorithms,
       disabledKeyAlgorithms = disabledKeyAlgorithms,
       sslParametersConfig = sslParametersConfig,
