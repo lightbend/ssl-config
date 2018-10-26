@@ -72,6 +72,10 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
 
       // DefaultHostnameVerifier was decomissioned
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.DefaultHostnameVerifier"),
+
+      // Delete the whole hacky debug package (plus MonkeyPatcher which should've been debug)
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.MonkeyPatcher"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.*"),
 )
 ).enablePlugins(SbtOsgi)
 
