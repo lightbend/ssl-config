@@ -124,14 +124,7 @@ property should contain the settings from both
 
 ## Debugging Certificate Validation
 
-To see more details on certificate validation, set the following debug
-configuration:
-
-```conf
-ssl-config.debug.certpath = true
-```
-
-The undocumented setting `-Djava.security.debug=x509` may also be
+The undocumented setting `-Djava.security.debug=x509` may be
 helpful.
 
 ## Further Reading
