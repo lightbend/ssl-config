@@ -31,6 +31,7 @@ Copyright (C) 2009-2016 Lightbend Inc. <[https://www.lightbend.com](https://www.
 * [CertificateValidation](CertificateValidation.md)
 * [ExampleSSLConfig](ExampleSSLConfig.md)
 * [DefaultContext](DefaultContext.md)
+* [DebuggingSSL](DebuggingSSL.md)
 * [LooseSSL](LooseSSL.md)
 * [TestingSSL](TestingSSL.md)
 
