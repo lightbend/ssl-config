@@ -119,18 +119,6 @@ certificates.
 }
 ```
 
-## Debugging
-
-To debug the key manager / trust manager, set the following flags:
-
-```conf
-ssl-config.debug = {
-  ssl = true
-  trustmanager = true
-  keymanager = true
-}
-```
-
 ## Further Reading
 
 In most cases, you will not need to do extensive configuration once the

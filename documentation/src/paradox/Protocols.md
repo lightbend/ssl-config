@@ -35,17 +35,3 @@ number of [security issues](https://www.schneier.com/paper-ssl.pdf),
 and will throw an exception if they are in the
 `ssl-config.enabledProtocols` list. Virtually all servers support
 `TLSv1`, so there is no advantage in using these older protocols.
-
-## Debugging
-
-The debug options for configuring protocol are:
-
-```conf
-ssl-config.debug = {
-  ssl = true
-  sslctx = true
-  handshake = true
-  verbose = true
-  data = true
-}
-```

@@ -15,7 +15,7 @@ class DisabledComplainingHostnameVerifier(mkLogger: LoggerFactory) extends Hostn
 
   private val logger = mkLogger(getClass)
 
-  private val defaultHostnameVerifier = new DefaultHostnameVerifier(mkLogger)
+  private val defaultHostnameVerifier = new NoopHostnameVerifier
 
   override def verify(hostname: String, sslSession: SSLSession): Boolean = {
     val hostNameMatches = defaultHostnameVerifier.verify(hostname, sslSession)

@@ -414,7 +414,7 @@ final class SSLConfigSettings private[sslconfig] (
     val sslParametersConfig: SSLParametersConfig = SSLParametersConfig(),
     val keyManagerConfig: KeyManagerConfig = KeyManagerConfig(),
     val trustManagerConfig: TrustManagerConfig = TrustManagerConfig(),
-    val hostnameVerifierClass: Class[_ <: HostnameVerifier] = classOf[DefaultHostnameVerifier],
+    val hostnameVerifierClass: Class[_ <: HostnameVerifier] = classOf[NoopHostnameVerifier],
     val secureRandom: Option[SecureRandom] = None,
     val debug: SSLDebugConfig = SSLDebugConfig(),
     val loose: SSLLooseConfig = SSLLooseConfig()) {
@@ -509,7 +509,7 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
     val protocols = Some(c.getSeq[String]("enabledProtocols")).filter(_.nonEmpty)
 
     val hostnameVerifierClass = c.getOptional[String]("hostnameVerifierClass") match {
-      case None       => classOf[DefaultHostnameVerifier]
+      case None       => classOf[NoopHostnameVerifier]
       case Some(fqcn) => classLoader.loadClass(fqcn).asSubclass(classOf[HostnameVerifier])
     }
 

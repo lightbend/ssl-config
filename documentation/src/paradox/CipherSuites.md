@@ -89,16 +89,3 @@ And then start up the JVM with
 ```
 java -Djava.security.properties=disabledAlgorithms.properties
 ```
-
-## Debugging
-
-To debug ciphers and weak keys, turn on the following debug settings:
-
-```conf
-ssl-config.debug = {
-  ssl = true
-  handshake = true
-  verbose = true
-  data = true
-}
-```
