@@ -26,10 +26,11 @@ package object ssl {
   }
 
   def debugChain(chain: Array[X509Certificate]): Seq[String] = {
-    chain.map {
-      cert =>
-        s"${cert.getSubjectDN.getName}"
-    }
+    chain.map(debugCert)
+  }
+
+  private[sslconfig] def debugCert(cert: X509Certificate): String = {
+    s"X509Certificate(serialNumber = ${cert.getSerialNumber.toString(16)}, subject = ${cert.getSubjectDN.getName})"
   }
 
   def isOpenJdk: Boolean = javaVmName contains "OpenJDK"

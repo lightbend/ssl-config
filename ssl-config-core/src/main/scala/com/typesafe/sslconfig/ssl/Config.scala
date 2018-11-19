@@ -22,10 +22,11 @@ import scala.language.existentials
  *
  * Either key store path or data must be defined, but not both.
  *
- * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
+ * @param data              The data to load the key store file from.
  * @param filePath The path of the key store file.
- * @param data The data to load the key store file from.
- * @param password The password to use to load the key store file, if the file is password protected.
+ * @param isFileOnClasspath true if the file is on the classpath, false otherwise.
+ * @param password          The password to use to load the key store file, if the file is password protected.
+ * @param storeType         The store type. Defaults to the platform default store type (ie, JKS).
  */
 final class KeyStoreConfig private[sslconfig] (
     val data: Option[String],
@@ -98,10 +99,10 @@ object TrustManagerConfig {
  *
  * A trust store must either provide a file path, or a data String.
  *
- * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
+ * @param data The data to load the key store file from.
  * @param filePath  The path of the key store file.
  * @param password The password to use to load the key store file, if the file is password protected.
- * @param data The data to load the key store file from.
+ * @param isFileOnClasspath true if the file is on the classpath, false otherwise.
  * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
  */
 final class TrustStoreConfig private[sslconfig] (
@@ -176,19 +177,38 @@ object KeyManagerConfig {
  * SSL debug configuration.
  */
 final class SSLDebugConfig private[sslconfig] (
+
+    /** enables tracing of sslcontext, sslengine, sslsocketfactory, key and trust managers. */
     val all: Boolean = false,
-    val certpath: Boolean = false,
-    val defaultctx: Boolean = false,
-    val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
-    val keygen: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val certpath: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val defaultctx: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
+
+    @deprecated("not operative", "0.3.8") val keygen: Boolean = false,
+
+    /** enables tracing of keymanager */
     val keymanager: Boolean = false,
-    val ocsp: Boolean = false,
-    val pluggability: Boolean = false,
-    val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
-    val session: Boolean = false,
-    val sessioncache: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val ocsp: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val pluggability: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
+
+    @deprecated("not operative", "0.3.8") val session: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val sessioncache: Boolean = false,
+
+    /** enables tracing of sslengine, sslsocketfactory. */
     val ssl: Boolean = false,
+
+    /** enables tracing of sslcontext. */
     val sslctx: Boolean = false,
+
+    /** enables tracing of trust managers. */
     val trustmanager: Boolean = false) {
 
   /**
@@ -199,18 +219,40 @@ final class SSLDebugConfig private[sslconfig] (
     pluggability
 
   def withAll(value: Boolean): SSLDebugConfig = copy(all = value)
+
+  @deprecated("not operative", "0.3.8")
   def withCertPath(value: Boolean): SSLDebugConfig = copy(certpath = value)
+
+  @deprecated("not operative", "0.3.8")
   def withDefaultContext(value: Boolean): SSLDebugConfig = copy(defaultctx = value)
+
+  @deprecated("not operative", "0.3.8")
   def withHandshake(value: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions]): SSLDebugConfig = copy(handshake = value)
+
+  @deprecated("not operative", "0.3.8")
   def withKeygen(value: Boolean): SSLDebugConfig = copy(keygen = value)
+
   def withKeymanager(value: Boolean): SSLDebugConfig = copy(keymanager = value)
+
+  @deprecated("not operative", "0.3.8")
   def withOcsp(value: Boolean): SSLDebugConfig = copy(ocsp = value)
+
+  @deprecated("not operative", "0.3.8")
   def withPluggability(value: Boolean): SSLDebugConfig = copy(pluggability = value)
+
+  @deprecated("not operative", "0.3.8")
   def withRecord(value: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions]): SSLDebugConfig = copy(record = value)
+
+  @deprecated("not operative", "0.3.8")
   def withSession(value: Boolean): SSLDebugConfig = copy(session = value)
+
+  @deprecated("not operative", "0.3.8")
   def withSessioncache(value: Boolean): SSLDebugConfig = copy(sessioncache = value)
+
   def withSsl(value: Boolean): SSLDebugConfig = copy(ssl = value)
+
   def withSslctx(value: Boolean): SSLDebugConfig = copy(sslctx = value)
+
   def withTrustmanager(value: Boolean): SSLDebugConfig = copy(trustmanager = value)
 
   private def copy(
@@ -255,6 +297,7 @@ object SSLDebugConfig {
 /**
  * SSL handshake debugging options.
  */
+@deprecated("not operative", "0.3.8")
 final class SSLDebugHandshakeOptions private[sslconfig] (
     val data: Boolean = false,
     val verbose: Boolean = false) {
@@ -271,6 +314,8 @@ final class SSLDebugHandshakeOptions private[sslconfig] (
   override def toString =
     s"""SSLDebugHandshakeOptions(${data},${verbose})"""
 }
+
+@deprecated("not operative", "0.3.8")
 object SSLDebugHandshakeOptions {
   def apply() = new SSLDebugHandshakeOptions()
   /** Java API */
@@ -280,6 +325,7 @@ object SSLDebugHandshakeOptions {
 /**
  * SSL record debugging options.
  */
+@deprecated("not operative", "0.3.8")
 final class SSLDebugRecordOptions private[sslconfig] (
     val packet: Boolean = false,
     val plaintext: Boolean = false) {
@@ -296,6 +342,8 @@ final class SSLDebugRecordOptions private[sslconfig] (
   override def toString =
     s"""SSLDebugRecordOptions(${packet},${plaintext})"""
 }
+
+@deprecated("not operative", "0.3.8")
 object SSLDebugRecordOptions {
   def apply() = new SSLDebugRecordOptions()
   /** Java API */

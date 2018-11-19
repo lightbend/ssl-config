@@ -71,10 +71,16 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       // DefaultHostnameVerifier was decomissioned
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.DefaultHostnameVerifier"),
 
-      // Delete the whole hacky debug package (plus MonkeyPatcher which should've been debug)
+      // Remove evil monkeypatching debug classes
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.MonkeyPatcher"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.*"),
-)
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging$MonkeyPatchInternalSslDebugAction"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixLoggingAction"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.ClassFinder"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging$MonkeyPatchSunSecurityUtilDebugAction"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging$SunSecurityUtilDebugLogger")
+    )
 ).enablePlugins(SbtOsgi)
 
 lazy val documentation = project.in(file("documentation"))
