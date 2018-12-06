@@ -214,9 +214,7 @@ final class SSLDebugConfig private[sslconfig] (
   /**
    * Whether any debug options are enabled.
    */
-  def enabled = all || ssl || certpath || ocsp || record.isDefined || handshake.isDefined ||
-    keygen || session || defaultctx || sslctx || sessioncache || keymanager || trustmanager ||
-    pluggability
+  def enabled = all || ssl || sslctx || keymanager || trustmanager
 
   def withAll(value: Boolean): SSLDebugConfig = copy(all = value)
 
@@ -286,7 +284,7 @@ final class SSLDebugConfig private[sslconfig] (
     trustmanager = trustmanager)
 
   override def toString =
-    s"""SSLDebugConfig(${all},${certpath},${defaultctx},${handshake},${keygen},${keymanager},${ocsp},${pluggability},${record},${session},${sessioncache},${ssl},${sslctx},${trustmanager})"""
+    s"""SSLDebugConfig(all = ${all}, ssl = ${ssl}, sslctx = ${sslctx}, keymanager = ${keymanager}, trustmanager = ${trustmanager})"""
 }
 object SSLDebugConfig {
   def apply() = new SSLDebugConfig()
@@ -616,49 +614,19 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
    * Parses the "ssl-config.debug" section.
    */
   def parseDebug(config: EnrichedConfig): SSLDebugConfig = {
-    val certpath = config.get[Boolean]("certpath")
-
     if (config.get[Boolean]("all")) {
-      new SSLDebugConfig(all = true, certpath = certpath)
+      new SSLDebugConfig(all = true)
     } else {
-
-      val record: Option[SSLDebugRecordOptions] = if (config.get[Boolean]("record")) {
-        val plaintext = config.get[Boolean]("plaintext")
-        val packet = config.get[Boolean]("packet")
-        Some(new SSLDebugRecordOptions(plaintext = plaintext, packet = packet))
-      } else None
-
-      val handshake = if (config.get[Boolean]("handshake")) {
-        val data = config.get[Boolean]("data")
-        val verbose = config.get[Boolean]("verbose")
-        Some(new SSLDebugHandshakeOptions(data = data, verbose = verbose))
-      } else {
-        None
-      }
-
-      val keygen = config.get[Boolean]("keygen")
-      val session = config.get[Boolean]("session")
-      val defaultctx = config.get[Boolean]("defaultctx")
+      val ssl = config.get[Boolean]("ssl")
       val sslctx = config.get[Boolean]("sslctx")
-      val sessioncache = config.get[Boolean]("sessioncache")
       val keymanager = config.get[Boolean]("keymanager")
       val trustmanager = config.get[Boolean]("trustmanager")
-      val pluggability = config.get[Boolean]("pluggability")
-      val ssl = config.get[Boolean]("ssl")
 
       new SSLDebugConfig(
         ssl = ssl,
-        record = record,
-        handshake = handshake,
-        keygen = keygen,
-        session = session,
-        defaultctx = defaultctx,
         sslctx = sslctx,
-        sessioncache = sessioncache,
         keymanager = keymanager,
-        trustmanager = trustmanager,
-        pluggability = pluggability,
-        certpath = certpath)
+        trustmanager = trustmanager)
     }
   }
 

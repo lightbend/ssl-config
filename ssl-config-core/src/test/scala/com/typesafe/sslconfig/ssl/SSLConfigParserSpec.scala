@@ -76,61 +76,31 @@ object SSLConfigParserSpec extends Specification {
     "parse ssl-config.debug section" in {
       val actual = parseThis("""
                                |debug = {
-                               |  certpath = true
                                |  ssl = true
-                               |  defaultctx = true
-                               |  handshake = true
-                               |  verbose = true
-                               |  data = true
-                               |  keygen = true
-                               |  keymanager = true
-                               |  pluggability = true
-                               |  record = true
-                               |  packet = true
-                               |  plaintext = true
-                               |  session = true
-                               |  sessioncache = true
                                |  sslctx = true
+                               |  keymanager = true
                                |  trustmanager = true
                                |}
                              """.stripMargin)
 
       actual.debug.enabled must beTrue
 
-      actual.debug.certpath must beTrue
-
       actual.debug.all must beFalse
-      actual.debug.ssl must beTrue
 
-      actual.debug.defaultctx must beTrue
-      actual.debug.handshake must beSome.which { handshake =>
-        handshake.data must beTrue
-        handshake.verbose must beTrue
-      }
-      actual.debug.keygen must beTrue
-      actual.debug.keymanager must beTrue
-      actual.debug.pluggability must beTrue
-      actual.debug.record must beSome.which { record =>
-        record.packet must beTrue
-        record.plaintext must beTrue
-      }
-      actual.debug.session must beTrue
-      actual.debug.sessioncache must beTrue
+      actual.debug.ssl must beTrue
       actual.debug.sslctx must beTrue
+      actual.debug.keymanager must beTrue
       actual.debug.trustmanager must beTrue
     }
 
     "parse ssl-config.debug section with all" in {
       val actual = parseThis("""
                                |debug = {
-                               |  certpath = true
                                |  all = true
                                |}
                              """.stripMargin)
 
       actual.debug.enabled must beTrue
-
-      actual.debug.certpath must beTrue
 
       // everything else is false, all wins everything.
       actual.debug.all must beTrue
