@@ -35,7 +35,7 @@ ssl-config.debug = {
 }
 ```
 
-You can also set `javax.net.debug` and `java.security.debug` system properties directly at startup, using a `.jvmopts` file:
+You can also set `javax.net.debug` and `java.security.debug` system properties directly at startup, using a [`.jvmopts`](https://www.scala-sbt.org/1.0/docs/Travis-CI-with-sbt.html) file for sbt:
 
 ```bash
 # Don't allow client to dictate terms - this can also be used for DoS attacks.
