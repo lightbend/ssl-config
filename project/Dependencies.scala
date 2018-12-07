@@ -9,11 +9,9 @@ object Version {
   val parserCombinators = "1.1.1"
   val parserCombinators213M3 = "1.1.0"
 
-  val specs2Scala210  = "3.8.9"
   val specs2Scala213M3 = "4.2.0"
   val specs2          = "4.3.5"
 
-  val scala210       = "2.10.7"
   val scala211       = "2.11.12"
   val scala212       = "2.12.6"
   val scala213M3     = "2.13.0-M3"
@@ -39,13 +37,6 @@ object Library {
     "org.specs2" %% "specs2-matcher-extra" % Version.specs2Scala213M3 % "test"
   )
 
-  val specs2Scala210 = Seq(
-    "org.specs2" %% "specs2-core"          % Version.specs2Scala210 % "test",
-    "org.specs2" %% "specs2-junit"         % Version.specs2Scala210 % "test",
-    "org.specs2" %% "specs2-mock"          % Version.specs2Scala210 % "test",
-    "org.specs2" %% "specs2-matcher-extra" % Version.specs2Scala210 % "test"
-  )
-
   val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators
   val parserCombinators213M3 = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators213M3
 
@@ -57,7 +48,6 @@ object Dependencies {
   import Library._
 
   val sslConfigCore = Seq(typesafeConfig)
-  val testDependencies210 = Library.specs2Scala210 ++ Seq(jodaTime, jodaTimeConvert)
   val testDependencies213M3 = Library.specs2Scala213M3 ++ Seq(jodaTime, jodaTimeConvert)
 
   val testDependencies = Library.specs2 ++ Seq(jodaTime, jodaTimeConvert)

@@ -4,7 +4,7 @@ import com.typesafe.tools.mima.core._
 
 val commonSettings = Seq(
   scalaVersion := Version.scala212,
-  crossScalaVersions := Seq(Version.scala213, Version.scala213M3, Version.scala212, Version.scala211, Version.scala210),
+  crossScalaVersions := Seq(Version.scala213, Version.scala213M3, Version.scala212, Version.scala211),
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 )
 
@@ -29,13 +29,11 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= (
       scalaVersion.value match {
-        case Version.scala210 => Seq.empty[ModuleID]
         case Version.scala213M3 => Seq(Library.parserCombinators213M3)
         case _      => Seq(Library.parserCombinators)
       }),
     libraryDependencies ++= (
       scalaVersion.value match {
-        case Version.scala210 => Dependencies.testDependencies210
         case Version.scala213M3 => Dependencies.testDependencies213M3
         case _ => Dependencies.testDependencies
       }
