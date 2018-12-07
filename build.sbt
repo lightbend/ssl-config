@@ -4,7 +4,7 @@ import com.typesafe.tools.mima.core._
 
 val commonSettings = Seq(
   scalaVersion := Version.scala212,
-  crossScalaVersions := Seq(Version.scala213, Version.scala213M3, Version.scala212, Version.scala211, Version.scala210),
+  crossScalaVersions := Seq(Version.scala213, Version.scala213M3, Version.scala212, Version.scala211),
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 )
 

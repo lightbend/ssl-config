@@ -37,8 +37,6 @@ object Common extends AutoPlugin {
     sonatype.settings ++
     Seq(
       organization := "com.typesafe",
-      scalaVersion := Version.scala210,
-      crossScalaVersions := Seq(Version.scala210, Version.scala211),
       updateOptions := updateOptions.value.withCachedResolution(true),
       scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature"),
       scalacOptions ++= {
