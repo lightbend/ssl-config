@@ -148,7 +148,7 @@ class ConfigSSLContextBuilder(
     new CompositeX509KeyManager(mkLogger, keyManagers)
   }
 
-  @deprecated("Use newer version of method", "0.3.8")
+  @deprecated("Use newer version of buildCompositeTrustManager with debug parameter", "0.3.8")
   def buildCompositeTrustManager(
     trustManagerInfo: TrustManagerConfig,
     revocationEnabled: Boolean,
