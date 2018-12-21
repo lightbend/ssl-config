@@ -134,7 +134,7 @@ class ConfigSSLContextBuilder(
     builder.build()
   }
 
-  @deprecated("Use newer version of method", "0.3.8")
+  @deprecated("Use newer buildCompositeKeyManager with debug parameter", "0.3.8")
   def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, algorithmChecker: AlgorithmChecker): CompositeX509KeyManager = {
     logger.warn("Use newer buildCompositeKeyManager with debug parameter")
     buildCompositeKeyManager(keyManagerConfig, algorithmChecker, debug = SSLDebugConfig())
