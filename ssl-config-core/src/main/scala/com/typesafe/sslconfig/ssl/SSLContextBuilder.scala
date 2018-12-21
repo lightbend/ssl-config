@@ -217,7 +217,7 @@ class ConfigSSLContextBuilder(
   def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean =
     ksc.storeType.equalsIgnoreCase("pkcs12") && !ksc.password.exists(!_.isEmpty)
 
-  @deprecated("Use newer version of method", "0.3.8")
+  @deprecated("Use newer version of buildKeyManager with debug parameter", "0.3.8")
   def buildKeyManager(ksc: KeyStoreConfig, algorithmChecker: AlgorithmChecker): X509KeyManager = {
     logger.warn("Use newer version of buildKeyManager with debug parameter")
     buildKeyManager(ksc, algorithmChecker, SSLDebugConfig())
