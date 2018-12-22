@@ -79,7 +79,10 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.ClassFinder"),
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging$MonkeyPatchSunSecurityUtilDebugAction"),
       ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging$SunSecurityUtilDebugLogger")
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging$SunSecurityUtilDebugLogger"),
+
+      // Warn on deprecated settings, using LoggerFactory.
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigParser.this")
     )
 ).enablePlugins(SbtOsgi)
 

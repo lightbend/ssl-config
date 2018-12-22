@@ -7,11 +7,12 @@ package com.typesafe.sslconfig.ssl
 import java.net.URL
 import java.security.{ KeyStore, SecureRandom }
 import java.util.Optional
+
 import javax.net.ssl.{ HostnameVerifier, KeyManagerFactory, SSLParameters, TrustManagerFactory }
 
 import scala.collection.immutable
 import com.typesafe.config.Config
-import com.typesafe.sslconfig.util.EnrichedConfig
+import com.typesafe.sslconfig.util.{ EnrichedConfig, LoggerFactory }
 
 import scala.language.existentials
 
@@ -529,7 +530,11 @@ object SSLConfigFactory {
 
   /** Parses the given config into an SSLConfig object, as given (does not select sub-config sections). */
   def parse(config: Config): SSLConfigSettings =
-    new SSLConfigParser(com.typesafe.sslconfig.util.EnrichedConfig(config), getClass.getClassLoader).parse()
+    new SSLConfigParser(com.typesafe.sslconfig.util.EnrichedConfig(config), getClass.getClassLoader, None).parse()
+
+  /** Parses the given config into an SSLConfig object, as given (does not select sub-config sections). */
+  def parse(config: Config, loggerFactory: LoggerFactory): SSLConfigSettings =
+    new SSLConfigParser(com.typesafe.sslconfig.util.EnrichedConfig(config), getClass.getClassLoader, Some(loggerFactory)).parse()
 
   /**
    * Create an instance of the default config
@@ -537,7 +542,7 @@ object SSLConfigFactory {
   def defaultConfig = SSLConfigSettings()
 }
 
-class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
+class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader, loggerFactory: Option[LoggerFactory]) {
 
   def parse(): SSLConfigSettings = {
 
@@ -621,6 +626,28 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
       val sslctx = config.get[Boolean]("sslctx")
       val keymanager = config.get[Boolean]("keymanager")
       val trustmanager = config.get[Boolean]("trustmanager")
+
+      // If there's a logger factory passed in, then report deprecated properties.
+      loggerFactory.foreach { lf =>
+        val logger = lf(getClass)
+        val deprecatedSettings = Seq(
+          "plaintext",
+          "packet",
+          "handshake",
+          "data",
+          "verbose",
+          "keygen",
+          "session",
+          "defaultctx",
+          "sessioncache",
+          "pluggability"
+        )
+        deprecatedSettings.foreach { setting =>
+          if (config.get[Boolean](setting)) {
+            logger.warn(s"$setting is a deprecated debug setting and has no effect!")
+          }
+        }
+      }
 
       new SSLDebugConfig(
         ssl = ssl,

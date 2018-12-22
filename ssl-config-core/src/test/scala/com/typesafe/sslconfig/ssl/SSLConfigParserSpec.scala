@@ -19,7 +19,7 @@ object SSLConfigParserSpec extends Specification {
 
     def parseThis(input: String) = {
       val config = ConfigFactory.parseString(input).withFallback(ConfigFactory.defaultReference().getConfig("ssl-config"))
-      val parser = new SSLConfigParser(EnrichedConfig(config), getClass.getClassLoader)
+      val parser = new SSLConfigParser(EnrichedConfig(config), getClass.getClassLoader, None)
       parser.parse()
     }
 

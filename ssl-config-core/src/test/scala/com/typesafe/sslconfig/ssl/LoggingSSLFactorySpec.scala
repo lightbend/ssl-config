@@ -20,6 +20,7 @@ class LoggingSSLFactorySpec extends Specification {
           |ssl-config {
           |  debug {
           |    ssl = true # setting this will turn on debugging for SSLEngine / SSLSocketFactory
+          |    pluggability = true # print out a warning
           |  }
           |  trustManager = {
           |    stores = [
@@ -36,17 +37,17 @@ class LoggingSSLFactorySpec extends Specification {
       //val str = config.root.render(ConfigRenderOptions.defaults())
       //println(str)
 
-      val parser = new SSLConfigParser(EnrichedConfig(config.getConfig("ssl-config")), getClass.getClassLoader)
+      val messagesList = mutable.Buffer[String]()
+      val loggerFactory: LoggerFactory = new LoggerFactory {
+        override def apply(clazz: Class[_]) = new PrintlnLogger(messagesList)
+        override def apply(name: String) = new PrintlnLogger(messagesList)
+      }
+      val parser = new SSLConfigParser(EnrichedConfig(config.getConfig("ssl-config")), getClass.getClassLoader, Some(loggerFactory))
       val info = parser.parse()
 
       val keyManagerFactory: KeyManagerFactoryWrapper = new DefaultKeyManagerFactoryWrapper(KeyManagerFactory.getDefaultAlgorithm)
       val trustManagerFactory: TrustManagerFactoryWrapper = new DefaultTrustManagerFactoryWrapper(TrustManagerFactory.getDefaultAlgorithm)
 
-      val messagesList = mutable.Buffer[String]()
-      val loggerFactory = new LoggerFactory {
-        override def apply(clazz: Class[_]) = new PrintlnLogger(messagesList)
-        override def apply(name: String) = new PrintlnLogger(messagesList)
-      }
       val builder = new ConfigSSLContextBuilder(loggerFactory, info, keyManagerFactory, trustManagerFactory)
       val context = builder.build()
 
@@ -54,6 +55,7 @@ class LoggingSSLFactorySpec extends Specification {
       val socket = factory.createSocket()
 
       messagesList must contain("entry: createSocket()")
+      messagesList must contain("pluggability is a deprecated debug setting and has no effect!")
     }
   }
 
