@@ -67,4 +67,4 @@ Run `release.sh` script.
 License
 =======
 
-Lightbend 2015-2018, Apache 2.0
+Lightbend 2015-2019, Apache 2.0
