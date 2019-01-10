@@ -1,6 +1,6 @@
 resolvers += Resolver.url("sbts3 ivy resolver", url("https://dl.bintray.com/emersonloureiro/sbt-plugins"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.github.gseitz"     % "sbt-release"         % "1.0.10")
+addSbtPlugin("com.github.gseitz"     % "sbt-release"         % "1.0.11")
 addSbtPlugin("com.typesafe.sbt"      % "sbt-osgi"            % "0.9.4")
 addSbtPlugin("cf.janga"              % "sbts3"               % "0.10.3")
 addSbtPlugin("org.scalariform"       % "sbt-scalariform"     % "1.8.2")
