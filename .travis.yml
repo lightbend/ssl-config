@@ -47,7 +47,7 @@ script:
 cache:
   directories:
     - "$HOME/.ivy2/cache"
-    - "$HOME/.sbt/boot/"
+    - "$HOME/.sbt"
     - "$HOME/.jabba/jdk"
 
 before_cache:
