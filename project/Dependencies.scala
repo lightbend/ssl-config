@@ -4,7 +4,7 @@ object Version {
   val typesafeConfig = "1.3.3"
 
   val jodaTime       = "2.10.1"
-  val jodaTimeConvert = "1.9.2"
+  val jodaTimeConvert = "2.2.0"
 
   val parserCombinators = "1.1.1"
   val parserCombinators213M3 = "1.1.0"
