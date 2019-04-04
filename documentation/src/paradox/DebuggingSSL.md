@@ -4,7 +4,7 @@ In the event that an HTTPS connection does not go through, debugging JSSE can be
 
 @@@ note
 
-Prior to 0.3.8, the debug system relied on undocumented modification of internal JSSE debug settings that were normally set using
+Prior to 0.4.0, the debug system relied on undocumented modification of internal JSSE debug settings that were normally set using
 `javax.net.debug` and `java.security.debug` system properties on startup.  
 
 This system has been removed, and the debug flags that do not have a direct correlation in the new system are deprecated.

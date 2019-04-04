@@ -134,7 +134,7 @@ class ConfigSSLContextBuilder(
     builder.build()
   }
 
-  @deprecated("Use newer buildCompositeKeyManager with debug parameter", "0.3.8")
+  @deprecated("Use newer buildCompositeKeyManager with debug parameter", "0.4.0")
   def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, algorithmChecker: AlgorithmChecker): CompositeX509KeyManager = {
     logger.warn("Use newer buildCompositeKeyManager with debug parameter")
     buildCompositeKeyManager(keyManagerConfig, algorithmChecker, debug = SSLDebugConfig())
@@ -148,7 +148,7 @@ class ConfigSSLContextBuilder(
     new CompositeX509KeyManager(mkLogger, keyManagers)
   }
 
-  @deprecated("Use newer version of buildCompositeTrustManager with debug parameter", "0.3.8")
+  @deprecated("Use newer version of buildCompositeTrustManager with debug parameter", "0.4.0")
   def buildCompositeTrustManager(
     trustManagerInfo: TrustManagerConfig,
     revocationEnabled: Boolean,
@@ -217,7 +217,7 @@ class ConfigSSLContextBuilder(
   def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean =
     ksc.storeType.equalsIgnoreCase("pkcs12") && !ksc.password.exists(!_.isEmpty)
 
-  @deprecated("Use newer version of buildKeyManager with debug parameter", "0.3.8")
+  @deprecated("Use newer version of buildKeyManager with debug parameter", "0.4.0")
   def buildKeyManager(ksc: KeyStoreConfig, algorithmChecker: AlgorithmChecker): X509KeyManager = {
     logger.warn("Use newer version of buildKeyManager with debug parameter")
     buildKeyManager(ksc, algorithmChecker, SSLDebugConfig())
@@ -329,7 +329,7 @@ class ConfigSSLContextBuilder(
     new CertPathTrustManagerParameters(pkixParameters)
   }
 
-  @deprecated("Use newer version of method with debug parameter", "0.3.8")
+  @deprecated("Use newer version of method with debug parameter", "0.4.0")
   def buildTrustManager(
     tsc: TrustStoreConfig,
     revocationEnabled: Boolean,

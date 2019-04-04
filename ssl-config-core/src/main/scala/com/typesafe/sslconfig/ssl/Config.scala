@@ -182,26 +182,26 @@ final class SSLDebugConfig private[sslconfig] (
     /** enables tracing of sslcontext, sslengine, sslsocketfactory, key and trust managers. */
     val all: Boolean = false,
 
-    @deprecated("not operative", "0.3.8") val certpath: Boolean = false,
+    @deprecated("not operative", "0.4.0") val certpath: Boolean = false,
 
-    @deprecated("not operative", "0.3.8") val defaultctx: Boolean = false,
+    @deprecated("not operative", "0.4.0") val defaultctx: Boolean = false,
 
-    @deprecated("not operative", "0.3.8") val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
+    @deprecated("not operative", "0.4.0") val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
 
-    @deprecated("not operative", "0.3.8") val keygen: Boolean = false,
+    @deprecated("not operative", "0.4.0") val keygen: Boolean = false,
 
     /** enables tracing of keymanager */
     val keymanager: Boolean = false,
 
-    @deprecated("not operative", "0.3.8") val ocsp: Boolean = false,
+    @deprecated("not operative", "0.4.0") val ocsp: Boolean = false,
 
-    @deprecated("not operative", "0.3.8") val pluggability: Boolean = false,
+    @deprecated("not operative", "0.4.0") val pluggability: Boolean = false,
 
-    @deprecated("not operative", "0.3.8") val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
+    @deprecated("not operative", "0.4.0") val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
 
-    @deprecated("not operative", "0.3.8") val session: Boolean = false,
+    @deprecated("not operative", "0.4.0") val session: Boolean = false,
 
-    @deprecated("not operative", "0.3.8") val sessioncache: Boolean = false,
+    @deprecated("not operative", "0.4.0") val sessioncache: Boolean = false,
 
     /** enables tracing of sslengine, sslsocketfactory. */
     val ssl: Boolean = false,
@@ -219,33 +219,33 @@ final class SSLDebugConfig private[sslconfig] (
 
   def withAll(value: Boolean): SSLDebugConfig = copy(all = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withCertPath(value: Boolean): SSLDebugConfig = copy(certpath = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withDefaultContext(value: Boolean): SSLDebugConfig = copy(defaultctx = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withHandshake(value: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions]): SSLDebugConfig = copy(handshake = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withKeygen(value: Boolean): SSLDebugConfig = copy(keygen = value)
 
   def withKeymanager(value: Boolean): SSLDebugConfig = copy(keymanager = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withOcsp(value: Boolean): SSLDebugConfig = copy(ocsp = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withPluggability(value: Boolean): SSLDebugConfig = copy(pluggability = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withRecord(value: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions]): SSLDebugConfig = copy(record = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withSession(value: Boolean): SSLDebugConfig = copy(session = value)
 
-  @deprecated("not operative", "0.3.8")
+  @deprecated("not operative", "0.4.0")
   def withSessioncache(value: Boolean): SSLDebugConfig = copy(sessioncache = value)
 
   def withSsl(value: Boolean): SSLDebugConfig = copy(ssl = value)
@@ -296,7 +296,7 @@ object SSLDebugConfig {
 /**
  * SSL handshake debugging options.
  */
-@deprecated("not operative", "0.3.8")
+@deprecated("not operative", "0.4.0")
 final class SSLDebugHandshakeOptions private[sslconfig] (
     val data: Boolean = false,
     val verbose: Boolean = false) {
@@ -314,7 +314,7 @@ final class SSLDebugHandshakeOptions private[sslconfig] (
     s"""SSLDebugHandshakeOptions(${data},${verbose})"""
 }
 
-@deprecated("not operative", "0.3.8")
+@deprecated("not operative", "0.4.0")
 object SSLDebugHandshakeOptions {
   def apply() = new SSLDebugHandshakeOptions()
   /** Java API */
@@ -324,7 +324,7 @@ object SSLDebugHandshakeOptions {
 /**
  * SSL record debugging options.
  */
-@deprecated("not operative", "0.3.8")
+@deprecated("not operative", "0.4.0")
 final class SSLDebugRecordOptions private[sslconfig] (
     val packet: Boolean = false,
     val plaintext: Boolean = false) {
@@ -342,7 +342,7 @@ final class SSLDebugRecordOptions private[sslconfig] (
     s"""SSLDebugRecordOptions(${packet},${plaintext})"""
 }
 
-@deprecated("not operative", "0.3.8")
+@deprecated("not operative", "0.4.0")
 object SSLDebugRecordOptions {
   def apply() = new SSLDebugRecordOptions()
   /** Java API */
