@@ -544,6 +544,8 @@ object SSLConfigFactory {
 
 class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader, loggerFactory: Option[LoggerFactory]) {
 
+  def this(c: EnrichedConfig, classLoader: ClassLoader) = this(c, classLoader, None)
+
   def parse(): SSLConfigSettings = {
 
     val default = c.get[Boolean]("default")
