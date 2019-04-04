@@ -19,22 +19,22 @@ object SSLConfigParserSpec extends Specification {
 
     def parseThis(input: String) = {
       val config = ConfigFactory.parseString(input).withFallback(ConfigFactory.defaultReference().getConfig("ssl-config"))
-      val parser = new SSLConfigParser(EnrichedConfig(config), getClass.getClassLoader)
+      val parser = new SSLConfigParser(EnrichedConfig(config), getClass.getClassLoader, None)
       parser.parse()
     }
 
     "parse ws.ssl base section" in {
       val actual = parseThis("""
-                                |default = true
-                                |protocol = TLSv1.1
-                                |checkRevocation = true
-                                |revocationLists = [ "http://example.com" ]
-                                |// hostnameVerifierClass = "com.ning.http.util.DefaultHostnameVerifier" // TODO do we need this one?
-                                |enabledCipherSuites = [ TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA ]
-                                |enabledProtocols = [ TLSv1.2, TLSv1.1, SSLv3 ]
-                                |disabledSignatureAlgorithms = [md2, md3]
-                                |disabledKeyAlgorithms = ["RSA keySize < 1024"]
-                              """.stripMargin)
+                               |default = true
+                               |protocol = TLSv1.1
+                               |checkRevocation = true
+                               |revocationLists = [ "http://example.com" ]
+                               |// hostnameVerifierClass = "com.ning.http.util.DefaultHostnameVerifier" // TODO do we need this one?
+                               |enabledCipherSuites = [ TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA ]
+                               |enabledProtocols = [ TLSv1.2, TLSv1.1, SSLv3 ]
+                               |disabledSignatureAlgorithms = [md2, md3]
+                               |disabledKeyAlgorithms = ["RSA keySize < 1024"]
+                             """.stripMargin)
 
       actual.default must beTrue
       actual.protocol must_== "TLSv1.1"
@@ -52,15 +52,15 @@ object SSLConfigParserSpec extends Specification {
 
     "parse ssl-config.loose section" in {
       val actual = parseThis("""
-                                |loose = {
-                                | allowLegacyHelloMessages = true
-                                | allowUnsafeRenegotiation = true
-                                | allowWeakCiphers = true
-                                | allowWeakProtocols = true
-                                | disableHostnameVerification = true
-                                | acceptAnyCertificate = true
-                                |}
-                              """.stripMargin)
+                               |loose = {
+                               | allowLegacyHelloMessages = true
+                               | allowUnsafeRenegotiation = true
+                               | allowWeakCiphers = true
+                               | allowWeakProtocols = true
+                               | disableHostnameVerification = true
+                               | acceptAnyCertificate = true
+                               |}
+                             """.stripMargin)
       actual.loose.allowLegacyHelloMessages must beSome(true)
       actual.loose.allowUnsafeRenegotiation must beSome(true)
       actual.loose.allowWeakCiphers must beTrue
@@ -75,62 +75,32 @@ object SSLConfigParserSpec extends Specification {
 
     "parse ssl-config.debug section" in {
       val actual = parseThis("""
-                                |debug = {
-                                |  certpath = true
-                                |  ssl = true
-                                |  defaultctx = true
-                                |  handshake = true
-                                |  verbose = true
-                                |  data = true
-                                |  keygen = true
-                                |  keymanager = true
-                                |  pluggability = true
-                                |  record = true
-                                |  packet = true
-                                |  plaintext = true
-                                |  session = true
-                                |  sessioncache = true
-                                |  sslctx = true
-                                |  trustmanager = true
-                                |}
-                              """.stripMargin)
+                               |debug = {
+                               |  ssl = true
+                               |  sslctx = true
+                               |  keymanager = true
+                               |  trustmanager = true
+                               |}
+                             """.stripMargin)
 
       actual.debug.enabled must beTrue
 
-      actual.debug.certpath must beTrue
-
       actual.debug.all must beFalse
-      actual.debug.ssl must beTrue
 
-      actual.debug.defaultctx must beTrue
-      actual.debug.handshake must beSome.which { handshake =>
-        handshake.data must beTrue
-        handshake.verbose must beTrue
-      }
-      actual.debug.keygen must beTrue
-      actual.debug.keymanager must beTrue
-      actual.debug.pluggability must beTrue
-      actual.debug.record must beSome.which { record =>
-        record.packet must beTrue
-        record.plaintext must beTrue
-      }
-      actual.debug.session must beTrue
-      actual.debug.sessioncache must beTrue
+      actual.debug.ssl must beTrue
       actual.debug.sslctx must beTrue
+      actual.debug.keymanager must beTrue
       actual.debug.trustmanager must beTrue
     }
 
     "parse ssl-config.debug section with all" in {
       val actual = parseThis("""
-                                |debug = {
-                                |  certpath = true
-                                |  all = true
-                                |}
-                              """.stripMargin)
+                               |debug = {
+                               |  all = true
+                               |}
+                             """.stripMargin)
 
       actual.debug.enabled must beTrue
-
-      actual.debug.certpath must beTrue
 
       // everything else is false, all wins everything.
       actual.debug.all must beTrue
@@ -138,23 +108,23 @@ object SSLConfigParserSpec extends Specification {
 
     "parse ssl-config.debug section with ssl" in {
       val actual = parseThis("""
-                                |debug = {
-                                |  ssl = true
-                                |}
-                              """.stripMargin)
+                               |debug = {
+                               |  ssl = true
+                               |}
+                             """.stripMargin)
       actual.debug.enabled must beTrue
       actual.debug.ssl must beTrue
     }
 
     "parse ssl-config.trustBuilder section" in {
       val info = parseThis("""
-                              |trustManager = {
-                              |  algorithm = "trustme"
-                              |  stores = [
-                              |    { type: "storeType", path: "trusted", password: "changeit" }
-                              |  ]
-                              |}
-                            """.stripMargin)
+                             |trustManager = {
+                             |  algorithm = "trustme"
+                             |  stores = [
+                             |    { type: "storeType", path: "trusted", password: "changeit" }
+                             |  ]
+                             |}
+                           """.stripMargin)
 
       val tmc = info.trustManagerConfig
       tmc.algorithm must_== "trustme"
@@ -166,19 +136,19 @@ object SSLConfigParserSpec extends Specification {
 
     "parse ssl-config.keyManager section" in {
       val info = parseThis("""
-                              |keyManager = {
-                              |  password = "changeit"
-                              |  algorithm = "keyStore"
-                              |  stores = [
-                              |    {
-                              |      type: "storeType",
-                              |      path: "cacerts",
-                              |      password: "password1"
-                              |    },
-                              |    { type: "PEM", data = "data",  password: "changeit" }
-                              |  ]
-                              |}
-                            """.stripMargin)
+                             |keyManager = {
+                             |  password = "changeit"
+                             |  algorithm = "keyStore"
+                             |  stores = [
+                             |    {
+                             |      type: "storeType",
+                             |      path: "cacerts",
+                             |      password: "password1"
+                             |    },
+                             |    { type: "PEM", data = "data",  password: "changeit" }
+                             |  ]
+                             |}
+                           """.stripMargin)
 
       val kmc = info.keyManagerConfig
       kmc.algorithm must_== "keyStore"
@@ -195,13 +165,13 @@ object SSLConfigParserSpec extends Specification {
 
     "fail on ssl-config.keyManager with no path defined" in {
       parseThis("""
-                   |keyManager = {
-                   |  algorithm = "keyStore"
-                   |  stores = [
-                   |    { type: "storeType", password: "password1" }
-                   |  ]
-                   |}
-                 """.stripMargin).must(throwAn[AssertionError])
+                  |keyManager = {
+                  |  algorithm = "keyStore"
+                  |  stores = [
+                  |    { type: "storeType", password: "password1" }
+                  |  ]
+                  |}
+                """.stripMargin).must(throwAn[AssertionError])
     }
 
   }

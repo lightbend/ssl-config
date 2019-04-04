@@ -7,11 +7,12 @@ package com.typesafe.sslconfig.ssl
 import java.net.URL
 import java.security.{ KeyStore, SecureRandom }
 import java.util.Optional
+
 import javax.net.ssl.{ HostnameVerifier, KeyManagerFactory, SSLParameters, TrustManagerFactory }
 
 import scala.collection.immutable
 import com.typesafe.config.Config
-import com.typesafe.sslconfig.util.EnrichedConfig
+import com.typesafe.sslconfig.util.{ EnrichedConfig, LoggerFactory }
 
 import scala.language.existentials
 
@@ -22,10 +23,11 @@ import scala.language.existentials
  *
  * Either key store path or data must be defined, but not both.
  *
- * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
+ * @param data              The data to load the key store file from.
  * @param filePath The path of the key store file.
- * @param data The data to load the key store file from.
- * @param password The password to use to load the key store file, if the file is password protected.
+ * @param isFileOnClasspath true if the file is on the classpath, false otherwise.
+ * @param password          The password to use to load the key store file, if the file is password protected.
+ * @param storeType         The store type. Defaults to the platform default store type (ie, JKS).
  */
 final class KeyStoreConfig private[sslconfig] (
     val data: Option[String],
@@ -98,10 +100,10 @@ object TrustManagerConfig {
  *
  * A trust store must either provide a file path, or a data String.
  *
- * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
+ * @param data The data to load the key store file from.
  * @param filePath  The path of the key store file.
  * @param password The password to use to load the key store file, if the file is password protected.
- * @param data The data to load the key store file from.
+ * @param isFileOnClasspath true if the file is on the classpath, false otherwise.
  * @param storeType The store type. Defaults to the platform default store type (ie, JKS).
  */
 final class TrustStoreConfig private[sslconfig] (
@@ -176,41 +178,80 @@ object KeyManagerConfig {
  * SSL debug configuration.
  */
 final class SSLDebugConfig private[sslconfig] (
+
+    /** enables tracing of sslcontext, sslengine, sslsocketfactory, key and trust managers. */
     val all: Boolean = false,
-    val certpath: Boolean = false,
-    val defaultctx: Boolean = false,
-    val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
-    val keygen: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val certpath: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val defaultctx: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val handshake: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions] = None,
+
+    @deprecated("not operative", "0.3.8") val keygen: Boolean = false,
+
+    /** enables tracing of keymanager */
     val keymanager: Boolean = false,
-    val ocsp: Boolean = false,
-    val pluggability: Boolean = false,
-    val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
-    val session: Boolean = false,
-    val sessioncache: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val ocsp: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val pluggability: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val record: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions] = None,
+
+    @deprecated("not operative", "0.3.8") val session: Boolean = false,
+
+    @deprecated("not operative", "0.3.8") val sessioncache: Boolean = false,
+
+    /** enables tracing of sslengine, sslsocketfactory. */
     val ssl: Boolean = false,
+
+    /** enables tracing of sslcontext. */
     val sslctx: Boolean = false,
+
+    /** enables tracing of trust managers. */
     val trustmanager: Boolean = false) {
 
   /**
    * Whether any debug options are enabled.
    */
-  def enabled = all || ssl || certpath || ocsp || record.isDefined || handshake.isDefined ||
-    keygen || session || defaultctx || sslctx || sessioncache || keymanager || trustmanager ||
-    pluggability
+  def enabled = all || ssl || sslctx || keymanager || trustmanager
 
   def withAll(value: Boolean): SSLDebugConfig = copy(all = value)
+
+  @deprecated("not operative", "0.3.8")
   def withCertPath(value: Boolean): SSLDebugConfig = copy(certpath = value)
+
+  @deprecated("not operative", "0.3.8")
   def withDefaultContext(value: Boolean): SSLDebugConfig = copy(defaultctx = value)
+
+  @deprecated("not operative", "0.3.8")
   def withHandshake(value: Option[com.typesafe.sslconfig.ssl.SSLDebugHandshakeOptions]): SSLDebugConfig = copy(handshake = value)
+
+  @deprecated("not operative", "0.3.8")
   def withKeygen(value: Boolean): SSLDebugConfig = copy(keygen = value)
+
   def withKeymanager(value: Boolean): SSLDebugConfig = copy(keymanager = value)
+
+  @deprecated("not operative", "0.3.8")
   def withOcsp(value: Boolean): SSLDebugConfig = copy(ocsp = value)
+
+  @deprecated("not operative", "0.3.8")
   def withPluggability(value: Boolean): SSLDebugConfig = copy(pluggability = value)
+
+  @deprecated("not operative", "0.3.8")
   def withRecord(value: Option[com.typesafe.sslconfig.ssl.SSLDebugRecordOptions]): SSLDebugConfig = copy(record = value)
+
+  @deprecated("not operative", "0.3.8")
   def withSession(value: Boolean): SSLDebugConfig = copy(session = value)
+
+  @deprecated("not operative", "0.3.8")
   def withSessioncache(value: Boolean): SSLDebugConfig = copy(sessioncache = value)
+
   def withSsl(value: Boolean): SSLDebugConfig = copy(ssl = value)
+
   def withSslctx(value: Boolean): SSLDebugConfig = copy(sslctx = value)
+
   def withTrustmanager(value: Boolean): SSLDebugConfig = copy(trustmanager = value)
 
   private def copy(
@@ -244,7 +285,7 @@ final class SSLDebugConfig private[sslconfig] (
     trustmanager = trustmanager)
 
   override def toString =
-    s"""SSLDebugConfig(${all},${certpath},${defaultctx},${handshake},${keygen},${keymanager},${ocsp},${pluggability},${record},${session},${sessioncache},${ssl},${sslctx},${trustmanager})"""
+    s"""SSLDebugConfig(all = ${all}, ssl = ${ssl}, sslctx = ${sslctx}, keymanager = ${keymanager}, trustmanager = ${trustmanager})"""
 }
 object SSLDebugConfig {
   def apply() = new SSLDebugConfig()
@@ -255,6 +296,7 @@ object SSLDebugConfig {
 /**
  * SSL handshake debugging options.
  */
+@deprecated("not operative", "0.3.8")
 final class SSLDebugHandshakeOptions private[sslconfig] (
     val data: Boolean = false,
     val verbose: Boolean = false) {
@@ -271,6 +313,8 @@ final class SSLDebugHandshakeOptions private[sslconfig] (
   override def toString =
     s"""SSLDebugHandshakeOptions(${data},${verbose})"""
 }
+
+@deprecated("not operative", "0.3.8")
 object SSLDebugHandshakeOptions {
   def apply() = new SSLDebugHandshakeOptions()
   /** Java API */
@@ -280,6 +324,7 @@ object SSLDebugHandshakeOptions {
 /**
  * SSL record debugging options.
  */
+@deprecated("not operative", "0.3.8")
 final class SSLDebugRecordOptions private[sslconfig] (
     val packet: Boolean = false,
     val plaintext: Boolean = false) {
@@ -296,6 +341,8 @@ final class SSLDebugRecordOptions private[sslconfig] (
   override def toString =
     s"""SSLDebugRecordOptions(${packet},${plaintext})"""
 }
+
+@deprecated("not operative", "0.3.8")
 object SSLDebugRecordOptions {
   def apply() = new SSLDebugRecordOptions()
   /** Java API */
@@ -483,7 +530,11 @@ object SSLConfigFactory {
 
   /** Parses the given config into an SSLConfig object, as given (does not select sub-config sections). */
   def parse(config: Config): SSLConfigSettings =
-    new SSLConfigParser(com.typesafe.sslconfig.util.EnrichedConfig(config), getClass.getClassLoader).parse()
+    new SSLConfigParser(com.typesafe.sslconfig.util.EnrichedConfig(config), getClass.getClassLoader, None).parse()
+
+  /** Parses the given config into an SSLConfig object, as given (does not select sub-config sections). */
+  def parse(config: Config, loggerFactory: LoggerFactory): SSLConfigSettings =
+    new SSLConfigParser(com.typesafe.sslconfig.util.EnrichedConfig(config), getClass.getClassLoader, Some(loggerFactory)).parse()
 
   /**
    * Create an instance of the default config
@@ -491,7 +542,7 @@ object SSLConfigFactory {
   def defaultConfig = SSLConfigSettings()
 }
 
-class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
+class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader, loggerFactory: Option[LoggerFactory]) {
 
   def parse(): SSLConfigSettings = {
 
@@ -568,49 +619,41 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader) {
    * Parses the "ssl-config.debug" section.
    */
   def parseDebug(config: EnrichedConfig): SSLDebugConfig = {
-    val certpath = config.get[Boolean]("certpath")
-
     if (config.get[Boolean]("all")) {
-      new SSLDebugConfig(all = true, certpath = certpath)
+      new SSLDebugConfig(all = true)
     } else {
-
-      val record: Option[SSLDebugRecordOptions] = if (config.get[Boolean]("record")) {
-        val plaintext = config.get[Boolean]("plaintext")
-        val packet = config.get[Boolean]("packet")
-        Some(new SSLDebugRecordOptions(plaintext = plaintext, packet = packet))
-      } else None
-
-      val handshake = if (config.get[Boolean]("handshake")) {
-        val data = config.get[Boolean]("data")
-        val verbose = config.get[Boolean]("verbose")
-        Some(new SSLDebugHandshakeOptions(data = data, verbose = verbose))
-      } else {
-        None
-      }
-
-      val keygen = config.get[Boolean]("keygen")
-      val session = config.get[Boolean]("session")
-      val defaultctx = config.get[Boolean]("defaultctx")
+      val ssl = config.get[Boolean]("ssl")
       val sslctx = config.get[Boolean]("sslctx")
-      val sessioncache = config.get[Boolean]("sessioncache")
       val keymanager = config.get[Boolean]("keymanager")
       val trustmanager = config.get[Boolean]("trustmanager")
-      val pluggability = config.get[Boolean]("pluggability")
-      val ssl = config.get[Boolean]("ssl")
+
+      // If there's a logger factory passed in, then report deprecated properties.
+      loggerFactory.foreach { lf =>
+        val logger = lf(getClass)
+        val deprecatedSettings = Seq(
+          "plaintext",
+          "packet",
+          "handshake",
+          "data",
+          "verbose",
+          "keygen",
+          "session",
+          "defaultctx",
+          "sessioncache",
+          "pluggability"
+        )
+        deprecatedSettings.foreach { setting =>
+          if (config.get[Boolean](setting)) {
+            logger.warn(s"$setting is a deprecated debug setting and has no effect!")
+          }
+        }
+      }
 
       new SSLDebugConfig(
         ssl = ssl,
-        record = record,
-        handshake = handshake,
-        keygen = keygen,
-        session = session,
-        defaultctx = defaultctx,
         sslctx = sslctx,
-        sessioncache = sessioncache,
         keymanager = keymanager,
-        trustmanager = trustmanager,
-        pluggability = pluggability,
-        certpath = certpath)
+        trustmanager = trustmanager)
     }
   }
 

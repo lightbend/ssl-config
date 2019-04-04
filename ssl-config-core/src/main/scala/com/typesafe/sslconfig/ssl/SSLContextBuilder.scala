@@ -9,6 +9,7 @@ import java.net.URL
 import java.security._
 import java.security.cert._
 
+import com.typesafe.sslconfig.ssl.tracing._
 import com.typesafe.sslconfig.util.LoggerFactory
 import javax.net.ssl._
 
@@ -113,14 +114,15 @@ class ConfigSSLContextBuilder(
     val algorithmChecker = new AlgorithmChecker(mkLogger, signatureConstraints, keySizeConstraints)
 
     val keyManagers: Seq[KeyManager] = if (info.keyManagerConfig.keyStoreConfigs.nonEmpty) {
-      Seq(buildCompositeKeyManager(info.keyManagerConfig, algorithmChecker))
+      Seq(buildCompositeKeyManager(info.keyManagerConfig, algorithmChecker, info.debug))
     } else Nil
 
     val trustManagers: Seq[TrustManager] = if (info.trustManagerConfig.trustStoreConfigs.nonEmpty) {
-      Seq(buildCompositeTrustManager(info.trustManagerConfig, info.checkRevocation.getOrElse(false), revocationLists, algorithmChecker))
+      Seq(buildCompositeTrustManager(info.trustManagerConfig, info.checkRevocation.getOrElse(false), revocationLists, algorithmChecker, info.debug))
     } else Nil
 
-    buildSSLContext(info.protocol, keyManagers, trustManagers, info.secureRandom)
+    val context = buildSSLContext(info.protocol, keyManagers, trustManagers, info.secureRandom)
+    new TracingSSLContext(context, info.debug)(mkLogger)
   }
 
   def buildSSLContext(
@@ -132,22 +134,37 @@ class ConfigSSLContextBuilder(
     builder.build()
   }
 
-  def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, algorithmChecker: AlgorithmChecker) = {
+  @deprecated("Use newer buildCompositeKeyManager with debug parameter", "0.3.8")
+  def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, algorithmChecker: AlgorithmChecker): CompositeX509KeyManager = {
+    logger.warn("Use newer buildCompositeKeyManager with debug parameter")
+    buildCompositeKeyManager(keyManagerConfig, algorithmChecker, debug = SSLDebugConfig())
+  }
+
+  def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, algorithmChecker: AlgorithmChecker, debug: SSLDebugConfig): CompositeX509KeyManager = {
     val keyManagers = keyManagerConfig.keyStoreConfigs.map {
       ksc =>
-        buildKeyManager(ksc, algorithmChecker)
+        buildKeyManager(ksc, algorithmChecker, debug)
     }
     new CompositeX509KeyManager(mkLogger, keyManagers)
+  }
+
+  @deprecated("Use newer version of buildCompositeTrustManager with debug parameter", "0.3.8")
+  def buildCompositeTrustManager(
+    trustManagerInfo: TrustManagerConfig,
+    revocationEnabled: Boolean,
+    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker): CompositeX509TrustManager = {
+    logger.warn("Use newer version of buildCompositeTrustManager with debug parameter")
+    buildCompositeTrustManager(trustManagerInfo, revocationEnabled, revocationLists, algorithmChecker, debug = SSLDebugConfig())
   }
 
   def buildCompositeTrustManager(
     trustManagerInfo: TrustManagerConfig,
     revocationEnabled: Boolean,
-    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker) = {
+    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker, debug: SSLDebugConfig): CompositeX509TrustManager = {
 
     val trustManagers = trustManagerInfo.trustStoreConfigs.map {
       tsc =>
-        buildTrustManager(tsc, revocationEnabled, revocationLists, algorithmChecker)
+        buildTrustManager(tsc, revocationEnabled, revocationLists, algorithmChecker, debug)
     }
     new CompositeX509TrustManager(mkLogger, trustManagers, algorithmChecker)
   }
@@ -200,10 +217,16 @@ class ConfigSSLContextBuilder(
   def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean =
     ksc.storeType.equalsIgnoreCase("pkcs12") && !ksc.password.exists(!_.isEmpty)
 
+  @deprecated("Use newer version of buildKeyManager with debug parameter", "0.3.8")
+  def buildKeyManager(ksc: KeyStoreConfig, algorithmChecker: AlgorithmChecker): X509KeyManager = {
+    logger.warn("Use newer version of buildKeyManager with debug parameter")
+    buildKeyManager(ksc, algorithmChecker, SSLDebugConfig())
+  }
+
   /**
    * Builds a key manager from a keystore, using the KeyManagerFactory.
    */
-  def buildKeyManager(ksc: KeyStoreConfig, algorithmChecker: AlgorithmChecker): X509KeyManager = {
+  def buildKeyManager(ksc: KeyStoreConfig, algorithmChecker: AlgorithmChecker, debug: SSLDebugConfig): X509KeyManager = {
     val keyStore = try {
       keyStoreBuilder(ksc).build()
     } catch {
@@ -239,7 +262,8 @@ class ConfigSSLContextBuilder(
     }
 
     // The JSSE implementation only sends back ONE key manager, X509ExtendedKeyManager
-    keyManagers.head.asInstanceOf[X509KeyManager]
+    val keyManager = keyManagers.head.asInstanceOf[X509ExtendedKeyManager]
+    new TracingX509ExtendedKeyManager(keyManager, debug)(mkLogger)
   }
 
   // Should anyone have any interest in implementing this feature at all, they can implement this method and
@@ -305,13 +329,25 @@ class ConfigSSLContextBuilder(
     new CertPathTrustManagerParameters(pkixParameters)
   }
 
+  @deprecated("Use newer version of method with debug parameter", "0.3.8")
+  def buildTrustManager(
+    tsc: TrustStoreConfig,
+    revocationEnabled: Boolean,
+    revocationLists: Option[Seq[CRL]],
+    algorithmChecker: AlgorithmChecker): X509TrustManager = {
+    logger.warn("Use newer version of buildTrustManager with debug parameter")
+    buildTrustManager(tsc, revocationEnabled, revocationLists, algorithmChecker, SSLDebugConfig())
+  }
+
   /**
    * Builds trust managers, using a TrustManagerFactory internally.
    */
   def buildTrustManager(
     tsc: TrustStoreConfig,
     revocationEnabled: Boolean,
-    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker): X509TrustManager = {
+    revocationLists: Option[Seq[CRL]],
+    algorithmChecker: AlgorithmChecker,
+    debug: SSLDebugConfig): X509TrustManager = {
 
     val factory = trustManagerFactory
     val trustStore = trustStoreBuilder(tsc).build()
@@ -331,7 +367,8 @@ class ConfigSSLContextBuilder(
     }
 
     // The JSSE implementation only sends back ONE trust manager, X509TrustManager
-    trustManagers.head.asInstanceOf[X509TrustManager]
+    val manager = trustManagers.head.asInstanceOf[X509ExtendedTrustManager]
+    new TracingX509ExtendedTrustManager(manager, debug)(mkLogger)
   }
 
   /**
