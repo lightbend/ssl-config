@@ -7,7 +7,7 @@ package com.typesafe.sslconfig.ssl.debug
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
 import com.typesafe.sslconfig.util.LoggerFactory
 
-@deprecated("DebugConfiguration has been deprecated and does nothing.  Please use the javax.net.debug system property.", "0.3.8")
+@deprecated("DebugConfiguration has been deprecated and does nothing.  Please use the javax.net.debug system property.", "0.4.0")
 class DebugConfiguration(mkLogger: LoggerFactory) {
 
   private val logger = mkLogger(getClass)

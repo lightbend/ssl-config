@@ -7,7 +7,7 @@ package com.typesafe.sslconfig.ssl
 /**
  * @see http://docs.oracle.com/javase/8/docs/technotes/guides/security/certpath/CertPathProgGuide.html
  */
-@deprecated("Setting system properties in JSSE after JVM initialization is unreliable.  Please set the java.security.debug system property at startup.", "0.3.8")
+@deprecated("Setting system properties in JSSE after JVM initialization is unreliable.  Please set the java.security.debug system property at startup.", "0.4.0")
 class JavaSecurityDebugBuilder(c: SSLDebugConfig) {
 
   def build(): String = {
@@ -33,7 +33,7 @@ class JavaSecurityDebugBuilder(c: SSLDebugConfig) {
  * @see http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#Debug
  * @see http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/ReadDebug.html
  */
-@deprecated("Setting system properties in JSSE after JVM initialization is unreliable.  Please set the javax.net.debug system property  at startup.", "0.3.8")
+@deprecated("Setting system properties in JSSE after JVM initialization is unreliable.  Please set the javax.net.debug system property  at startup.", "0.4.0")
 class JavaxNetDebugBuilder(c: SSLDebugConfig) {
 
   def build(): String = {

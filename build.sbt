@@ -42,48 +42,6 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
     OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*"),
     OsgiKeys.requireCapability := """osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=1.8))"""",
-
-    mimaBinaryIssueFilters ++= Seq(
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.package.foldVersion"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.package.foldRuntime"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java16RecommendedCiphers"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.Ciphers.java17RecommendedCiphers"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.Base64"),
-
-      // Merge Lagom changes to KeyStore generation
-      // https://github.com/lightbend/ssl-config/pull/114
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.DnName"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.createSelfSignedCertificate"),
-
-      // Should've always been final
-      ProblemFilters.exclude[FinalClassProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore"),
-
-      // Moved to FakeKeyStore-the-object
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.GeneratedKeyStore"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.SignatureAlgorithmOID"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore.SignatureAlgorithmName"),
-
-      // Support trustStore password
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.TrustStoreConfig.this"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.TrustStoreConfig.<init>$default$3"),
-      ProblemFilters.exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.TrustStoreConfig.<init>$default$4"),
-
-      // DefaultHostnameVerifier was decomissioned
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.DefaultHostnameVerifier"),
-
-      // Remove evil monkeypatching debug classes
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.MonkeyPatcher"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixInternalDebugLogging$MonkeyPatchInternalSslDebugAction"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixLoggingAction"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.ClassFinder"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging$MonkeyPatchSunSecurityUtilDebugAction"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging"),
-      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.debug.FixCertpathDebugLogging$SunSecurityUtilDebugLogger"),
-
-      // Warn on deprecated settings, using LoggerFactory.
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigParser.this")
-    )
 ).enablePlugins(SbtOsgi)
 
 lazy val documentation = project.in(file("documentation"))
