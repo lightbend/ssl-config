@@ -4,7 +4,7 @@ import com.typesafe.tools.mima.core._
 
 val commonSettings = Seq(
   scalaVersion := Version.scala212,
-  crossScalaVersions := Seq(Version.scala213, Version.scala213M3, Version.scala212, Version.scala211),
+  crossScalaVersions := Seq(Version.scala213, Version.scala212, Version.scala211),
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 )
 
@@ -26,18 +26,9 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       case _ => // 2.13 we don't have a library capable of this
         Set.empty[ModuleID]
     }), // "sbt mimaReportBinaryIssues"
+    libraryDependencies += Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
-    libraryDependencies ++= (
-      scalaVersion.value match {
-        case Version.scala213M3 => Seq(Library.parserCombinators213M3)
-        case _      => Seq(Library.parserCombinators)
-      }),
-    libraryDependencies ++= (
-      scalaVersion.value match {
-        case Version.scala213M3 => Dependencies.testDependencies213M3
-        case _ => Dependencies.testDependencies
-      }
-    ),
+    libraryDependencies ++= Dependencies.testDependencies,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
     OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*"),
