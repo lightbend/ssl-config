@@ -26,8 +26,8 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       case _ => // 2.13 we don't have a library capable of this
         Set.empty[ModuleID]
     }), // "sbt mimaReportBinaryIssues"
+    libraryDependencies += Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
-    libraryDependencies ++= Seq(Library.parserCombinators),
     libraryDependencies ++= Dependencies.testDependencies,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
