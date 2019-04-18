@@ -1,7 +1,7 @@
 import sbt._
 
 object Version {
-  val typesafeConfig = "1.3.3"
+  val typesafeConfig = "1.3.4"
 
   val jodaTime       = "2.10.1"
   val jodaTimeConvert = "2.2.0"
