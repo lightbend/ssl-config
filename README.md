@@ -62,7 +62,8 @@ An excellent series by [Will Sargent](https://github.com/wsargent) about making
 Releasing
 =========
 
-Run `release.sh` script.
+Run `release.sh` script and turn the tag into a Release in GitHub to make sure
+notifications are sent out.
 
 License
 =======
