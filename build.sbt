@@ -29,6 +29,8 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     libraryDependencies += Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= Dependencies.testDependencies,
+    scalapropsSettings,
+    scalapropsVersion := "0.6.0",
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
     OsgiKeys.importPackage := Seq("!sun.misc", "!sun.security.*", configImport(), "*"),
