@@ -7,6 +7,8 @@ addons:
       - libxml2-utils
       # Used to download maven xsd file
       - wget
+      # To debug docs generation
+      - tree
 
 before_install:
   - curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
@@ -23,25 +25,15 @@ env:
     - TRAVIS_JDK=adopt@1.8.192-12
     - TRAVIS_JDK=adopt@1.11.0-1
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    # Java 11 is still not fully supported. It is good that we are already
-    # testing ssl-config using it to better discover possible problems but
-    # we can allow failures here too.
-    - env: TRAVIS_JDK=adopt@1.11.0-1
-
 scala:
   - 2.11.12
   - 2.12.8
   - 2.13.0-RC2
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION validateCode
-  - sbt ++$TRAVIS_SCALA_VERSION test
-  - sbt ++$TRAVIS_SCALA_VERSION doc
-  - sbt ++$TRAVIS_SCALA_VERSION mimaReportBinaryIssues
+  - ./scripts/tests.sh
   - ./scripts/validate-pom-files.sh
+  - ./scripts/validate-docs.sh
 
 cache:
   directories:
