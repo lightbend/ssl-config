@@ -5,10 +5,11 @@
 <title>Configuring Protocols · SSL Config</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content='documentation'/>
+<meta name="description" content='SSL Config'/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/warnOldVersion.js"></script>
 <script type="text/javascript" src="js/groups.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
 <link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
@@ -30,7 +31,7 @@
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.3.8*
+0.4.0*
 </div>
 </div>
 <div class="nav-toc">
@@ -79,7 +80,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.3.8*
+0.4.0*
 </div>
 </div>
 <div class="nav-toc">
@@ -105,6 +106,8 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 
 <div class="small-12 medium-9 large-10 column">
 <section class="site-content">
+
+<span id="version-warning"></span>
 
 <div class="page-header row">
 <div class="medium-12 show-for-medium column">
@@ -137,16 +140,6 @@ ssl-config.enabledProtocols = [
 </code></pre>
 <p>If you are on JDK 1.8, you can also set the <code>jdk.tls.client.protocols</code> system property to enable client protocols globally.</p>
 <p>WS recognizes &ldquo;SSLv3&rdquo;, &ldquo;SSLv2&rdquo; and &ldquo;SSLv2Hello&rdquo; as weak protocols with a number of <a href="https://www.schneier.com/paper-ssl.pdf">security issues</a>, and will throw an exception if they are in the <code>ssl-config.enabledProtocols</code> list. Virtually all servers support <code>TLSv1</code>, so there is no advantage in using these older protocols.</p>
-<h2><a href="#debugging" name="debugging" class="anchor"><span class="anchor-link"></span></a>Debugging</h2>
-<p>The debug options for configuring protocol are:</p>
-<pre class="prettyprint"><code class="language-conf">ssl-config.debug = {
-  ssl = true
-  sslctx = true
-  handshake = true
-  verbose = true
-  data = true
-}
-</code></pre>
 <div class="nav-next">
 <p><strong>Next:</strong> <a href="CipherSuites.html">Configuring Cipher Suites</a></p>
 </div>
@@ -160,7 +153,6 @@ ssl-config.enabledProtocols = [
   <li><a href="Protocols.html#configuring-protocols" class="header">Configuring Protocols</a>
   <ul>
     <li><a href="Protocols.html#defining-the-default-protocol" class="header">Defining the default protocol</a></li>
-    <li><a href="Protocols.html#debugging" class="header">Debugging</a></li>
   </ul></li>
 </ul>
 </div>
@@ -203,7 +195,7 @@ ssl-config.enabledProtocols = [
 
 <!--
 <div class="copyright">
-<span class="text">&copy; 2018</span>
+<span class="text">&copy; 2019</span>
 <a href="https://www.example.com" class="logo">logo</a>
 </div>
 -->
@@ -228,5 +220,7 @@ ssl-config.enabledProtocols = [
 <script type="text/javascript" src="lib/prettify/prettify.js"></script>
 <script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
 <script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '0.4.0-SNAPSHOT', '')});</script>
+
 
 </html>

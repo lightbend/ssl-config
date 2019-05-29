@@ -5,10 +5,11 @@
 <title>SSL Config</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content='documentation'/>
+<meta name="description" content='SSL Config'/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/warnOldVersion.js"></script>
 <script type="text/javascript" src="js/groups.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
 <link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
@@ -30,7 +31,7 @@
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.3.8*
+0.4.0*
 </div>
 </div>
 <div class="nav-toc">
@@ -79,7 +80,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.3.8*
+0.4.0*
 </div>
 </div>
 <div class="nav-toc">
@@ -105,6 +106,8 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 
 <div class="small-12 medium-9 large-10 column">
 <section class="site-content">
+
+<span id="version-warning"></span>
 
 <div class="page-header row">
 <div class="medium-12 show-for-medium column">
@@ -143,13 +146,11 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
     <li><a href="KeyStores.html#configuring-a-trust-manager" class="header">Configuring a Trust Manager</a></li>
     <li><a href="KeyStores.html#configuring-a-key-manager" class="header">Configuring a Key Manager</a></li>
     <li><a href="KeyStores.html#configuring-a-store" class="header">Configuring a Store</a></li>
-    <li><a href="KeyStores.html#debugging" class="header">Debugging</a></li>
     <li><a href="KeyStores.html#further-reading" class="header">Further Reading</a></li>
   </ul></li>
   <li><a href="Protocols.html" class="page">Configuring Protocols</a>
   <ul>
     <li><a href="Protocols.html#defining-the-default-protocol" class="header">Defining the default protocol</a></li>
-    <li><a href="Protocols.html#debugging" class="header">Debugging</a></li>
   </ul></li>
   <li><a href="CipherSuites.html" class="page">Configuring Cipher Suites</a>
   <ul>
@@ -157,11 +158,9 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
     <li><a href="CipherSuites.html#recommendation-increase-the-dhe-key-size" class="header">Recommendation: increase the DHE key size</a></li>
     <li><a href="CipherSuites.html#recommendation-use-ciphers-with-perfect-forward-secrecy" class="header">Recommendation: Use Ciphers with Perfect Forward Secrecy</a></li>
     <li><a href="CipherSuites.html#disabling-weak-ciphers-and-weak-key-sizes-globally" class="header">Disabling Weak Ciphers and Weak Key Sizes Globally</a></li>
-    <li><a href="CipherSuites.html#debugging" class="header">Debugging</a></li>
   </ul></li>
   <li><a href="CertificateRevocation.html" class="page">Configuring Certificate Revocation</a>
   <ul>
-    <li><a href="CertificateRevocation.html#debugging" class="header">Debugging</a></li>
     <li><a href="CertificateRevocation.html#further-reading" class="header">Further Reading</a></li>
   </ul></li>
   <li><a href="HostnameVerification.html" class="page">Hostname Verification</a>
@@ -183,16 +182,8 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
     <li><a href="ExampleSSLConfig.html#connecting-to-several-external-web-services" class="header">Connecting to several external web services</a></li>
     <li><a href="ExampleSSLConfig.html#both-private-and-public-servers" class="header">Both Private and Public Servers</a></li>
   </ul></li>
-  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a>
-  <ul>
-    <li><a href="DefaultContext.html#debugging" class="header">Debugging</a></li>
-  </ul></li>
-  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a>
-  <ul>
-    <li><a href="DebuggingSSL.html#verbose-debugging" class="header">Verbose Debugging</a></li>
-    <li><a href="DebuggingSSL.html#dynamic-debugging" class="header">Dynamic Debugging</a></li>
-    <li><a href="DebuggingSSL.html#further-reading" class="header">Further reading</a></li>
-  </ul></li>
+  <li><a href="DefaultContext.html" class="page">Using the Default SSLContext</a></li>
+  <li><a href="DebuggingSSL.html" class="page">Debugging SSL Connections</a></li>
   <li><a href="LooseSSL.html" class="page">Loose Options</a>
   <ul>
     <li><a href="LooseSSL.html#we-understand" class="header">We understand</a></li>
@@ -272,7 +263,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 
 <!--
 <div class="copyright">
-<span class="text">&copy; 2018</span>
+<span class="text">&copy; 2019</span>
 <a href="https://www.example.com" class="logo">logo</a>
 </div>
 -->
@@ -297,5 +288,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <script type="text/javascript" src="lib/prettify/prettify.js"></script>
 <script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
 <script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '0.4.0-SNAPSHOT', '')});</script>
+
 
 </html>
