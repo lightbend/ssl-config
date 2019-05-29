@@ -7,6 +7,8 @@ addons:
       - libxml2-utils
       # Used to download maven xsd file
       - wget
+      # To debug docs generation
+      - tree
 
 before_install:
   - curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
@@ -29,11 +31,9 @@ scala:
   - 2.13.0-RC2
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION validateCode
-  - sbt ++$TRAVIS_SCALA_VERSION test
-  - sbt ++$TRAVIS_SCALA_VERSION doc
-  - sbt ++$TRAVIS_SCALA_VERSION mimaReportBinaryIssues
+  - ./scripts/tests.sh
   - ./scripts/validate-pom-files.sh
+  - ./scripts/validate-docs.sh
 
 cache:
   directories:
