@@ -35,8 +35,12 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     OsgiKeys.requireCapability := """osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=1.8))"""",
 ).enablePlugins(SbtOsgi)
 
-lazy val documentation = project.in(file("documentation"))
-  .settings(disablePublishingSettings: _*)
+val documentation = project.enablePlugins(ParadoxPlugin, ParadoxSitePlugin).settings(
+  name := "SSL Config",
+  Paradox / siteSubdirName := "",
+  paradoxTheme := Some(builtinParadoxTheme("generic")),
+  disablePublishingSettings,
+)
 
 lazy val root = project.in(file("."))
   .aggregate(
