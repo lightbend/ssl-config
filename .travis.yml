@@ -23,14 +23,6 @@ env:
     - TRAVIS_JDK=adopt@1.8.192-12
     - TRAVIS_JDK=adopt@1.11.0-1
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    # Java 11 is still not fully supported. It is good that we are already
-    # testing ssl-config using it to better discover possible problems but
-    # we can allow failures here too.
-    - env: TRAVIS_JDK=adopt@1.11.0-1
-
 scala:
   - 2.11.12
   - 2.12.8
