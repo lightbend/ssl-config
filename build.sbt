@@ -26,13 +26,8 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       case _ => // 2.13 we don't have a library capable of this
         Set.empty[ModuleID]
     }), // "sbt mimaReportBinaryIssues"
+    libraryDependencies ++= Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
-    libraryDependencies ++= (
-      scalaVersion.value match {
-        case Version.scala210 => Seq.empty[ModuleID]
-        case Version.scala213 => Seq(Library.parserCombinators213)
-        case _      => Seq(Library.parserCombinators)
-      }),
     libraryDependencies ++= (
       scalaVersion.value match {
         case Version.scala210 => Dependencies.testDependencies210

@@ -6,8 +6,9 @@ object Version {
   val jodaTime       = "2.9.9"
   val jodaTimeConvert = "1.9.2"
 
-  val parserCombinators = "1.1.1"
-  val parserCombinators213 = "1.1.2"
+  // Because of https://github.com/sbt/sbt/issues/4609
+  val parserCombinators211 = "1.1.1"
+  val parserCombinators = "1.1.2"
 
   val specs2Scala210  = "3.8.9"
   val specs2          = "4.5.1"
@@ -15,7 +16,7 @@ object Version {
   val scala210       = "2.10.7"
   val scala211       = "2.11.12"
   val scala212       = "2.12.8"
-  val scala213       = "2.13.0-RC2"
+  val scala213       = "2.13.0"
 }
 
 object Library {
@@ -36,11 +37,14 @@ object Library {
     "org.specs2" %% "specs2-matcher-extra" % Version.specs2Scala210 % "test"
   )
 
-  val parserCombinators    = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators
-  val parserCombinators213 = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators213
-
   val jodaTime          = "joda-time"              % "joda-time"                % Version.jodaTime  % "test" // ONLY FOR TESTS!
   val jodaTimeConvert   = "org.joda"               % "joda-convert"             % Version.jodaTimeConvert  % "test" // ONLY FOR TESTS!
+
+  def parserCombinators(scalaVersion: String) = CrossVersion.partialVersion(scalaVersion) match {
+    case Some((2, 10)) => Seq.empty
+    case Some((2, 11)) => Seq("org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators211)
+    case _             => Seq("org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators)
+  }
 }
 
 object Dependencies {
