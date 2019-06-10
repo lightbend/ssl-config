@@ -16,10 +16,12 @@ sbt makeSite
 mv -v documentation/target/site ../releasing-the-docs
 
 git checkout gh-pages
+git pull origin
+
 rm -rf *
-mv ../releasing-the-docs docs
-mv docs/* .
-rm -rf docs
+mv -v ../releasing-the-docs docs
+mv -v docs/* .
+rm -rfv docs
 touch .nojekyll
 git add .
 git commit -m "Releasing docs for version $version"
