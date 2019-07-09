@@ -15,7 +15,7 @@ Akka Http and any other library which may need support from this library.
 
 The project is maintained on two branches:
 
-- [`master`](https://github.com/lightbend/ssl-config/tree/master) which requires Java 8 and is used by Akka `2.5.x`.
+- [`master`](https://github.com/lightbend/ssl-config/tree/master) which requires Java 8 and is used by Akka `2.5.x` and later.
 - [`release-0.1`](https://github.com/lightbend/ssl-config/tree/release-0.1) which is Java 6 compatible
   (does lots of manual improvements and checks that JDK6 didn't).
   Currently only the *legacy version* of Akka Streams & Http (which is `2.0.x`) uses this version.
