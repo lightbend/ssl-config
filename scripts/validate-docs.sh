@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 sbt makeSite
 
 markdown_count=$(ls documentation/src/main/paradox/*.md | wc -l)
@@ -13,4 +15,5 @@ else
     tree documentation/src/main/paradox
     echo "GENERATED HTML FILES:"
     tree documentation/target/site
+    exit 1
 fi
