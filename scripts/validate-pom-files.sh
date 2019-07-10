@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 sbt ++${TRAVIS_SCALA_VERSION} publishM2
 
 # Downloads maven schema file which will be used to validate the generated pom file

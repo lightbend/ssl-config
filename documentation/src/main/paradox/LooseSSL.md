@@ -98,7 +98,7 @@ not enabled in a production environment. The runtime mode can be found
 in the [`Application.mode`](api/scala/play/api/Application.html)
 method.
 
-## Loose Options
+## Options
 
 Finally, here are the options themselves.
 
