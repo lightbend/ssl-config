@@ -20,12 +20,15 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-core",
-    mimaPreviousArtifacts ++= (CrossVersion.partialVersion(scalaVersion.value) match {
+    mimaPreviousArtifacts ++= (((CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v <= 12 =>
-        Set("com.typesafe" %% "ssl-config-core" % "0.3.7")
+        Set("0.3.7")
       case _ => // 2.13 we don't have a library capable of this
-        Set.empty[ModuleID]
-    }), // "sbt mimaReportBinaryIssues"
+        Set.empty[String]
+    }) ++ Set(
+      "0.3.8",
+      "0.4.0",
+    ))).map("com.typesafe" %% "ssl-config-core" % _), // "sbt mimaReportBinaryIssues"
     libraryDependencies += Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= Dependencies.testDependencies,
