@@ -11,7 +11,8 @@ val commonSettings = Seq(
 val disablePublishingSettings = Seq(
   // https://github.com/sbt/sbt/pull/3380
   skip in publish := true,
-  publishArtifact := false
+  publishArtifact := false,
+  mimaPreviousArtifacts := Set.empty,
  )
 
 lazy val sslConfigCore = project.in(file("ssl-config-core"))
