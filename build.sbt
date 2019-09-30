@@ -11,7 +11,8 @@ val commonSettings = Seq(
 val disablePublishingSettings = Seq(
   // https://github.com/sbt/sbt/pull/3380
   skip in publish := true,
-  publishArtifact := false
+  publishArtifact := false,
+  mimaReportBinaryIssues := false
  )
 
 lazy val sslConfigCore = project.in(file("ssl-config-core"))
@@ -29,6 +30,9 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       "0.3.8",
       "0.4.0",
     ))).map("com.typesafe" %% "ssl-config-core" % _), // "sbt mimaReportBinaryIssues"
+    mimaBinaryIssueFilters ++= Seq(
+      ProblemFilters.exclude[IncompatibleSignatureProblem]("com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser.*")
+    ),
     libraryDependencies += Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= Dependencies.testDependencies,
