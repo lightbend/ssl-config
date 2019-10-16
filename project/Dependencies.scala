@@ -9,7 +9,7 @@ object Version {
   // Because of https://github.com/sbt/sbt/issues/4609
   val parserCombinators211 = "1.1.1"
   val parserCombinators = "1.1.2"
-  val specs2          = "4.7.1"
+  val specs2          = "4.8.0"
 
   val scala211       = "2.11.12"
   val scala212       = "2.12.8"
