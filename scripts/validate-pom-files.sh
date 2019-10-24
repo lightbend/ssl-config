@@ -2,7 +2,7 @@
 
 set -e
 
-sbt ++${TRAVIS_SCALA_VERSION} publishM2
+sbt ++${TRAVIS_SCALA_VERSION} publishM2 publishLocal
 
 # Downloads maven schema file which will be used to validate the generated pom file
 wget -c http://maven.apache.org/xsd/maven-4.0.0.xsd
