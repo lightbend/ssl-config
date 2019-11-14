@@ -11,7 +11,6 @@
 <script type="text/javascript" src="js/page.js"></script>
 <script type="text/javascript" src="js/warnOldVersion.js"></script>
 <script type="text/javascript" src="js/groups.js"></script>
-<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
 <link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
 <link rel="stylesheet" type="text/css" href="css/page.css"/>
 
@@ -31,7 +30,7 @@
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.4.0*
+0.4.2*
 </div>
 </div>
 <div class="nav-toc">
@@ -80,7 +79,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.4.0*
+0.4.2*
 </div>
 </div>
 <div class="nav-toc">
@@ -147,7 +146,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <p><strong>Custom Play WSClient</strong>: You can create a <a href="https://www.playframework.com/documentation/2.4.x/ScalaWS">custom Play WSClient</a> specifically for the server, using the <a href="api/scala/play/api/libs/ws/WSConfigParser.html"><code>WSConfigParser</code></a> together with <code>ConfigFactory.parseString</code>, and ensure it is never used outside that context.</p>
 <p><strong>Environment Scoping</strong>: You can define <a href="https://github.com/lightbend/config/blob/master/HOCON.md#substitution-fallback-to-environment-variables">environment variables in HOCON</a> to ensure that any loose options are not hardcoded in configuration files, and therefore cannot escape an development environment.</p>
 <p><strong>Runtime / Deployment Checks</strong>: You can add code to your deployment scripts or program that checks that <code>ssl-config.loose</code> options are not enabled in a production environment. The runtime mode can be found in the <a href="api/scala/play/api/Application.html"><code>Application.mode</code></a> method.</p>
-<h2><a href="#loose-options" name="loose-options" class="anchor"><span class="anchor-link"></span></a>Loose Options</h2>
+<h2><a href="#options" name="options" class="anchor"><span class="anchor-link"></span></a>Options</h2>
 <p>Finally, here are the options themselves.</p>
 <h3><a href="#disabling-certificate-verification" name="disabling-certificate-verification" class="anchor"><span class="anchor-link"></span></a>Disabling Certificate Verification</h3><div class="callout note "><div class="callout-title">Note</div>
 <p>In most cases, people turn off certificate verification because they haven&rsquo;t generated certificates. <strong>There are other options besides disabling certificate verification.</strong></p>
@@ -196,7 +195,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
     <li><a href="LooseSSL.html#we-understand" class="header">We understand</a></li>
     <li><a href="LooseSSL.html#please-read-this-before-turning-anything-off-" class="header">Please read this before turning anything off!</a></li>
     <li><a href="LooseSSL.html#mitigation" class="header">Mitigation</a></li>
-    <li><a href="LooseSSL.html#loose-options" class="header">Loose Options</a></li>
+    <li><a href="LooseSSL.html#options" class="header">Options</a></li>
   </ul></li>
 </ul>
 </div>
@@ -264,7 +263,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <script type="text/javascript" src="lib/prettify/prettify.js"></script>
 <script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
 <script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
-<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '0.4.0-SNAPSHOT', '')});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '0.4.2-SNAPSHOT', '')});</script>
 
 
 </html>

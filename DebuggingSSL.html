@@ -11,7 +11,6 @@
 <script type="text/javascript" src="js/page.js"></script>
 <script type="text/javascript" src="js/warnOldVersion.js"></script>
 <script type="text/javascript" src="js/groups.js"></script>
-<link rel="stylesheet" type="text/css" href="lib/normalize.css/normalize.css"/>
 <link rel="stylesheet" type="text/css" href="lib/foundation/dist/foundation.min.css"/>
 <link rel="stylesheet" type="text/css" href="css/page.css"/>
 
@@ -31,7 +30,7 @@
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.4.0*
+0.4.2*
 </div>
 </div>
 <div class="nav-toc">
@@ -80,7 +79,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>SSL Config
 </a>
 <div class="version-number">
-0.4.0*
+0.4.2*
 </div>
 </div>
 <div class="nav-toc">
@@ -123,7 +122,8 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <div class="page-content row">
 <div class="small-12 large-9 column" id="docs">
 <h1><a href="#debugging-ssl-connections" name="debugging-ssl-connections" class="anchor"><span class="anchor-link"></span></a>Debugging SSL Connections</h1>
-<p>In the event that an HTTPS connection does not go through, debugging JSSE can be a hassle.</p><div class="callout note "><div class="callout-title">Note</div>
+<p>In the event that an HTTPS connection does not go through, debugging JSSE can be a hassle.</p><div class="callout warning "><div class="callout-title">Warning</div>
+<p>Enabling debugging wraps the regular SSLContext into a tracing SSLContext. This means any code that relied on <code>instanceOf</code> checks of the old SSLContext will start behaving differently when debugging is enabled. For example this appears to be the case when trying to use this module with the Jetty ALPN agent.</p></div><div class="callout note "><div class="callout-title">Note</div>
 <p>Prior to 0.4.0, the debug system relied on undocumented modification of internal JSSE debug settings that were normally set using <code>javax.net.debug</code> and <code>java.security.debug</code> system properties on startup. </p>
 <p>This system has been removed, and the debug flags that do not have a direct correlation in the new system are deprecated.</p></div>
 <p>WS SSL provides configuration options that will turn trace logging at a <strong>warn</strong> level for SSLContext, SSLEngine, TrustManager and KeyManager.</p>
@@ -238,7 +238,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <script type="text/javascript" src="lib/prettify/prettify.js"></script>
 <script type="text/javascript" src="lib/prettify/lang-scala.js"></script>
 <script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
-<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '0.4.0-SNAPSHOT', '')});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '0.4.2-SNAPSHOT', '')});</script>
 
 
 </html>
