@@ -29,6 +29,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     }) ++ Set(
       "0.3.8",
       "0.4.0",
+      "0.4.1",
     ))).map("com.typesafe" %% "ssl-config-core" % _), // "sbt mimaReportBinaryIssues"
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[IncompatibleSignatureProblem]("com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser.*")
