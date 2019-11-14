@@ -122,7 +122,8 @@ class ConfigSSLContextBuilder(
     } else Nil
 
     val context = buildSSLContext(info.protocol, keyManagers, trustManagers, info.secureRandom)
-    new TracingSSLContext(context, info.debug)(mkLogger)
+    if (info.debug.enabled) new TracingSSLContext(context, info.debug)(mkLogger)
+    else context
   }
 
   def buildSSLContext(

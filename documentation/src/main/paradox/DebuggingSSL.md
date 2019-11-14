@@ -2,6 +2,16 @@
 
 In the event that an HTTPS connection does not go through, debugging JSSE can be a hassle.
 
+@@@ warning
+
+Enabling debugging wraps the regular SSLContext into a tracing SSLContext.
+This means any code that relied on `instanceOf` checks of the old SSLContext
+will start behaving differently when debugging is enabled.
+For example this appears to be the case when trying to use this module
+with the Jetty ALPN agent.
+
+@@@
+
 @@@ note
 
 Prior to 0.4.0, the debug system relied on undocumented modification of internal JSSE debug settings that were normally set using
