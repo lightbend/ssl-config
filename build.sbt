@@ -80,7 +80,7 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
-def configImport(packageName: String = "com.typesafe.config.*") = versionedImport(packageName, "1.3.0", "1.4.0")
+def configImport(packageName: String = "com.typesafe.config.*") = versionedImport(packageName, "1.4.0", "1.5.0")
 def versionedImport(packageName: String, lower: String, upper: String) = s"""$packageName;version="[$lower,$upper)""""
 
 lazy val checkCodeFormat = taskKey[Unit]("Check that code format is following Scalariform rules")
