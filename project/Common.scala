@@ -69,7 +69,9 @@ object Common extends AutoPlugin {
       licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")),
 
       HeaderPlugin.autoImport.headerLicense := {
-        val currentYear = java.time.Year.now(java.time.Clock.systemUTC).getValue
+        // To be manually updated yearly, preventing unrelated PR's to suddenly fail
+        // just because time passed
+        val currentYear = 2020
         Some(HeaderLicense.Custom(
           s"""Copyright (C) 2015 - $currentYear Lightbend Inc. <https://www.lightbend.com>"""
         ))
