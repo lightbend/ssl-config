@@ -15,7 +15,7 @@ JDK 1.8 contains an implementation of JSSE which is [significantly more
 advanced](https://docs.oracle.com/javase/8/docs/technotes/guides/security/enhancements-8.html)
 than previous versions, and should be used if security is a priority.
 
-Copyright (C) 2009-2016 Lightbend Inc. <[https://www.lightbend.com](https://www.lightbend.com)>
+Copyright (C) 2009-2020 Lightbend Inc. <[https://www.lightbend.com](https://www.lightbend.com)>
 
 @@toc { depth=2 }
 
