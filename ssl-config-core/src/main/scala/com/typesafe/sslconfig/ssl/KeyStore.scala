@@ -101,7 +101,7 @@ class FileBasedKeyStoreBuilder(
     val fis = java.nio.file.Files.newInputStream(file.toPath)
     val bis = new BufferedInputStream(fis)
 
-    cf.generateCertificates(bis).asScala
+    try cf.generateCertificates(bis).asScala finally bis.close()
   }
 
 }
@@ -143,7 +143,7 @@ class FileOnClasspathBasedKeyStoreBuilder(
     val cf = CertificateFactory.getInstance("X.509")
     val bis = new BufferedInputStream(is)
 
-    cf.generateCertificates(bis).asScala
+    try cf.generateCertificates(bis).asScala finally bis.close()
   }
 
 }
