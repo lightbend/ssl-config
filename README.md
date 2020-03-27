@@ -47,14 +47,9 @@ An excellent series by [Will Sargent](https://github.com/wsargent) about making
 - [Fixing Hostname Verification](https://tersesystems.com/blog/2014/03/23/fixing-hostname-verification/)
 - [Testing Hostname Verification](https://tersesystems.com/blog/2014/03/31/testing-hostname-verification)
 
-## Releasing
-
-Run `release.sh` script and turn the tag into a Release in GitHub to make sure
-notifications are sent out.
-
 ## License
 
-Lightbend 2015-2019, Apache 2.0
+Lightbend 2015-2020, Apache 2.0
 
 [Async Http Client]: https://github.com/AsyncHttpClient/async-http-client/
 [Play WS]: https://www.playframework.com/documentation/latest/ScalaWS
