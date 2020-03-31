@@ -21,6 +21,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-core",
+    mimaReportSignatureProblems := true,
     mimaPreviousArtifacts ++= (((CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v <= 12 =>
         Set("0.3.7")
