@@ -21,6 +21,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(osgiSettings: _*)
   .settings(
     name := "ssl-config-core",
+    mimaReportSignatureProblems := true,
     mimaPreviousArtifacts ++= (((CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v <= 12 =>
         Set("0.3.7")
@@ -30,6 +31,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       "0.3.8",
       "0.4.0",
       "0.4.1",
+      "0.4.2",
     ))).map("com.typesafe" %% "ssl-config-core" % _), // "sbt mimaReportBinaryIssues"
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[IncompatibleSignatureProblem]("com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser.*")

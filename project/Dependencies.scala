@@ -3,11 +3,11 @@ import sbt._
 object Version {
   val typesafeConfig = "1.4.0"
 
-  val jodaTime       = "2.10.5"
+  val jodaTime       = "2.10.6"
   val jodaTimeConvert = "2.2.1"
 
   // Because of https://github.com/sbt/sbt/issues/4609
-  val parserCombinators211 = "1.1.1"
+  val parserCombinators211 = "1.1.2"
   val parserCombinators = "1.1.2"
   val specs2          = "4.8.1"
 
