@@ -68,7 +68,6 @@ object FakeChainedKeyStore {
     val KeyPairAlgorithmName = "RSA"
     val KeyPairKeyLength = 2048 // 2048 is the NIST acceptable key length until 2030
     val KeystoreType = "JKS"
-    val SignatureAlgorithmOID: ObjectIdentifier = AlgorithmId.sha256WithRSAEncryption_oid
     val keystorePassword: Array[Char] = EMPTY_PASSWORD
   }
 
@@ -126,7 +125,7 @@ object FakeChainedKeyStore {
 
     // Key and algorithm
     certInfo.set(X509CertInfo.KEY, new CertificateX509Key(userKeyPair.getPublic))
-    val algorithm = new AlgorithmId(KeystoreSettings.SignatureAlgorithmOID)
+    val algorithm = AlgorithmId.get("SHA256WithRSA")
     certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
 
     // Create a new certificate and sign it
@@ -161,7 +160,7 @@ object FakeChainedKeyStore {
 
     // Key and algorithm
     certInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic))
-    val algorithm = new AlgorithmId(KeystoreSettings.SignatureAlgorithmOID)
+    val algorithm = AlgorithmId.get("SHA256WithRSA")
     certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
 
     val caExtension = new CertificateExtensions

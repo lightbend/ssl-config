@@ -4,7 +4,8 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.security.{ KeyStore, SecureRandom, KeyPairGenerator, KeyPair }
+import java.security.{ KeyPair, KeyPairGenerator, KeyStore, SecureRandom }
+
 import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 import sun.security.x509._
 import sun.security.util.ObjectIdentifier
@@ -12,6 +13,7 @@ import java.util.Date
 import java.math.BigInteger
 import java.security.cert.X509Certificate
 import java.io._
+
 import javax.net.ssl.KeyManagerFactory
 import java.security.interfaces.RSAPublicKey
 
@@ -52,7 +54,6 @@ object FakeKeyStore {
     val KeyPairAlgorithmName = "RSA"
     val KeyPairKeyLength = 2048 // 2048 is the NIST acceptable key length until 2030
     val KeystoreType = "JKS"
-    val SignatureAlgorithmOID: ObjectIdentifier = AlgorithmId.sha256WithRSAEncryption_oid
     val keystorePassword: Array[Char] = EMPTY_PASSWORD
   }
 
@@ -104,7 +105,7 @@ object FakeKeyStore {
 
     // Key and algorithm
     certInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic))
-    val algorithm = new AlgorithmId(KeystoreSettings.SignatureAlgorithmOID)
+    val algorithm = AlgorithmId.get("SHA256WithRSA")
     certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
 
     // Create a new certificate and sign it

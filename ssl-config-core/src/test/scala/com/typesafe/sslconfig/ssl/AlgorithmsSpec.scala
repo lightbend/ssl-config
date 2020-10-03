@@ -5,10 +5,10 @@
 package com.typesafe.sslconfig.ssl
 
 import org.specs2.mutable._
+import java.security.{ KeyPairGenerator, SecureRandom }
 
-import java.security.{ SecureRandom, KeyPairGenerator }
 import org.joda.time.Instant
-import sun.security.x509.AlgorithmId
+import sun.security.util.ObjectIdentifier
 
 object AlgorithmsSpec extends Specification {
   import Algorithms._
@@ -24,7 +24,7 @@ object AlgorithmsSpec extends Specification {
       val keyGen = KeyPairGenerator.getInstance("RSA")
       keyGen.initialize(1024, new SecureRandom())
       val pair = keyGen.generateKeyPair()
-      val cert = CertificateGenerator.generateCertificate(dn, pair, from.toDate, to.toDate, "SHA1WithRSA", AlgorithmId.sha1WithRSAEncryption_oid)
+      val cert = CertificateGenerator.generateCertificate(dn, pair, from.toDate, to.toDate, "SHA1WithRSA")
 
       // RSA is getModulus.bitLength
       keySize(cert.getPublicKey) must_== Some(1024)
@@ -39,7 +39,7 @@ object AlgorithmsSpec extends Specification {
       val keyGen = KeyPairGenerator.getInstance("DSA")
       keyGen.initialize(1024, new SecureRandom())
       val pair = keyGen.generateKeyPair()
-      val cert = CertificateGenerator.generateCertificate(dn, pair, from.toDate, to.toDate, "SHA1WithDSA", AlgorithmId.sha1WithDSA_oid)
+      val cert = CertificateGenerator.generateCertificate(dn, pair, from.toDate, to.toDate, "SHA1WithDSA")
 
       // DSA is getP.bitLength
       keySize(cert.getPublicKey) must_== Some(1024)
