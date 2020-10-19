@@ -34,7 +34,9 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       "0.4.2",
     ))).map("com.typesafe" %% "ssl-config-core" % _), // "sbt mimaReportBinaryIssues"
     mimaBinaryIssueFilters ++= Seq(
-      ProblemFilters.exclude[IncompatibleSignatureProblem]("com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser.*")
+      ProblemFilters.exclude[IncompatibleSignatureProblem]("com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser.*"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore#KeystoreSettings.SignatureAlgorithmOID"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore#KeystoreSettings.SignatureAlgorithmOID")
     ),
     libraryDependencies += Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
