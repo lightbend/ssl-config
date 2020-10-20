@@ -1,1 +1,2 @@
 -Dsbt.color=true
+-Dsbt.supershell=false
