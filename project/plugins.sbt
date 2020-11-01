@@ -7,7 +7,7 @@ resolvers += Resolver.url(
 addSbtPlugin("com.github.gseitz"     % "sbt-release"         % "1.0.12")
 addSbtPlugin("com.typesafe.sbt"      % "sbt-osgi"            % "0.9.6")
 addSbtPlugin("org.scalariform"       % "sbt-scalariform"     % "1.8.3")
-addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.4.0")
+addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.4.1")
 addSbtPlugin("de.heikoseeberger"     % "sbt-header"          % "5.6.0")
 addSbtPlugin("org.xerial.sbt"        % "sbt-sonatype"        % "3.9.4")
 addSbtPlugin("com.jsuereth"          % "sbt-pgp"             % "2.0.1")
