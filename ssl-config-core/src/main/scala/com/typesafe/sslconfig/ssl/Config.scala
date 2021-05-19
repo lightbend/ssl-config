@@ -37,7 +37,7 @@ final class KeyStoreConfig private[sslconfig] (
     val storeType: String = KeyStore.getDefaultType) {
   assert(filePath.isDefined ^ data.isDefined, "Either key store path or data must be defined, but not both.")
 
-  /** Disables `filePath` – only one of those can be used at any given time. */
+  /** Disables `filePath` – only one of those can be used at any given time.com.typesafe.sslconfig.ssl.ConfigSSLContextBuilderSpec */
   def withData(data: Option[String]): KeyStoreConfig = copy(data = data, filePath = None)
   /** Disables `data` – only one of those can be used at any given time. */
   def withFilePath(filePath: Option[String]): KeyStoreConfig = copy(filePath = filePath, data = None)

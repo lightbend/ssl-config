@@ -25,7 +25,6 @@ Copyright (C) 2009-2020 Lightbend Inc. <[https://www.lightbend.com](https://www.
 * [CertificateGeneration](CertificateGeneration.md)
 * [KeyStores](KeyStores.md)
 * [Protocols](Protocols.md)
-* [CipherSuites](CipherSuites.md)
 * [CertificateRevocation](CertificateRevocation.md)
 * [HostnameVerification](HostnameVerification.md)
 * [CertificateValidation](CertificateValidation.md)

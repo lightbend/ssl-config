@@ -17,7 +17,7 @@ import java.security.GeneralSecurityException
  * A trust manager that is a composite of several smaller trust managers.   It is responsible for verifying the
  * credentials received from a peer.
  */
-class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509TrustManager], algorithmChecker: AlgorithmChecker) extends X509TrustManager {
+class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509TrustManager]) extends X509TrustManager {
 
   private val logger = mkLogger(getClass)
 
@@ -48,8 +48,6 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
     logger.debug(s"checkClientTrusted: chain = ${debugChain(chain)}")
 
     val anchor: TrustAnchor = new TrustAnchor(chain(chain.length - 1), null)
-    logger.debug(s"checkClientTrusted: checking key size only on root anchor $anchor")
-    algorithmChecker.checkKeyAlgorithms(anchor.getTrustedCert)
 
     var trusted = false
     val exceptionList = withTrustManagers {
@@ -67,13 +65,6 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
 
   def checkServerTrusted(chain: Array[X509Certificate], authType: String): Unit = {
     logger.debug(s"checkServerTrusted: chain = ${debugChain(chain)}, authType = $authType")
-
-    // Trust anchor is at the end of the chain... there is no way to pass a trust anchor
-    // through to a checker in PKIXCertPathValidator.doValidate(), so the trust manager is the
-    // last place we have access to it.
-    val anchor: TrustAnchor = new TrustAnchor(chain(chain.length - 1), null)
-    logger.debug(s"checkServerTrusted: checking key size only on root anchor $anchor")
-    algorithmChecker.checkKeyAlgorithms(anchor.getTrustedCert)
 
     var trusted = false
     val exceptionList = withTrustManagers {
@@ -112,6 +103,6 @@ class CompositeX509TrustManager(mkLogger: LoggerFactory, trustManagers: Seq[X509
   }
 
   override def toString = {
-    s"CompositeX509TrustManager(trustManagers = [$trustManagers], algorithmChecker = $algorithmChecker)"
+    s"CompositeX509TrustManager(trustManagers = [$trustManagers])"
   }
 }
