@@ -32,8 +32,6 @@ object SSLConfigParserSpec extends Specification {
                                |// hostnameVerifierClass = "com.ning.http.util.DefaultHostnameVerifier" // TODO do we need this one?
                                |enabledCipherSuites = [ TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA ]
                                |enabledProtocols = [ TLSv1.2, TLSv1.1, SSLv3 ]
-                               |disabledSignatureAlgorithms = [md2, md3]
-                               |disabledKeyAlgorithms = ["RSA keySize < 1024"]
                              """.stripMargin)
 
       actual.default must beTrue
@@ -45,8 +43,6 @@ object SSLConfigParserSpec extends Specification {
       //      actual.hostnameVerifierClass must_== classOf[com.ning.http.util.DefaultHostnameVerifier]
       actual.enabledCipherSuites must beSome.which(_ must containTheSameElementsAs(Seq("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA")))
       actual.enabledProtocols must beSome.which(_ must containTheSameElementsAs(Seq("TLSv1.2", "TLSv1.1", "SSLv3")))
-      actual.disabledSignatureAlgorithms must containTheSameElementsAs(Seq("md2", "md3"))
-      actual.disabledKeyAlgorithms must containTheSameElementsAs(Seq("RSA keySize < 1024"))
       actual.secureRandom must beNone
     }
 
@@ -63,8 +59,6 @@ object SSLConfigParserSpec extends Specification {
                              """.stripMargin)
       actual.loose.allowLegacyHelloMessages must beSome(true)
       actual.loose.allowUnsafeRenegotiation must beSome(true)
-      actual.loose.allowWeakCiphers must beTrue
-      actual.loose.allowWeakProtocols must beTrue
       actual.loose.disableHostnameVerification must beTrue
       actual.loose.acceptAnyCertificate must beTrue
     }
