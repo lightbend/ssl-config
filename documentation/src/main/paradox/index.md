@@ -27,7 +27,6 @@ Copyright (C) 2009-2020 Lightbend Inc. <[https://www.lightbend.com](https://www.
 * [Protocols](Protocols.md)
 * [CertificateRevocation](CertificateRevocation.md)
 * [HostnameVerification](HostnameVerification.md)
-* [CertificateValidation](CertificateValidation.md)
 * [ExampleSSLConfig](ExampleSSLConfig.md)
 * [DefaultContext](DefaultContext.md)
 * [DebuggingSSL](DebuggingSSL.md)
