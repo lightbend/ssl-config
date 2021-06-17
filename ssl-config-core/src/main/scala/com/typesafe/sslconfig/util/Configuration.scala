@@ -177,31 +177,31 @@ object ConfigLoader {
 
   private def toScala[A](as: java.util.List[A]): immutable.Seq[A] = as.asScala.toVector
 
-  implicit val stringLoader = ConfigLoader(_.getString)
-  implicit val seqStringLoader = ConfigLoader(_.getStringList).map(toScala)
+  implicit val stringLoader: ConfigLoader[String] = ConfigLoader(_.getString)
+  implicit val seqStringLoader: ConfigLoader[immutable.Seq[String]] = ConfigLoader(_.getStringList).map(toScala)
 
-  implicit val intLoader = ConfigLoader(_.getInt)
-  implicit val seqIntLoader = ConfigLoader(_.getIntList).map(toScala(_).map(_.toInt))
+  implicit val intLoader: ConfigLoader[Int] = ConfigLoader(_.getInt)
+  implicit val seqIntLoader: ConfigLoader[immutable.Seq[Int]] = ConfigLoader(_.getIntList).map(toScala(_).map(_.toInt))
 
-  implicit val booleanLoader = ConfigLoader(_.getBoolean)
-  implicit val seqBooleanLoader = ConfigLoader(_.getBooleanList).map(toScala(_).map(_.booleanValue()))
+  implicit val booleanLoader: ConfigLoader[Boolean] = ConfigLoader(_.getBoolean)
+  implicit val seqBooleanLoader: ConfigLoader[immutable.Seq[Boolean]] = ConfigLoader(_.getBooleanList).map(toScala(_).map(_.booleanValue()))
 
   implicit val finiteDurationLoader: ConfigLoader[FiniteDuration] = ConfigLoader(config => config.getDuration(_, TimeUnit.MILLISECONDS))
     .map(millis => FiniteDuration(millis, TimeUnit.MILLISECONDS))
   implicit val seqFiniteDurationLoader: ConfigLoader[Seq[FiniteDuration]] = ConfigLoader(config => config.getDurationList(_, TimeUnit.MILLISECONDS))
     .map(toScala(_).map(millis => FiniteDuration(millis, TimeUnit.MILLISECONDS)))
 
-  implicit val doubleLoader = ConfigLoader(_.getDouble)
-  implicit val seqDoubleLoader = ConfigLoader(_.getDoubleList).map(toScala)
+  implicit val doubleLoader: ConfigLoader[Double] = ConfigLoader(_.getDouble)
+  implicit val seqDoubleLoader: ConfigLoader[immutable.Seq[java.lang.Double]] = ConfigLoader(_.getDoubleList).map(toScala)
 
-  implicit val longLoader = ConfigLoader(_.getLong)
-  implicit val seqLongLoader = ConfigLoader(_.getLongList).map(toScala)
+  implicit val longLoader: ConfigLoader[Long] = ConfigLoader(_.getLong)
+  implicit val seqLongLoader: ConfigLoader[immutable.Seq[java.lang.Long]] = ConfigLoader(_.getLongList).map(toScala)
 
   implicit val configLoader: ConfigLoader[Config] = ConfigLoader(_.getConfig)
   implicit val seqConfigLoader: ConfigLoader[Seq[Config]] = ConfigLoader(_.getConfigList).map(_.asScala.toSeq)
 
-  implicit val playConfigLoader = configLoader.map(new EnrichedConfig(_))
-  implicit val seqEnrichedConfigLoader = seqConfigLoader.map(_.map(new EnrichedConfig(_)))
+  implicit val playConfigLoader: ConfigLoader[EnrichedConfig] = configLoader.map(new EnrichedConfig(_))
+  implicit val seqEnrichedConfigLoader: ConfigLoader[Seq[EnrichedConfig]] = seqConfigLoader.map(_.map(new EnrichedConfig(_)))
 
   implicit def mapLoader[A](implicit valueLoader: ConfigLoader[A]): ConfigLoader[Map[String, A]] = new ConfigLoader[Map[String, A]] {
     def load(config: Config, path: String): Map[String, A] = {
