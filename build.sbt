@@ -17,6 +17,10 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(
     crossScalaVersions := Seq(Version.scala213, Version.scala212, Version.scala211),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
+    // work around for https://bugs.java.com/bugdatabase/view_bug.do?bug_id=JDK-8266261
+    // also https://bugs.openjdk.java.net/browse/JDK-8266279
+    Test / fork := true,
+    Test / javaOptions += "-Dkeystore.pkcs12.keyProtectionAlgorithm=PBEWithHmacSHA256AndAES_256",
     name := "ssl-config-core",
     mimaReportSignatureProblems := true,
     mimaPreviousArtifacts ++= (((CrossVersion.partialVersion(scalaVersion.value) match {
