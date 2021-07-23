@@ -107,18 +107,13 @@ class ConfigSSLContextBuilder(
   def build(): SSLContext = {
 
     val revocationLists = certificateRevocationList(info)
-    val signatureConstraints = info.disabledSignatureAlgorithms.map(AlgorithmConstraintsParser.apply).toSet
-
-    val keySizeConstraints = info.disabledKeyAlgorithms.map(AlgorithmConstraintsParser.apply).toSet
-
-    val algorithmChecker = new AlgorithmChecker(mkLogger, signatureConstraints, keySizeConstraints)
 
     val keyManagers: Seq[KeyManager] = if (info.keyManagerConfig.keyStoreConfigs.nonEmpty) {
-      Seq(buildCompositeKeyManager(info.keyManagerConfig, algorithmChecker, info.debug))
+      Seq(buildCompositeKeyManager(info.keyManagerConfig, info.debug))
     } else Nil
 
     val trustManagers: Seq[TrustManager] = if (info.trustManagerConfig.trustStoreConfigs.nonEmpty) {
-      Seq(buildCompositeTrustManager(info.trustManagerConfig, info.checkRevocation.getOrElse(false), revocationLists, algorithmChecker, info.debug))
+      Seq(buildCompositeTrustManager(info.trustManagerConfig, info.checkRevocation.getOrElse(false), revocationLists, info.debug))
     } else Nil
 
     val context = buildSSLContext(info.protocol, keyManagers, trustManagers, info.secureRandom)
@@ -135,39 +130,24 @@ class ConfigSSLContextBuilder(
     builder.build()
   }
 
-  @deprecated("Use newer buildCompositeKeyManager with debug parameter", "0.4.0")
-  def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, algorithmChecker: AlgorithmChecker): CompositeX509KeyManager = {
-    logger.warn("Use newer buildCompositeKeyManager with debug parameter")
-    buildCompositeKeyManager(keyManagerConfig, algorithmChecker, debug = SSLDebugConfig())
-  }
-
-  def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, algorithmChecker: AlgorithmChecker, debug: SSLDebugConfig): CompositeX509KeyManager = {
+  def buildCompositeKeyManager(keyManagerConfig: KeyManagerConfig, debug: SSLDebugConfig): CompositeX509KeyManager = {
     val keyManagers = keyManagerConfig.keyStoreConfigs.map {
       ksc =>
-        buildKeyManager(ksc, algorithmChecker, debug)
+        buildKeyManager(ksc, debug)
     }
     new CompositeX509KeyManager(mkLogger, keyManagers)
   }
 
-  @deprecated("Use newer version of buildCompositeTrustManager with debug parameter", "0.4.0")
   def buildCompositeTrustManager(
     trustManagerInfo: TrustManagerConfig,
     revocationEnabled: Boolean,
-    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker): CompositeX509TrustManager = {
-    logger.warn("Use newer version of buildCompositeTrustManager with debug parameter")
-    buildCompositeTrustManager(trustManagerInfo, revocationEnabled, revocationLists, algorithmChecker, debug = SSLDebugConfig())
-  }
-
-  def buildCompositeTrustManager(
-    trustManagerInfo: TrustManagerConfig,
-    revocationEnabled: Boolean,
-    revocationLists: Option[Seq[CRL]], algorithmChecker: AlgorithmChecker, debug: SSLDebugConfig): CompositeX509TrustManager = {
+    revocationLists: Option[Seq[CRL]], debug: SSLDebugConfig): CompositeX509TrustManager = {
 
     val trustManagers = trustManagerInfo.trustStoreConfigs.map {
       tsc =>
-        buildTrustManager(tsc, revocationEnabled, revocationLists, algorithmChecker, debug)
+        buildTrustManager(tsc, revocationEnabled, revocationLists, debug)
     }
-    new CompositeX509TrustManager(mkLogger, trustManagers, algorithmChecker)
+    new CompositeX509TrustManager(mkLogger, trustManagers)
   }
 
   // Get either a string or file based keystore builder from config.
@@ -218,16 +198,10 @@ class ConfigSSLContextBuilder(
   def warnOnPKCS12EmptyPasswordBug(ksc: KeyStoreConfig): Boolean =
     ksc.storeType.equalsIgnoreCase("pkcs12") && !ksc.password.exists(!_.isEmpty)
 
-  @deprecated("Use newer version of buildKeyManager with debug parameter", "0.4.0")
-  def buildKeyManager(ksc: KeyStoreConfig, algorithmChecker: AlgorithmChecker): X509KeyManager = {
-    logger.warn("Use newer version of buildKeyManager with debug parameter")
-    buildKeyManager(ksc, algorithmChecker, SSLDebugConfig())
-  }
-
   /**
    * Builds a key manager from a keystore, using the KeyManagerFactory.
    */
-  def buildKeyManager(ksc: KeyStoreConfig, algorithmChecker: AlgorithmChecker, debug: SSLDebugConfig): X509KeyManager = {
+  def buildKeyManager(ksc: KeyStoreConfig, debug: SSLDebugConfig): X509KeyManager = {
     val keyStore = try {
       keyStoreBuilder(ksc).build()
     } catch {
@@ -243,12 +217,9 @@ class ConfigSSLContextBuilder(
       logger.warn(s"Client authentication is not possible as there are no private keys found in ${ksc.filePath}")
     }
 
-    validateStore(keyStore, algorithmChecker)
-
-    val password = ksc.password.map(_.toCharArray)
-
     val factory = keyManagerFactory
     try {
+      val password = ksc.password.map(_.toCharArray)
       factory.init(keyStore, password.orNull)
     } catch {
       case e: UnrecoverableKeyException =>
@@ -307,9 +278,7 @@ class ConfigSSLContextBuilder(
   def buildTrustManagerParameters(
     trustStore: KeyStore,
     revocationEnabled: Boolean,
-    revocationLists: Option[Seq[CRL]],
-    algorithmChecker: AlgorithmChecker): CertPathTrustManagerParameters = {
-    import scala.collection.JavaConverters._
+    revocationLists: Option[Seq[CRL]]): CertPathTrustManagerParameters = {
 
     val certSelect: X509CertSelector = new X509CertSelector
     val pkixParameters = new PKIXBuilderParameters(trustStore, certSelect)
@@ -321,23 +290,7 @@ class ConfigSSLContextBuilder(
         import scala.collection.JavaConverters._
         pkixParameters.addCertStore(CertStore.getInstance("Collection", new CollectionCertStoreParameters(crlList.asJavaCollection)))
     }
-
-    // Add the algorithm checker in here to check the certification path sequence (not including trust anchor)...
-    val checkers: Seq[PKIXCertPathChecker] = Seq(algorithmChecker)
-
-    // Use the custom cert path checkers we defined...
-    pkixParameters.setCertPathCheckers(checkers.asJava)
     new CertPathTrustManagerParameters(pkixParameters)
-  }
-
-  @deprecated("Use newer version of method with debug parameter", "0.4.0")
-  def buildTrustManager(
-    tsc: TrustStoreConfig,
-    revocationEnabled: Boolean,
-    revocationLists: Option[Seq[CRL]],
-    algorithmChecker: AlgorithmChecker): X509TrustManager = {
-    logger.warn("Use newer version of buildTrustManager with debug parameter")
-    buildTrustManager(tsc, revocationEnabled, revocationLists, algorithmChecker, SSLDebugConfig())
   }
 
   /**
@@ -347,18 +300,15 @@ class ConfigSSLContextBuilder(
     tsc: TrustStoreConfig,
     revocationEnabled: Boolean,
     revocationLists: Option[Seq[CRL]],
-    algorithmChecker: AlgorithmChecker,
     debug: SSLDebugConfig): X509TrustManager = {
 
     val factory = trustManagerFactory
     val trustStore = trustStoreBuilder(tsc).build()
-    validateStore(trustStore, algorithmChecker)
 
     val trustManagerParameters = buildTrustManagerParameters(
       trustStore,
       revocationEnabled,
-      revocationLists,
-      algorithmChecker)
+      revocationLists)
 
     factory.init(trustManagerParameters)
     val trustManagers = factory.getTrustManagers
@@ -395,32 +345,6 @@ class ConfigSSLContextBuilder(
       }
     }
     containsPrivateKeys
-  }
-
-  /**
-   * Tests each trusted certificate in the store, and warns if the certificate is not valid.  Does not throw
-   * exceptions.
-   */
-  def validateStore(store: KeyStore, algorithmChecker: AlgorithmChecker): Unit = {
-    import scala.collection.JavaConverters._
-    logger.debug(s"validateStore: type = ${store.getType}, size = ${store.size}")
-
-    store.aliases().asScala.foreach {
-      alias =>
-        Option(store.getCertificate(alias)).map {
-          c =>
-            try {
-              algorithmChecker.checkKeyAlgorithms(c)
-            } catch {
-              case e: CertPathValidatorException =>
-                logger.warn(s"validateStore: Skipping certificate with weak key size in $alias: " + e.getMessage)
-                store.deleteEntry(alias)
-              case e: Exception =>
-                logger.warn(s"validateStore: Skipping unknown exception $alias: " + e.getMessage)
-                store.deleteEntry(alias)
-            }
-        }
-    }
   }
 
 }

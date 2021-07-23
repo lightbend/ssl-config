@@ -366,16 +366,12 @@ final class SSLLooseConfig private[sslconfig] (
     val acceptAnyCertificate: Boolean = false,
     val allowLegacyHelloMessages: Option[Boolean] = None,
     val allowUnsafeRenegotiation: Option[Boolean] = None,
-    val allowWeakCiphers: Boolean = false,
-    val allowWeakProtocols: Boolean = false,
     val disableHostnameVerification: Boolean = false,
     val disableSNI: Boolean = false) {
 
   def withAcceptAnyCertificate(value: Boolean): SSLLooseConfig = copy(acceptAnyCertificate = value)
   def withAllowLegacyHelloMessages(value: Option[Boolean]): SSLLooseConfig = copy(allowLegacyHelloMessages = value)
   def withAllowUnsafeRenegotiation(value: Option[Boolean]): SSLLooseConfig = copy(allowUnsafeRenegotiation = value)
-  def withAllowWeakCiphers(value: Boolean): SSLLooseConfig = copy(allowWeakCiphers = value)
-  def withAllowWeakProtocols(value: Boolean): SSLLooseConfig = copy(allowWeakProtocols = value)
   def withDisableHostnameVerification(value: Boolean): SSLLooseConfig = copy(disableHostnameVerification = value)
   def withDisableSNI(value: Boolean): SSLLooseConfig = copy(disableSNI = value)
 
@@ -383,20 +379,16 @@ final class SSLLooseConfig private[sslconfig] (
     acceptAnyCertificate: Boolean = acceptAnyCertificate,
     allowLegacyHelloMessages: Option[Boolean] = allowLegacyHelloMessages,
     allowUnsafeRenegotiation: Option[Boolean] = allowUnsafeRenegotiation,
-    allowWeakCiphers: Boolean = allowWeakCiphers,
-    allowWeakProtocols: Boolean = allowWeakProtocols,
     disableHostnameVerification: Boolean = disableHostnameVerification,
     disableSNI: Boolean = disableSNI): SSLLooseConfig = new SSLLooseConfig(
     acceptAnyCertificate = acceptAnyCertificate,
     allowLegacyHelloMessages = allowLegacyHelloMessages,
     allowUnsafeRenegotiation = allowUnsafeRenegotiation,
-    allowWeakCiphers = allowWeakCiphers,
-    allowWeakProtocols = allowWeakProtocols,
     disableHostnameVerification = disableHostnameVerification,
     disableSNI = disableSNI)
 
   override def toString =
-    s"""SSLLooseConfig(${acceptAnyCertificate},${allowLegacyHelloMessages},${allowUnsafeRenegotiation},${allowWeakCiphers},${allowWeakProtocols},${disableHostnameVerification},${disableSNI})"""
+    s"""SSLLooseConfig(${acceptAnyCertificate},${allowLegacyHelloMessages},${allowUnsafeRenegotiation},${disableHostnameVerification},${disableSNI})"""
 }
 object SSLLooseConfig {
   def apply() = new SSLLooseConfig()
@@ -456,8 +448,6 @@ final class SSLConfigSettings private[sslconfig] (
     val revocationLists: Option[immutable.Seq[URL]] = None,
     val enabledCipherSuites: Option[immutable.Seq[String]] = None,
     val enabledProtocols: Option[immutable.Seq[String]] = Some(List("TLSv1.2", "TLSv1.1", "TLSv1")),
-    val disabledSignatureAlgorithms: immutable.Seq[String] = List("MD2", "MD4", "MD5"),
-    val disabledKeyAlgorithms: immutable.Seq[String] = List("RSA keySize < 2048", "DSA keySize < 2048", "EC keySize < 224"),
     val sslParametersConfig: SSLParametersConfig = SSLParametersConfig(),
     val keyManagerConfig: KeyManagerConfig = KeyManagerConfig(),
     val trustManagerConfig: TrustManagerConfig = TrustManagerConfig(),
@@ -469,8 +459,6 @@ final class SSLConfigSettings private[sslconfig] (
   def withCheckRevocation(value: Option[Boolean]): SSLConfigSettings = copy(checkRevocation = value)
   def withDebug(value: com.typesafe.sslconfig.ssl.SSLDebugConfig): SSLConfigSettings = copy(debug = value)
   def withDefault(value: Boolean): SSLConfigSettings = copy(default = value)
-  def withDisabledKeyAlgorithms(value: scala.collection.immutable.Seq[String]): SSLConfigSettings = copy(disabledKeyAlgorithms = value)
-  def withDisabledSignatureAlgorithms(value: scala.collection.immutable.Seq[String]): SSLConfigSettings = copy(disabledSignatureAlgorithms = value)
   def withEnabledCipherSuites(value: Option[scala.collection.immutable.Seq[String]]): SSLConfigSettings = copy(enabledCipherSuites = value)
   def withEnabledProtocols(value: Option[scala.collection.immutable.Seq[String]]): SSLConfigSettings = copy(enabledProtocols = value)
   def withHostnameVerifierClass(value: Class[_ <: javax.net.ssl.HostnameVerifier]): SSLConfigSettings = copy(hostnameVerifierClass = value)
@@ -486,8 +474,6 @@ final class SSLConfigSettings private[sslconfig] (
     checkRevocation: Option[Boolean] = checkRevocation,
     debug: com.typesafe.sslconfig.ssl.SSLDebugConfig = debug,
     default: Boolean = default,
-    disabledKeyAlgorithms: scala.collection.immutable.Seq[String] = disabledKeyAlgorithms,
-    disabledSignatureAlgorithms: scala.collection.immutable.Seq[String] = disabledSignatureAlgorithms,
     enabledCipherSuites: Option[scala.collection.immutable.Seq[String]] = enabledCipherSuites,
     enabledProtocols: Option[scala.collection.immutable.Seq[String]] = enabledProtocols,
     hostnameVerifierClass: Class[_ <: javax.net.ssl.HostnameVerifier] = hostnameVerifierClass,
@@ -501,8 +487,6 @@ final class SSLConfigSettings private[sslconfig] (
     checkRevocation = checkRevocation,
     debug = debug,
     default = default,
-    disabledKeyAlgorithms = disabledKeyAlgorithms,
-    disabledSignatureAlgorithms = disabledSignatureAlgorithms,
     enabledCipherSuites = enabledCipherSuites,
     enabledProtocols = enabledProtocols,
     hostnameVerifierClass = hostnameVerifierClass,
@@ -515,7 +499,7 @@ final class SSLConfigSettings private[sslconfig] (
     trustManagerConfig = trustManagerConfig)
 
   override def toString =
-    s"""SSLConfig(${checkRevocation},${debug},${default},${disabledKeyAlgorithms},${disabledSignatureAlgorithms},${enabledCipherSuites},${enabledProtocols},${hostnameVerifierClass},${keyManagerConfig},${loose},${protocol},${revocationLists},${secureRandom},${sslParametersConfig},${trustManagerConfig})"""
+    s"""SSLConfig(${checkRevocation},${debug},${default},${enabledCipherSuites},${enabledProtocols},${hostnameVerifierClass},${keyManagerConfig},${loose},${protocol},${revocationLists},${secureRandom},${sslParametersConfig},${trustManagerConfig})"""
 }
 object SSLConfigSettings {
   def apply() = new SSLConfigSettings()
@@ -566,9 +550,6 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader, loggerFactory
       case Some(fqcn) => classLoader.loadClass(fqcn).asSubclass(classOf[HostnameVerifier])
     }
 
-    val disabledSignatureAlgorithms = c.getSeq[String]("disabledSignatureAlgorithms")
-    val disabledKeyAlgorithms = c.getSeq[String]("disabledKeyAlgorithms")
-
     val keyManagers = parseKeyManager(c.get[EnrichedConfig]("keyManager"))
 
     val trustManagers = parseTrustManager(c.get[EnrichedConfig]("trustManager"))
@@ -584,8 +565,6 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader, loggerFactory
       enabledProtocols = protocols,
       keyManagerConfig = keyManagers,
       hostnameVerifierClass = hostnameVerifierClass,
-      disabledSignatureAlgorithms = disabledSignatureAlgorithms,
-      disabledKeyAlgorithms = disabledKeyAlgorithms,
       sslParametersConfig = sslParametersConfig,
       trustManagerConfig = trustManagers,
       secureRandom = None,
@@ -598,8 +577,6 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader, loggerFactory
    */
   def parseLooseOptions(config: EnrichedConfig): SSLLooseConfig = {
 
-    val allowWeakProtocols = config.get[Boolean]("allowWeakProtocols")
-    val allowWeakCiphers = config.get[Boolean]("allowWeakCiphers")
     val allowMessages = config.getOptional[Boolean]("allowLegacyHelloMessages")
     val allowUnsafeRenegotiation = config.getOptional[Boolean]("allowUnsafeRenegotiation")
     val disableHostnameVerification = config.get[Boolean]("disableHostnameVerification")
@@ -607,8 +584,6 @@ class SSLConfigParser(c: EnrichedConfig, classLoader: ClassLoader, loggerFactory
     val acceptAnyCertificate = config.get[Boolean]("acceptAnyCertificate")
 
     new SSLLooseConfig(
-      allowWeakCiphers = allowWeakCiphers,
-      allowWeakProtocols = allowWeakProtocols,
       allowLegacyHelloMessages = allowMessages,
       allowUnsafeRenegotiation = allowUnsafeRenegotiation,
       disableHostnameVerification = disableHostnameVerification,

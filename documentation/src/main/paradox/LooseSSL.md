@@ -147,22 +147,6 @@ hostname verification!
 
 @@@
 
-### Disabling Weak Ciphers Checking
-
-There are some ciphers which are known to have flaws, and are
-[disabled](http://sim.ivi.co/2011/08/jsse-oracle-provider-default-disabled.html)
-in 1.7. WS will throw an exception if a weak cipher is found in the
-`ssl-config.enabledCiphers` list. If you specifically want a weak cipher,
-set this flag:
-
-```conf
-ssl-config.loose.allowWeakCiphers=true
-```
-
-With weak cipher checking disabled, you are vulnerable to attackers that
-use forged certificates, such as
-[Flame](http://arstechnica.com/security/2012/06/flame-crypto-breakthrough/).
-
 ### Disabling Hostname Verification
 
 If you want to disable hostname verification, you can set a loose flag:
@@ -181,26 +165,3 @@ By disabling hostname verification, you are also disabling
 certificate verification!
 
 @@@
-
-### Disabled Protocols
-
-WS recognizes "SSLv3", "SSLv2" and "SSLv2Hello" as weak protocols with a
-number of [security issues](https://www.schneier.com/paper-ssl.pdf),
-and will throw an exception if they are in the
-`ssl-config.enabledProtocols` list. Virtually all servers support
-`TLSv1`, so there is no advantage in using these older protocols.
-
-If you specifically want a weak protocol, set the loose flag to disable
-the check:
-
-```conf
-ssl-config.loose.allowWeakProtocols=true
-```
-
-SSLv2 and SSLv2Hello (there is no v1) are obsolete and usage in the
-field is [down to 25% on the public
-Internet](https://www.trustworthyinternet.org/ssl-pulse/). SSLv3 is
-known to have [security
-issues](http://www.yaksman.org/~lweith/ssl.pdf) compared to TLS. The
-only reason to turn this on is if you are connecting to a legacy server,
-but doing so does not make you vulnerable per se.
