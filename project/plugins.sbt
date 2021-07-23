@@ -1,10 +1,4 @@
-// TODO remove when https://github.com/lightbend/mima/issues/422 is fixed
-resolvers += Resolver.url(
-  "typesafe sbt-plugins",
-  url("https://dl.bintray.com/typesafe/sbt-plugins")
-)(Resolver.ivyStylePatterns)
-
-addSbtPlugin("com.github.sbt"     % "sbt-release"         % "1.1.0")
+addSbtPlugin("com.github.sbt"        % "sbt-release"         % "1.1.0")
 addSbtPlugin("com.typesafe.sbt"      % "sbt-osgi"            % "0.9.6")
 addSbtPlugin("org.scalariform"       % "sbt-scalariform"     % "1.8.3")
 addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.4.1")
