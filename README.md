@@ -1,6 +1,6 @@
 # SSL Config
 
-[![Build Status](https://travis-ci.org/lightbend/ssl-config.svg?branch=master)](https://travis-ci.org/lightbend/ssl-config) ![Maven metadata URL](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/typesafe/ssl-config-core_2.12/maven-metadata.xml.svg)
+[![Build Status](https://travis-ci.com/lightbend/ssl-config.svg?branch=main)](https://travis-ci.com/lightbend/ssl-config) ![Maven metadata URL](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/typesafe/ssl-config-core_2.13/maven-metadata.xml.svg)
 
 Goal and purpose of this library is to make [Play WS][] library as well as Akka HTTP "secure by default".
 Sadly, while Java's security has been steadily improving some settings are still left up to the user,
@@ -15,7 +15,7 @@ Akka Http and any other library which may need support from this library.
 
 The project is maintained on two branches:
 
-- [`master`](https://github.com/lightbend/ssl-config/tree/master) which requires Java 8 and is used by Akka `2.5.x` and later.
+- [`main`](https://github.com/lightbend/ssl-config/tree/main) which requires Java 8 and is used by Akka `2.5.x` and later.
 - [`release-0.1`](https://github.com/lightbend/ssl-config/tree/release-0.1) which is Java 6 compatible
   (does lots of manual improvements and checks that JDK6 didn't).
   Currently only the *legacy version* of Akka Streams & Http (which is `2.0.x`) uses this version.
