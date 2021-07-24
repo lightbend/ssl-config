@@ -4,7 +4,7 @@ resolvers += Resolver.url(
   url("https://dl.bintray.com/typesafe/sbt-plugins")
 )(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.github.sbt"     % "sbt-release"         % "1.0.15")
+addSbtPlugin("com.github.sbt"     % "sbt-release"         % "1.1.0")
 addSbtPlugin("com.typesafe.sbt"      % "sbt-osgi"            % "0.9.6")
 addSbtPlugin("org.scalariform"       % "sbt-scalariform"     % "1.8.3")
 addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.4.1")
