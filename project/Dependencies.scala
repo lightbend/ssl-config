@@ -7,8 +7,8 @@ object Version {
   val jodaTimeConvert = "2.2.1"
 
   // Because of https://github.com/sbt/sbt/issues/4609
-  val parserCombinators211 = "1.1.2"
-  val parserCombinators = "1.1.2"
+  val parserCombinators211 = "2.0.0"
+  val parserCombinators = "2.0.0"
   val specs2          = "4.8.3"
 
   val scala211       = "2.11.12"
