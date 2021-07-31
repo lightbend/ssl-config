@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 - 2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2021 Lightbend Inc. <https://www.lightbend.com>
  */
 
 import com.typesafe.sbt.SbtScalariform
@@ -12,6 +12,7 @@ import sbt._
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 import de.heikoseeberger.sbtheader.{CommentStyle => HeaderCommentStyle, FileType => HeaderFileType, License => HeaderLicense}
 import scalariform.formatter.preferences._
+import com.typesafe.sbt.SbtScalariform.autoImport._
 
 /**
  * Common sbt settings — automatically added to all projects.
@@ -32,10 +33,11 @@ object Common extends AutoPlugin {
   }
 
   // AutomateHeaderPlugin is not an allRequirements-AutoPlugin, so explicitly add settings here:
-  override def projectSettings = SbtScalariform.autoImport.scalariformSettings(autoformat = true) ++
+  override def projectSettings =
     AutomateHeaderPlugin.projectSettings ++
     sonatype.settings ++
     Seq(
+      scalariformAutoformat := true,
       organization := "com.typesafe",
       updateOptions := updateOptions.value.withCachedResolution(true),
       scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature"),
@@ -82,8 +84,6 @@ object Common extends AutoPlugin {
 
 // from https://github.com/lightbend/config/blob/master/project/PublishToSonatype.scala
 abstract class PublishToSonatype {
-  val ossSnapshots = "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
-  val ossStaging   = "Sonatype OSS Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
   case class Developer(id: String, name: String, url: String)
   def projectUrl: String
 
@@ -112,9 +112,7 @@ abstract class PublishToSonatype {
   }
 
   def settings = Seq(
-    publishMavenStyle := true,
-    publishTo := { Some(if (isSnapshot.value) ossSnapshots else ossStaging) },
-    publishArtifact in Test := false,
+    Test / publishArtifact := false,
     pomIncludeRepository := (_ => false),
     pomExtra := generatePomExtra
   )
