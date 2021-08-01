@@ -31,8 +31,11 @@ script:
   - ./scripts/validate-docs.sh
 
 stages:
+  - name: test
   - name: release
     if: tag IS present
-    env:
-      - ADOPTOPENJDK=8
+
+jobs:
+  include:
+  - stage: release
     script: sbt ci-release
