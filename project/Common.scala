@@ -92,28 +92,8 @@ abstract class PublishToSonatype {
   def scmUrl: String
   def scmConnection       = "scm:git:" + scmUrl
 
-  def generatePomExtra: xml.NodeSeq = {
-    <url>{ projectUrl }</url>
-    <scm>
-      <url>{ scmUrl }</url>
-      <connection>{ scmConnection }</connection>
-    </scm>
-    <developers>
-      {
-        developers.map { dev =>
-          <developer>
-            <id>{ dev.id }</id>
-            <name>{ dev.name }</name>
-            <url>{ dev.url }</url>
-          </developer>
-        }
-      }
-    </developers>
-  }
-
   def settings = Seq(
     Test / publishArtifact := false,
     pomIncludeRepository := (_ => false),
-    pomExtra := generatePomExtra
   )
 }
