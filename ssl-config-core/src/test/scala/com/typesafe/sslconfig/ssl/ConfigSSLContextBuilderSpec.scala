@@ -29,7 +29,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
 
       val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
 
-      val actual: SSLContext = builder.build
+      val actual: SSLContext = builder.build()
       actual.getProtocol must_== Protocols.recommendedProtocol
     }
 
@@ -43,7 +43,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
 
         val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
 
-        val actual: SSLContext = builder.build
+        val actual: SSLContext = builder.build()
         actual.getProtocol must_== Protocols.recommendedProtocol
       }
 
@@ -55,7 +55,7 @@ class ConfigSSLContextBuilderSpec extends Specification with Mockito {
 
         val builder = new ConfigSSLContextBuilder(mkLogger, info, keyManagerFactory, trustManagerFactory)
 
-        val actual: SSLContext = builder.build
+        val actual: SSLContext = builder.build()
         actual.getProtocol must_== "TLS"
       }
     }
