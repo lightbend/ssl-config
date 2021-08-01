@@ -15,7 +15,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(AutomaticModuleName.settings("ssl.config.core"))
   .settings(osgiSettings: _*)
   .settings(
-    crossScalaVersions := Seq(Version.scala213, Version.scala212, Version.scala211),
+    crossScalaVersions := Seq(Version.scala213, Version.scala212, Version.scala211, Version.scala3),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
     // work around for https://bugs.java.com/bugdatabase/view_bug.do?bug_id=JDK-8266261
     // also https://bugs.openjdk.java.net/browse/JDK-8266279
@@ -23,17 +23,12 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
     Test / javaOptions += "-Dkeystore.pkcs12.keyProtectionAlgorithm=PBEWithHmacSHA256AndAES_256",
     name := "ssl-config-core",
     mimaReportSignatureProblems := true,
-    mimaPreviousArtifacts ++= (((CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, v)) if v <= 12 =>
-        Set("0.3.7")
-      case _ => // 2.13 we don't have a library capable of this
-        Set.empty[String]
-    }) ++ Set(
-      "0.3.8",
-      "0.4.0",
-      "0.4.1",
-      "0.4.2",
-    ))).map("com.typesafe" %% "ssl-config-core" % _), // "sbt mimaReportBinaryIssues"
+    mimaPreviousArtifacts := (CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, _)) =>
+        Set("0.5.0")
+      case _ =>
+        Set()
+    }).map("com.typesafe" %% "ssl-config-core" % _),
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[IncompatibleSignatureProblem]("com.typesafe.sslconfig.ssl.AlgorithmConstraintsParser.*"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore#KeystoreSettings.SignatureAlgorithmOID"),
