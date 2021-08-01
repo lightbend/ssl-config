@@ -6,7 +6,7 @@ ThisBuild / scalaVersion := Version.scala212
 
 val disablePublishingSettings = Seq(
   // https://github.com/sbt/sbt/pull/3380
-  skip in publish := true,
+  publish / skip := true,
   publishArtifact := false,
   mimaReportBinaryIssues := false
  )
@@ -123,29 +123,6 @@ lazy val root = project.in(file("."))
     documentation
   )
   .settings(disablePublishingSettings: _*)
-
-// Release settings
-import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
-
-// This automatically selects the snapshots or staging repository
-// according to the version value.
-publishTo in ThisBuild := sonatypePublishToBundle.value
-
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  runClean,
-  runTest,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
-  releaseStepCommandAndRemaining("+publishSigned"),
-  setNextVersion,
-  commitNextVersion,
-  // Automatically promote artifacts in Sonatype
-  releaseStepCommand("sonatypeBundleRelease"),
-  pushChanges
-)
 
 def configImport(packageName: String = "com.typesafe.config.*") = versionedImport(packageName, "1.4.1", "1.5.0")
 def versionedImport(packageName: String, lower: String, upper: String) = s"""$packageName;version="[$lower,$upper)""""
