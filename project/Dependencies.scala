@@ -6,9 +6,6 @@ object Version {
   val jodaTime       = "2.10.10"
   val jodaTimeConvert = "2.2.1"
 
-  // Because of https://github.com/sbt/sbt/issues/4609
-  val parserCombinators211 = "2.0.0"
-  val parserCombinators = "2.0.0"
   val specs2          = "4.8.3"
 
   val scala211       = "2.11.12"
@@ -30,11 +27,6 @@ object Library {
   val jodaTime          = "joda-time"              % "joda-time"                % Version.jodaTime  % "test" // ONLY FOR TESTS!
   val jodaTimeConvert   = "org.joda"               % "joda-convert"             % Version.jodaTimeConvert  % "test" // ONLY FOR TESTS!
 
-  def parserCombinators(scalaVersion: String) = if (scalaVersion.equals(Version.scala211)) {
-    "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators211
-  } else {
-    "org.scala-lang.modules" %% "scala-parser-combinators" % Version.parserCombinators
-  }
 }
 
 object Dependencies {

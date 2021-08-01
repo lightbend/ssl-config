@@ -101,7 +101,6 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.ConfigSSLContextBuilder.buildKeyManager"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.ConfigSSLContextBuilder.buildTrustManager")
     ),
-    libraryDependencies += Library.parserCombinators(scalaVersion.value),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= Dependencies.testDependencies,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
