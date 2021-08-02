@@ -23,22 +23,17 @@ object Common extends AutoPlugin {
 
   override def requires = plugins.JvmPlugin && HeaderPlugin
 
-  // sonatype
-  object sonatype extends PublishToSonatype {
-     def projectUrl    = "https://github.com/lightbend/ssl-config"
-     def scmUrl        = "git://github.com/lightbend/ssl-config.git"
-     def developers    = List(
-       Developer("wsargent", "Will Sargent", "https://tersesystems.com"),
-       Developer("ktoso", "Konrad Malawski", "https://project13.pl"))
-  }
-
   // AutomateHeaderPlugin is not an allRequirements-AutoPlugin, so explicitly add settings here:
   override def projectSettings =
     AutomateHeaderPlugin.projectSettings ++
-    sonatype.settings ++
     Seq(
       scalariformAutoformat := true,
       organization := "com.typesafe",
+      homepage := Some(url("https://github.com/lightbend/ssl-config")),
+      developers := List(
+        Developer("wsargent", "Will Sargent", "", url("https://tersesystems.com")),
+        Developer("ktoso", "Konrad Malawski", "", url("https://project13.pl")),
+      ),
       updateOptions := updateOptions.value.withCachedResolution(true),
       scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature"),
       scalacOptions ++= {
@@ -80,20 +75,4 @@ object Common extends AutoPlugin {
       }
     )
 
-}
-
-// from https://github.com/lightbend/config/blob/master/project/PublishToSonatype.scala
-abstract class PublishToSonatype {
-  case class Developer(id: String, name: String, url: String)
-  def projectUrl: String
-
-  def developers: List[Developer]
-  def licenseDistribution = "repo"
-  def scmUrl: String
-  def scmConnection       = "scm:git:" + scmUrl
-
-  def settings = Seq(
-    Test / publishArtifact := false,
-    pomIncludeRepository := (_ => false),
-  )
 }
