@@ -62,7 +62,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
 
   override def chooseEngineClientAlias(keyType: Array[String], issuers: Array[Principal], engine: SSLEngine): String = {
     logger.debug(s"chooseEngineClientAlias: keyType = ${keyType.toSeq}, issuers = ${issuersToString(issuers)}, engine = $engine")
-    withKeyManagers { keyManager: X509KeyManager =>
+    withKeyManagers { (keyManager: X509KeyManager) =>
       keyManager match {
         case extendedKeyManager: X509ExtendedKeyManager =>
           val clientAlias = extendedKeyManager.chooseEngineClientAlias(keyType, issuers, engine)
@@ -80,7 +80,7 @@ class CompositeX509KeyManager(mkLogger: LoggerFactory, keyManagers: Seq[X509KeyM
   override def chooseEngineServerAlias(keyType: String, issuers: Array[Principal], engine: SSLEngine): String = {
     logger.debug(s"chooseEngineServerAlias: keyType = ${keyType.toSeq}, issuers = ${issuersToString(issuers)}, engine = $engine")
 
-    withKeyManagers { keyManager: X509KeyManager =>
+    withKeyManagers { (keyManager: X509KeyManager) =>
       keyManager match {
         case extendedKeyManager: X509ExtendedKeyManager =>
           val clientAlias = extendedKeyManager.chooseEngineServerAlias(keyType, issuers, engine)
