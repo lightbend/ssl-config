@@ -352,8 +352,6 @@ object SSLDebugRecordOptions {
 /**
  * Configuration for specifying loose (potentially dangerous) ssl config.
  *
- * @param allowWeakCiphers Whether weak ciphers should be allowed or not.
- * @param allowWeakProtocols Whether weak protocols should be allowed or not.
  * @param allowLegacyHelloMessages Whether legacy hello messages should be allowed or not. If None, uses the platform
  *                                 default.
  * @param allowUnsafeRenegotiation Whether unsafe renegotiation should be allowed or not. If None, uses the platform
