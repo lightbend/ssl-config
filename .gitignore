@@ -80,3 +80,4 @@ worker*.log
 test-output
 .tmpBin
 /maven-4.0.0.xsd
+.bsp/
