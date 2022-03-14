@@ -11,7 +11,7 @@ object Version {
   val scala211       = "2.11.12"
   val scala212       = "2.12.14"
   val scala213       = "2.13.8"
-  val scala3         = "3.0.1"
+  val scala3         = "3.0.2"
 }
 
 object Library {
