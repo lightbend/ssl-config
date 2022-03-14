@@ -51,8 +51,6 @@ object SSLConfigParserSpec extends Specification {
                                |loose = {
                                | allowLegacyHelloMessages = true
                                | allowUnsafeRenegotiation = true
-                               | allowWeakCiphers = true
-                               | allowWeakProtocols = true
                                | disableHostnameVerification = true
                                | acceptAnyCertificate = true
                                |}
