@@ -33,7 +33,9 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       // private[sslconfig]
       ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLLooseConfig.this"),
       // private[sslconfig]
-      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.this")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.this"),
+      // synthetic on private[sslconfig]
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.<init>$default*")
     ),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= Dependencies.testDependencies,
