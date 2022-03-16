@@ -25,6 +25,14 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
       case _ =>
         Set()
     }).map("com.typesafe" %% "ssl-config-core" % _),
+    mimaBinaryIssueFilters ++= Seq(
+      // private[sslconfig]
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLLooseConfig.this"),
+      // private[sslconfig]
+      ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.this"),
+      // synthetic on private[sslconfig]
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.<init>$default*")
+    ),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= Dependencies.testDependencies,
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",

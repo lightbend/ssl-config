@@ -364,6 +364,8 @@ final class SSLLooseConfig private[sslconfig] (
     val acceptAnyCertificate: Boolean = false,
     val allowLegacyHelloMessages: Option[Boolean] = None,
     val allowUnsafeRenegotiation: Option[Boolean] = None,
+    @deprecated("not operative", "0.5.0") val allowWeakCiphers: Boolean = false,
+    @deprecated("not operative", "0.5.0") val allowWeakProtocols: Boolean = false,
     val disableHostnameVerification: Boolean = false,
     val disableSNI: Boolean = false) {
 
@@ -431,7 +433,6 @@ object SSLParametersConfig {
  * @param enabledCipherSuites If defined, override the platform default cipher suites.
  * @param enabledProtocols If defined, override the platform default protocols.
  * @param disabledSignatureAlgorithms The disabled signature algorithms.
- * @param disabledKeyAlgorithms The disabled key algorithms.
  * @param keyManagerConfig The key manager configuration.
  * @param trustManagerConfig The trust manager configuration.
  * @param hostnameVerifierClass The hostname verifier class.
@@ -446,6 +447,7 @@ final class SSLConfigSettings private[sslconfig] (
     val revocationLists: Option[immutable.Seq[URL]] = None,
     val enabledCipherSuites: Option[immutable.Seq[String]] = None,
     val enabledProtocols: Option[immutable.Seq[String]] = Some(List("TLSv1.2", "TLSv1.1", "TLSv1")),
+    @deprecated("not operative", "0.5.0") val disabledKeyAlgorithms: immutable.Seq[String] = Nil,
     val sslParametersConfig: SSLParametersConfig = SSLParametersConfig(),
     val keyManagerConfig: KeyManagerConfig = KeyManagerConfig(),
     val trustManagerConfig: TrustManagerConfig = TrustManagerConfig(),
