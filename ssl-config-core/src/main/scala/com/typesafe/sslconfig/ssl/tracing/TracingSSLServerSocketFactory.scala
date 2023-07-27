@@ -1,13 +1,13 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl.tracing
 
-import java.net.{ InetAddress, ServerSocket }
-
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
 import com.typesafe.sslconfig.util.LoggerFactory
+
+import java.net.{ InetAddress, ServerSocket }
 import javax.net.ssl.SSLServerSocketFactory
 
 private[sslconfig] class TracingSSLServerSocketFactory(factory: => SSLServerSocketFactory, debug: SSLDebugConfig)(implicit lf: LoggerFactory) extends SSLServerSocketFactory with TraceLogger {

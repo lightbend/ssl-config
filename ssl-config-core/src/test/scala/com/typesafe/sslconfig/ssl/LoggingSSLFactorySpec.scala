@@ -1,14 +1,14 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.sslconfig.util._
-import javax.net.ssl._
 import org.specs2.mutable.Specification
 
+import javax.net.ssl._
 import scala.collection.mutable
 
 class LoggingSSLFactorySpec extends Specification {

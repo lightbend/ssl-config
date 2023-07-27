@@ -1,11 +1,10 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig
 
 import java.security.cert.{ CertPathValidatorResult, Certificate, PKIXCertPathValidatorResult, X509Certificate }
-
 import scala.util.Properties.javaVmName
 
 package object ssl {

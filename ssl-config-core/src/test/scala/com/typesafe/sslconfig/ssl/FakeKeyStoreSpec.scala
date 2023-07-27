@@ -1,14 +1,13 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
-import java.nio.file.Files
-
 import com.typesafe.sslconfig.util.NoopLogger
 import org.specs2.mutable.Specification
 
+import java.nio.file.Files
 import scala.util.Try
 
 class FakeKeyStoreSpec extends Specification {
@@ -72,7 +71,5 @@ class FakeKeyStoreSpec extends Specification {
         ksPath.delete()
       }
     }
-
   }
-
 }

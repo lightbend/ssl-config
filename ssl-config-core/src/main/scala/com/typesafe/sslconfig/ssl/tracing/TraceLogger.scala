@@ -1,15 +1,14 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl.tracing
 
-import java.security.Principal
-import java.security.cert.X509Certificate
-
 import com.typesafe.sslconfig.ssl
 import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 
+import java.security.Principal
+import java.security.cert.X509Certificate
 import scala.util.control.NonFatal
 
 private[sslconfig] trait TraceLogger {

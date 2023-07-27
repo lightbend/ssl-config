@@ -1,12 +1,12 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
-import java.security.Security
+import com.typesafe.sslconfig.util.LoggerFactory
 
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import java.security.Security
 
 /**
  * Configures global system properties on the JSSE implementation, if defined.

@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl.tracing
 
+import com.typesafe.sslconfig.ssl.SSLDebugConfig
+import com.typesafe.sslconfig.util.LoggerFactory
+
 import java.net.Socket
 import java.security.cert.X509Certificate
 import java.security.{ Principal, PrivateKey }
-
-import com.typesafe.sslconfig.ssl.SSLDebugConfig
-import com.typesafe.sslconfig.util.LoggerFactory
-import javax.net.ssl.{ KeyManager, SSLEngine, X509ExtendedKeyManager }
+import javax.net.ssl.{ SSLEngine, X509ExtendedKeyManager }
 
 private[sslconfig] class TracingX509ExtendedKeyManager(supplier: => X509ExtendedKeyManager, debug: SSLDebugConfig)(implicit loggerFactory: LoggerFactory) extends X509ExtendedKeyManager with TraceLogger {
 

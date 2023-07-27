@@ -1,17 +1,17 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
-import java.net.Socket
-import java.security._
-import java.security.cert.{ CertPathValidatorException, X509Certificate }
-
-import javax.net.ssl._
 import com.typesafe.sslconfig.util.NoopLogger
 import org.specs2.mock._
 import org.specs2.mutable._
+
+import java.net.Socket
+import java.security._
+import java.security.cert.X509Certificate
+import javax.net.ssl._
 
 class ConfigSSLContextBuilderSpec extends Specification with Mockito {
 

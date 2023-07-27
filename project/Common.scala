@@ -1,8 +1,7 @@
 /*
- * Copyright (C) 2015 - 2021 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
-import com.typesafe.sbt.SbtScalariform
 import de.heikoseeberger.sbtheader._
 import sbt.Keys._
 import sbt._
@@ -38,10 +37,8 @@ object Common extends AutoPlugin {
       scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature"),
       scalacOptions ++= {
         CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, v)) if v <= 11 =>
-            Seq("-target:jvm-1.8")
-          case _ =>
-            Nil
+          case Some((2, 13)) => Seq("-Xsource:3")
+          case _ => Seq.empty
         }
       },
       javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8"),
@@ -68,7 +65,7 @@ object Common extends AutoPlugin {
       HeaderPlugin.autoImport.headerLicense := {
         // To be manually updated yearly, preventing unrelated PR's to suddenly fail
         // just because time passed
-        val currentYear = 2020
+        val currentYear = 2023
         Some(HeaderLicense.Custom(
           s"""Copyright (C) 2015 - $currentYear Lightbend Inc. <https://www.lightbend.com>"""
         ))

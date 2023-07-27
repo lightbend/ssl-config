@@ -1,13 +1,12 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.util
 
-import java.util.concurrent.TimeUnit
-
 import com.typesafe.config._
 
+import java.util.concurrent.TimeUnit
 import scala.collection.JavaConverters._
 import scala.collection.immutable
 import scala.concurrent.duration.FiniteDuration

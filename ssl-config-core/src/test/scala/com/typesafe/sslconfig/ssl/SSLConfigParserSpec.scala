@@ -1,13 +1,12 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
+import com.typesafe.config.ConfigFactory
 import com.typesafe.sslconfig.util.EnrichedConfig
 import org.specs2.mutable._
-
-import com.typesafe.config.ConfigFactory
 
 object SSLConfigParserSpec extends Specification {
 

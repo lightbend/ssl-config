@@ -1,15 +1,15 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
 import com.typesafe.sslconfig.util.NoopLogger
-import org.specs2.mutable._
 import org.specs2.mock.Mockito
+import org.specs2.mutable._
 
-import javax.net.ssl.X509TrustManager
 import java.security.cert.{ CertificateException, X509Certificate }
+import javax.net.ssl.X509TrustManager
 
 object CompositeX509TrustManagerSpec extends Specification with Mockito {
 

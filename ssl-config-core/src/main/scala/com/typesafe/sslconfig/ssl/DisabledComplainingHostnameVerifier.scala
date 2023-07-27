@@ -1,12 +1,12 @@
 /*
- * Copyright (C) 2015 - 2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
 package com.typesafe.sslconfig.ssl
 
-import javax.net.ssl.{ SSLSession, HostnameVerifier }
+import com.typesafe.sslconfig.util.LoggerFactory
 
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import javax.net.ssl.{ HostnameVerifier, SSLSession }
 
 /**
  * Add a disabled but complaining hostname verifier.
