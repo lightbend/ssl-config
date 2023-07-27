@@ -68,7 +68,7 @@ object Common extends AutoPlugin {
       HeaderPlugin.autoImport.headerLicense := {
         // To be manually updated yearly, preventing unrelated PR's to suddenly fail
         // just because time passed
-        val currentYear = 2020
+        val currentYear = 2023
         Some(HeaderLicense.Custom(
           s"""Copyright (C) 2015 - $currentYear Lightbend Inc. <https://www.lightbend.com>"""
         ))
