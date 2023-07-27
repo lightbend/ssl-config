@@ -4,10 +4,9 @@
 
 package com.typesafe.sslconfig.ssl
 
+import com.typesafe.config.ConfigFactory
 import com.typesafe.sslconfig.util.EnrichedConfig
 import org.specs2.mutable._
-
-import com.typesafe.config.ConfigFactory
 
 object SSLConfigParserSpec extends Specification {
 

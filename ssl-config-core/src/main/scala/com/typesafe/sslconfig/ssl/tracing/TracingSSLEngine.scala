@@ -4,10 +4,10 @@
 
 package com.typesafe.sslconfig.ssl.tracing
 
-import java.nio.ByteBuffer
-
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
 import com.typesafe.sslconfig.util.LoggerFactory
+
+import java.nio.ByteBuffer
 import javax.net.ssl.{ SSLEngine, SSLEngineResult, SSLSession }
 
 private[sslconfig] class TracingSSLEngine(engine: => SSLEngine, debug: SSLDebugConfig)(implicit loggerFactory: LoggerFactory) extends SSLEngine with TraceLogger {

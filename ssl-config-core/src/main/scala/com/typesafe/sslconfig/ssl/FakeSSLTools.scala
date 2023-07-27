@@ -5,7 +5,6 @@
 package com.typesafe.sslconfig.ssl
 
 import java.security.KeyStore
-
 import javax.net.ssl._
 
 object FakeSSLTools {

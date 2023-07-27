@@ -4,9 +4,9 @@
 
 package com.typesafe.sslconfig.ssl
 
-import javax.net.ssl.{ SSLSession, HostnameVerifier }
+import com.typesafe.sslconfig.util.LoggerFactory
 
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import javax.net.ssl.{ HostnameVerifier, SSLSession }
 
 /**
  * Add a disabled but complaining hostname verifier.

@@ -4,17 +4,16 @@
 
 package com.typesafe.sslconfig.ssl
 
+import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import sun.security.x509._
+
 import java.io._
 import java.math.BigInteger
 import java.security.cert.X509Certificate
 import java.security.interfaces.RSAPublicKey
 import java.security.{ KeyPair, KeyPairGenerator, KeyStore, SecureRandom }
 import java.util.Date
-
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 import javax.net.ssl.KeyManagerFactory
-import sun.security.util.ObjectIdentifier
-import sun.security.x509._
 
 /**
  * A fake key store with a selfsigned CA and a certificate issued by that CA. Includes a `trustedCertEntry` for

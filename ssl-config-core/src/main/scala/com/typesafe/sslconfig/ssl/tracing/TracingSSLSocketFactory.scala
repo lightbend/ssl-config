@@ -4,11 +4,11 @@
 
 package com.typesafe.sslconfig.ssl.tracing
 
-import java.io.InputStream
-import java.net.{ InetAddress, Socket }
-
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
 import com.typesafe.sslconfig.util.LoggerFactory
+
+import java.io.InputStream
+import java.net.{ InetAddress, Socket }
 import javax.net.ssl.SSLSocketFactory
 
 private[sslconfig] class TracingSSLSocketFactory(factory: SSLSocketFactory, debug: SSLDebugConfig)(implicit loggerFactory: LoggerFactory) extends SSLSocketFactory with TraceLogger {

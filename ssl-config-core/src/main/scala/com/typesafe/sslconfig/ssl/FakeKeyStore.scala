@@ -4,18 +4,16 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.security.{ KeyPair, KeyPairGenerator, KeyStore, SecureRandom }
-
 import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
 import sun.security.x509._
-import sun.security.util.ObjectIdentifier
-import java.util.Date
+
+import java.io._
 import java.math.BigInteger
 import java.security.cert.X509Certificate
-import java.io._
-
-import javax.net.ssl.KeyManagerFactory
 import java.security.interfaces.RSAPublicKey
+import java.security.{ KeyPair, KeyPairGenerator, KeyStore, SecureRandom }
+import java.util.Date
+import javax.net.ssl.KeyManagerFactory
 
 /**
  * A fake key store with a single, selfsigned certificate and keypair. Includes also a `trustedCertEntry` for

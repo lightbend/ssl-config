@@ -4,14 +4,14 @@
 
 package com.typesafe.sslconfig.ssl
 
+import com.typesafe.sslconfig.util.NoopLogger
+import org.specs2.mock._
+import org.specs2.mutable._
+
 import java.net.Socket
 import java.security.cert.X509Certificate
 import java.security.{ Principal, PrivateKey }
-
-import com.typesafe.sslconfig.util.NoopLogger
 import javax.net.ssl.{ SSLEngine, X509ExtendedKeyManager, X509KeyManager }
-import org.specs2.mock._
-import org.specs2.mutable._
 
 object CompositeX509KeyManagerSpec extends Specification with Mockito {
 

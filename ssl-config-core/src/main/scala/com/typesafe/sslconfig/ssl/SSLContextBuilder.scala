@@ -4,13 +4,13 @@
 
 package com.typesafe.sslconfig.ssl
 
+import com.typesafe.sslconfig.ssl.tracing._
+import com.typesafe.sslconfig.util.LoggerFactory
+
 import java.io._
 import java.net.URL
 import java.security._
 import java.security.cert._
-
-import com.typesafe.sslconfig.ssl.tracing._
-import com.typesafe.sslconfig.util.LoggerFactory
 import javax.net.ssl._
 
 trait SSLContextBuilder {

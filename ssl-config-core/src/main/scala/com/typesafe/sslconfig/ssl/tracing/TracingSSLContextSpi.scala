@@ -4,10 +4,10 @@
 
 package com.typesafe.sslconfig.ssl.tracing
 
-import java.security._
-
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
 import com.typesafe.sslconfig.util.LoggerFactory
+
+import java.security._
 import javax.net.ssl._
 
 private[sslconfig] class TracingSSLContext(context: SSLContext, debugConfig: SSLDebugConfig)(implicit loggerFactory: LoggerFactory) extends SSLContext(

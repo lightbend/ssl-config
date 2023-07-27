@@ -4,16 +4,14 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.net.URL
-import java.security.{ KeyStore, SecureRandom }
-import java.util.Optional
-
-import javax.net.ssl.{ HostnameVerifier, KeyManagerFactory, SSLParameters, TrustManagerFactory }
-
-import scala.collection.immutable
 import com.typesafe.config.Config
 import com.typesafe.sslconfig.util.{ EnrichedConfig, LoggerFactory }
 
+import java.net.URL
+import java.security.{ KeyStore, SecureRandom }
+import java.util.Optional
+import javax.net.ssl.{ HostnameVerifier, KeyManagerFactory, SSLParameters, TrustManagerFactory }
+import scala.collection.immutable
 import scala.language.existentials
 
 /**

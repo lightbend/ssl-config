@@ -4,11 +4,10 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.nio.file.Files
-
 import com.typesafe.sslconfig.util.NoopLogger
 import org.specs2.mutable.Specification
 
+import java.nio.file.Files
 import scala.util.Try
 
 class FakeKeyStoreSpec extends Specification {

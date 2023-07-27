@@ -4,14 +4,12 @@
 
 package com.typesafe.sslconfig.ssl
 
+import org.joda.time.Instant
+
 import java.math.BigInteger
 import java.security._
-import java.security.cert._
+import java.security.cert.X509Certificate
 import java.util.Date
-
-import org.joda.time.Instant
-import sun.security.x509._
-
 import scala.concurrent.duration.{ FiniteDuration, _ }
 
 /**

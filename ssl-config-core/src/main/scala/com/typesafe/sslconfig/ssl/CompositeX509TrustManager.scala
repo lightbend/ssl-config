@@ -4,14 +4,13 @@
 
 package com.typesafe.sslconfig.ssl
 
-import javax.net.ssl.X509TrustManager
-import java.security.cert._
-
 import com.typesafe.sslconfig.util.LoggerFactory
 
+import java.security.GeneralSecurityException
+import java.security.cert._
+import javax.net.ssl.X509TrustManager
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.NonFatal
-import java.security.GeneralSecurityException
 
 /**
  * A trust manager that is a composite of several smaller trust managers.   It is responsible for verifying the

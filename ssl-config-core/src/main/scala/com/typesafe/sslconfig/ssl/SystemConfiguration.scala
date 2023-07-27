@@ -4,9 +4,9 @@
 
 package com.typesafe.sslconfig.ssl
 
-import java.security.Security
+import com.typesafe.sslconfig.util.LoggerFactory
 
-import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
+import java.security.Security
 
 /**
  * Configures global system properties on the JSSE implementation, if defined.

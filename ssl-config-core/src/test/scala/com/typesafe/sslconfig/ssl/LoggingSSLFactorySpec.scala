@@ -6,9 +6,9 @@ package com.typesafe.sslconfig.ssl
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.sslconfig.util._
-import javax.net.ssl._
 import org.specs2.mutable.Specification
 
+import javax.net.ssl._
 import scala.collection.mutable
 
 class LoggingSSLFactorySpec extends Specification {

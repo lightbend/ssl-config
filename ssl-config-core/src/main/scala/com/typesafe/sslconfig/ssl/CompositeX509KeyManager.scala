@@ -4,13 +4,12 @@
 
 package com.typesafe.sslconfig.ssl
 
-import javax.net.ssl.{ SSLEngine, X509ExtendedKeyManager, X509KeyManager }
-import java.security.{ Principal, PrivateKey }
-import java.security.cert.{ CertificateException, X509Certificate }
-import java.net.Socket
-
 import com.typesafe.sslconfig.util.LoggerFactory
 
+import java.net.Socket
+import java.security.cert.{ CertificateException, X509Certificate }
+import java.security.{ Principal, PrivateKey }
+import javax.net.ssl.{ SSLEngine, X509ExtendedKeyManager, X509KeyManager }
 import scala.collection.mutable.ArrayBuffer
 
 /**
