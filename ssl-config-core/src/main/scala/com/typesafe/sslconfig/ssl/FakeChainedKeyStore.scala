@@ -113,7 +113,7 @@ object FakeChainedKeyStore {
 
     // Validity
     val validFrom = new Date()
-    val validTo = new Date(validFrom.getTime + 50l * 365l * 24l * 60l * 60l * 1000l)
+    val validTo = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L)
     val validity = new CertificateValidity(validFrom, validTo)
     certInfo.set(X509CertInfo.VALIDITY, validity)
 
@@ -149,7 +149,7 @@ object FakeChainedKeyStore {
 
     // Validity
     val validFrom = new Date()
-    val validTo = new Date(validFrom.getTime + 50l * 365l * 24l * 60l * 60l * 1000l) // 50 years
+    val validTo = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L) // 50 years
     val validity = new CertificateValidity(validFrom, validTo)
     certInfo.set(X509CertInfo.VALIDITY, validity)
 
