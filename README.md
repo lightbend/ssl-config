@@ -49,7 +49,7 @@ An excellent series by [Will Sargent](https://github.com/wsargent) about making
 
 ## License
 
-Lightbend 2015-2020, Apache 2.0
+Lightbend 2015-2023, Apache 2.0
 
 [Async Http Client]: https://github.com/AsyncHttpClient/async-http-client/
 [Play WS]: https://www.playframework.com/documentation/latest/ScalaWS

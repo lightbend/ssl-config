@@ -1,8 +1,7 @@
 /*
- * Copyright (C) 2015 - 2021 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2015 - 2023 Lightbend Inc. <https://www.lightbend.com>
  */
 
-import com.typesafe.sbt.SbtScalariform
 import de.heikoseeberger.sbtheader._
 import sbt.Keys._
 import sbt._
@@ -38,10 +37,8 @@ object Common extends AutoPlugin {
       scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature"),
       scalacOptions ++= {
         CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, v)) if v <= 11 =>
-            Seq("-target:jvm-1.8")
-          case _ =>
-            Nil
+          case Some((2, 13)) => Seq("-Xsource:3")
+          case _ => Seq.empty
         }
       },
       javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8"),
