@@ -19,12 +19,12 @@ git:
 env:
   - ADOPTOPENJDK=8
   - ADOPTOPENJDK=11
+  - ADOPTOPENJDK=17
 
 scala:
-  - 2.11.12
-  - 2.12.15
-  - 2.13.8
-  - 3.0.2
+  - 2.12.18
+  - 2.13.11
+  - 3.3.0
 
 script:
   - ./scripts/tests.sh
