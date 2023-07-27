@@ -15,7 +15,7 @@ lazy val sslConfigCore = project.in(file("ssl-config-core"))
   .settings(AutomaticModuleName.settings("ssl.config.core"))
   .settings(osgiSettings: _*)
   .settings(
-    crossScalaVersions := Seq(Version.scala213, Version.scala212, Version.scala211, Version.scala3),
+    crossScalaVersions := Seq(Version.scala213, Version.scala212, Version.scala3),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
     name := "ssl-config-core",
     mimaReportSignatureProblems := true,
