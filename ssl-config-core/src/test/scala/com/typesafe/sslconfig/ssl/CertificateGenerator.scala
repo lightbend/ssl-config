@@ -4,8 +4,16 @@
 
 package com.typesafe.sslconfig.ssl
 
+import org.bouncycastle.asn1.x500.X500Name
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
+import org.bouncycastle.cert.X509v3CertificateBuilder
+import org.bouncycastle.crypto.util.PrivateKeyFactory
+import org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory
+import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder
+import org.bouncycastle.operator.{ DefaultDigestAlgorithmIdentifierFinder, DefaultSignatureAlgorithmIdentifierFinder }
 import org.joda.time.Instant
 
+import java.io.ByteArrayInputStream
 import java.math.BigInteger
 import java.security._
 import java.security.cert.X509Certificate
@@ -65,28 +73,21 @@ object CertificateGenerator {
   }
 
   private[sslconfig] def generateCertificate(dn: String, pair: KeyPair, from: Date, to: Date, algorithm: String): X509Certificate = {
+    val serialNumber = new BigInteger(64, new SecureRandom())
+    val owner = new X500Name(dn)
 
-    val info: X509CertInfo = new X509CertInfo
-    val interval: CertificateValidity = new CertificateValidity(from, to)
-    // I have no idea why 64 bits specifically are used for the certificate serial number.
-    val sn: BigInteger = new BigInteger(64, new SecureRandom)
-    val owner: X500Name = new X500Name(dn)
+    val sigAlgId = new DefaultSignatureAlgorithmIdentifierFinder().find(algorithm);
+    val digAlgId = new DefaultDigestAlgorithmIdentifierFinder().find(sigAlgId);
 
-    info.set(X509CertInfo.VALIDITY, interval)
-    info.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(sn))
-    info.set(X509CertInfo.SUBJECT, owner)
-    info.set(X509CertInfo.ISSUER, owner)
-    info.set(X509CertInfo.KEY, new CertificateX509Key(pair.getPublic))
-    info.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
+    val privateKeyParameter = PrivateKeyFactory.createKey(pair.getPrivate.getEncoded)
+    val contentSigner = new BcRSAContentSignerBuilder(sigAlgId, digAlgId).build(privateKeyParameter);
 
-    info.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(AlgorithmId.get(algorithm)))
-    var cert: X509CertImpl = new X509CertImpl(info)
-    val privkey: PrivateKey = pair.getPrivate
-    cert.sign(privkey, algorithm)
-    val algos = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    info.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, algos)
-    cert = new X509CertImpl(info)
-    cert.sign(privkey, algorithm)
-    cert
+    val publicKeyInfo = SubjectPublicKeyInfo.getInstance(pair.getPublic.getEncoded)
+
+    val x509Certificate = new X509v3CertificateBuilder(owner, serialNumber, from, to, owner, publicKeyInfo);
+    val x509CertificateHolder = x509Certificate.build(contentSigner)
+
+    val certificateFactory = new CertificateFactory()
+    certificateFactory.engineGenerateCertificate(new ByteArrayInputStream(x509CertificateHolder.getEncoded))
   }
 }

@@ -5,7 +5,9 @@
 package com.typesafe.sslconfig.ssl
 
 import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
-import sun.security.x509._
+import org.bouncycastle.asn1.x500.X500Name
+import org.bouncycastle.asn1.x509.{ BasicConstraints, Extension }
+import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder
 
 import java.io._
 import java.math.BigInteger
@@ -63,7 +65,7 @@ object FakeChainedKeyStore {
 
   object KeystoreSettings {
     val GeneratedKeyStore: String = fileInDevModeDir("chained.keystore")
-    val SignatureAlgorithmName = "SHA256withRSA"
+    val SignatureAlgorithmName = "SHA256WITHRSA"
     val KeyPairAlgorithmName = "RSA"
     val KeyPairKeyLength = 2048 // 2048 is the NIST acceptable key length until 2030
     val KeystoreType = "JKS"
@@ -104,81 +106,28 @@ object FakeChainedKeyStore {
   }
 
   private[ssl] def createUserCertificate(userKeyPair: KeyPair, certificateAuthorityKeyPair: KeyPair): X509Certificate = {
-    val certInfo = new X509CertInfo()
-
-    // Serial number and version
-    certInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
-    certInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
-
-    // Validity
+    val serialNumber = new BigInteger(64, new SecureRandom())
     val validFrom = new Date()
     val validTo = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L)
-    val validity = new CertificateValidity(validFrom, validTo)
-    certInfo.set(X509CertInfo.VALIDITY, validity)
+    val issuer = new X500Name(CA.DistinguishedName)
+    val subject = new X500Name(User.DistinguishedName)
 
-    // Subject and issuer
-    val certificateAuthorityName = new X500Name(CA.DistinguishedName)
-    certInfo.set(X509CertInfo.ISSUER, certificateAuthorityName)
-    val owner = new X500Name(User.DistinguishedName)
-    certInfo.set(X509CertInfo.SUBJECT, owner)
-
-    // Key and algorithm
-    certInfo.set(X509CertInfo.KEY, new CertificateX509Key(userKeyPair.getPublic))
-    val algorithm = AlgorithmId.get("SHA256WithRSA")
-    certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
-
-    // Create a new certificate and sign it
-    val cert = new X509CertImpl(certInfo)
-    cert.sign(userKeyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
-
-    // Since the signature provider may have a different algorithm ID to what we think it should be,
-    // we need to reset the algorithm ID, and resign the certificate
-    val actualAlgorithm = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    certInfo.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, actualAlgorithm)
-    val newCert = new X509CertImpl(certInfo)
-    newCert.sign(certificateAuthorityKeyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
-    newCert
+    val builder = new JcaX509v3CertificateBuilder(issuer, serialNumber, validFrom, validTo, subject, userKeyPair.getPublic)
+    BCTools.signCertificate(KeystoreSettings.SignatureAlgorithmName, builder, certificateAuthorityKeyPair.getPrivate)
   }
 
   private def createCertificateAuthority(keyPair: KeyPair): X509Certificate = {
-    val certInfo = new X509CertInfo()
-    // Serial number and version
-    certInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
-    certInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
-
-    // Validity
+    val serialNumber = new BigInteger(64, new SecureRandom())
     val validFrom = new Date()
-    val validTo = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L) // 50 years
-    val validity = new CertificateValidity(validFrom, validTo)
-    certInfo.set(X509CertInfo.VALIDITY, validity)
-
-    // Subject and issuer
+    val validTo = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L)
     val owner = new X500Name(CA.DistinguishedName)
-    certInfo.set(X509CertInfo.SUBJECT, owner)
-    certInfo.set(X509CertInfo.ISSUER, owner)
 
-    // Key and algorithm
-    certInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic))
-    val algorithm = AlgorithmId.get("SHA256WithRSA")
-    certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
+    val builder = new JcaX509v3CertificateBuilder(owner, serialNumber, validFrom, validTo, owner, keyPair.getPublic)
+    builder.addExtension(Extension.subjectKeyIdentifier, false, BCTools.createSubjectKeyIdentifier(keyPair.getPublic))
+    builder.addExtension(Extension.basicConstraints, true, new BasicConstraints(true))
 
-    val caExtension = new CertificateExtensions
-    caExtension.set(BasicConstraintsExtension.NAME, new BasicConstraintsExtension( /* isCritical */ true, /* isCA */ true, 0))
-    certInfo.set(X509CertInfo.EXTENSIONS, caExtension)
-
-    // Create a new certificate and sign it
-    val cert = new X509CertImpl(certInfo)
-    cert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
-
-    // Since the signature provider may have a different algorithm ID to what we think it should be,
-    // we need to reset the algorithm ID, and resign the certificate
-    val actualAlgorithm = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    certInfo.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, actualAlgorithm)
-    val newCert = new X509CertImpl(certInfo)
-    newCert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
-    newCert
+    BCTools.signCertificate(KeystoreSettings.SignatureAlgorithmName, builder, keyPair.getPrivate)
   }
-
 }
 
 /**
@@ -224,7 +173,7 @@ final class FakeChainedKeyStore(mkLogger: LoggerFactory) {
 
   private[ssl] def certificateTooWeak(c: java.security.cert.Certificate): Boolean = {
     val key: RSAPublicKey = c.getPublicKey.asInstanceOf[RSAPublicKey]
-    key.getModulus.bitLength < 2048 || c.asInstanceOf[X509CertImpl].getSigAlgName != KeystoreSettings.SignatureAlgorithmName
+    key.getModulus.bitLength < 2048 || c.asInstanceOf[X509Certificate].getSigAlgName != KeystoreSettings.SignatureAlgorithmName
   }
 
   /** Public only for consumption by Play/Lagom. */
@@ -254,7 +203,7 @@ final class FakeChainedKeyStore(mkLogger: LoggerFactory) {
     keyStore
   }
 
-  private def createKeystoreParentDirectory(keyStoreDir: File) = {
+  private def createKeystoreParentDirectory(keyStoreDir: File): Unit = {
     if (keyStoreDir.mkdirs()) {
       logger.debug(s"Parent directory for keystore successfully created at ${keyStoreDir.getAbsolutePath}")
     } else if (keyStoreDir.exists() && keyStoreDir.isDirectory) {
@@ -286,7 +235,7 @@ final class FakeChainedKeyStore(mkLogger: LoggerFactory) {
    *
    * Logs any IOExceptions encountered.
    */
-  def closeQuietly(closeable: Closeable) = {
+  def closeQuietly(closeable: Closeable): Unit = {
     try {
       if (closeable != null) {
         closeable.close()

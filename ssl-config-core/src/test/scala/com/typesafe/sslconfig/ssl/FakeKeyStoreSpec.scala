@@ -71,7 +71,5 @@ class FakeKeyStoreSpec extends Specification {
         ksPath.delete()
       }
     }
-
   }
-
 }

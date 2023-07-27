@@ -5,7 +5,8 @@
 package com.typesafe.sslconfig.ssl
 
 import com.typesafe.sslconfig.util.{ LoggerFactory, NoDepsLogger }
-import sun.security.x509._
+import org.bouncycastle.asn1.x500.X500Name
+import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder
 
 import java.io._
 import java.math.BigInteger
@@ -48,7 +49,7 @@ object FakeKeyStore {
 
   object KeystoreSettings {
     val GeneratedKeyStore: String = fileInDevModeDir("selfsigned.keystore")
-    val SignatureAlgorithmName = "SHA256withRSA"
+    val SignatureAlgorithmName = "SHA256WITHRSA"
     val KeyPairAlgorithmName = "RSA"
     val KeyPairKeyLength = 2048 // 2048 is the NIST acceptable key length until 2030
     val KeystoreType = "JKS"
@@ -84,41 +85,19 @@ object FakeKeyStore {
   }
 
   def createSelfSignedCertificate(keyPair: KeyPair): X509Certificate = {
-    val certInfo = new X509CertInfo()
-
-    // Serial number and version
-    certInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
-    certInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
+    // Serial number
+    val serialNumber = new BigInteger(64, new SecureRandom())
 
     // Validity
     val validFrom = new Date()
     val validTo = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L)
-    val validity = new CertificateValidity(validFrom, validTo)
-    certInfo.set(X509CertInfo.VALIDITY, validity)
 
     // Subject and issuer
     val owner = new X500Name(SelfSigned.DistinguishedName)
-    certInfo.set(X509CertInfo.SUBJECT, owner)
-    certInfo.set(X509CertInfo.ISSUER, owner)
+    val builder = new JcaX509v3CertificateBuilder(owner, serialNumber, validFrom, validTo, owner, keyPair.getPublic)
 
-    // Key and algorithm
-    certInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic))
-    val algorithm = AlgorithmId.get("SHA256WithRSA")
-    certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
-
-    // Create a new certificate and sign it
-    val cert = new X509CertImpl(certInfo)
-    cert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
-
-    // Since the signature provider may have a different algorithm ID to what we think it should be,
-    // we need to reset the algorithm ID, and resign the certificate
-    val actualAlgorithm = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    certInfo.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, actualAlgorithm)
-    val newCert = new X509CertImpl(certInfo)
-    newCert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
-    newCert
+    BCTools.signCertificate(KeystoreSettings.SignatureAlgorithmName, builder, keyPair.getPrivate)
   }
-
 }
 
 /**
@@ -164,7 +143,7 @@ final class FakeKeyStore(mkLogger: LoggerFactory) {
 
   private[ssl] def certificateTooWeak(c: java.security.cert.Certificate): Boolean = {
     val key: RSAPublicKey = c.getPublicKey.asInstanceOf[RSAPublicKey]
-    key.getModulus.bitLength < KeystoreSettings.KeyPairKeyLength || c.asInstanceOf[X509CertImpl].getSigAlgName != KeystoreSettings.SignatureAlgorithmName
+    key.getModulus.bitLength < KeystoreSettings.KeyPairKeyLength || c.asInstanceOf[X509Certificate].getSigAlgName != KeystoreSettings.SignatureAlgorithmName
   }
 
   /** Public only for consumption by Play/Lagom. */
@@ -235,5 +214,4 @@ final class FakeKeyStore(mkLogger: LoggerFactory) {
       case e: IOException => logger.warn(s"Error closing stream. Cause: $e")
     }
   }
-
 }

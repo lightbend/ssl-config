@@ -1,6 +1,7 @@
 import sbt._
 
 object Version {
+  val bouncyCastle = "1.75"
   val typesafeConfig = "1.4.2"
 
   val jodaTime = "2.12.5"
@@ -15,6 +16,8 @@ object Version {
 
 object Library {
   val typesafeConfig = "com.typesafe" % "config" % Version.typesafeConfig // Apache2
+
+  val bouncyCastlePKIX = "org.bouncycastle" % "bcpkix-jdk18on" % Version.bouncyCastle
 
   // TESTS
   val specs2: Seq[ModuleID] = Seq(
@@ -33,6 +36,6 @@ object Dependencies {
 
   import Library._
 
-  val sslConfigCore: Seq[ModuleID] = Seq(typesafeConfig)
+  val sslConfigCore: Seq[ModuleID] = Seq(typesafeConfig, bouncyCastlePKIX)
   val testDependencies: Seq[sbt.ModuleID] = Library.specs2 ++ Seq(jodaTime, jodaTimeConvert)
 }
