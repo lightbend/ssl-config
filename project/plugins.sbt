@@ -1,4 +1,4 @@
-addSbtPlugin("com.typesafe.sbt"      % "sbt-osgi"            % "0.9.6")
+addSbtPlugin("com.github.sbt"      % "sbt-osgi"            % "0.9.7")
 addSbtPlugin("org.scalariform"       % "sbt-scalariform"     % "1.8.3")
 addSbtPlugin("com.typesafe.sbt"      % "sbt-site"            % "1.4.1")
 addSbtPlugin("de.heikoseeberger"     % "sbt-header"          % "5.6.5")
