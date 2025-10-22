@@ -23,7 +23,7 @@ object Library {
     "org.specs2" %% "specs2-matcher-extra" % Version.specs2 % Test,
   )
 
-  val mockito = "org.mockito" % "mockito-core" % "4.11.0" % Test // ONLY FOR TESTS!
+  val mockito = "org.mockito" % "mockito-core" % "5.20.0" % Test // ONLY FOR TESTS!
 
   val jodaTime        = "joda-time" % "joda-time"    % Version.jodaTime        % Test // ONLY FOR TESTS!
   val jodaTimeConvert = "org.joda"  % "joda-convert" % Version.jodaTimeConvert % Test // ONLY FOR TESTS!
