@@ -279,18 +279,6 @@ object CompositeX509KeyManagerSpec extends Specification {
     }
 
     "getCertificateChain" should {
-      "work fine" in {
-        val mockKeyManager = mock(classOf[X509KeyManager])
-        val keyManager     = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))
-        val alias          = "alias"
-        val cert           = CertificateGenerator.generateRSAWithSHA256()
-
-        when(mockKeyManager.getCertificateChain(alias)).thenReturn(Array(cert))
-
-        val certChain = keyManager.getCertificateChain(alias = alias)
-        certChain must be_==(Array(cert))
-      }
-
       "return null" in {
         val mockKeyManager = mock(classOf[X509KeyManager])
         val keyManager     = new CompositeX509KeyManager(mkLogger, Seq(mockKeyManager))

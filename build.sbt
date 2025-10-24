@@ -31,6 +31,23 @@ lazy val sslConfigCore = project
         .exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.<init>$default$7"),
       ProblemFilters
         .exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.<init>$default$8"),
+      ProblemFilters
+        .exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.SSLConfigSettings.<init>$default$9"),
+      ProblemFilters
+        .exclude[IncompatibleResultTypeProblem]("com.typesafe.sslconfig.ssl.SSLDebugConfig.<init>$default$4"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.AlgorithmConstraint"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore$CA$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore$CA$Alias$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore$KeystoreSettings$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore$User$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeChainedKeyStore$User$Alias$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore$KeystoreSettings$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore$SelfSigned$"),
+      ProblemFilters.exclude[MissingClassProblem]("com.typesafe.sslconfig.ssl.FakeKeyStore$SelfSigned$Alias$"),
     ),
     libraryDependencies ++= Dependencies.sslConfigCore,
     libraryDependencies ++= Dependencies.testDependencies,
@@ -99,9 +116,9 @@ ThisBuild / githubWorkflowOSes := Seq("ubuntu-latest", "macos-latest", "windows-
 ThisBuild / githubWorkflowJavaVersions := Seq(
   JavaSpec.temurin("8"),
   JavaSpec.temurin("11"),
-  // JavaSpec.temurin("17"), // can't test currently because until we drop usage of sun.security.x509.*
-  // JavaSpec.temurin("21"),
-  // JavaSpec.temurin("25"),
+  JavaSpec.temurin("17"),
+  JavaSpec.temurin("21"),
+  JavaSpec.temurin("25"),
 )
 
 ThisBuild / githubWorkflowBuildMatrixExclusions += MatrixExclude(Map("java" -> "temurin@8", "os" -> "macos-latest"))
