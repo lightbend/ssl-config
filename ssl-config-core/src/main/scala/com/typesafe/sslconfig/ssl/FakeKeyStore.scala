@@ -105,35 +105,33 @@ object FakeKeyStore {
     val certInfo = new X509CertInfo()
 
     // Serial number and version
-    certInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
-    certInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
+    certInfo.setSerialNumber(new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
+    certInfo.setVersion(new CertificateVersion(CertificateVersion.V3))
 
     // Validity
     val validFrom = new Date()
     val validTo   = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L)
     val validity  = new CertificateValidity(validFrom, validTo)
-    certInfo.set(X509CertInfo.VALIDITY, validity)
+    certInfo.setValidity(validity)
 
     // Subject and issuer
     val owner = new X500Name(SelfSigned.DistinguishedName)
-    certInfo.set(X509CertInfo.SUBJECT, owner)
-    certInfo.set(X509CertInfo.ISSUER, owner)
+    certInfo.setSubject(owner)
+    certInfo.setIssuer(owner)
 
     // Key and algorithm
-    certInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic))
+    certInfo.setKey(new CertificateX509Key(keyPair.getPublic))
     val algorithm = AlgorithmId.get("SHA256WithRSA")
-    certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
+    certInfo.setAlgorithmId(new CertificateAlgorithmId(algorithm))
 
     // Create a new certificate and sign it
-    val cert = new X509CertImpl(certInfo)
-    cert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
+    val cert = X509CertImpl.newSigned(certInfo, keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
 
     // Since the signature provider may have a different algorithm ID to what we think it should be,
     // we need to reset the algorithm ID, and resign the certificate
-    val actualAlgorithm = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    certInfo.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, actualAlgorithm)
-    val newCert = new X509CertImpl(certInfo)
-    newCert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
+    val actualAlgorithm = cert.getSigAlg
+    certInfo.setAlgorithmId(new CertificateAlgorithmId(actualAlgorithm))
+    val newCert = X509CertImpl.newSigned(certInfo, keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
     newCert
   }
 

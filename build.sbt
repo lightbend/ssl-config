@@ -16,7 +16,7 @@ lazy val sslConfigCore = project
   .settings(AutomaticModuleName.settings("ssl.config.core"))
   .settings(osgiSettings: _*)
   .settings(
-    javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
+    javacOptions ++= Seq("-target", "21"),
     name                        := "ssl-config-core",
     mimaReportSignatureProblems := true,
     mimaPreviousArtifacts       := Set("com.typesafe" %% "ssl-config-core" % "0.7.0"),
@@ -66,6 +66,7 @@ addCommandAlias("validateCode", "headerCheckAll ; scalafmtSbtCheck ; scalafmtChe
 ThisBuild / githubWorkflowBuild := Seq(
   WorkflowStep.Sbt(
     List("validateCode", "test", "doc", "mimaReportBinaryIssues"),
+    env = Map("JAVA_TOOL_OPTIONS" -> "--add-exports=java.base/sun.security.x509=ALL-UNNAMED"),
     cond = Some(s"github.repository == '${githubOrg}/${githubRepo}'")
   ),
   WorkflowStep.Run(
@@ -97,11 +98,6 @@ ThisBuild / githubWorkflowPublish := Seq(
 ThisBuild / githubWorkflowOSes := Seq("ubuntu-latest", "macos-latest", "windows-latest")
 
 ThisBuild / githubWorkflowJavaVersions := Seq(
-  JavaSpec.temurin("8"),
-  JavaSpec.temurin("11"),
-  // JavaSpec.temurin("17"), // can't test currently because until we drop usage of sun.security.x509.*
-  // JavaSpec.temurin("21"),
-  // JavaSpec.temurin("25"),
+  JavaSpec.temurin("21"),
+  JavaSpec.temurin("25"),
 )
-
-ThisBuild / githubWorkflowBuildMatrixExclusions += MatrixExclude(Map("java" -> "temurin@8", "os" -> "macos-latest"))

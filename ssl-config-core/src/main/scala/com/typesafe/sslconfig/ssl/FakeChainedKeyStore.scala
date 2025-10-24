@@ -130,36 +130,35 @@ object FakeChainedKeyStore {
     val certInfo = new X509CertInfo()
 
     // Serial number and version
-    certInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
-    certInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
+    certInfo.setSerialNumber(new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
+    certInfo.setVersion(new CertificateVersion(CertificateVersion.V3))
 
     // Validity
     val validFrom = new Date()
     val validTo   = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L)
     val validity  = new CertificateValidity(validFrom, validTo)
-    certInfo.set(X509CertInfo.VALIDITY, validity)
+    certInfo.setValidity(validity)
 
     // Subject and issuer
     val certificateAuthorityName = new X500Name(CA.DistinguishedName)
-    certInfo.set(X509CertInfo.ISSUER, certificateAuthorityName)
+    certInfo.setIssuer(certificateAuthorityName)
     val owner = new X500Name(User.DistinguishedName)
-    certInfo.set(X509CertInfo.SUBJECT, owner)
+    certInfo.setSubject(owner)
 
     // Key and algorithm
-    certInfo.set(X509CertInfo.KEY, new CertificateX509Key(userKeyPair.getPublic))
+    certInfo.setKey(new CertificateX509Key(userKeyPair.getPublic))
     val algorithm = AlgorithmId.get("SHA256WithRSA")
-    certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
+    certInfo.setAlgorithmId(new CertificateAlgorithmId(algorithm))
 
     // Create a new certificate and sign it
-    val cert = new X509CertImpl(certInfo)
-    cert.sign(userKeyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
+    val cert = X509CertImpl.newSigned(certInfo, userKeyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
 
     // Since the signature provider may have a different algorithm ID to what we think it should be,
     // we need to reset the algorithm ID, and resign the certificate
-    val actualAlgorithm = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    certInfo.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, actualAlgorithm)
-    val newCert = new X509CertImpl(certInfo)
-    newCert.sign(certificateAuthorityKeyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
+    val actualAlgorithm = cert.getSigAlg
+    certInfo.setAlgorithmId(new CertificateAlgorithmId(actualAlgorithm))
+    val newCert =
+      X509CertImpl.newSigned(certInfo, certificateAuthorityKeyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
     newCert
   }
 
@@ -167,42 +166,40 @@ object FakeChainedKeyStore {
   private def createCertificateAuthority(keyPair: KeyPair): X509Certificate = {
     val certInfo = new X509CertInfo()
     // Serial number and version
-    certInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
-    certInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
+    certInfo.setSerialNumber(new CertificateSerialNumber(new BigInteger(64, new SecureRandom())))
+    certInfo.setVersion(new CertificateVersion(CertificateVersion.V3))
 
     // Validity
     val validFrom = new Date()
     val validTo   = new Date(validFrom.getTime + 50L * 365L * 24L * 60L * 60L * 1000L) // 50 years
     val validity  = new CertificateValidity(validFrom, validTo)
-    certInfo.set(X509CertInfo.VALIDITY, validity)
+    certInfo.setValidity(validity)
 
     // Subject and issuer
     val owner = new X500Name(CA.DistinguishedName)
-    certInfo.set(X509CertInfo.SUBJECT, owner)
-    certInfo.set(X509CertInfo.ISSUER, owner)
+    certInfo.setSubject(owner)
+    certInfo.setIssuer(owner)
 
     // Key and algorithm
-    certInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic))
+    certInfo.setKey(new CertificateX509Key(keyPair.getPublic))
     val algorithm = AlgorithmId.get("SHA256WithRSA")
-    certInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithm))
+    certInfo.setAlgorithmId(new CertificateAlgorithmId(algorithm))
 
     val caExtension = new CertificateExtensions
-    caExtension.set(
+    caExtension.setExtension(
       BasicConstraintsExtension.NAME,
       new BasicConstraintsExtension( /* isCritical */ true, /* isCA */ true, 0)
     )
-    certInfo.set(X509CertInfo.EXTENSIONS, caExtension)
+    certInfo.setExtensions(caExtension)
 
     // Create a new certificate and sign it
-    val cert = new X509CertImpl(certInfo)
-    cert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
+    val cert = X509CertImpl.newSigned(certInfo, keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
 
     // Since the signature provider may have a different algorithm ID to what we think it should be,
     // we need to reset the algorithm ID, and resign the certificate
-    val actualAlgorithm = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    certInfo.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, actualAlgorithm)
-    val newCert = new X509CertImpl(certInfo)
-    newCert.sign(keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
+    val actualAlgorithm = cert.getSigAlg
+    certInfo.setAlgorithmId(new CertificateAlgorithmId(actualAlgorithm))
+    val newCert = X509CertImpl.newSigned(certInfo, keyPair.getPrivate, KeystoreSettings.SignatureAlgorithmName)
     newCert
   }
 

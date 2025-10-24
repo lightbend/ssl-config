@@ -105,21 +105,19 @@ object CertificateGenerator {
     val sn: BigInteger  = new BigInteger(64, new SecureRandom)
     val owner: X500Name = new X500Name(dn)
 
-    info.set(X509CertInfo.VALIDITY, interval)
-    info.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(sn))
-    info.set(X509CertInfo.SUBJECT, owner)
-    info.set(X509CertInfo.ISSUER, owner)
-    info.set(X509CertInfo.KEY, new CertificateX509Key(pair.getPublic))
-    info.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3))
+    info.setValidity(interval)
+    info.setSerialNumber(new CertificateSerialNumber(sn))
+    info.setSubject(owner)
+    info.setIssuer(owner)
+    info.setKey(new CertificateX509Key(pair.getPublic))
+    info.setVersion(new CertificateVersion(CertificateVersion.V3))
 
-    info.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(AlgorithmId.get(algorithm)))
-    var cert: X509CertImpl  = new X509CertImpl(info)
+    info.setAlgorithmId(new CertificateAlgorithmId(AlgorithmId.get(algorithm)))
     val privkey: PrivateKey = pair.getPrivate
-    cert.sign(privkey, algorithm)
-    val algos = cert.get(X509CertImpl.SIG_ALG).asInstanceOf[AlgorithmId]
-    info.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, algos)
-    cert = new X509CertImpl(info)
-    cert.sign(privkey, algorithm)
+    var cert: X509CertImpl  = X509CertImpl.newSigned(info, privkey, algorithm)
+    val algos               = cert.getSigAlg
+    info.setAlgorithmId(new CertificateAlgorithmId(algos))
+    X509CertImpl.newSigned(info, privkey, algorithm)
     cert
   }
 }
