@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        scala: [2.13.17, 2.12.20, 3.3.7]
+        scala: [2.13.17, 2.12.20, 3.7.3]
         java: [temurin@8, temurin@11]
         exclude:
           - java: temurin@8
@@ -156,12 +156,12 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (3.3.7)
+      - name: Download target directories (3.7.3)
         uses: actions/download-artifact@v5
         with:
-          name: target-${{ matrix.os }}-3.3.7-${{ matrix.java }}
+          name: target-${{ matrix.os }}-3.7.3-${{ matrix.java }}
 
-      - name: Inflate target directories (3.3.7)
+      - name: Inflate target directories (3.7.3)
         run: |
           tar xf targets.tar
           rm targets.tar
