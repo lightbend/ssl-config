@@ -37,7 +37,10 @@ lazy val sslConfigCore = project
     OsgiKeys.bundleSymbolicName := s"${organization.value}.sslconfig",
     OsgiKeys.exportPackage      := Seq(s"com.typesafe.sslconfig.*;version=${version.value}"),
     OsgiKeys.importPackage      := Seq("!sun.misc", "!sun.security.*", configImport(), "*"),
-    OsgiKeys.requireCapability  := """osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=1.8))"""",
+    OsgiKeys.requireCapability  := {
+      val javaVersion = if (scalaVersion.value.startsWith("3.3.")) "11" else "1.8"
+      s"""osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=$javaVersion))"""
+    },
   )
   .enablePlugins(SbtOsgi)
 
@@ -97,11 +100,14 @@ ThisBuild / githubWorkflowPublish := Seq(
 ThisBuild / githubWorkflowOSes := Seq("ubuntu-latest", "macos-latest", "windows-latest")
 
 ThisBuild / githubWorkflowJavaVersions := Seq(
+  JavaSpec.temurin("11"), // The first JDK is also used for publishing.
   JavaSpec.temurin("8"),
-  JavaSpec.temurin("11"),
   // JavaSpec.temurin("17"), // can't test currently because until we drop usage of sun.security.x509.*
   // JavaSpec.temurin("21"),
   // JavaSpec.temurin("25"),
 )
 
-ThisBuild / githubWorkflowBuildMatrixExclusions += MatrixExclude(Map("java" -> "temurin@8", "os" -> "macos-latest"))
+ThisBuild / githubWorkflowBuildMatrixExclusions ++= Seq(
+  MatrixExclude(Map("java" -> "temurin@8", "os" -> "macos-latest")),
+  MatrixExclude(Map("java" -> "temurin@8", "scala" -> Version.scala3)),
+)

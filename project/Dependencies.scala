@@ -1,16 +1,16 @@
 import sbt._
 
 object Version {
-  val typesafeConfig = "1.4.5"
+  val typesafeConfig = "1.4.9"
 
   val jodaTime        = "2.14.0"
   val jodaTimeConvert = "3.0.1"
 
   val specs2 = "4.23.0"
 
-  val scala212 = "2.12.20"
-  val scala213 = "2.13.17"
-  val scala3   = "3.3.7"
+  val scala212 = "2.12.21"
+  val scala213 = "2.13.18"
+  val scala3   = "3.3.8"
 }
 
 object Library {

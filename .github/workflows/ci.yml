@@ -23,11 +23,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        scala: [2.13.17, 2.12.20, 3.3.7]
-        java: [temurin@8, temurin@11]
+        scala: [2.13.18, 2.12.21, 3.3.8]
+        java: [temurin@11, temurin@8]
         exclude:
           - java: temurin@8
             os: macos-latest
+          - java: temurin@8
+            scala: 3.3.8
     runs-on: ${{ matrix.os }}
     steps:
       - name: Ignore line ending differences in git
@@ -37,31 +39,31 @@ jobs:
 
       - name: Configure pagefile for Windows
         if: contains(runner.os, 'windows')
-        uses: al-cheb/configure-pagefile-action@v1.4
+        uses: al-cheb/configure-pagefile-action@v1.5
         with:
           minimum-size: 2GB
           maximum-size: 8GB
           disk-root: 'C:'
 
       - name: Checkout current branch (full)
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: Setup Java (temurin@8)
-        if: matrix.java == 'temurin@8'
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 8
-          cache: sbt
-
       - name: Setup Java (temurin@11)
         if: matrix.java == 'temurin@11'
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 11
+          cache: sbt
+
+      - name: Setup Java (temurin@8)
+        if: matrix.java == 'temurin@8'
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 8
           cache: sbt
 
       - name: Setup sbt
@@ -69,11 +71,11 @@ jobs:
 
       - name: Check that workflows are up to date
         shell: bash
-        run: sbt '++ ${{ matrix.scala }}' githubWorkflowCheck
+        run: sbt '++ ${{ matrix.scala }}; githubWorkflowCheck'
 
       - if: github.repository == 'lightbend/ssl-config'
         shell: bash
-        run: sbt '++ ${{ matrix.scala }}' validateCode test doc mimaReportBinaryIssues
+        run: sbt '++ ${{ matrix.scala }}; validateCode; test; doc; mimaReportBinaryIssues'
 
       - if: matrix.java != 'temurin@8' && github.repository == 'lightbend/ssl-config'
         shell: bash
@@ -84,7 +86,7 @@ jobs:
         run: tar cf targets.tar target ssl-config-core/target documentation/target project/target
 
       - name: Upload target directories
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: target-${{ matrix.os }}-${{ matrix.scala }}-${{ matrix.java }}
           path: targets.tar
@@ -96,8 +98,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.20]
-        java: [temurin@8]
+        scala: [2.12.21]
+        java: [temurin@11]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Ignore line ending differences in git
@@ -106,62 +108,62 @@ jobs:
 
       - name: Configure pagefile for Windows
         if: contains(runner.os, 'windows')
-        uses: al-cheb/configure-pagefile-action@v1.4
+        uses: al-cheb/configure-pagefile-action@v1.5
         with:
           minimum-size: 2GB
           maximum-size: 8GB
           disk-root: 'C:'
 
       - name: Checkout current branch (full)
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: Setup Java (temurin@8)
-        if: matrix.java == 'temurin@8'
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 8
-          cache: sbt
-
       - name: Setup Java (temurin@11)
         if: matrix.java == 'temurin@11'
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 11
           cache: sbt
 
+      - name: Setup Java (temurin@8)
+        if: matrix.java == 'temurin@8'
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 8
+          cache: sbt
+
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
 
-      - name: Download target directories (2.13.17)
-        uses: actions/download-artifact@v5
+      - name: Download target directories (2.13.18)
+        uses: actions/download-artifact@v8
         with:
-          name: target-${{ matrix.os }}-2.13.17-${{ matrix.java }}
+          name: target-${{ matrix.os }}-2.13.18-${{ matrix.java }}
 
-      - name: Inflate target directories (2.13.17)
+      - name: Inflate target directories (2.13.18)
         run: |
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (2.12.20)
-        uses: actions/download-artifact@v5
+      - name: Download target directories (2.12.21)
+        uses: actions/download-artifact@v8
         with:
-          name: target-${{ matrix.os }}-2.12.20-${{ matrix.java }}
+          name: target-${{ matrix.os }}-2.12.21-${{ matrix.java }}
 
-      - name: Inflate target directories (2.12.20)
+      - name: Inflate target directories (2.12.21)
         run: |
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (3.3.7)
-        uses: actions/download-artifact@v5
+      - name: Download target directories (3.3.8)
+        uses: actions/download-artifact@v8
         with:
-          name: target-${{ matrix.os }}-3.3.7-${{ matrix.java }}
+          name: target-${{ matrix.os }}-3.3.8-${{ matrix.java }}
 
-      - name: Inflate target directories (3.3.7)
+      - name: Inflate target directories (3.3.8)
         run: |
           tar xf targets.tar
           rm targets.tar

@@ -47,7 +47,10 @@ object Common extends AutoPlugin {
           Developer("ktoso", "Konrad Malawski", "", url("https://project13.pl")),
         ),
         updateOptions := updateOptions.value.withCachedResolution(true),
-        scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature", "-release:8"),
+        scalacOptions ++= Seq("-encoding", "UTF-8", "-unchecked", "-deprecation", "-feature") ++ {
+          if (scalaVersion.value.startsWith("3.3.")) Seq("-release:11", "-Yfuture-lazy-vals")
+          else Seq("-release:8")
+        },
         javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8"),
 
         // Header settings
