@@ -5,8 +5,10 @@
 package com.typesafe.sslconfig.ssl.tracing
 
 import java.nio.ByteBuffer
+import java.util.function.BiFunction
 import javax.net.ssl.SSLEngine
 import javax.net.ssl.SSLEngineResult
+import javax.net.ssl.SSLParameters
 import javax.net.ssl.SSLSession
 
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
@@ -79,6 +81,48 @@ private[sslconfig] class TracingSSLEngine(engine: => SSLEngine, debug: SSLDebugC
 
   override def getSession: SSLSession = {
     tracer("getSession", Map(), () => engine.getSession)
+  }
+
+  override def getSSLParameters: SSLParameters = {
+    tracer("getSSLParameters", Map(), () => engine.getSSLParameters)
+  }
+
+  override def setSSLParameters(parameters: SSLParameters): Unit = {
+    tracer("setSSLParameters", Map("parameters" -> parameters), () => engine.setSSLParameters(parameters))
+  }
+
+  override def getHandshakeSession: SSLSession = {
+    tracer("getHandshakeSession", Map(), () => engine.getHandshakeSession)
+  }
+
+  override def getPeerHost: String = {
+    tracer("getPeerHost", Map(), () => engine.getPeerHost)
+  }
+
+  override def getPeerPort: Int = {
+    tracer("getPeerPort", Map(), () => engine.getPeerPort)
+  }
+
+  override def getApplicationProtocol: String = {
+    tracer("getApplicationProtocol", Map(), () => engine.getApplicationProtocol)
+  }
+
+  override def getHandshakeApplicationProtocol: String = {
+    tracer("getHandshakeApplicationProtocol", Map(), () => engine.getHandshakeApplicationProtocol)
+  }
+
+  override def setHandshakeApplicationProtocolSelector(
+      selector: BiFunction[SSLEngine, java.util.List[String], String]
+  ): Unit = {
+    tracer(
+      "setHandshakeApplicationProtocolSelector",
+      Map("selector" -> selector),
+      () => engine.setHandshakeApplicationProtocolSelector(selector)
+    )
+  }
+
+  override def getHandshakeApplicationProtocolSelector: BiFunction[SSLEngine, java.util.List[String], String] = {
+    tracer("getHandshakeApplicationProtocolSelector", Map(), () => engine.getHandshakeApplicationProtocolSelector)
   }
 
   override def beginHandshake(): Unit = {
