@@ -7,6 +7,7 @@ package com.typesafe.sslconfig.ssl.tracing
 import java.nio.ByteBuffer
 import javax.net.ssl.SSLEngine
 import javax.net.ssl.SSLEngineResult
+import javax.net.ssl.SSLParameters
 import javax.net.ssl.SSLSession
 
 import com.typesafe.sslconfig.ssl.SSLDebugConfig
@@ -79,6 +80,14 @@ private[sslconfig] class TracingSSLEngine(engine: => SSLEngine, debug: SSLDebugC
 
   override def getSession: SSLSession = {
     tracer("getSession", Map(), () => engine.getSession)
+  }
+
+  override def getSSLParameters: SSLParameters = {
+    tracer("getSSLParameters", Map(), () => engine.getSSLParameters)
+  }
+
+  override def setSSLParameters(parameters: SSLParameters): Unit = {
+    tracer("setSSLParameters", Map("parameters" -> parameters), () => engine.setSSLParameters(parameters))
   }
 
   override def beginHandshake(): Unit = {
